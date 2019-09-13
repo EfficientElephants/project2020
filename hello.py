@@ -1,2 +1,2 @@
-print('Hello again, world!')
+print('Hello again, earth!')
 print('testing')
