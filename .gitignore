@@ -1,5 +1,5 @@
-react-backend/node_modules
-react-backend/client/node_modules
+node_modules
+backend/node_modules
 build
 npm-debug.log
 .env
