@@ -14,7 +14,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://project2020-253020.appspot.com"
+  "proxy": "https://project2020-253020.appspot.com",
   "eslintConfig": {
     "extends": "react-app"
   },
