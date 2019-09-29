@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "concurrently \"cd backend && node server.js\" \"cd client && npm start\""
   },
   "repository": {
@@ -25,7 +25,9 @@
   },
   "devDependencies": {
     "axios": "^0.19.0",
+    "chai": "^4.2.0",
     "eslint": "^6.4.0",
+    "mocha": "^6.2.1",
     "mongoose": "^5.7.1",
     "morgan": "^1.9.1",
     "react": "^16.10.1",
