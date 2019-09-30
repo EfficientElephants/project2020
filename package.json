@@ -1,11 +1,11 @@
 {
   "name": "project2020",
   "version": "1.0.0",
-  "description": "",
+  "description": "Senior project",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "start": "concurrently \"cd backend && node server.js\" \"cd client && npm start\""
+    "start": "concurrently \"cd backend && node server.js\" \"npm install && cd client && npm start\""
   },
   "repository": {
     "type": "git",
