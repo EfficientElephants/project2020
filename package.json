@@ -4,9 +4,7 @@
   "description": "Senior project",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "start": "node index.js",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
