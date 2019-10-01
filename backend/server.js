@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const Data = require('./data');
 
-const API_PORT = 3001;
+const API_PORT = process.env.PORT || 3001;
 const app = express();
 app.use(cors());
 const router = express.Router();
@@ -16,7 +16,7 @@ const dbRoute =
   'mongodb+srv://petean09:SeniorProject2020@cluster0-yi9vr.gcp.mongodb.net/test?retryWrites=true&w=majority';
 
 // connects our back end code with the database
-mongoose.connect(dbRoute, { useNewUrlParser: true });
+mongoose.connect(process.env.mongolab-fitted-45944 || dbRoute, { useNewUrlParser: true });
 
 let db = mongoose.connection;
 
