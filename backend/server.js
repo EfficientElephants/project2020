@@ -11,6 +11,17 @@ const app = express();
 app.use(cors());
 const router = express.Router();
 
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header(
+  'Access-Control-Allow-Headers',
+  'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+  });
+  app.options('*', cors());
+
 // this is our MongoDB database
 const dbRoute =
   'mongodb+srv://petean09:SeniorProject2020@cluster0-yi9vr.gcp.mongodb.net/test?retryWrites=true&w=majority';
@@ -86,6 +97,13 @@ router.post('/putData', (req, res) => {
 // append /api for our http requests
 app.use('/api', router);
 
+
+/*Adds the react production build to serve react requests*/
+app.use(express.static(path.join(__dirname, '../client/build')));
+/*React root*/
+app.get('*', (req, res) => {
+res.sendFile(path.join(__dirname + '../client/build/index.html'));
+});
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
