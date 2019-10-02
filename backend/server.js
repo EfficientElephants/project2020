@@ -102,9 +102,8 @@ app.use('/api', router);
 
 
 /*Adds the react production build to serve react requests*/
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('../client/build'));
-}
+app.use(express.static('../client/build'));
+
 
 /*React root*/
 app.get('*', (req, res) => {
