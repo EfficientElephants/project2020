@@ -41,7 +41,7 @@ class App extends Component {
   // our first get method that uses our backend api to
   // fetch data from our data base
   getDataFromDb = () => {
-    fetch('/api/getData')
+    fetch('https://expense-tracker-2020.herokuapp.com//api/getData')
       .then((data) => data.json())
       .then((res) => this.setState({ data: res.data }));
       
@@ -56,7 +56,7 @@ class App extends Component {
       ++idToBeAdded;
     }
 
-    axios.post('/api/putData', {
+    axios.post('https://expense-tracker-2020.herokuapp.com//api/putData', {
       id: idToBeAdded,
       message: message,
     }).then(function (response) {
@@ -79,7 +79,7 @@ class App extends Component {
       }
     });
 
-    axios.delete('/api/deleteData', {
+    axios.delete('https://expense-tracker-2020.herokuapp.com//api/deleteData', {
       data: {
         id: objIdToDelete,
       },
@@ -98,7 +98,7 @@ class App extends Component {
     });
     console.log(objIdToUpdate);
 
-    axios.post('/api/updateData', {
+    axios.post('https://expense-tracker-2020.herokuapp.com//api/updateData', {
       id: objIdToUpdate,
       update: { message: updateToApply },
     });
