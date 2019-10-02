@@ -25,8 +25,8 @@ const router = express.Router();
 
 // this is our MongoDB database
 const dbRoute =
-  // 'mongodb+srv://petean09:SeniorProject2020@cluster0-yi9vr.gcp.mongodb.net/test?retryWrites=true&w=majority';
-  'mongodb://petean09:SeniorProject2020@ds129098.mlab.com:29098/heroku_2gt4pps3';
+  'mongodb+srv://petean09:SeniorProject2020@cluster0-yi9vr.gcp.mongodb.net/test?retryWrites=true&w=majority';
+  // 'mongodb://petean09:SeniorProject2020@ds129098.mlab.com:29098/heroku_2gt4pps3';
 
 // connects our back end code with the database
 // MONGODB _URI is for remote deploy and dbRoute is for localhost
@@ -107,9 +107,9 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 /*React root*/
-// app.get('*', (req, res) => {
-// res.sendFile('../client/build/index.html');
-// });
+app.get('*', (req, res) => {
+res.sendFile('../client/build/index.html');
+});
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
