@@ -101,15 +101,17 @@ router.post('/putData', (req, res) => {
 app.use('/api', router);
 
 
-/*Adds the react production build to serve react requests*/
 if (process.env.NODE_ENV === 'production') {
+  /*Adds the react production build to serve react requests*/
   app.use(express.static('../client/build'));
+
+  /*React root*/
+  app.get('*', (req, res) => {
+  res.sendFile('../client/build/index.html');
+  });
 }
 
-/*React root*/
-app.get('*', (req, res) => {
-res.sendFile('../client/build/index.html');
-});
+
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
