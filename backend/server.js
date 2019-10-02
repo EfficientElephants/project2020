@@ -11,23 +11,24 @@ const app = express();
 app.use(cors());
 const router = express.Router();
 
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header(
-  'Access-Control-Allow-Headers',
-  'Origin, X-Requested-With, Content-Type, Accept'
-  );
-  next();
-  });
-  app.options('*', cors());
+// app.use(function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//   res.header(
+//   'Access-Control-Allow-Headers',
+//   'Origin, X-Requested-With, Content-Type, Accept'
+//   );
+//   next();
+//   });
+//   app.options('*', cors());
 
 // this is our MongoDB database
 const dbRoute =
-  'mongodb+srv://petean09:SeniorProject2020@cluster0-yi9vr.gcp.mongodb.net/test?retryWrites=true&w=majority';
+  // 'mongodb+srv://petean09:SeniorProject2020@cluster0-yi9vr.gcp.mongodb.net/test?retryWrites=true&w=majority';
+  'mongodb://petean09:SeniorProject2020@ds129098.mlab.com:29098/heroku_2gt4pps3';
 
 // connects our back end code with the database
-mongoose.connect(process.env.mongolab-fitted-45944 || dbRoute, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || dbRoute, { useNewUrlParser: true });
 
 let db = mongoose.connection;
 
@@ -99,10 +100,10 @@ app.use('/api', router);
 
 
 /*Adds the react production build to serve react requests*/
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static('../client/build'));
 /*React root*/
 app.get('*', (req, res) => {
-res.sendFile(path.join(__dirname + '../client/build/index.html'));
+res.sendFile('../client/build/index.html');
 });
 
 // launch our backend into a port
