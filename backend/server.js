@@ -24,8 +24,8 @@ const router = express.Router();
 //   app.options('*', cors());
 
 // this is our MongoDB database
-const dbRoute =
-  'mongodb+srv://petean09:SeniorProject2020@cluster0-yi9vr.gcp.mongodb.net/test?retryWrites=true&w=majority';
+// const dbRoute =
+//   'mongodb+srv://petean09:SeniorProject2020@cluster0-yi9vr.gcp.mongodb.net/test?retryWrites=true&w=majority';
   // 'mongodb://petean09:SeniorProject2020@ds129098.mlab.com:29098/heroku_2gt4pps3';
 
 // connects our back end code with the database
@@ -103,11 +103,11 @@ app.use('/api', router);
 
 if (process.env.NODE_ENV === 'production') {
   /*Adds the react production build to serve react requests*/
-  app.use(express.static('../client/build'));
+  app.use(express.static('./client/build'));
 
   /*React root*/
   app.get('*', (req, res) => {
-  res.sendFile('../client/build/index.html');
+  res.sendFile('./client/build/index.html');
   });
 }
 
