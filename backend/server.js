@@ -26,7 +26,6 @@ const router = express.Router();
 // this is our MongoDB database
 const dbRoute =
   'mongodb+srv://petean09:SeniorProject2020@cluster0-yi9vr.gcp.mongodb.net/test?retryWrites=true&w=majority';
-  // 'mongodb://petean09:SeniorProject2020@ds129098.mlab.com:29098/heroku_2gt4pps3';
 
 // connects our back end code with the database
 mongoose.connect(dbRoute, { useNewUrlParser: true });
