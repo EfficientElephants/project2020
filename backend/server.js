@@ -5,23 +5,12 @@ var cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const Data = require('./data');
+const path = require('path');
 
-const API_PORT = 8080;
+const API_PORT = process.env.PORT || 8080;
 const app = express();
 app.use(cors());
 const router = express.Router();
-
-// Possibly for CORS problem
-// app.use(function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//   res.header(
-//   'Access-Control-Allow-Headers',
-//   'Origin, X-Requested-With, Content-Type, Accept'
-//   );
-//   next();
-//   });
-//   app.options('*', cors());
 
 // this is our MongoDB database
 const dbRoute =
@@ -99,15 +88,16 @@ router.post('/putData', (req, res) => {
 app.use('/api', router);
 
 
-// if (process.env.NODE_ENV === 'production') {
-//   /*Adds the react production build to serve react requests*/
-//   app.use(express.static('./client/build'));
+if (process.env.NODE_ENV === 'production') {
+  /*Adds the react production build to serve react requests*/
+  app.use(express.static('./client/build'));
+  // app.use('/static', express.static('./client/public'));
 
-//   /*React root*/
-//   app.get('*', (req, res) => {
-//   res.sendFile('./client/build/index.html');
-//   });
-// }
+  /*React root*/
+  app.get('*', (req, res) => {
+  res.sendFile(path.join(dirname__, 'client', 'build', 'index.html'));
+  });
+}
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
