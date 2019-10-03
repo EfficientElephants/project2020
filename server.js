@@ -4,7 +4,7 @@ const express = require('express');
 var cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
-const Data = require('./backend/data');
+const Data = require('backend/data');
 
 const path = require("path");
 
@@ -86,7 +86,7 @@ router.post('/putData', (req, res) => {
 });
 
 if (process.env.NODE_ENV === "production") {
-  app.use(expess.static("../client/build"));
+  app.use(expess.static("client/build"));
   app.get("*", (req,res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   })
