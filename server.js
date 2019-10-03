@@ -4,7 +4,9 @@ const express = require('express');
 var cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
-const Data = require('./data');
+const Data = require('./backend/data');
+
+const path = require("path");
 
 const API_PORT = 3001;
 const app = express();
@@ -13,7 +15,7 @@ const router = express.Router();
 
 // this is our MongoDB database
 const dbRoute =
-  'mongodb+srv://petean09:SeniorProject2020@cluster0-yi9vr.gcp.mongodb.net/test?retryWrites=true&w=majority';
+  'mongodb+srv://kuehma02:azuretest@cluster0-o9rln.azure.mongodb.net/admin?retryWrites=true&w=majority';
 
 // connects our back end code with the database
 mongoose.connect(dbRoute, { useNewUrlParser: true });
@@ -82,6 +84,13 @@ router.post('/putData', (req, res) => {
     return res.json({ success: true });
   });
 });
+
+if (process.env.NODE_ENV === "production") {
+  app.use(expess.static("../client/build"));
+  app.get("*", (req,res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  })
+}
 
 // append /api for our http requests
 app.use('/api', router);
