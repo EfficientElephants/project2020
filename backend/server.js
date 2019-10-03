@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const Data = require('./data');
 
-const API_PORT = process.env.PORT || 3001;
+const API_PORT = 8080;
 const app = express();
 app.use(cors());
 const router = express.Router();
@@ -29,8 +29,7 @@ const dbRoute =
   // 'mongodb://petean09:SeniorProject2020@ds129098.mlab.com:29098/heroku_2gt4pps3';
 
 // connects our back end code with the database
-// MONGODB _URI is for remote deploy and dbRoute is for localhost
-mongoose.connect(process.env.MONGODB_URI || dbRoute, { useNewUrlParser: true });
+mongoose.connect(dbRoute, { useNewUrlParser: true });
 
 let db = mongoose.connection;
 
@@ -101,16 +100,15 @@ router.post('/putData', (req, res) => {
 app.use('/api', router);
 
 
-if (process.env.NODE_ENV === 'production') {
-  /*Adds the react production build to serve react requests*/
-  app.use(express.static('./client/build'));
+// if (process.env.NODE_ENV === 'production') {
+//   /*Adds the react production build to serve react requests*/
+//   app.use(express.static('./client/build'));
 
-  /*React root*/
-  app.get('*', (req, res) => {
-  res.sendFile('./client/build/index.html');
-  });
-}
-
+//   /*React root*/
+//   app.get('*', (req, res) => {
+//   res.sendFile('./client/build/index.html');
+//   });
+// }
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
