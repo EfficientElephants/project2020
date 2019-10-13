@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "project2020",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -29,5 +29,21 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "2019-20 Luther College Senior Project - Maddie Kuehn, Anna Peterson, &amp; Anna Ruble",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EfficientElephants/project2020.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EfficientElephants/project2020/issues"
+  },
+  "homepage": "https://github.com/EfficientElephants/project2020#readme"
 }
