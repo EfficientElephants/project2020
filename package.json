@@ -1,0 +1,22 @@
+{
+  "name": "project2020",
+  "version": "1.0.0",
+  "description": "2019-20 Luther College Senior Project - Maddie Kuehn, Anna Peterson, &amp; Anna Ruble git",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EfficientElephants/project2020.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EfficientElephants/project2020/issues"
+  },
+  "homepage": "https://github.com/EfficientElephants/project2020#readme"
+}
