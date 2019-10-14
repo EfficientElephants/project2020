@@ -35,12 +35,12 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EfficientElephants/my-app.git"
+    "url": "git+https://github.com/EfficientElephants/project2020.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/EfficientElephants/my-app/issues"
+    "url": "https://github.com/EfficientElephants/project2020/issues"
   },
-  "homepage": "https://github.com/EfficientElephants/my-app#readme"
+  "homepage": "https://github.com/EfficientElephants/project2020#readme"
 }
