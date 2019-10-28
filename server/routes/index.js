@@ -1,16 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+var userService = require('../user-service');
 router.get('/users', function(req, res, next) {
-  const users = [
-    {
-      id: 0, 
-      name:"MaddieTest", 
-      password:"pass"
-    }
-  ];
-
-  res.json(users);
+  userService.get(req,res);
 });
 
 module.exports = router;
