@@ -104,7 +104,7 @@ class Users extends Component {
                     })}
                 </ul>
                 <div className="editarea">
-                    <button onClick={this.handleEnableAddMode}>Add New Hero</button>
+                    <button onClick={this.handleEnableAddMode}>Add New User</button>
                     <EditUser 
                         addingUser = {this.state.addingUser} 
                         selectedUser={this.state.selectedUser}
