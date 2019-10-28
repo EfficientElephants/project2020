@@ -15,19 +15,19 @@ function get(req, res) {
     });
 }
 
-// function create(req, res) {
-//   const { id, name, saying } = req.body;
+function create(req, res) {
+  const { id, name, password } = req.body;
 
-//   const user = new User({ id, name, saying });
-//   user
-//     .save()
-//     .then(() => {
-//       res.json(user);
-//     })
-//     .catch(err => {
-//       res.status(500).send(err);
-//     });
-// }
+  const user = new User({ id, name, password });
+  user
+    .save()
+    .then(() => {
+      res.json(user);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+}
 
 // function update(req, res) {
 //   const { id, name, saying } = req.body;
@@ -55,5 +55,4 @@ function get(req, res) {
 //     });
 // }
 
-module.exports = { get }; 
-// module.exports = { get, create, update, destroy };
+module.exports = { get, create }; //, update, destroy };
