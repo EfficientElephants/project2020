@@ -11,12 +11,12 @@ router.post('/user', function(req, res) {
   userService.create(req, res);
 });
 
-// router.put('/user', function(req, res) {
-//   userService.update(req, res);
-// });
+router.put('/user', function(req, res) {
+  userService.update(req, res);
+});
 
-// router.delete('/user/:id', function(req, res) {
-//   userService.destroy(req, res);
-// });
+router.delete('/user/:id', function(req, res) {
+  userService.destroy(req, res);
+});
 
 module.exports = router;

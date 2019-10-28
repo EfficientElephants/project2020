@@ -8,7 +8,12 @@ const User = props => {
         >
 
 
-            <button className="delete-button">Delete</button>
+            <button
+                className="delete-button"
+                onClick={e => props.onDelete(e, props.user)}
+            >
+                Delete
+            </button>
             <div className="user-element">
                 <div className="badge">{props.user.id}</div>
                 <div className="name">{props.user.name}</div>
