@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './App.css';
 import Users from './components/Users';
-import Navbar from './components/Navbar';
+import NavBar from './components/NavBar';
 
 class App extends Component {
 
@@ -11,7 +11,7 @@ class App extends Component {
       <div>
         <h1>Users</h1>
         <div className="header-bar" />
-        <Navbar />
+        <NavBar />
         <Users />
       </div>
     );

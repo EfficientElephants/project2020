@@ -1,28 +1,26 @@
-//import Navbar from 'react-bootstrap/Navbar';
-import { render } from 'pug';
+import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
+import React from 'react';
+import { Component } from 'react';
 
-import React, { Component } from 'react';
 
-
-// class Navbar extends Component {
-//     constructor() {
-
-//     }
-// }
-
-class Navbar extends React.Component{
+class NavBar extends Component {
 
     render() {
         return (
-            <Navbar>
-             <Navbar.Header>
-               <Navbar.Brand>
-                 <a href="#">My Brand</a>
-                 </Navbar.Brand>
-             </Navbar.Header>
-             </Navbar>
-         );
+            <Navbar bg="dark" variant="dark">
+                <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+                <Nav className="mr-auto">
+                    <Nav.Link href="#home">Home</Nav.Link>
+                    <Nav.Link href="#features">Features</Nav.Link>
+                    <Nav.Link href="#pricing">Pricing</Nav.Link>
+                </Nav>
+                <Form inline>
+                    <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                    <Button variant="outline-info">Search</Button>
+                </Form>
+            </Navbar>
+        );
     }
 }
 
-export default Navbar;
+export default NavBar;
