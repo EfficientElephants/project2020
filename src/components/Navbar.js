@@ -3,7 +3,7 @@ import React from 'react';
 import { Component } from 'react';
 
 
-class NavBar extends Component {
+class Navbar extends Component {
 
     render() {
         return (
