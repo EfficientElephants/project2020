@@ -16,14 +16,18 @@
     "react-dom": "^15.6.1"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "concurrently": "^3.5.0",
+    "mocha": "^6.2.2",
     "nodemon": "^1.19.4",
+    "nyc": "^14.1.1",
     "react-scripts": "^3.2.0"
   },
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"nodemon server/server.js\"",
     "build": "cd server && rm -rf build && cd .. && react-scripts build && mv build server",
-    "test": "react-scripts test --env=jsdom",
+    "test": "nyc mocha",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:3001",
