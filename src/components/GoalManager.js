@@ -6,7 +6,7 @@ class GoalManager extends Component {
 
     render() {
         return (
-            <h3>Goal manager hello world</h3>
+            <h3>Goal manager</h3>
         );
     }
 }
