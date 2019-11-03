@@ -13,8 +13,8 @@ class App extends Component {
     return (  
       <div>
         <Switch>
-          <Route exact path="/login" component={ Login }/>
-          <ProtectedRoute exact path="/" component={ NavBar }/>
+          <Route exact path="/" component={ Login }/>
+          <ProtectedRoute exact path="/navbar" component={ NavBar }/>
           {/* <Route path="*" compnent={() => "404 NOT FOUND"}/> */}
         </Switch>
       </div>

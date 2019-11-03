@@ -27,7 +27,7 @@ class NavBar extends Component {
                         <Link to="/goal-mgr">Goal Manager</Link>
                         <Button onClick={() => {
                             auth.logout(() => {
-                                this.props.history.push("/login");
+                                this.props.history.push("/");
                             })
                         }}>Logout</Button>
                         

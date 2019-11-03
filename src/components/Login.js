@@ -12,7 +12,7 @@ class Login extends Component {
                     <Button onClick={
                         () => 
                         auth.login(() => {
-                            this.props.history.push("/");
+                            this.props.history.push("/navbar");
                         })
                     }
                     variant="primary">Login</Button>
