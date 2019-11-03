@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './App.css';
+import { Route, Switch } from 'react-router-dom';
 
+import Login from './components/Login';
+import { ProtectedRoute } from "./components/ProtectedRoute";
 import NavBar from './components/Navbar';
-// import Login from './components/Login';
 
 class App extends Component {
 
   render() {
-    return ( 
+    return (  
       <div>
-        {/* <Login /> */}
-        <NavBar />
+        <Switch>
+          <Route exact path="/login" component={ Login }/>
+          <ProtectedRoute exact path="/" component={ NavBar }/>
+          {/* <Route path="*" compnent={() => "404 NOT FOUND"}/> */}
+        </Switch>
       </div>
+
     );
   }
 }

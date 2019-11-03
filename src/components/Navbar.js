@@ -1,4 +1,4 @@
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, Button } from 'react-bootstrap';
 import React from 'react';
 import { Component } from 'react';
 
@@ -8,7 +8,7 @@ import Dashboard from './Dashboard';
 import Transactions from './Transactions';
 import IncomeManager from './IncomeManager';
 import GoalManager from './GoalManager';
-// import Login from './Login';
+import auth from './Auth';
 
 
 class NavBar extends Component {
@@ -21,21 +21,25 @@ class NavBar extends Component {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto justify-content-end" defaultActiveKey="/">
-                        <Link to="/">Dashboard</Link>
+                        <Link to="/dashboard">Dashboard</Link>
                         <Link to="/transaction">Transactions</Link>
                         <Link to="/income-mgr">Income Manager</Link>
                         <Link to="/goal-mgr">Goal Manager</Link>
-                        {/* <Nav.Link><Link to="/login">Login</Link></Nav.Link> */}
+                        <Button onClick={() => {
+                            auth.logout(() => {
+                                this.props.history.push("/login");
+                            })
+                        }}>Logout</Button>
+                        
                     </Nav>
                     </Navbar.Collapse>
                 </Navbar>
 
                 <Switch>
-                    <Route exact path="/" component={Dashboard} />
+                    <Route path="/dashboard" component={Dashboard} />
                     <Route path="/transaction" component={Transactions} />
                     <Route path="/income-mgr" component={IncomeManager} />
                     <Route path="/goal-mgr" component={GoalManager} />
-                    {/* <Route path="/login" component={ Login }/> */}
                 </Switch>
 
             </div>

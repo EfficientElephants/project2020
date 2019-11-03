@@ -1,12 +1,24 @@
-import React from 'react';
-import { Component } from 'react';
+import React, {Component} from 'react';
+import { Button, ButtonToolbar } from 'react-bootstrap';
+import auth from './Auth';
 
 
 class Login extends Component {
-
     render() {
         return (
-            <h1>Hello world login page</h1>
+            <div>
+                <h1>Login Here</h1>
+                <ButtonToolbar>
+                    <Button onClick={
+                        () => 
+                        auth.login(() => {
+                            this.props.history.push("/");
+                        })
+                    }
+                    variant="primary">Login</Button>
+                    {/* <Button variant="outline-secondary">Sign Up</Button> */}
+                </ButtonToolbar>
+            </div>
         );
     }
 }
