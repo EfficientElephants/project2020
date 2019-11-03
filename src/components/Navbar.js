@@ -33,12 +33,12 @@ class NavBar extends Component {
 
                         </Nav>
                     </Navbar.Collapse>
-                    <Switch>
+                    <div>
                         <Route path="/dashboard" component={Dashboard} />
                         <Route path="/transaction" component={Transactions} />
                         <Route path="/income-mgr" component={IncomeManager} />
                         <Route path="/goal-mgr" component={GoalManager} />
-                    </Switch>
+                    </div>
                 </Navbar>
 
 
