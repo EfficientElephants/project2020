@@ -12,6 +12,8 @@ class App extends Component {
   render() {
     return (  
       <div>
+        {/* <Login /> */}
+        {/* <ProtectedRoute /> */}
           <Route exact path="/" component={ Login }/>
           <ProtectedRoute exact path="/navbar" component={ NavBar }/>
           {/* <Route path="*" compnent={() => "404 NOT FOUND"}/> */}

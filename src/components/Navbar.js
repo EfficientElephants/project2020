@@ -20,27 +20,28 @@ class NavBar extends Component {
                     <Navbar.Brand>Expense Elephant</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="mr-auto justify-content-end" defaultActiveKey="/">
-                        <Link to="/dashboard">Dashboard</Link>
-                        <Link to="/transaction">Transactions</Link>
-                        <Link to="/income-mgr">Income Manager</Link>
-                        <Link to="/goal-mgr">Goal Manager</Link>
-                        <Button onClick={() => {
-                            auth.logout(() => {
-                                this.props.history.push("/");
-                            })
-                        }}>Logout</Button>
-                        
-                    </Nav>
+                        <Nav className="mr-auto justify-content-end" defaultActiveKey="/">
+                            <Link to="/dashboard">Dashboard</Link>
+                            <Link to="/transaction">Transactions</Link>
+                            <Link to="/income-mgr">Income Manager</Link>
+                            <Link to="/goal-mgr">Goal Manager</Link>
+                            <Button onClick={() => {
+                                auth.logout(() => {
+                                    this.props.history.push("/");
+                                })
+                            }}>Logout</Button>
+
+                        </Nav>
                     </Navbar.Collapse>
+                    <Switch>
+                        <Route path="/dashboard" component={Dashboard} />
+                        <Route path="/transaction" component={Transactions} />
+                        <Route path="/income-mgr" component={IncomeManager} />
+                        <Route path="/goal-mgr" component={GoalManager} />
+                    </Switch>
                 </Navbar>
 
-                <Switch>
-                    <Route path="/dashboard" component={Dashboard} />
-                    <Route path="/transaction" component={Transactions} />
-                    <Route path="/income-mgr" component={IncomeManager} />
-                    <Route path="/goal-mgr" component={GoalManager} />
-                </Switch>
+
 
             </div>
         );
