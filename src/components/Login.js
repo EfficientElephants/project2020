@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 import auth from './Auth';
 
-
 class Login extends Component {
     render() {
         return (
@@ -12,7 +11,7 @@ class Login extends Component {
                     <Button onClick={
                         () => 
                         auth.login(() => {
-                            this.props.history.push("/navbar");
+                            this.props.history.push("/home");
                         })
                     }
                     variant="primary">Login</Button>

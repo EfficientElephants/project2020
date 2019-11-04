@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
-
-// import Users from './Users';
-// import Navbar from './Navbar';
-
+import NavBar from './Navbar';
 
 class Transactions extends Component {
 
     render() {
       return (
         <div>
-          {/* <Navbar /> */}
+          <NavBar />
           <h1>Transactions</h1>
-          {/* <div className="header-bar" />
-          <Users /> */}
         </div>
       );
     }

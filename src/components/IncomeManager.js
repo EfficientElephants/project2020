@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
-
-// import Users from './Users';
-// import Navbar from './Navbar';
-
+import NavBar from './Navbar';
 
 class IncomeManager extends Component {
 
     render() {
       return (
         <div>
-          {/* <Navbar /> */}
+          <NavBar />
           <h1>Income Manager</h1>
-          {/* <div className="header-bar" />
-          <Users /> */}
         </div>
       );
     }

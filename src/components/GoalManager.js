@@ -1,12 +1,14 @@
-import React from 'react';
-import { Component } from 'react';
-
+import React, { Component } from 'react';
+import NavBar from './Navbar';
 
 class GoalManager extends Component {
 
     render() {
         return (
-            <h3>Goal manager</h3>
+            <div>
+                <NavBar />
+                <h3>Goal manager</h3>
+            </div>
         );
     }
 }

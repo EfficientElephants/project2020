@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
-
-// import Users from './Users';
-// import Navbar from './Navbar';
-
+import NavBar from './Navbar';
 
 class Dashboard extends Component {
 
     render() {
       return (
         <div>
-          {/* <Navbar /> */}
+          <NavBar />
           <h1>Dashboard</h1>
         </div>
       );
