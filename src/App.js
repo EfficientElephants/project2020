@@ -24,7 +24,6 @@ class App extends Component {
           <ProtectedRoute exact path="/income-mgr" component={ IncomeManager }/>
         </BrowserRouter>
           </div>
-      
     );
   }
 }

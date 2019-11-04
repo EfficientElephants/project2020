@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Redirect, Route, withRouter } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import { ProtectedRoute } from "./ProtectedRoute";
 
 import Navbar from './Navbar';
@@ -26,4 +26,4 @@ class DefaultContainer extends Component {
     }
 }
 
-export default withRouter(DefaultContainer);
+export default DefaultContainer;

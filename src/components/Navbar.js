@@ -1,7 +1,7 @@
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import React from 'react';
 import { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import auth from './Auth';
 
 
@@ -28,12 +28,9 @@ class NavBar extends Component {
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
-
-
-
             </div>
         );
     }
 }
 
-export default NavBar;
+export default withRouter(NavBar);
