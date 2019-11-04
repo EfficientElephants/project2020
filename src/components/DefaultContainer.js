@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Route, withRouter } from 'react-router-dom';
 import { ProtectedRoute } from "./ProtectedRoute";
 
 import Navbar from './Navbar';
@@ -13,7 +13,10 @@ class DefaultContainer extends Component {
         return (
             <div>
                 <Navbar />
-                <Redirect exact from="/home" to="dashboard" />
+                {/* <Redirect exact from="/home" to="dashboard" /> */}
+                <Route exact path="/home" render={() => (
+                    <Redirect to="/dashboard"/>
+                )}/>
                 <ProtectedRoute path="/dashboard" component={Dashboard} />
                 <ProtectedRoute path="/transactions" component={Transactions} />
                 <ProtectedRoute path="/income-mgr" component={IncomeManager} />
@@ -23,4 +26,4 @@ class DefaultContainer extends Component {
     }
 }
 
-export default DefaultContainer;
+export default withRouter(DefaultContainer);
