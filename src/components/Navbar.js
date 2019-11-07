@@ -1,4 +1,4 @@
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, Button, Container } from 'react-bootstrap';
 import React from 'react';
 import { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
@@ -11,6 +11,7 @@ class NavBar extends Component {
         return (
             <div>
                 <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+                    <Container>
                     <Navbar.Brand>Expense Elephant</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
@@ -27,6 +28,7 @@ class NavBar extends Component {
 
                         </Nav>
                     </Navbar.Collapse>
+                    </Container>
                 </Navbar>
             </div>
         );
