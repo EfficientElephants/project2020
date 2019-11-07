@@ -16,10 +16,10 @@ class NavBar extends Component {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="mr-auto justify-content-end" defaultActiveKey="/">
-                            <Link to="/dashboard">Dashboard</Link>
-                            <Link to="/transactions">Transactions</Link>
-                            <Link to="/income-mgr">Income Manager</Link>
-                            <Link to="/goal-mgr">Goal Manager</Link>
+                            <Link to="/dashboard">Dashboard</Link>&nbsp;
+                            <Link to="/transactions">Transactions</Link>&nbsp;
+                            <Link to="/income-mgr">Income Manager</Link>&nbsp;
+                            <Link to="/goal-mgr">Goal Manager</Link>&nbsp;
                             <Button onClick={() => {
                                 auth.logout(() => {
                                     this.props.history.push("/");
