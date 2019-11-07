@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
-//import logo from './logo.svg';
 import './App.css';
+import { Route, BrowserRouter } from 'react-router-dom';
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
-import NavBar from './components/Navbar';
-// import Login from './components/Login';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
+import Transactions from './components/Transactions';
+import IncomeManager from './components/IncomeManager';
+import GoalManager from './components/GoalManager';
+import DefaultContainer from './components/DefaultContainer';
 
 class App extends Component {
 
   render() {
-    return ( 
+    return (  
       <div>
-        {/* <Login /> */}
-        <NavBar />
-      </div>
+        <BrowserRouter>
+          <Route exact path="/" component={ Login }/>
+          <ProtectedRoute exact path="/home" component={ DefaultContainer }/>
+          <ProtectedRoute exact path="/transactions" component={ Transactions }/>
+          <ProtectedRoute exact path="/dashboard" component={ Dashboard }/>
+          <ProtectedRoute exact path="/goal-mgr" component={ GoalManager }/>
+          <ProtectedRoute exact path="/income-mgr" component={ IncomeManager }/>
+        </BrowserRouter>
+          </div>
     );
   }
 }
