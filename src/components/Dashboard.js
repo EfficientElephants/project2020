@@ -26,7 +26,7 @@ function MyVerticallyCenteredModal(props) {
             <Form.Control type="text" placeholder="$" />
           </Form.Group>
           <Form.Group controlId="formCategory">
-            <Form.Label>Select a Category</Form.Label>
+            <Form.Label>Category</Form.Label>
             <Form.Control as="select">
               <option>Rent</option>
               <option>Food</option>
@@ -36,13 +36,11 @@ function MyVerticallyCenteredModal(props) {
               <option>Personal Care</option>
             </Form.Control>
           </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
+          <Button variant="primary" type="submit">Submit</Button>
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        <Button onClick={props.onHide}>Cancel</Button>
       </Modal.Footer>
     </Modal>
   );
