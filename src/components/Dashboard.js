@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Container, Button, ButtonToolbar, Modal } from 'react-bootstrap';
+import { Row, Col, Container, Button, ButtonToolbar, Modal, Form } from 'react-bootstrap';
 import NavBar from './Navbar';
 
 function MyVerticallyCenteredModal(props) {
@@ -12,16 +12,34 @@ function MyVerticallyCenteredModal(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
+          Add a Purchase
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4>Centered Modal</h4>
-        <p>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-          consectetur ac, vestibulum at eros.
-        </p>
+        <div>
+          <Form.Group controlId="formItem">
+            <Form.Label>Item</Form.Label>
+            <Form.Control type="text" />
+          </Form.Group>
+          <Form.Group controlId="formPrice">
+            <Form.Label>Price</Form.Label>
+            <Form.Control type="text" placeholder="$" />
+          </Form.Group>
+          <Form.Group controlId="formCategory">
+            <Form.Label>Select a Category</Form.Label>
+            <Form.Control as="select">
+              <option>Rent</option>
+              <option>Food</option>
+              <option>Social</option>
+              <option>Medical</option>
+              <option>Transportation</option>
+              <option>Personal Care</option>
+            </Form.Control>
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
@@ -30,13 +48,13 @@ function MyVerticallyCenteredModal(props) {
   );
 }
 
-function App() {
+function AddPurchaseModal() {
   const [modalShow, setModalShow] = React.useState(false);
 
   return (
     <ButtonToolbar>
       <Button variant="primary" onClick={() => setModalShow(true)}>
-        Launch vertically centered modal
+      Add a Purchase
       </Button>
 
       <MyVerticallyCenteredModal
@@ -70,7 +88,7 @@ class Dashboard extends Component {
                   </Col>
                   <Col>
                     <Button>
-                      <App />
+                      <AddPurchaseModal />
                     </Button>
                   </Col>
                 </Row>
