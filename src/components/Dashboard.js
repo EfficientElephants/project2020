@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Container, Button, ButtonToolbar, Modal, Form } from 'react-bootstrap';
 import NavBar from './Navbar';
 
-function MyVerticallyCenteredModal(props) {
+function DashboardModal(props) {
   return (
     <Modal
       {...props}
@@ -55,7 +55,7 @@ function AddPurchaseModal() {
       Add a Purchase
       </Button>
 
-      <MyVerticallyCenteredModal
+      <DashboardModal
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
