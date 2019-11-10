@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Container, Button, ButtonToolbar, Modal, Form } from 'react-bootstrap';
 import NavBar from './Navbar';
+import Users from './Users';
 
 function DashboardModal(props) {
   return (
@@ -110,6 +111,7 @@ class Dashboard extends Component {
             </Col>
           </Row>
           </Container>
+          <Users />
         </div>
       );
     }

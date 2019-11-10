@@ -9,7 +9,7 @@ import usersAPI from '../api';
 class Users extends Component {
     constructor() {
         super();
-        this.state = { users: [], addingUser: false};
+        this.state = { users: [], addingUser: false, error: false};
 
         this.handleSelect = this.handleSelect.bind(this);
         this.handleSave = this.handleSave.bind(this);
@@ -48,13 +48,21 @@ class Users extends Component {
         usersAPI
             .create(this.state.selectedUser)
             .then(result => {
-                console.log('Successfully created!');
-                users.push(this.state.selectedUser);
-                this.setState({
-                    users: users,
-                    selectedUser: null,
-                    addingUser: false
-                });
+                if (result.errors) {
+                    console.log(result);
+                    this.setState({error: true});
+
+                }
+                else {
+                    console.log('Successfully created!');
+                    users.push(this.state.selectedUser);
+                    this.setState({
+                        users: users,
+                        selectedUser: null,
+                        addingUser: false,
+                        error: false
+                    });
+                }
             })
             .catch(err => {
                 console.log(err);
@@ -87,12 +95,26 @@ class Users extends Component {
         });
     }
 
+    errorNotifcation () {
+        let errorValue = this.state.error;
+        if (errorValue) {
+            return (
+                <div class="alert alert-danger" role="alert">
+                    <strong>Oh snap!</strong> Either your email or username is already in use. Please try again.
+                </div>
+            )
+        }else {
+            return (<div></div>)
+        }
+    }
+
     
 
 
     render() {
         return (
             <div>
+                {this.errorNotifcation()}
                 <ul className="users">
                     {this.state.users.map(user =>{
                         return <User 
