@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Container } from 'react-bootstrap';
+
 import NavBar from './Navbar';
 
 class GoalManager extends Component {
@@ -7,7 +9,12 @@ class GoalManager extends Component {
         return (
             <div>
                 <NavBar />
-                <h3>Goal manager</h3>
+                <Container>
+                    <br />
+                    <h1>Manage Your Goals</h1>
+                    <br />
+                    <p>Manage all of your loan saving/budgeting goals here!</p>
+                </Container>
             </div>
         );
     }

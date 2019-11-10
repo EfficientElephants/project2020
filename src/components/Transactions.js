@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Container, Table } from 'react-bootstrap';
+
 import NavBar from './Navbar';
 
 class Transactions extends Component {
@@ -7,7 +9,43 @@ class Transactions extends Component {
       return (
         <div>
           <NavBar />
-          <h1>Transactions</h1>
+          <Container>
+            <br />
+            <h1>Your Transactions</h1>
+            <br />
+            
+            {/* This table will be a component we can pull in later? Responsive from DB. */}
+            <Table responsive striped bordered>
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>Subject</th>
+                  <th>Amount</th>
+                  <th>Category</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Table cell</td>
+                  <td>Table cell</td>
+                  <td>Table cell</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Table cell</td>
+                  <td>Table cell</td>
+                  <td>Table cell</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Table cell</td>
+                  <td>Table cell</td>
+                  <td>Table cell</td>
+                </tr>
+              </tbody>
+            </Table>
+          </Container>
         </div>
       );
     }
