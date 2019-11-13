@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import User from './User';
 import EditUser from './EditUser';
-import usersAPI from '../api';
+import usersAPI from '../api/userAPI';
 
 
 
