@@ -6,25 +6,25 @@ const EditUser = props => {
       <div>
         <div className="editfields">
           <div>
-            <label>id: </label>
+            <label>email: </label>
             {props.addingUser
               ? <input
-                  type="number"
-                  name="id"
-                  placeholder="id"
-                  value={props.selectedUser.id}
+                  name="email"
+                  placeholder="example@test.com"
+                  value={props.selectedUser.email}
                   onChange={props.onChange}
                 />
               : <label className="value">
-                  {props.selectedUser.id}
+                  {props.selectedUser.email}
                 </label>}
           </div>
           <div>
-            <label>name: </label>
+            <label>username: </label>
             <input
-              name="name"
-              value={props.selectedUser.name}
-              placeholder="name"
+              type="string"
+              name="username"
+              value={props.selectedUser.username}
+              placeholder="username"
               onChange={props.onChange}
             />
           </div>

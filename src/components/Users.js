@@ -91,7 +91,7 @@ class Users extends Component {
     handleEnableAddMode() {
         this.setState({
             addingUser: true,
-            selectedUser: {id: '', name:'', password: ''}
+            selectedUser: {email: '', username:'', password: ''}
         });
     }
 

@@ -51,7 +51,7 @@ const usersAPI = {
 
   destroy(user) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/user/${user.id}`, { method: 'DELETE' })
+      fetch(`${baseAPI}/user/${user.email}`, { method: 'DELETE' })
         .then(response => response.json())
         .then(json => resolve(json))
         .catch(err => {
