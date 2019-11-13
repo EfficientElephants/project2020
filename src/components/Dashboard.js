@@ -2,73 +2,71 @@ import React, { Component } from 'react';
 import { Row, Col, Container, Button, ButtonToolbar, Modal, Form } from 'react-bootstrap';
 import NavBar from './Navbar';
 import Users from './Users';
-import AddPurchaseButton from './AddPurchaseButton';
-import PurchaseModal from './PurchaseModal';
 
 import purchaseAPI from '../api/purchaseAPI';
 
 //update to include purchase binding
 
-// function DashboardModal(props) {
-//   return (
-//     <Modal
-//       {...props}
-//       size="lg"
-//       aria-labelledby="contained-modal-title-vcenter"
-//       centered
-//     >
-//       <Modal.Header closeButton>
-//         <Modal.Title id="contained-modal-title-vcenter">
-//           Add a Purchase
-//         </Modal.Title>
-//       </Modal.Header>
-//       <Modal.Body>
-//         <div>
-//           <Form.Group controlId="formItem">
-//             <Form.Label>Item</Form.Label>
-//             <Form.Control type="text" />
-//           </Form.Group>
-//           <Form.Group controlId="formPrice">
-//             <Form.Label>Price</Form.Label>
-//             <Form.Control type="text" placeholder="$" />
-//           </Form.Group>
-//           <Form.Group controlId="formCategory">
-//             <Form.Label>Category</Form.Label>
-//             <Form.Control as="select">
-//               <option>Rent</option>
-//               <option>Food</option>
-//               <option>Social</option>
-//               <option>Medical</option>
-//               <option>Transportation</option>
-//               <option>Personal Care</option>
-//             </Form.Control>
-//           </Form.Group>
-//           <Button variant="primary" type="submit">Submit</Button>
-//         </div>
-//       </Modal.Body>
-//       <Modal.Footer>
-//         <Button onClick={props.onHide}>Cancel</Button>
-//       </Modal.Footer>
-//     </Modal>
-//   );
-// }
+function DashboardModal(props) {
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Add a Purchase
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div>
+          <Form.Group controlId="formItem">
+            <Form.Label>Item</Form.Label>
+            <Form.Control type="text" />
+          </Form.Group>
+          <Form.Group controlId="formPrice">
+            <Form.Label>Price</Form.Label>
+            <Form.Control type="text" placeholder="$" />
+          </Form.Group>
+          <Form.Group controlId="formCategory">
+            <Form.Label>Category</Form.Label>
+            <Form.Control as="select">
+              <option>Rent</option>
+              <option>Food</option>
+              <option>Social</option>
+              <option>Medical</option>
+              <option>Transportation</option>
+              <option>Personal Care</option>
+            </Form.Control>
+          </Form.Group>
+          <Button variant="primary" type="submit">Submit</Button>
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Cancel</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
 
-// function AddPurchaseModal() {
-//   const [modalShow, setModalShow] = React.useState(false);
+function AddPurchaseModal() {
+  const [modalShow, setModalShow] = React.useState(false);
 
-//   return (
-//     <ButtonToolbar>
-//       <Button variant="primary" onClick={() => setModalShow(true)}>
-//       Add a Purchase
-//       </Button>
+  return (
+    <ButtonToolbar>
+      <Button variant="primary" onClick={() => setModalShow(true)}>
+      Add a Purchase
+      </Button>
 
-//       <DashboardModal
-//         show={modalShow}
-//         onHide={() => setModalShow(false)}
-//       />
-//     </ButtonToolbar>
-//   );
-// }
+      <DashboardModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
+    </ButtonToolbar>
+  );
+}
 
 
 class Dashboard extends Component {
@@ -77,13 +75,50 @@ class Dashboard extends Component {
 
     this.state = { purchase: [], addingPurchase: false, error: false};
 
-    this.addPurchase = this.addPurchase.bind(this)
-  }
-  addPurchase () {
-    this.refs.modal.openModal();
-    this.forceUpdate();
+    this.handleSave = this.handleSave.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleEnableAddMode = this.handleEnableAddMode.bind(this);
+  
   }
 
+  handleSave () {
+    let purchases = this.state.purchases;
+
+    if (this.state.addingPurchase) {
+    purchaseAPI
+        .create(this.state.selectedPurchase)
+        .then(result => {
+            if (result.errors) {
+                console.log(result);
+                this.setState({error: true});
+            }
+            else {
+                console.log('Successfully created!');
+                purchases.push(this.state.selectedPurchase);
+                this.setState({
+                    purchases: purchases,
+                    selectedPurchase: null,
+                    addingPurchase: false,
+                    error: false
+                });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+}
+
+handleCancel() {
+  this.setState({ selectedPurchase: null, addingPurchase: false})
+}
+
+handleEnableAddMode() {
+  this.setState({
+    addingPurchase: true,
+    selectedPurchase: {item: '', price:'', category: ''}
+  });
+}
     render() {
       return (
         <div>
@@ -103,8 +138,9 @@ class Dashboard extends Component {
                     <p>An explanation of spending status will go here too.</p>
                   </Col>
                   <Col>
-                  <AddPurchaseButton onClick={this.addPurchase} />
-                  <PurchaseModal  ref="modal" data={this.editItem} onSave={this.saveRecipe}/>
+                    <Button>
+                      <AddPurchaseModal />
+                    </Button>
                   </Col>
                 </Row>
             </Col>
