@@ -6,7 +6,7 @@ const Expense = props => {
     return (
         <tr 
             className={props.expense === props.selectedExpense ? 'selected' : ''} 
-            onClick={() => props.onSelect(props.expense)}
+            //onClick={() => props.onSelect(props.expense)}
         >
 
 
@@ -14,16 +14,16 @@ const Expense = props => {
                 <td>{props.expense.item}</td>
                 <td>{((props.expense.price)/100).toFixed(2)}</td>
                 <td><Button
-                        variant="danger"
-                        onClick={e => props.onDelete(e, props.expense)}>
-                            Delete
+                        variant="info"
+                        onClick={() => props.onSelect(props.expense)}
+                        >
+                            Edit
                     </Button>
                     &nbsp;
                     <Button
-                        variant="info"
-                        // onClick={e => props.onDelete(e, props.expense)}
-                        >
-                            Edit
+                        variant="danger"
+                        onClick={e => props.onDelete(e, props.expense)}>
+                            Delete
                     </Button>
                 </td>
         </tr>

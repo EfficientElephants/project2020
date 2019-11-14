@@ -119,7 +119,7 @@ class Expenses extends Component {
             <Container>
                 <Row>
                 <div>
-                    <Button variant="primary" onClick={this.handleEnableAddMode}>Add New Purchase</Button>
+                    <Button variant="secondary" onClick={this.handleEnableAddMode}>Add New Purchase</Button>
                     <EditExpense 
                         addingExpense = {this.state.addingExpense} 
                         selectedExpense={this.state.selectedExpense}
@@ -140,7 +140,7 @@ class Expenses extends Component {
                                 <th>Category</th>
                                 <th>Item</th>
                                 <th>Price</th>
-                                <th>Edit</th>
+                                <th>Update</th>
                             </tr>
                         </thead>
                         <tbody>
