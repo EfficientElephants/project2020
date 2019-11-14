@@ -15,8 +15,8 @@ const User = props => {
                 Delete
             </button>
             <div className="user-element">
-                <div className="badge">{props.user.id}</div>
-                <div className="name">{props.user.name}</div>
+                <div className="badge">{props.user.email}</div>
+                <div className="name">{props.user.username}</div>
                 <div className="password">{props.user.password}</div>
             </div>
         </li>

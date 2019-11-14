@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import User from './User';
+import User from '../UserComponents/User';
 import EditUser from './EditUser';
-import usersAPI from '../api';
+import usersAPI from '../../api/userAPI';
 
 
 
@@ -68,6 +68,7 @@ class Users extends Component {
                 console.log(err);
             });
         } else {
+            console.log(this.state.selectedUser)
         usersAPI
             .update(this.state.selectedUser)
             .then(() => {
@@ -91,7 +92,7 @@ class Users extends Component {
     handleEnableAddMode() {
         this.setState({
             addingUser: true,
-            selectedUser: {id: '', name:'', password: ''}
+            selectedUser: {email: '', username:'', password: ''}
         });
     }
 

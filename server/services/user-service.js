@@ -1,7 +1,7 @@
-const User = require('./user-model');
+const User = require('../models/user-model');
 const ReadPreference = require('mongodb').ReadPreference;
 
-require('./mongo').connect();
+require('../mongo').connect();
 
 function get(req, res) {
   const docquery = User.find({}).read(ReadPreference.NEAREST);
@@ -16,9 +16,9 @@ function get(req, res) {
 }
 
 function create(req, res) {
-  const { id, name, password } = req.body;
+  const { email, username, password } = req.body;
 
-  const user = new User({ id, name, password });
+  const user = new User({ email, username, password });
   user
     .save()
     .then(() => {
@@ -30,11 +30,11 @@ function create(req, res) {
 }
 
 function update(req, res) {
-  const { id, name, password } = req.body;
+  const { email, username, password } = req.body;
 
-  User.findOne({ id })
+  User.findOne({ email })
     .then(user => {
-      user.name = name;
+      user.username = username;
       user.password = password;
       user.save().then(res.json(user));
     })
@@ -44,9 +44,9 @@ function update(req, res) {
 }
 
 function destroy(req, res) {
-  const { id } = req.params;
+  const { email } = req.params;
 
-  User.findOneAndRemove({ id })
+  User.findOneAndRemove({ email })
     .then(user => {
       res.json(user);
     })
