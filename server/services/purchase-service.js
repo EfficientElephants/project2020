@@ -5,8 +5,7 @@ require('../mongo').connect();
 
 function get(req, res) {
   const docquery = Purchase.find({}).read(ReadPreference.NEAREST);
-  docquery
-    .exec()
+  return docquery
     .then(purchases => {
       res.json(purchases);
     })

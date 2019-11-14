@@ -16,8 +16,10 @@ const purchaseSchema = new Schema({
     },
 
     price: {
-        type: Currency,
-        required: true
+        type: Number,
+        required: true,
+        get: getPrice,
+        set: setPrice,
     },
 
     category: {
@@ -44,7 +46,17 @@ purchaseSchema.pre('save', function (next) {
     
     // Call the next function in the pre-save chain
     next()    
-  })
+})
 
+function getPrice(num){
+    return (num/100).toFixed(2);
+}
+
+function setPrice(num){
+    return num*100;
+}
+
+purchaseSchema.set('toObject', { getters: true });
+purchaseSchema.set('toJSON', { getters: true });
 const Purchase = mongoose.model('Purchase', purchaseSchema);
 module.exports = Purchase;

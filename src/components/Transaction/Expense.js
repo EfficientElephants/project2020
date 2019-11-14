@@ -12,7 +12,7 @@ const Expense = props => {
 
                 <td>{props.expense.category}</td>
                 <td>{props.expense.item}</td>
-                <td>{((props.expense.price)/100).toFixed(2)}</td>
+                <td>{props.expense.price}</td>
                 <td><Button
                         variant="info"
                         onClick={() => props.onSelect(props.expense)}
