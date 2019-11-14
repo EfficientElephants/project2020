@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import User from '../Transaction/Expense';
+import User from '../UserComponents/User';
 import EditUser from './EditUser';
 import usersAPI from '../../api/userAPI';
 
@@ -68,6 +68,7 @@ class Users extends Component {
                 console.log(err);
             });
         } else {
+            console.log(this.state.selectedUser)
         usersAPI
             .update(this.state.selectedUser)
             .then(() => {

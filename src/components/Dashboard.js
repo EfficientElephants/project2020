@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Container, Button, ButtonToolbar, Modal, Form } from 'react-bootstrap';
 import NavBar from './Navbar';
-//import Users from './UserComponents/Users';
+import Users from './UserComponents/Users';
 import Expenses from './Transaction/Expenses';
 
 import purchaseAPI from '../api/purchaseAPI';
@@ -164,7 +164,7 @@ handleEnableAddMode() {
             </Col>
           </Row>
           </Container>
-          {/* <Users /> */}
+          <Users />
           <Expenses />
         </div>
       );

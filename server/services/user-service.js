@@ -30,7 +30,7 @@ function create(req, res) {
 }
 
 function update(req, res) {
-  const { email, user, password } = req.body;
+  const { email, username, password } = req.body;
 
   User.findOne({ email })
     .then(user => {
