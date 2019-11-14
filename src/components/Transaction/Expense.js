@@ -17,7 +17,7 @@ const Expense = props => {
             <div className="user-element">
                 <div className="badge">{props.expense.category}</div>
                 <div className="name">{props.expense.item}</div>
-                <div className="password">{(props.expense.price/100).toFixed(2)}</div>
+                <div className="password">{((props.expense.price)/100).toFixed(2)}</div>
             </div>
         </li>
     );

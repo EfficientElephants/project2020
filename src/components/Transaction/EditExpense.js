@@ -31,7 +31,7 @@ const EditExpense = props => {
             <label>
               Category
             </label>
-            <select value = {props.selectedExpense.category} onChange={props.onChange}>
+            <select name="category" value = {props.selectedExpense.category.value} onChange={props.onChange}>
                 <option value="Rent">Rent</option>
                 <option value="Food">Food</option>
                 <option value="Social">Social</option>
