@@ -30,13 +30,14 @@ function create(req, res) {
 }
 
 function update(req, res) {
-  const { item, price, category, _id } = req.body;
+  const { item, price, category, _id} = req.body;
 
   Purchase.findOne({ _id })
     .then(purchase => {
       purchase.item = item;
       purchase.price = price;
       purchase.category = category;
+      purchase.createdAt = Date.now();
       purchase.save().then(res.json(purchase));
     })
     .catch(err => {
