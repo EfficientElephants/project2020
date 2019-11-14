@@ -4,10 +4,11 @@ const Schema = mongoose.Schema;
 require('mongoose-currency').loadType(mongoose);
 const Currency = mongoose.Types.Currency;
 
-const AutoIncrement = require('mongoose-sequence')(mongoose);
+//const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const validator = require('validator')
-//ar uniqueValidator = require('mongoose-unique-validator');
+
+
 const purchaseSchema = new Schema({
     item: {
         type: String,
@@ -46,7 +47,4 @@ purchaseSchema.pre('save', function (next) {
   })
 
 const Purchase = mongoose.model('Purchase', purchaseSchema);
-
-
-
 module.exports = Purchase;

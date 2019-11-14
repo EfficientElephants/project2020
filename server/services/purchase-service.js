@@ -16,9 +16,9 @@ function get(req, res) {
 }
 
 function create(req, res) {
-  const { item, price, category, createdAt, updatedAt } = req.body;
+  const { item, price, category } = req.body;
 
-  const purchase = new Purchase({ item, price, category, createdAt, updatedAt });
+  const purchase = new Purchase({ item, price, category});
   purchase
     .save()
     .then(() => {

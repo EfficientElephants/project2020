@@ -29,11 +29,11 @@ router.post('/purchase', function(req, res) {
   purchaseService.create(req, res);
 });
 
-router.put('/user', function(req, res) {
+router.put('/purchase', function(req, res) {
   purchaseService.update(req, res);
 });
 
-router.delete('/user/:createdAt', function(req, res) {
+router.delete('/purchase/:createdAt', function(req, res) {
   purchaseService.destroy(req, res);
 })
 

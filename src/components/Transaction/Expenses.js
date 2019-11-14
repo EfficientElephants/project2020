@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
-import User from './User';
-import EditUser from './EditUser';
-import usersAPI from '../api/userAPI';
+import Expense from './Expense';
+import EditExpense from './EditExpense';
+import purchaseAPI from '../../api/purchaseAPI';
 
 
 
-class Users extends Component {
+class Expenses extends Component {
     constructor() {
         super();
-        this.state = { users: [], addingUser: false, error: false};
+        this.state = { expenses: [], addingExpense: false, error: false};
 
         this.handleSelect = this.handleSelect.bind(this);
         this.handleSave = this.handleSave.bind(this);
@@ -20,33 +20,33 @@ class Users extends Component {
 
     }
     componentDidMount() {
-        usersAPI.get().then(json => this.setState({users:json}));
+        purchaseAPI.get().then(json => this.setState({expenses:json}));
     }
     
 
-    handleSelect(user) {
-        this.setState({ selectedUser: user });
+    handleSelect(expense) {
+        this.setState({ selectedExpense: expense });
     }
 
-    handleDelete(event, user) {
+    handleDelete(event, expense) {
         event.stopPropagation();
-        usersAPI.destroy(user).then(() => {
-            let users = this.state.users;
-            users = users.filter(h => h !== user);
-            this.setState({ users: users });
+        purchaseAPI.destroy(expense).then(() => {
+            let expenses = this.state.expenses;
+            expenses = expenses.filter(h => h !== expense);
+            this.setState({ expenses: expenses });
     
-            if (this.selectedUser === user) {
-                this.setState({ selectedUser: null });
+            if (this.selectedExpense === expense) {
+                this.setState({ selectedExpense: null });
             }
         });
     }
 
     handleSave () {
-        let users = this.state.users;
+        let expenses = this.state.expenses;
 
-        if (this.state.addingUser) {
-        usersAPI
-            .create(this.state.selectedUser)
+        if (this.state.addingExpense) {
+        purchaseAPI
+            .create(this.state.selectedExpense)
             .then(result => {
                 if (result.errors) {
                     console.log(result);
@@ -55,11 +55,11 @@ class Users extends Component {
                 }
                 else {
                     console.log('Successfully created!');
-                    users.push(this.state.selectedUser);
+                    expenses.push(this.state.selectedExpense);
                     this.setState({
-                        users: users,
-                        selectedUser: null,
-                        addingUser: false,
+                        expenses: expenses,
+                        selectedExpense: null,
+                        addingExpense: false,
                         error: false
                     });
                 }
@@ -68,30 +68,30 @@ class Users extends Component {
                 console.log(err);
             });
         } else {
-        usersAPI
-            .update(this.state.selectedUser)
+        purchaseAPI
+            .update(this.state.selectedExpense)
             .then(() => {
-                this.setState({ selectedUser: null });
+                this.setState({ selectedExpense: null });
             })
             .catch(err => {});
     }
   }
 
     handleChange(event) {
-        let selectedUser = this.state.selectedUser;
-        selectedUser[event.target.name] = event.target.value;
-        this.setState({ selectedUser: selectedUser });
+        let selectedExpense = this.state.selectedExpense;
+        selectedExpense[event.target.name] = event.target.value;
+        this.setState({ selectedExpense: selectedExpense });
 
     }
 
     handleCancel() {
-        this.setState({ selectedUser: null, addingUser: false})
+        this.setState({ selectedExpense: null, addingExpense: false})
     }
 
     handleEnableAddMode() {
         this.setState({
-            addingUser: true,
-            selectedUser: {email: '', username:'', password: ''}
+            addingExpense: true,
+            selectedExpense: {item: '', price:'', category: ''}
         });
     }
 
@@ -116,20 +116,20 @@ class Users extends Component {
             <div>
                 {this.errorNotifcation()}
                 <ul className="users">
-                    {this.state.users.map(user =>{
-                        return <User 
-                            user={user} 
+                    {this.state.expenses.map(expense =>{
+                        return <Expense 
+                            expense={expense} 
                             onSelect={this.handleSelect} 
-                            selectedUser = {this.state.selectedUser}
+                            selectedExpense = {this.state.selectedExpense}
                             onDelete={this.handleDelete} 
                         />
                     })}
                 </ul>
                 <div className="editarea">
-                    <button onClick={this.handleEnableAddMode}>Add New User</button>
-                    <EditUser 
-                        addingUser = {this.state.addingUser} 
-                        selectedUser={this.state.selectedUser}
+                    <button onClick={this.handleEnableAddMode}>Add New Purchase</button>
+                    <EditExpense 
+                        addingExpense = {this.state.addingExpense} 
+                        selectedExpense={this.state.selectedExpense}
                         onChange={this.handleChange}
                         onSave = {this.handleSave}
                         onCancel = {this.handleCancel}
@@ -140,4 +140,4 @@ class Users extends Component {
         );
     }
 }
-export default Users;
+export default Expenses;
