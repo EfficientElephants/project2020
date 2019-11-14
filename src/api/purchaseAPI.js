@@ -51,7 +51,7 @@ const purchaseAPI = {
 
   destroy(purchase) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/purchase/${purchase.item}`, { method: 'DELETE' })
+      fetch(`${baseAPI}/purchase/${purchase._id}`, { method: 'DELETE' })
         .then(response => response.json())
         .then(json => resolve(json))
         .catch(err => {
