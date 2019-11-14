@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Container, Row, Col, Button, Table } from 'react-bootstrap';
 
 import Expense from './Expense';
 import EditExpense from './EditExpense';
@@ -115,20 +116,10 @@ class Expenses extends Component {
 
     render() {
         return (
-            <div>
-                {this.errorNotifcation()}
-                <ul className="users">
-                    {this.state.expenses.map(expense =>{
-                        return <Expense 
-                            expense={expense} 
-                            onSelect={this.handleSelect} 
-                            selectedExpense = {this.state.selectedExpense}
-                            onDelete={this.handleDelete} 
-                        />
-                    })}
-                </ul>
-                <div className="editarea">
-                    <button onClick={this.handleEnableAddMode}>Add New Purchase</button>
+            <Container>
+                <Row>
+                <div>
+                    <Button variant="primary" onClick={this.handleEnableAddMode}>Add New Purchase</Button>
                     <EditExpense 
                         addingExpense = {this.state.addingExpense} 
                         selectedExpense={this.state.selectedExpense}
@@ -138,7 +129,28 @@ class Expenses extends Component {
                         
                     />
                 </div>
-            </div>
+                </Row>
+                <Row>
+                    {this.errorNotifcation()}
+                </Row>
+                <Row>
+                    <Table>
+                        <thead>
+                            <th>Category</th>
+                            <th>Item</th>
+                            <th>Price</th>
+                        </thead>
+                        {this.state.expenses.map(expense =>{
+                            return <Expense 
+                                expense={expense} 
+                                onSelect={this.handleSelect} 
+                                selectedExpense = {this.state.selectedExpense}
+                                onDelete={this.handleDelete} 
+                            />
+                        })}
+                    </Table>
+                </Row>
+            </Container>
         );
     }
 }
