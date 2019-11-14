@@ -130,9 +130,9 @@ class Expenses extends Component {
                     />
                 </div>
                 </Row>
-                <Row>
+                {/* <Row>
                     {this.errorNotifcation()}
-                </Row>
+                </Row> */}
                 <Row>
                     <Table>
                         <thead>
