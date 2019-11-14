@@ -33,7 +33,7 @@ router.put('/purchase', function(req, res) {
   purchaseService.update(req, res);
 });
 
-router.delete('/purchase/:createdAt', function(req, res) {
+router.delete('/purchase/:_id', function(req, res) {
   purchaseService.destroy(req, res);
 })
 
