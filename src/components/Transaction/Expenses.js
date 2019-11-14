@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Button, Table } from 'react-bootstrap';
+import { Container, Row, Button, Table } from 'react-bootstrap';
 
 import Expense from './Expense';
 import EditExpense from './EditExpense';
@@ -136,18 +136,23 @@ class Expenses extends Component {
                 <Row>
                     <Table>
                         <thead>
-                            <th>Category</th>
-                            <th>Item</th>
-                            <th>Price</th>
+                            <tr>
+                                <th>Category</th>
+                                <th>Item</th>
+                                <th>Price</th>
+                                <th>Edit</th>
+                            </tr>
                         </thead>
-                        {this.state.expenses.map(expense =>{
-                            return <Expense 
-                                expense={expense} 
-                                onSelect={this.handleSelect} 
-                                selectedExpense = {this.state.selectedExpense}
-                                onDelete={this.handleDelete} 
-                            />
-                        })}
+                        <tbody>
+                            {this.state.expenses.map(expense =>{
+                                return <Expense 
+                                    expense={expense} 
+                                    onSelect={this.handleSelect} 
+                                    selectedExpense = {this.state.selectedExpense}
+                                    onDelete={this.handleDelete} 
+                                />
+                            })}
+                        </tbody>
                     </Table>
                 </Row>
             </Container>

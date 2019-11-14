@@ -8,66 +8,66 @@ import purchaseAPI from '../api/purchaseAPI';
 
 //update to include purchase binding
 
-function DashboardModal(props) {
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Add a Purchase
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <div>
-          <Form.Group controlId="formItem">
-            <Form.Label>Item</Form.Label>
-            <Form.Control type="text" />
-          </Form.Group>
-          <Form.Group controlId="formPrice">
-            <Form.Label>Price</Form.Label>
-            <Form.Control type="text" placeholder="$" />
-          </Form.Group>
-          <Form.Group controlId="formCategory">
-            <Form.Label>Category</Form.Label>
-            <Form.Control as="select">
-              <option>Rent</option>
-              <option>Food</option>
-              <option>Social</option>
-              <option>Medical</option>
-              <option>Transportation</option>
-              <option>Personal Care</option>
-            </Form.Control>
-          </Form.Group>
-          <Button variant="primary" type="submit">Submit</Button>
-        </div>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Cancel</Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
+// function DashboardModal(props) {
+//   return (
+//     <Modal
+//       {...props}
+//       size="lg"
+//       aria-labelledby="contained-modal-title-vcenter"
+//       centered
+//     >
+//       <Modal.Header closeButton>
+//         <Modal.Title id="contained-modal-title-vcenter">
+//           Add a Purchase
+//         </Modal.Title>
+//       </Modal.Header>
+//       <Modal.Body>
+//         <div>
+//           <Form.Group controlId="formItem">
+//             <Form.Label>Item</Form.Label>
+//             <Form.Control type="text" />
+//           </Form.Group>
+//           <Form.Group controlId="formPrice">
+//             <Form.Label>Price</Form.Label>
+//             <Form.Control type="text" placeholder="$" />
+//           </Form.Group>
+//           <Form.Group controlId="formCategory">
+//             <Form.Label>Category</Form.Label>
+//             <Form.Control as="select">
+//               <option>Rent</option>
+//               <option>Food</option>
+//               <option>Social</option>
+//               <option>Medical</option>
+//               <option>Transportation</option>
+//               <option>Personal Care</option>
+//             </Form.Control>
+//           </Form.Group>
+//           <Button variant="primary" type="submit">Submit</Button>
+//         </div>
+//       </Modal.Body>
+//       <Modal.Footer>
+//         <Button onClick={props.onHide}>Cancel</Button>
+//       </Modal.Footer>
+//     </Modal>
+//   );
+// }
 
-function AddPurchaseModal() {
-  const [modalShow, setModalShow] = React.useState(false);
+// function AddPurchaseModal() {
+//   const [modalShow, setModalShow] = React.useState(false);
 
-  return (
-    <ButtonToolbar>
-      <Button variant="primary" onClick={() => setModalShow(true)}>
-      Add a Purchase
-      </Button>
+//   return (
+//     <ButtonToolbar>
+//       <Button variant="primary" onClick={() => setModalShow(true)}>
+//       Add a Purchase
+//       </Button>
 
-      <DashboardModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
-    </ButtonToolbar>
-  );
-}
+//       <DashboardModal
+//         show={modalShow}
+//         onHide={() => setModalShow(false)}
+//       />
+//     </ButtonToolbar>
+//   );
+// }
 
 
 class Dashboard extends Component {
