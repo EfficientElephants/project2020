@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Table } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 import Expenses from './Transaction/Expenses';
 import NavBar from './Navbar';

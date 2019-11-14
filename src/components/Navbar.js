@@ -15,7 +15,7 @@ class NavBar extends Component {
                     <Navbar.Brand>Expense Elephant</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="mr-auto justify-content-end" defaultActiveKey="/">
+                        <Nav className="ml-auto justify-content-end" defaultActiveKey="/">
                             <Link to="/dashboard">Dashboard</Link>&nbsp;
                             <Link to="/transactions">Transactions</Link>&nbsp;
                             <Link to="/income-mgr">Income Manager</Link>&nbsp;

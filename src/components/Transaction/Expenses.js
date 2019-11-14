@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Button, Table } from 'react-bootstrap';
+import { Container, Row, Button, Table } from 'react-bootstrap';
 
 import Expense from './Expense';
 import EditExpense from './EditExpense';
@@ -119,7 +119,7 @@ class Expenses extends Component {
             <Container>
                 <Row>
                 <div>
-                    <Button variant="primary" onClick={this.handleEnableAddMode}>Add New Purchase</Button>
+                    <Button variant="secondary" onClick={this.handleEnableAddMode}>Add New Purchase</Button>
                     <EditExpense 
                         addingExpense = {this.state.addingExpense} 
                         selectedExpense={this.state.selectedExpense}
@@ -130,24 +130,29 @@ class Expenses extends Component {
                     />
                 </div>
                 </Row>
-                <Row>
+                {/* <Row>
                     {this.errorNotifcation()}
-                </Row>
+                </Row> */}
                 <Row>
                     <Table>
                         <thead>
-                            <th>Category</th>
-                            <th>Item</th>
-                            <th>Price</th>
+                            <tr>
+                                <th>Category</th>
+                                <th>Item</th>
+                                <th>Price</th>
+                                <th>Update</th>
+                            </tr>
                         </thead>
-                        {this.state.expenses.map(expense =>{
-                            return <Expense 
-                                expense={expense} 
-                                onSelect={this.handleSelect} 
-                                selectedExpense = {this.state.selectedExpense}
-                                onDelete={this.handleDelete} 
-                            />
-                        })}
+                        <tbody>
+                            {this.state.expenses.map(expense =>{
+                                return <Expense 
+                                    expense={expense} 
+                                    onSelect={this.handleSelect} 
+                                    selectedExpense = {this.state.selectedExpense}
+                                    onDelete={this.handleDelete} 
+                                />
+                            })}
+                        </tbody>
                     </Table>
                 </Row>
             </Container>
