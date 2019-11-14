@@ -30,9 +30,9 @@ function create(req, res) {
 }
 
 function update(req, res) {
-  const { item, price, category, createdAt, updatedAt } = req.body;
+  const { item, price, category } = req.body;
 
-  User.findOne({ createdAt })
+  Purchase.findOne({ createdAt })
     .then(purchase => {
       purchase.item = item;
       purchase.price = price;
@@ -47,7 +47,7 @@ function update(req, res) {
 function destroy(req, res) {
   const { createdAt } = req.params;
 
-  User.findOneAndRemove({ createdAt })
+  Purchase.findOneAndRemove({ createdAt })
     .then(purchase => {
       res.json(purchase);
     })

@@ -27,6 +27,7 @@ class Expenses extends Component {
 
     handleSelect(expense) {
         this.setState({ selectedExpense: expense });
+        console.log(this.state.selectedExpense)
     }
 
     handleDelete(event, expense) {
@@ -69,6 +70,7 @@ class Expenses extends Component {
                 console.log(err);
             });
         } else {
+            console.log(this.state.selectedExpense)
         purchaseAPI
             .update(this.state.selectedExpense)
             .then(() => {
