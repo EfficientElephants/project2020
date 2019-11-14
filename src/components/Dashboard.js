@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import { Row, Col, Container, Button, ButtonToolbar, Modal, Form } from 'react-bootstrap';
 import NavBar from './Navbar';
-<<<<<<< HEAD
 //import Users from './UserComponents/Users';
 // import Expenses from './Transaction/Expenses';
-=======
-import Users from './UserComponents/Users';
-import Expenses from './Transaction/Expenses';
->>>>>>> origin/master
 
 import purchaseAPI from '../api/purchaseAPI';
 
