@@ -1,25 +1,29 @@
 import React from 'react';
+import { ListGroup, Button, Table } from 'react-bootstrap';
+
 
 const Expense = props => {
     return (
-        <li 
+        <tr 
             className={props.expense === props.selectedExpense ? 'selected' : ''} 
             onClick={() => props.onSelect(props.expense)}
         >
 
 
-            <button
-                className="delete-button"
-                onClick={e => props.onDelete(e, props.expense)}
-            >
-                Delete
-            </button>
-            <div className="user-element">
-                <div className="badge">{props.expense.category}</div>
-                <div className="name">{props.expense.item}</div>
-                <div className="password">{((props.expense.price)/100).toFixed(2)}</div>
-            </div>
-        </li>
+            <Table>
+                <tbody>
+                    <td>{props.expense.category}</td>
+                    <td>{props.expense.item}</td>
+                    <td>{((props.expense.price)/100).toFixed(2)}</td>
+                    <td><Button
+                            variant="danger"
+                            onClick={e => props.onDelete(e, props.expense)}>
+                                Delete
+                        </Button>
+                    </td>
+                </tbody>
+            </Table>
+        </tr>
     );
 }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Container, Button, ButtonToolbar, Modal, Form } from 'react-bootstrap';
 import NavBar from './Navbar';
 //import Users from './UserComponents/Users';
-import Expenses from './Transaction/Expenses';
+// import Expenses from './Transaction/Expenses';
 
 import purchaseAPI from '../api/purchaseAPI';
 
@@ -138,11 +138,11 @@ handleEnableAddMode() {
                   <Col>
                     <p>An explanation of spending status will go here too.</p>
                   </Col>
-                  <Col>
+                  {/* <Col>
                     <Button>
                       <AddPurchaseModal />
                     </Button>
-                  </Col>
+                  </Col> */}
                 </Row>
             </Col>
           </Row>
@@ -165,7 +165,7 @@ handleEnableAddMode() {
           </Row>
           </Container>
           {/* <Users /> */}
-          <Expenses />
+          {/* <Expenses /> */}
         </div>
       );
     }
