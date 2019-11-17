@@ -10,7 +10,11 @@ import purchaseAPI from '../../api/purchaseAPI';
 class Expenses extends Component {
     constructor() {
         super();
-        this.state = { expenses: [], addingExpense: false, error: false};
+        this.state = { expenses: [], 
+                       addingExpense: false, 
+                       error: false,
+                       defaultSelect: "Rent"
+                    };
 
         this.handleSelect = this.handleSelect.bind(this);
         this.handleSave = this.handleSave.bind(this);
@@ -27,7 +31,7 @@ class Expenses extends Component {
 
     handleSelect(expense) {
         this.setState({ selectedExpense: expense });
-        console.log(this.state.selectedExpense)
+        console.log(expense);
     }
 
     handleDelete(event, expense) {
@@ -69,6 +73,7 @@ class Expenses extends Component {
             .catch(err => {
                 console.log(err);
             });
+        purchaseAPI.get().then(json => this.setState({expenses:json}));
         } else {
             console.log(this.state.selectedExpense)
         purchaseAPI
@@ -94,7 +99,7 @@ class Expenses extends Component {
     handleEnableAddMode() {
         this.setState({
             addingExpense: true,
-            selectedExpense: {item: '', price:'', category: ''}
+            selectedExpense: {item: '', price:'', category: 'Rent'}
         });
     }
 
@@ -115,6 +120,7 @@ class Expenses extends Component {
 
 
     render() {
+        // console.log(this.state.defaultSelect);
         return (
             <Container>
                 <Row>
@@ -126,6 +132,7 @@ class Expenses extends Component {
                         onChange={this.handleChange}
                         onSave = {this.handleSave}
                         onCancel = {this.handleCancel}
+                        defaultState={this.state.defaultSelect}
                         
                     />
                 </div>

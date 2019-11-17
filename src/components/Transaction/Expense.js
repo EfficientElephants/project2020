@@ -8,8 +8,6 @@ const Expense = props => {
             className={props.expense === props.selectedExpense ? 'selected' : ''} 
             //onClick={() => props.onSelect(props.expense)}
         >
-
-
                 <td>{props.expense.category}</td>
                 <td>{props.expense.item}</td>
                 <td>{props.expense.price}</td>
