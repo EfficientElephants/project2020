@@ -37,7 +37,7 @@ function update(req, res) {
       purchase.item = item;
       purchase.price = price;
       purchase.category = category;
-      purchase.createdAt = Date.now();
+      purchase.updatedAt = Date.now();
       purchase.save().then(res.json(purchase));
     })
     .catch(err => {
