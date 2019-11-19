@@ -2,77 +2,168 @@ import React, {Component} from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import auth from './Auth';
 import { Link } from 'react-router-dom';
+// import Dashboard from './Dashboard';
 
-// import 'whatwg-fetch';
-// import { getFromStorage } from './Storage';
+import 'whatwg-fetch';
+import { getFromStorage } from './Storage';
+import { setInStorage } from './Storage';
 
 class Login extends Component {
     constructor(props) {
         super(props);
 
-        this.super = {
-            // isLoading: true,
-            // token: '',
-            // loginError:  '',
-            // masterError: ''
+        this.state = {
+            isLoading: true,
+            token: '',
+            loginError:  '',
+            loginEmail: '',
+            loginPassword: ''
         }
+
+    this.onLogin = this.onLogin.bind(this);
+    this.authenticate = this.authenticate.bind(this);
+    this.onChangeEmail = this.onChangeEmail.bind(this);
+    this.onChangePassword = this.onChangePassword.bind(this);
     }
 
     componentDidMount() {
-        // const token = getFromStorage('expense_app');
-        // if (token) {
-        //     // Verify token
-        //     fetch('/api/verify?token=' + token)
-        //     .then(res => res.json())
-        //     .then(json => {
-        //         if(json.succces){
-        //             this.setState({
-        //                 token,
-        //                 isLoading: false
-        //             })
-        //         }
-        //     })
-        // } else {
-        //     this.state({
-        //         isLoading: false,
-        //     })
-        // }
+
+        this.setState({
+            isLoading: false,
+        })
+        const obj = getFromStorage('expense_app');
+        if (obj && obj.token) {
+            const { token } = obj;
+            // Verify token
+            fetch('/api/verify?token=' + token)
+            .then(res => res.json())
+            .then(json => {
+                if(json.succces){
+                    this.setState({
+                        token,
+                        isLoading: false
+                    })
+                } else {
+                    this.setState({
+                        isLoading: false,
+                    })
+                }
+            })
+        } else {
+            this.setState({
+                isLoading: false,
+            })
+        }
     }
 
-    render() {
-        // const {
-        //     isLoading, 
-        // } = this.state;
+    onChangeEmail(event) {
+        this.setState({
+            loginEmail: event.target.value
+        });
+    }
 
-        // if (isLoading) {
-        //     return (<div><p>Loading...</p></div>);
-        // }
+    onChangePassword(event) {
+        this.setState({
+            loginPassword: event.target.value
+        });
+    }
 
-        return (
-            <div>
-                <Container>
-                <h1>Login Here</h1>
-                    <Form.Group>
-                        <Form.Label>Email: </Form.Label>
-                        <Form.Control type="email" placeholder="email" />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Password: </Form.Label>
-                        <Form.Control type="password" placeholder="password" />
-                    </Form.Group>
-                    <Form.Group>
-                    <Button onClick={
-                        () => 
-                        auth.login(() => {
-                            this.props.history.push("/dashboard");
-                        })
-                    } variant="primary">Login</Button>
-                    </Form.Group>
-                    <Link to="/signup">Don't have an account?</Link>
-                
-                </Container>
-            </div>
-        );
+    onLogin() {
+        const {
+          loginEmail,
+          loginPassword,
+        } = this.state
+      
+        this.setState({
+          isLoading: true
+        });
+      
+        fetch('api/login', {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: loginEmail,
+            password: loginPassword
+          }),
+        }).then(res => res.json())
+        .then(json => {
+          if (json.success) {
+            setInStorage('expense_app', { token: json.token });
+            this.setState({
+              loginError: json.message,
+              isLoading: false,
+              token: json.token
+            });
+            this.authenticate();
+
+          } else {
+            this.setState({
+              loginError: json.message,
+              isLoading: false,
+            });
+          }
+        });
+      }
+
+      authenticate() {
+            auth.login(() => {
+                this.props.history("/dashboard");
+            })
+      }
+
+    render () {
+        const {
+            isLoading, 
+            token,
+            loginError,
+            loginEmail,
+            loginPassword
+        } = this.state;
+
+        if (isLoading) {
+            return (<div><p>Loading...</p></div>);
+        }
+
+        if (token) {
+            return <Button onClick={
+                    () => 
+                    auth.login(() => {
+                        this.props.history.push("/dashboard");
+                    })
+                }> </Button>
+        }
+
+        if (!token) {
+            return (
+                <div>
+                    <Container>
+                    {
+                        (loginError) ? (
+                            <p>{loginError}</p>
+                            ) : (null)
+                    }
+                        <Form>
+                        <h1>Login Here</h1>
+                            <Form.Group>
+                                <Form.Label>Email: </Form.Label>
+                                <Form.Control type="email" value={loginEmail} onChange={this.onChangeEmail}/>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Password: </Form.Label>
+                                <Form.Control type="password" value={loginPassword} onChange={this.onChangePassword}/>
+                            </Form.Group>
+                            <Form.Group>
+                            <Button onClick={this.onLogin}
+                                variant="primary">Login</Button>
+                            </Form.Group>
+                            <Link to="/signup">Don't have an account?</Link>
+                        </Form>
+                    </Container>
+                </div>
+            );
+        }
     }
 }
 

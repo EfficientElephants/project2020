@@ -4,6 +4,7 @@ require('../mongo').connect();
 
 function signup(req, res) {
     const { body } = req;
+    console.log(body);
     const { 
         firstName,
         lastName,

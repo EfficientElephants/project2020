@@ -5,6 +5,7 @@ require('../mongo').connect();
 
 function login(req, res) {
     const { body } = req;
+    console.log(body);
     const { 
         password
     } = body;
