@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import auth from './Auth';
 import { Link } from 'react-router-dom';
-// import Dashboard from './Dashboard';
 
-import 'whatwg-fetch';
 import { getFromStorage } from './Storage';
 import { setInStorage } from './Storage';
 
@@ -97,7 +95,6 @@ class Login extends Component {
               token: json.token
             });
             this.authenticate();
-
           } else {
             this.setState({
               loginError: json.message,
@@ -109,7 +106,7 @@ class Login extends Component {
 
       authenticate() {
             auth.login(() => {
-                this.props.history("/dashboard");
+                this.props.history.push('/dashboard');
             })
       }
 
@@ -127,12 +124,7 @@ class Login extends Component {
         }
 
         if (token) {
-            return <Button onClick={
-                    () => 
-                    auth.login(() => {
-                        this.props.history.push("/dashboard");
-                    })
-                }> </Button>
+            return <div></div>
         }
 
         if (!token) {
