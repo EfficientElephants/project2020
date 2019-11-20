@@ -38,6 +38,7 @@ componentDidMount() {
                   token,
                   isLoading: false
               })
+              console.log('here5');
           } else {
               this.setState({
                   isLoading: false,

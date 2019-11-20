@@ -41,16 +41,20 @@ class Login extends Component {
                         token,
                         isLoading: false
                     })
+
+                    console.log('here');
                 } else {
                     this.setState({
                         isLoading: false,
                     })
                 }
+                console.log('here2');
             })
         } else {
             this.setState({
                 isLoading: false,
             })
+            console.log('here3');
         }
     }
 

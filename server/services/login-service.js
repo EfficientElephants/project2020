@@ -70,7 +70,7 @@ function verify(req, res) {
     //api/verify?token=(token number here)
 
     UserSession.find({
-        userId: token,
+        _id: token,
         isLoggedOut: false
     }, (err, sessions) => {
         console.log(sessions);
