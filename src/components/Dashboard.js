@@ -4,8 +4,10 @@ import { Row, Col, Container } from 'react-bootstrap';
 import NavBar from './Navbar';
 //import Users from './UserComponents/Users';
 // import Expenses from './Transaction/Expenses';
+import PurchaseTransactions from './Transaction/New Expense/Transactions';
 
 import purchaseAPI from '../api/purchaseAPI';
+import AddExpense from './Transaction/New Expense/AddExpense';
 
 //update to include purchase binding
 
@@ -137,7 +139,7 @@ handleEnableAddMode() {
                     <p>A graph of spending status will go here later.</p>
                   </Col>
                   <Col>
-                    <p>An explanation of spending status will go here too.</p>
+                    <AddExpense />
                   </Col>
                   {/* <Col>
                     <Button>
@@ -167,8 +169,11 @@ handleEnableAddMode() {
           </Container>
           {/* <Users /> */}
           {/* <Expenses /> */}
+          <PurchaseTransactions />
+
         </div>
       );
+
     }
   }
   

@@ -4,7 +4,7 @@ const ReadPreference = require('mongodb').ReadPreference;
 require('../mongo').connect();
 
 function get(req, res) {
-  const docquery = Purchase.find({}).read(ReadPreference.NEAREST);
+  const docquery = Purchase.find({}).sort({createdAt: 'descending'}).read(ReadPreference.NEAREST);
   return docquery
     .then(purchases => {
       res.json(purchases);
