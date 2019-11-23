@@ -3,7 +3,7 @@
   font-family: Arial;
 }
 
-h2 {
+/* h2 {
   color: #444;
   font-weight: lighter;
 }
@@ -76,7 +76,7 @@ div {
 }
 .users li.selected:hover {
   /*background-color: #BBD8DC !important;*/
-  color: white;
+  /* color: white;
 }
 .users .text {
   position: relative;
@@ -90,7 +90,7 @@ div {
 }
 .users .badge {
   /* display: inline-block; */
-  float: left;
+  /* float: left;
   font-size: small;
   color: white;
   padding: 0.7em 0.7em 0 0.5em;
@@ -150,4 +150,14 @@ input::placeholder {
 }
 .editarea .editfields {
   margin-left: 12px;
+} */
+
+.errorMsg {
+  color: red;
+  font-size: small;
+}
+
+.form-control.errorBox {
+  border: 2px solid red;
+  /* border-color: red; */
 }
