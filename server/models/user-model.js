@@ -26,14 +26,6 @@ const userSchema = new Schema({
         },
         default: ''
     },
-    // username: {
-    //     type: String,
-    //     lowercase: true,
-    //     required: true,
-    //     index: true,
-    //     unqiue:true,
-    //     default: ''
-    // },
     password: {
         type: String,
         required: true,

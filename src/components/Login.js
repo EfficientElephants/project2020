@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import auth from './Auth';
 import { Link } from 'react-router-dom';
-
-import { getFromStorage } from './Storage';
-import { setInStorage } from './Storage';
+import { getFromStorage, setInStorage } from './Storage';
 
 class Login extends Component {
     constructor(props) {
@@ -25,7 +23,6 @@ class Login extends Component {
 }
 
     componentDidMount() {
-
         this.setState({
             isLoading: false,
         })

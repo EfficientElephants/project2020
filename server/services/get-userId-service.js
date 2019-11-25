@@ -15,7 +15,6 @@ function getUserId(req, res) {
                 success: false,
                 message: 'Error: Server error'
             });
-            
         }
         if (sessions.length != 1) {
             return res.send({

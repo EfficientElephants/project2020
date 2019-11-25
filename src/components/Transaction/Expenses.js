@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { Container, Row, Button, Table } from 'react-bootstrap';
-
 import Expense from './Expense';
 import EditExpense from './EditExpense';
 import purchaseAPI from '../../api/purchaseAPI';
-// import UserSession from '../../../server/models/user-session-model';
 import { getFromStorage } from '../Storage';
-
 
 
 class Expenses extends Component {
@@ -23,9 +20,7 @@ class Expenses extends Component {
 
     }
     componentDidMount() {
-        
-        //need to get the userId of the user logged in 
-        //create a service to get the userId
+        // query for all of the logged in users transactions
         const obj = getFromStorage('expense_app');
         if (obj && obj.token) {
             const { token } = obj;
@@ -33,9 +28,7 @@ class Expenses extends Component {
             .then(res => res.json())
             .then(json => {
                 if (json.success){
-                    this.setState({
-                        userId: json.userId
-                    })
+                    this.setState({ userId: json.userId, error: false })
                     purchaseAPI.get(this.state.userId).then(json => this.setState({expenses:json}));  
                     
                 } else {
@@ -46,11 +39,9 @@ class Expenses extends Component {
             
         }
     }
-    
 
     handleSelect(expense) {
         this.setState({ selectedExpense: expense });
-        console.log(this.state.selectedExpense)
     }
 
     handleDelete(event, expense) {
@@ -75,9 +66,7 @@ class Expenses extends Component {
             .create(this.state.selectedExpense, this.state.userId)
             .then(result => {
                 if (result.errors) {
-                    console.log(result);
                     this.setState({error: true});
-
                 }
                 else {
                     console.log('Successfully created!');
@@ -130,13 +119,10 @@ class Expenses extends Component {
                     <strong>Oh snap!</strong> Either your email or username is already in use. Please try again.
                 </div>
             )
-        }else {
+        } else {
             return (<div></div>)
         }
     }
-
-    
-
 
     render() {
         return (

@@ -42,7 +42,6 @@ componentDidMount() {
                   token,
                   isLoading: false
               })
-              console.log('here5');
           } else {
               this.setState({
                   isLoading: false,
@@ -110,7 +109,7 @@ onSignup() {
         signupError: json.message,
         isLoading: false,
       });
-      // trying to login after signup
+      // login immediately after signup
       this.login();
 
 

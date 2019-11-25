@@ -4,7 +4,6 @@ require('../mongo').connect();
 
 function signup(req, res) {
     const { body } = req;
-    console.log(body);
     const { 
         firstName,
         lastName,
@@ -44,14 +43,14 @@ function signup(req, res) {
 
     email = email.toLowerCase();
 
-    //Verify email doesn't exist
+    // Verify email doesn't exist
     User.find({
         email: email
     }, (err, previousUsers) => {
         if (err) {
             return res.send({
                 success: false,
-                message: 'Error: Server error1'
+                message: 'Error: Server error'
             });
         } else if (previousUsers.length > 0) {
             return res.send({
@@ -59,6 +58,7 @@ function signup(req, res) {
                 message: 'Error: Account already exists'
             });
         } 
+        // Creating new user
         const newUser = new User();
         newUser.email = email;
         newUser.firstName = firstName;
@@ -68,7 +68,7 @@ function signup(req, res) {
             if (err) {
                 return res.send({
                     success: false,
-                    message: 'Error: Server error2'
+                    message: 'Error: Server error'
                 });
             }
             return res.send({

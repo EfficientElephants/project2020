@@ -10,14 +10,6 @@ class NavBar extends Component {
     constructor(props) {
         super(props);
 
-        // this.state = {
-        //     isLoading: true,
-        //     token: '',
-        //     loginError:  '',
-        //     loginEmail: '',
-        //     loginPassword: ''
-        // }
-
     this.onLogout = this.onLogout.bind(this);
     this.logoutNow = this.logoutNow.bind(this);
 }

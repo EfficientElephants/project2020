@@ -51,7 +51,7 @@ router.post('/login', function(req, res) {
   loginService.login(req, res);
 });
 
-// Verify token on login
+// Verify token on login and page refresh
 router.get('/verify', function(req, res) {
   loginService.verify(req, res);
 });
@@ -61,7 +61,7 @@ router.get('/logout', function(req, res) {
   logoutService.logout(req, res);
 });
 
-//logout
+// must also send token from local storage
 router.get('/getUserId', function(req, res) {
   getUserIdService.getUserId(req, res);
 });

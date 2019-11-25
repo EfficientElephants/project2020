@@ -8,7 +8,6 @@ const Currency = mongoose.Types.Currency;
 
 const validator = require('validator')
 
-
 const purchaseSchema = new Schema({
     userId: {
         type: String,
@@ -19,14 +18,12 @@ const purchaseSchema = new Schema({
         type: String,
         required: true
     },
-
     price: {
         type: Number,
         required: true,
         get: getPrice,
         set: setPrice,
     },
-
     category: {
         type: String,
         required: true,
@@ -36,7 +33,6 @@ const purchaseSchema = new Schema({
     },
     createdAt: Date,
     updatedAt: Date
-
 });
 //purchaseSchema.plugin(uniqueValidator);
 
