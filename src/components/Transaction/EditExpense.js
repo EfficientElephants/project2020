@@ -2,8 +2,6 @@ import React from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 
 const EditExpense = props => {
-  
-
   if (props.selectedExpense) {
     return (
       <Container>
@@ -29,7 +27,11 @@ const EditExpense = props => {
           </Form.Group>
           <Form.Group>
             <Form.Label>Category: </Form.Label>
-            <Form.Control as="select" name="category" value = {props.selectedExpense.category.value} onChange={props.onChange}>
+            <Form.Control as="select" 
+                          name="category" 
+                          value = {props.selectedExpense.category.value}
+                          defaultValue = {props.test}
+                          onChange={props.onChange}>
                 <option value="Rent">Rent</option>
                 <option value="Food">Food</option>
                 <option value="Social">Social</option>
