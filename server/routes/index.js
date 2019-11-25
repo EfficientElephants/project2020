@@ -67,4 +67,9 @@ router.get('/getUserId', function(req, res) {
   getUserIdService.getUserId(req, res);
 });
 
+//Get user's name
+router.get('/users/:userId', function(req, res){
+  getUserIdService.getUserName(req, res);
+});
+
 module.exports = router;

@@ -1,4 +1,5 @@
-const UserSession = require('../models/user-session-model')
+const UserSession = require('../models/user-session-model');
+const User = require('../models/user-model');
 
 require('../mongo').connect();
 
@@ -31,4 +32,18 @@ function getUserId(req, res) {
     });
 }
 
-module.exports = { getUserId };
+function getUserName(req, res) {
+    const { userId } = req.params;
+    let firstName = "";
+    let lastName = "";
+    
+    return User.find({_id: userId})
+        .then(user => {
+            res.json(user)
+        })
+        .catch(err => {
+            res.status(500).send(err);
+        })
+}
+
+module.exports = { getUserId, getUserName };
