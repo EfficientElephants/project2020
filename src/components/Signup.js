@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import { Form, Button, Container } from 'react-bootstrap';
-
+import auth from './Auth';
 import { getFromStorage } from './Storage';
+import { setInStorage } from './Storage';
 
 class Signup extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class Signup extends Component {
         signupPassword: '',
         firstName: '',
         lastName: '',
+        loginError: ''
     }
 
     this.onSignup = this.onSignup.bind(this);
@@ -23,6 +25,8 @@ class Signup extends Component {
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onChangeFirstName = this.onChangeFirstName.bind(this);
     this.onChangeLastName = this.onChangeLastName.bind(this);
+    this.authenticate = this.authenticate.bind(this);
+    this.login = this.login.bind(this);
 }
 
 componentDidMount() {
@@ -46,9 +50,9 @@ componentDidMount() {
           }
       })
   } else {
-      this.setState({
-          isLoading: false,
-      })
+    this.setState({
+        isLoading: false,
+    })
   }
 }
 
@@ -106,6 +110,10 @@ onSignup() {
         signupError: json.message,
         isLoading: false,
       });
+      // trying to login after signup
+      this.login();
+
+
     } else {
       this.setState({
         signupError: json.message,
@@ -114,6 +122,51 @@ onSignup() {
     }
   });
 }
+
+login() {
+  const {
+    signupEmail,
+    signupPassword
+  } = this.state
+
+  this.setState({
+    isLoading: true
+  });
+
+  fetch('api/login', {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      email: signupEmail,
+      password: signupPassword
+    }),
+  }).then(res => res.json())
+  .then(json => {
+    if (json.success) {
+      setInStorage('expense_app', { token: json.token });
+      // this.setState({
+      //   loginError: json.message,
+      //   isLoading: false,
+      //   token: json.token
+      // });
+      this.authenticate();
+    } else {
+      this.setState({
+        loginError: json.message,
+        isLoading: false,
+      });
+    }
+  });
+}
+
+authenticate() {
+  auth.login(() => {
+      this.props.history.push('/dashboard');
+  })
+}
+
 
 render () {
   const {

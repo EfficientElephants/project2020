@@ -10,7 +10,7 @@ function logout(req, res) {
     //api/logout?token=(token number here)
 
     UserSession.findOneAndUpdate({
-        userId: token,
+        _id: token,
         isLoggedOut: false
     }, 
     {$set:{isLoggedOut:true}}, null, (err, sessions) => {
@@ -20,6 +20,7 @@ function logout(req, res) {
                 message: 'Error: Server error'
             });
         }
+        console.log('logged out');
         return res.send({
             success: true,
             message: 'Valid Session'

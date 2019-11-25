@@ -61,7 +61,6 @@ function login(req, res) {
 function verify(req, res) {
     const { query } = req;
     const { token } = query;
-    console.log(token)
 
     //Verify that the token is one of a kind
     // and not deleted
@@ -79,9 +78,9 @@ function verify(req, res) {
                 success: false,
                 message: 'Error: Server error'
             });
+            
         }
         if (sessions.length != 1) {
-            console.log(sessions.length);
             return res.send({
                 success: false,
                 message: 'Error: Invalid Session'

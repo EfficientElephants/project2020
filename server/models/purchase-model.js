@@ -10,6 +10,11 @@ const validator = require('validator')
 
 
 const purchaseSchema = new Schema({
+    userId: {
+        type: String,
+        default: '',
+        required: true
+    },
     item: {
         type: String,
         required: true

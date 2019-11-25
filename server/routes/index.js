@@ -6,6 +6,7 @@ var purchaseService = require('../services/purchase-service');
 var signupService = require('../services/signup-service');
 var loginService = require('../services/login-service');
 var logoutService = require('../services/logout-service');
+var getUserIdService = require('../services/get-userId-service');
 
 router.get('/users', function(req, res) {
   userService.get(req,res);
@@ -58,6 +59,11 @@ router.get('/verify', function(req, res) {
 //logout
 router.get('/logout', function(req, res) {
   logoutService.logout(req, res);
+});
+
+//logout
+router.get('/getUserId', function(req, res) {
+  getUserIdService.getUserId(req, res);
 });
 
 module.exports = router;

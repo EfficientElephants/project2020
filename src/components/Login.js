@@ -22,7 +22,7 @@ class Login extends Component {
     this.authenticate = this.authenticate.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
-    }
+}
 
     componentDidMount() {
 
@@ -36,25 +36,22 @@ class Login extends Component {
             fetch('/api/verify?token=' + token)
             .then(res => res.json())
             .then(json => {
-                if(json.succces){
+                if(json.success){
                     this.setState({
                         token,
                         isLoading: false
                     })
-
-                    console.log('here');
+                    this.authenticate();
                 } else {
                     this.setState({
                         isLoading: false,
                     })
                 }
-                console.log('here2');
             })
         } else {
             this.setState({
                 isLoading: false,
             })
-            console.log('here3');
         }
     }
 
