@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Container, Row, Button, Table } from 'react-bootstrap';
 import Expense from './Expense';
 import EditExpense from './EditExpense';
-import purchaseAPI from '../../api/purchaseAPI';
-import { getFromStorage } from '../Storage';
+import purchaseAPI from '../../../api/purchaseAPI';
+import { getFromStorage } from '../../Storage';
 
 
 class Expenses extends Component {

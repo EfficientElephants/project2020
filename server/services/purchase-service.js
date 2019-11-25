@@ -1,15 +1,12 @@
 const Purchase = require('../models/purchase-model');
 const ReadPreference = require('mongodb').ReadPreference;
-const UserSession = require('../models/user-session-model');
 
 require('../mongo').connect();
 
 function get(req, res) {
   const { query } = req;
   const { userId } = query;
-  const docquery = Purchase.find({
-    userId: userId
-  }).read(ReadPreference.NEAREST);
+  const docquery = Purchase.find({userId: userId}).sort({createdAt: 'descending'}).read(ReadPreference.NEAREST);
   return docquery
     .then(purchases => {
       res.json(purchases);

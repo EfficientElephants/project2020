@@ -2,7 +2,7 @@ import { Navbar, Nav, Button, Container } from 'react-bootstrap';
 import React from 'react';
 import { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import auth from './Auth';
+import auth from './Authentication/Auth';
 import { getFromStorage, removeFromStorage } from './Storage';
 
 
