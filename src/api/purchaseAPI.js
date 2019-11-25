@@ -1,9 +1,9 @@
 const baseAPI = '/api';
 
 const purchaseAPI = {
-  get() {
+  get(userId) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/purchases`)
+      fetch(`${baseAPI}/purchases?userId=` + userId)
         .then(response => response.json())
         .then(json => resolve(json))
         .catch(err => {
@@ -12,9 +12,9 @@ const purchaseAPI = {
     });
   },
 
-  create(purchase) {
+  create(purchase, userId) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/purchase`, {
+      fetch(`${baseAPI}/purchase?userId=` + userId, {
         method: 'POST',
         body: JSON.stringify(purchase),
         headers: {

@@ -6,7 +6,6 @@ import NavBar from './Navbar';
 
 //add code to pull things from db--model after User.js?
 
-
 class Transactions extends Component {
 
     render() {

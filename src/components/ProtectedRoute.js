@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import auth from './Auth';
+// const UserSession = require('../models/user-session-model');
 
 export const ProtectedRoute = ({ component: Component, ...rest }) => {
     return (
