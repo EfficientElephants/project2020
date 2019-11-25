@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import { Container, Row, Button, Table } from 'react-bootstrap';
-
 import Expense from './Expense';
 import EditExpense from './EditExpense';
 import purchaseAPI from '../../api/purchaseAPI';
-
+import { getFromStorage } from '../Storage';
 
 
 class Expenses extends Component {
     constructor() {
         super();
-        this.state = { expenses: [], 
-                       addingExpense: false, 
-                       error: false,
-                       defaultSelect: "Rent"
-                    };
+        this.state = { userId: '', expenses: [], addingExpense: false, error: false};
 
         this.handleSelect = this.handleSelect.bind(this);
         this.handleSave = this.handleSave.bind(this);
@@ -25,13 +20,28 @@ class Expenses extends Component {
 
     }
     componentDidMount() {
-        purchaseAPI.get().then(json => this.setState({expenses:json}));
+        // query for all of the logged in users transactions
+        const obj = getFromStorage('expense_app');
+        if (obj && obj.token) {
+            const { token } = obj;
+            fetch('api/getUserId?token=' + token)
+            .then(res => res.json())
+            .then(json => {
+                if (json.success){
+                    this.setState({ userId: json.userId, error: false })
+                    purchaseAPI.get(this.state.userId).then(json => this.setState({expenses:json}));  
+                    
+                } else {
+                    // handle error
+                    console.log('not working');
+                }
+            })
+            
+        }
     }
-    
 
     handleSelect(expense) {
         this.setState({ selectedExpense: expense });
-        console.log(expense);
     }
 
     handleDelete(event, expense) {
@@ -49,15 +59,14 @@ class Expenses extends Component {
 
     handleSave () {
         let expenses = this.state.expenses;
+        
 
         if (this.state.addingExpense) {
         purchaseAPI
-            .create(this.state.selectedExpense)
+            .create(this.state.selectedExpense, this.state.userId)
             .then(result => {
                 if (result.errors) {
-                    console.log(result);
                     this.setState({error: true});
-
                 }
                 else {
                     console.log('Successfully created!');
@@ -111,13 +120,10 @@ class Expenses extends Component {
                     <strong>Oh snap!</strong> Either your email or username is already in use. Please try again.
                 </div>
             )
-        }else {
+        } else {
             return (<div></div>)
         }
     }
-
-    
-
 
     render() {
         // console.log(this.state.defaultSelect);
