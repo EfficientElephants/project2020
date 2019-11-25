@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { Container, Row, Button } from 'react-bootstrap';
 
 import AddExpenseModal from './AddExpenseModal';
-import purchaseAPI from '../../../api/purchaseAPI';
+import purchaseAPI from '../../api/purchaseAPI';
+import { getFromStorage } from '../Storage';
 
 class AddExpense extends Component {
     constructor() {
         super();
         this.state = {
+            userId: '',
             expenses: [],
             errors: {},
             showModal: false
@@ -18,6 +20,27 @@ class AddExpense extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleEnableModal = this.handleEnableModal.bind(this);
         this.handleDisableModal = this.handleDisableModal.bind(this);
+    }
+
+    componentDidMount() {
+        // query for all of the logged in users transactions
+        const obj = getFromStorage('expense_app');
+        if (obj && obj.token) {
+            const { token } = obj;
+            fetch('api/getUserId?token=' + token)
+            .then(res => res.json())
+            .then(json => {
+                if (json.success){
+                    this.setState({ userId: json.userId }) //, error: false })
+                    //purchaseAPI.get(this.state.userId).then(json => this.setState({expenses:json}));  
+                    
+                } else {
+                    // handle error
+                    console.log('not working');
+                }
+            })
+            
+        }
     }
 
     handleChange(event) {
@@ -57,7 +80,7 @@ class AddExpense extends Component {
 
         if (this.validateForm()) {
             purchaseAPI
-            .create(this.state.selectedExpense)
+            .create(this.state.selectedExpense, this.state.userId)
             .then(result => {
                 if (result.errors) {
                     console.log(result);

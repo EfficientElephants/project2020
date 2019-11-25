@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
 
-import Expenses from './Transaction/Expenses';
-import NavBar from './Navbar';
+import TransactionTable from '../Transactions/TransactionTable';
+import NavBar from '../Navbar';
 
 //add code to pull things from db--model after User.js?
 
@@ -16,7 +16,7 @@ class Transactions extends Component {
             <br />
             <h1>Your Transactions</h1>
             <br />
-            <Expenses />
+            <TransactionTable />
           </Container>
         </div>
       );

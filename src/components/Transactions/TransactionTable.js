@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Container, Row, Table } from 'react-bootstrap';
-import Transaction from './Transaction';
-import purchaseAPI from '../../../api/purchaseAPI';
+import Transaction from './TransactionRow';
+import purchaseAPI from '../../api/purchaseAPI';
+import { getFromStorage } from '../Storage';
 
-class PurchaseTransactions extends Component {
+class TransactionTable extends Component {
     constructor() {
         super();
         this.state = {
+            userId: '',
             transactions: [],
         }
         this.handleSelect = this.handleSelect.bind(this);
@@ -17,7 +19,25 @@ class PurchaseTransactions extends Component {
         this.handleDelete = this.handleDelete.bind(this);
     }
     componentDidMount() {
-        purchaseAPI.get().then(json => this.setState({transactions:json}));
+        // query for all of the logged in users transactions
+        const obj = getFromStorage('expense_app');
+        if (obj && obj.token) {
+            const { token } = obj;
+            fetch('api/getUserId?token=' + token)
+            .then(res => res.json())
+            .then(json => {
+                if (json.success){
+                    this.setState({ userId: json.userId, error: false })
+                    purchaseAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
+                    
+                } else {
+                    // handle error
+                    console.log('not working');
+                }
+            })
+            
+        }
+        //purchaseAPI.get().then(json => this.setState({transactions:json}));
     }
 
     handleSelect(transaction) {
@@ -76,4 +96,4 @@ class PurchaseTransactions extends Component {
         )
     }
 }
-export default PurchaseTransactions
+export default TransactionTable

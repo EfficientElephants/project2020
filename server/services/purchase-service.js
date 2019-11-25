@@ -1,6 +1,5 @@
 const Purchase = require('../models/purchase-model');
 const ReadPreference = require('mongodb').ReadPreference;
-const UserSession = require('../models/user-session-model');
 
 require('../mongo').connect();
 

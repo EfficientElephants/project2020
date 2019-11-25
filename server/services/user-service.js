@@ -1,3 +1,5 @@
+//Not in use--should delete at some point
+
 const User = require('../models/user-model');
 const ReadPreference = require('mongodb').ReadPreference;
 

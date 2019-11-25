@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
-import NavBar from './Navbar';
+import NavBar from '../Navbar';
 
 class IncomeManager extends Component {
 

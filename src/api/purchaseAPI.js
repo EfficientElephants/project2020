@@ -3,7 +3,7 @@ const baseAPI = '/api';
 const purchaseAPI = {
   get(userId) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/purchases?userId=` + userId)
+      fetch(`${baseAPI}/purchases?userId=` + userId) //maybe want to pass this in as a param *maybe future state*
         .then(response => response.json())
         .then(json => resolve(json))
         .catch(err => {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
 import NavBar from './Navbar';
-import PurchaseTransactions from './Transaction/NewStructure/PurchaseTransactions';
-import AddExpense from './Transaction/NewStructure/AddExpense';
+//import PurchaseTransactions from './Transaction/NewStructure/PurchaseTransactions';
+import AddExpense from './Transactions/AddExpense';
 
 
 class Dashboard extends Component {
@@ -45,7 +45,7 @@ class Dashboard extends Component {
                         </Col>
                     </Row>
                 </Container>
-                <PurchaseTransactions />
+                {/* <PurchaseTransactions /> */}
             </div>
         );
     }
