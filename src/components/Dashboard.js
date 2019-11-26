@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Container } from 'react-bootstrap';
+import { Row, Col, Container, Alert } from 'react-bootstrap';
 import NavBar from './Navbar';
 //import PurchaseTransactions from './Transaction/NewStructure/PurchaseTransactions';
 import AddExpense from './Transactions/AddExpense';
@@ -13,6 +13,7 @@ class Dashboard extends Component {
         this.state = {
             userId: '',
             fullName: "didn't change",
+            alertOpen: false, 
         }
     }
 
@@ -47,11 +48,30 @@ class Dashboard extends Component {
         return this.state.userId;
     }
 
+    successfullyCreatedAlert = (argument) => {
+        console.log(argument)
+        if (argument) {
+            console.log('returning');
+            this.setState({alertOpen: argument})
+        }
+    }
+
+    createAlert() {
+        if (this.state.alertOpen) {
+            return (
+                <Alert variant="success" onClose={() => this.setState({alertOpen: false})} dismissible >
+                    <Alert.Heading>Successfully Created!</Alert.Heading>
+                </Alert>
+            )
+        }
+    }
+
     render() {
         return (
             <div>
                 <NavBar />
                 <Container>
+                    {this.createAlert()}
                     <br />
                     <h1>{this.state.fullName}'s Dashboard</h1>
                     <br />
@@ -63,7 +83,7 @@ class Dashboard extends Component {
                                     <p>A graph of spending status will go here later.</p>
                                 </Col>
                                 <Col>
-                                    <AddExpense />
+                                    <AddExpense successfullyCreatedAlert = {this.successfullyCreatedAlert} />
                                 </Col>
                             </Row>
                         </Col>

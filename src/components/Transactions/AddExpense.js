@@ -6,13 +6,13 @@ import purchaseAPI from '../../api/purchaseAPI';
 import { getFromStorage } from '../Storage';
 
 class AddExpense extends Component {
-    constructor() {
+    constructor(props) {
         super();
         this.state = {
             userId: '',
             expenses: [],
             errors: {},
-            showModal: false
+            showModal: false, 
         };
 
         this.handleSave = this.handleSave.bind(this);
@@ -77,6 +77,7 @@ class AddExpense extends Component {
     handleSave(event) {
         console.log(event.currentTarget);
         event.preventDefault();
+        
 
         if (this.validateForm()) {
             purchaseAPI
@@ -88,14 +89,23 @@ class AddExpense extends Component {
 
                 }
                 else {
+
                     console.log('Successfully created!');
                     this.setState({
-                        selectedExpense: null
+                        selectedExpense: null, 
+                        alertOpen: true
                     });
                     this.handleDisableModal();
+                    this.handleAlert();
                 }
             })
         }
+    }
+    handleAlert(){
+        var successfullyCreatedAlert = this.props.successfullyCreatedAlert;
+        console.log(this.props.successfullyCreatedAlert);
+        console.log(this.state.alertOpen);
+        return successfullyCreatedAlert(this.state.alertOpen);
     }
 
     validateForm() {
@@ -129,6 +139,8 @@ class AddExpense extends Component {
         this.setState({errors: errors})
         return formIsValid
     }
+
+    
 
     render() {
         return (
