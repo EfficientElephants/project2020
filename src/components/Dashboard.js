@@ -12,7 +12,7 @@ class Dashboard extends Component {
         super();
         this.state = {
             userId: '',
-            fullName: "didn't change",
+            fullName: "",
             alertOpen: false, 
         }
     }
@@ -26,6 +26,7 @@ class Dashboard extends Component {
             .then(json => {
                 if (json.success){
                     this.setState({ userId: json.userId })
+                    this.getFullName();
                 } else {
                     // handle error
                     console.log('not working');
@@ -33,25 +34,20 @@ class Dashboard extends Component {
             })
             
         }
-        this.getFullName();
+        
     }
 
     getFullName() {
-        console.log(this.state.userId);
-        console.log(this.state.fullName);
         usersAPI.get(this.state.userId)
             .then(results => {
                 console.log(results[0]);
                 this.setState({fullName: results[0].firstName + " " + results[0].lastName});
             });
-        console.log(this.state.fullName);                           
-        return this.state.userId;
+        return this.state.fullName;                          
     }
 
     successfullyCreatedAlert = (argument) => {
-        console.log(argument)
         if (argument) {
-            console.log('returning');
             this.setState({alertOpen: argument})
         }
     }

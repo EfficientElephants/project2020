@@ -12,6 +12,7 @@ function getUserId(req, res) {
         isLoggedOut: false
     }, (err, sessions) => {
         if (err) {
+            console.log(err)
             return res.send({
                 success: false,
                 message: 'Error: Server error'
@@ -34,9 +35,7 @@ function getUserId(req, res) {
 
 function getUserName(req, res) {
     const { userId } = req.params;
-    let firstName = "";
-    let lastName = "";
-    
+      
     return User.find({_id: userId})
         .then(user => {
             res.json(user)
