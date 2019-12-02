@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-const mongoURI = process.env.connection_string2;
+const mongoURI = process.env.CONNECTION_STRING;
 
 
 function connect() {
