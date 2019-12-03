@@ -41,6 +41,10 @@ router.delete('/purchase/:_id', function(req, res) {
   purchaseService.destroy(req, res);
 });
 
+router.get('/purchases/totals/:userId', function(req, res) {
+  purchaseService.getTotalsAll(req, res);
+})
+
 
 //signup
 router.post('/signup', function(req, res) {

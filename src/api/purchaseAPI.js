@@ -58,7 +58,18 @@ const purchaseAPI = {
           reject(err);
         });
     });
-  }
-};
+  },
 
+  getTotalsAll(userId) {
+    console.log('API', userId);
+    return new Promise((resolve, reject) => {
+      fetch(`${baseAPI}/purchases/totals/${userId}`)
+      .then(response => response.json())
+      .then(json => resolve(json))
+      .catch(err => {
+        reject(err);
+      });
+   });
+  }
+}
 export default purchaseAPI;
