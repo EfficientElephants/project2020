@@ -5,6 +5,7 @@ import NavBar from './Navbar';
 import AddExpense from './Transactions/AddExpense';
 import { getFromStorage } from './Storage';
 import usersAPI from '../api/userAPI';
+import Totals from './Totals';
 
 
 class Dashboard extends Component {
@@ -77,6 +78,7 @@ class Dashboard extends Component {
                             <Row>
                                 <Col>
                                     <p>A graph of spending status will go here later.</p>
+                                    <Totals />
                                 </Col>
                                 <Col>
                                     <AddExpense successfullyCreatedAlert = {this.successfullyCreatedAlert} />
