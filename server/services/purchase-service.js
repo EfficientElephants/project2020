@@ -60,4 +60,28 @@ function destroy(req, res) {
     });
 }
 
-module.exports = { get, create, update, destroy };
+function getTotalsAll(req, res) {
+  const {userId} = req.params;
+  return Purchase.aggregate([
+    {
+      '$match': {
+        'userId': `${userId}`
+      }
+    }, {
+      '$group': {
+        '_id': '$category', 
+        'totals': {
+          '$sum': '$price'
+        }
+      }
+    }
+  ])
+  .then(all => {
+    res.json(all);
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  });
+}
+
+module.exports = { get, create, update, destroy, getTotalsAll };
