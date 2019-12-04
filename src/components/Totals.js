@@ -37,8 +37,11 @@ class Totals extends Component {
     }
 
     getTotalsAll() {
-        console.log(this.state.allTotals);
-        const totalArray = JSON.stringify(this.state.allTotals);
+        const allTotals = this.state.allTotals;
+        console.log(allTotals);
+
+        // return allTotals;
+        const totalArray = JSON.stringify(allTotals);
         return totalArray;
     }
 
@@ -47,6 +50,11 @@ class Totals extends Component {
         <div>
             <p>Totals</p>
             <div>{this.getTotalsAll()}</div>
+            {/* <ul>
+                {this.getTotalsAll().map(total => (
+                    <li key={total}>{total}</li>
+                ))}
+            </ul> */}
         </div>
         );
     }
