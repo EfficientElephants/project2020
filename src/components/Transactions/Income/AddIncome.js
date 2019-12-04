@@ -93,9 +93,14 @@ class AddIncome extends Component {
                         selectedIncome: null
                     });
                     this.handleDisableModal();
+                    this.handleAlert();
                 }
             })
         }
+    }
+
+    handleAlert(){
+        this.props.typeChange('income');
     }
 
     validateForm() {

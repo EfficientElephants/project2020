@@ -102,10 +102,7 @@ class AddExpense extends Component {
         }
     }
     handleAlert(){
-        var successfullyCreatedAlert = this.props.successfullyCreatedAlert;
-        console.log(this.props.successfullyCreatedAlert);
-        console.log(this.state.alertOpen);
-        return successfullyCreatedAlert(this.state.alertOpen);
+        this.props.typeChange('expense');
     }
 
     validateForm() {
