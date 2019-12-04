@@ -4,6 +4,7 @@ import Transaction from './TransactionRow';
 import transactionAPI from '../../api/transactionAPI';
 import { getFromStorage } from '../Storage';
 import AddExpenseModal from './AddExpenseModal';
+import AddIncomeModal from './Income/AddIncomeModal';
 
 class TransactionTable extends Component {
     constructor() {
@@ -67,20 +68,29 @@ class TransactionTable extends Component {
 
     handleSave(event) {
         event.preventDefault();
+        let validatedInputs = false
         if (this.state.selectedTransaction.transactionType === "expense"){
             if (this.validateExpenseForm()) {
-                transactionAPI
-                    .update(this.state.selectedTransaction)
-                    .then(() => {
-                        this.setState({
-                            selectedTransaction: null
-                        });
-                        this.handleDisableModal();
-                    })
-                    .catch(err => {});
+                console.log("Expense Validation")
+                validatedInputs = true;
             }
-        }else{}
-        
+        }else if (this.state.selectedTransaction.transactionType === "income"){
+            if (this.validateIncomeForm()){
+                console.log("InputValidation")
+                validatedInputs = true;
+            }
+        }
+        if(validatedInputs){
+            transactionAPI
+                .update(this.state.selectedTransaction)
+                .then(() => {
+                    this.setState({
+                        selectedTransaction: null
+                    });
+                    this.handleDisableModal();
+                })
+                .catch(err => {});
+        }
     }
 
     handleChange(event) {
@@ -150,6 +160,34 @@ class TransactionTable extends Component {
         return formIsValid
     }
 
+    validateIncomeForm() {
+        let v_income = this.state.selectedTransaction;
+        let errors = {};
+        let formIsValid = true;
+  
+        if (!v_income.item) {
+            formIsValid = false;
+            errors["item"] = "Please enter an income source.";
+        }
+
+        if (!v_income.price) {
+            formIsValid = false;
+            errors["price"] = "Please enter a valid amount.";
+        }
+
+        if (v_income.price !== "") {
+            //regular expression for price validation
+            var pattern = new RegExp(/^(\d+(\.\d{2})?|\.\d{2})$/);
+            if (!pattern.test(v_income.price)) {
+                formIsValid = false;
+                errors["price"] = "Please enter a valid non-negative amount";
+            }
+        }
+
+        this.setState({errors: errors})
+        return formIsValid
+    }
+
 
 
 
@@ -167,6 +205,15 @@ class TransactionTable extends Component {
                             onCancel = {this.handleCancel}
                             onChange = {this.handleChange}
                             selectedexpense = {this.state.selectedTransaction}
+                            errors = {this.state.errors}
+                        />
+                        <AddIncomeModal
+                            show={this.state.showIncomeModal}
+                            onHide={this.handleDisableModal}
+                            onSubmit = {this.handleSave}
+                            onCancel = {this.handleCancel}
+                            onChange = {this.handleChange}
+                            selectedincome = {this.state.selectedTransaction}
                             errors = {this.state.errors}
                         />
                     </div>
