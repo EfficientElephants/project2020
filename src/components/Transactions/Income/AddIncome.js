@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { Container, Row, Button } from 'react-bootstrap';
 
-import AddExpenseModal from './AddExpenseModal';
-import transactionAPI from '../../api/transactionAPI';
-import { getFromStorage } from '../Storage';
+import AddIncomeModal from './AddIncomeModal';
+import transactionAPI from '../../../api/transactionAPI';
+import { getFromStorage } from '../../Storage';
 
-class AddExpense extends Component {
-    constructor(props) {
+class AddIncome extends Component {
+    constructor() {
         super();
         this.state = {
             userId: '',
-            expenses: [],
+            income: [],
             errors: {},
-            showModal: false, 
+            showModal: false
         };
 
         this.handleSave = this.handleSave.bind(this);
@@ -44,14 +44,14 @@ class AddExpense extends Component {
     }
 
     handleChange(event) {
-        let selectedExpense = this.state.selectedExpense;
-        selectedExpense[event.target.name] = event.target.value;
-        this.setState({ selectedExpense: selectedExpense });
+        let selectedIncome = this.state.selectedIncome;
+        selectedIncome[event.target.name] = event.target.value;
+        this.setState({ selectedIncome: selectedIncome });
 
     }
 
     handleCancel() {
-        this.setState({ selectedExpense: null, showModal: false });
+        this.setState({ selectedIncome: null, showModal: false });
         this.handleDisableModal();
 
     }
@@ -59,7 +59,7 @@ class AddExpense extends Component {
     handleEnableModal () {
         this.setState({
             showModal: true,
-            selectedExpense: {item: '', price:'', category: '', transactionType: 'expense'}
+            selectedIncome: {item: '', price:'', category: 'Income', transactionType: 'income'}
         });
         console.log("enabling");
         console.log(this.state.showModal);
@@ -70,18 +70,17 @@ class AddExpense extends Component {
         console.log("disabling");
         this.setState({
             showModal: false,
-            selectedExpense: null
+            selectedIncome: null
         })
     }
 
     handleSave(event) {
         console.log(event.currentTarget);
         event.preventDefault();
-        
 
         if (this.validateForm()) {
             transactionAPI
-            .create(this.state.selectedExpense, this.state.userId)
+            .create(this.state.selectedIncome, this.state.userId)
             .then(result => {
                 if (result.errors) {
                     console.log(result);
@@ -89,72 +88,57 @@ class AddExpense extends Component {
 
                 }
                 else {
-
                     console.log('Successfully created!');
                     this.setState({
-                        selectedExpense: null, 
-                        alertOpen: true
+                        selectedIncome: null
                     });
                     this.handleDisableModal();
-                    this.handleAlert();
                 }
             })
         }
     }
-    handleAlert(){
-        var successfullyCreatedAlert = this.props.successfullyCreatedAlert;
-        console.log(this.props.successfullyCreatedAlert);
-        console.log(this.state.alertOpen);
-        return successfullyCreatedAlert(this.state.alertOpen);
-    }
 
     validateForm() {
-        let v_expense = this.state.selectedExpense;
+        let v_income = this.state.selectedIncome;
         let errors = {};
         let formIsValid = true;
   
-        if (!v_expense.item) {
+        if (!v_income.item) {
             formIsValid = false;
             errors["item"] = "Please enter an item.";
         }
 
-        if (!v_expense.price) {
+        if (!v_income.price) {
             formIsValid = false;
             errors["price"] = "Please enter a valid price.";
         }
 
-        if (v_expense.price !== "undefined") {
+        if (v_income.price !== "undefined") {
             //regular expression for price validation
             var pattern = new RegExp(/^(\d+(\.\d{2})?|\.\d{2})$/);
-            if (!pattern.test(v_expense.price)) {
+            if (!pattern.test(v_income.price)) {
                 formIsValid = false;
                 errors["price"] = "Please enter a valid non-negative price";
             }
         }
 
-        if (!v_expense.category) {
-            formIsValid = false;
-            errors["category"] = "Please select a category.";
-        }
         this.setState({errors: errors})
         return formIsValid
     }
-
-    
 
     render() {
         return (
             <Container>
                 <Row>
                     <div>
-                        <Button variant="secondary" onClick={this.handleEnableModal}>Add New Expense</Button>
-                        <AddExpenseModal 
+                        <Button variant="secondary" onClick={this.handleEnableModal}>Add New Income</Button>
+                        <AddIncomeModal 
                             show={this.state.showModal}
                             onHide={this.handleDisableModal}
                             onSubmit = {this.handleSave}
                             onCancel = {this.handleCancel}
                             onChange = {this.handleChange}
-                            selectedexpense = {this.state.selectedExpense}
+                            selectedincome = {this.state.selectedIncome}
                             errors = {this.state.errors}
                         />
                     </div>
@@ -163,4 +147,4 @@ class AddExpense extends Component {
         )
     }
 }
-export default AddExpense;
+export default AddIncome;

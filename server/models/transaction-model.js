@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const validator = require('validator')
 
-const purchaseSchema = new Schema({
+const transactionSchema = new Schema({
     userId: {
         type: String,
         default: '',
@@ -22,15 +22,19 @@ const purchaseSchema = new Schema({
         type: String,
         required: true,
         validate: (value) => {
-            return validator.isIn(value, ['Rent', 'Food', 'Social', 'Medical', 'Transportation', 'Personal Care'])
+            return validator.isIn(value, ['Income', 'Rent', 'Food', 'Social', 'Medical', 'Transportation', 'Personal Care'])
         }
+    },
+    transactionType: {
+        type: String,
+        requried: true
     },
     createdAt: Date,
     updatedAt: Date
 });
 
 
-purchaseSchema.pre('save', function (next) {
+transactionSchema.pre('save', function (next) {
     let now = Date.now()
      
     this.updatedAt = now
@@ -51,7 +55,7 @@ function setPrice(num){
     return num*100;
 }
 
-purchaseSchema.set('toObject', { getters: true });
-purchaseSchema.set('toJSON', { getters: true });
-const Purchase = mongoose.model('Purchase', purchaseSchema);
-module.exports = Purchase;
+transactionSchema.set('toObject', { getters: true });
+transactionSchema.set('toJSON', { getters: true });
+const Transaction = mongoose.model('Transaction', transactionSchema);
+module.exports = Transaction;

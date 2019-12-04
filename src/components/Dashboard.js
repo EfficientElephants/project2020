@@ -3,6 +3,7 @@ import { Row, Col, Container, Alert } from 'react-bootstrap';
 import NavBar from './Navbar';
 //import PurchaseTransactions from './Transaction/NewStructure/PurchaseTransactions';
 import AddExpense from './Transactions/AddExpense';
+import AddIncome from './Transactions/Income/AddIncome';
 import { getFromStorage } from './Storage';
 import usersAPI from '../api/userAPI';
 import Totals from './Totals';
@@ -82,6 +83,7 @@ class Dashboard extends Component {
                                 </Col>
                                 <Col>
                                     <AddExpense successfullyCreatedAlert = {this.successfullyCreatedAlert} />
+                                    <AddIncome />
                                 </Col>
                             </Row>
                         </Col>

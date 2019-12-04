@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var userService = require('../services/user-service');
-var purchaseService = require('../services/purchase-service');
+var transactionService = require('../services/transcation-service');
 var signupService = require('../services/signup-service');
 var loginService = require('../services/login-service');
 var logoutService = require('../services/logout-service');
@@ -25,26 +25,25 @@ router.delete('/user/:email', function(req, res) {
 });
 
 //add purchase routes
-router.get('/purchases', function(req, res) {
-  purchaseService.get(req,res);
+router.get('/transactions', function(req, res) {
+  transactionService.get(req,res);
 });
 
-router.post('/purchase', function(req, res) {
-  purchaseService.create(req, res);
+router.post('/transaction', function(req, res) {
+  transactionService.create(req, res);
 });
 
-router.put('/purchase', function(req, res) {
-  purchaseService.update(req, res);
+router.put('/transaction', function(req, res) {
+  transactionService.update(req, res);
 });
 
-router.delete('/purchase/:_id', function(req, res) {
-  purchaseService.destroy(req, res);
+router.delete('/transaction/:_id', function(req, res) {
+  transactionService.destroy(req, res);
 });
 
-router.get('/purchases/totals/:userId', function(req, res) {
-  purchaseService.getTotalsAll(req, res);
+router.get('/transaction/totals/:userId', function(req, res) {
+  transactionService.getTotalsAll(req, res);
 })
-
 
 //signup
 router.post('/signup', function(req, res) {
