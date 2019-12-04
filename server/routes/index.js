@@ -42,7 +42,7 @@ router.delete('/transaction/:_id', function(req, res) {
 });
 
 router.get('/transaction/totals/:userId', function(req, res) {
-  purchaseService.getTotalsAll(req, res);
+  transactionService.getTotalsAll(req, res);
 })
 
 //signup

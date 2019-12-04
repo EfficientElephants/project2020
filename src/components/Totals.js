@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 //import { Container, Row, Table } from 'react-bootstrap';
-import purchaseAPI from '../api/purchaseAPI';
+import transactionAPI from '../api/transactionAPI';
 import { getFromStorage } from './Storage';
 
 class Totals extends Component {
@@ -21,7 +21,7 @@ class Totals extends Component {
             .then(json => {
                 if (json.success){
                     this.setState({ userId: json.userId, error: false })
-                    purchaseAPI.getTotalsAll(this.state.userId).then(allTotals => this.setState({allTotals: allTotals}))
+                    transactionAPI.getTotalsAll(this.state.userId).then(allTotals => this.setState({allTotals: allTotals}))
                     console.log(this.state.allTotals);
                     
                 } else {
