@@ -6,6 +6,7 @@ import AddIncome from './Transactions/Income/AddIncome';
 import { getFromStorage } from './Storage';
 import usersAPI from '../api/userAPI';
 import Totals from './Totals';
+import AddGoal from './Goals/AddGoal';
 
 
 class Dashboard extends Component {
@@ -136,6 +137,8 @@ class Dashboard extends Component {
                         </Col>
                     </Row>
                     {this.createAlert()}
+
+                    <AddGoal />
                 </Container>
             </div>
         );
