@@ -13,6 +13,7 @@ const purchaseAPI = {
   },
 
   create(purchase, userId) {
+    console.log(purchase);
     return new Promise((resolve, reject) => {
       fetch(`${baseAPI}/purchase?userId=` + userId, {
         method: 'POST',

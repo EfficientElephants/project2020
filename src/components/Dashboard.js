@@ -3,6 +3,7 @@ import { Row, Col, Container } from 'react-bootstrap';
 import NavBar from './Navbar';
 //import PurchaseTransactions from './Transaction/NewStructure/PurchaseTransactions';
 import AddExpense from './Transactions/AddExpense';
+import AddIncome from './Transactions/Income/AddIncome';
 
 
 class Dashboard extends Component {
@@ -23,6 +24,7 @@ class Dashboard extends Component {
                                 </Col>
                                 <Col>
                                     <AddExpense />
+                                    <AddIncome />
                                 </Col>
                             </Row>
                         </Col>

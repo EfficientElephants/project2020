@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Container, Row, Button } from 'react-bootstrap';
 
-import AddExpenseModal from './AddExpenseModal';
-import purchaseAPI from '../../api/purchaseAPI';
-import { getFromStorage } from '../Storage';
+import AddIncomeModal from './AddIncomeModal';
+import purchaseAPI from '../../../api/purchaseAPI';
+import { getFromStorage } from '../../Storage';
 
-class AddExpense extends Component {
+class AddIncome extends Component {
     constructor() {
         super();
         this.state = {
@@ -44,14 +44,14 @@ class AddExpense extends Component {
     }
 
     handleChange(event) {
-        let selectedExpense = this.state.selectedExpense;
-        selectedExpense[event.target.name] = event.target.value;
-        this.setState({ selectedExpense: selectedExpense });
+        let selectedIncome = this.state.selectedIncome;
+        selectedIncome[event.target.name] = event.target.value;
+        this.setState({ selectedIncome: selectedIncome });
 
     }
 
     handleCancel() {
-        this.setState({ selectedExpense: null, showModal: false });
+        this.setState({ selectedIncome: null, showModal: false });
         this.handleDisableModal();
 
     }
@@ -59,7 +59,7 @@ class AddExpense extends Component {
     handleEnableModal () {
         this.setState({
             showModal: true,
-            selectedExpense: {item: '', price:'', category: '', transactionType: 'expense'}
+            selectedIncome: {item: '', price:'', category: 'Income', transactionType: 'income'}
         });
         console.log("enabling");
         console.log(this.state.showModal);
@@ -70,7 +70,7 @@ class AddExpense extends Component {
         console.log("disabling");
         this.setState({
             showModal: false,
-            selectedExpense: null
+            selectedIncome: null
         })
     }
 
@@ -80,7 +80,7 @@ class AddExpense extends Component {
 
         if (this.validateForm()) {
             purchaseAPI
-            .create(this.state.selectedExpense, this.state.userId)
+            .create(this.state.selectedIncome, this.state.userId)
             .then(result => {
                 if (result.errors) {
                     console.log(result);
@@ -90,7 +90,7 @@ class AddExpense extends Component {
                 else {
                     console.log('Successfully created!');
                     this.setState({
-                        selectedExpense: null
+                        selectedIncome: null
                     });
                     this.handleDisableModal();
                 }
@@ -99,7 +99,7 @@ class AddExpense extends Component {
     }
 
     validateForm() {
-        let v_expense = this.state.selectedExpense;
+        let v_expense = this.state.selectedIncome;
         let errors = {};
         let formIsValid = true;
   
@@ -122,10 +122,6 @@ class AddExpense extends Component {
             }
         }
 
-        if (!v_expense.category) {
-            formIsValid = false;
-            errors["category"] = "Please select a category.";
-        }
         this.setState({errors: errors})
         return formIsValid
     }
@@ -135,14 +131,14 @@ class AddExpense extends Component {
             <Container>
                 <Row>
                     <div>
-                        <Button variant="secondary" onClick={this.handleEnableModal}>Add New Purchase</Button>
-                        <AddExpenseModal 
+                        <Button variant="secondary" onClick={this.handleEnableModal}>Add New Income</Button>
+                        <AddIncomeModal 
                             show={this.state.showModal}
                             onHide={this.handleDisableModal}
                             onSubmit = {this.handleSave}
                             onCancel = {this.handleCancel}
                             onChange = {this.handleChange}
-                            selectedexpense = {this.state.selectedExpense}
+                            selectedincome = {this.state.selectedIncome}
                             errors = {this.state.errors}
                         />
                     </div>
@@ -151,4 +147,4 @@ class AddExpense extends Component {
         )
     }
 }
-export default AddExpense;
+export default AddIncome;

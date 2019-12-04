@@ -17,10 +17,10 @@ function get(req, res) {
 }
 
 function create(req, res) {
-  const { item, price, category } = req.body;
+  const { item, price, category, transactionType } = req.body;
   const { query } = req;
   const { userId } = query;
-  const purchase = new Purchase({ userId, item, price, category});
+  const purchase = new Purchase({ userId, item, price, category, transactionType});
   purchase
     .save()
     .then(() => {
@@ -40,6 +40,7 @@ function update(req, res) {
     purchase.item = item;
     purchase.price = price;
     purchase.category = category;
+    purchase.transactionType = transactionType;
     purchase.createdAt = Date.now();
     purchase.save().then(res.json(purchase));
   })

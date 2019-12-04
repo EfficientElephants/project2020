@@ -3,6 +3,7 @@ var router = express.Router();
 
 var userService = require('../services/user-service');
 var purchaseService = require('../services/purchase-service');
+var incomeService = require('../services/income-service');
 var signupService = require('../services/signup-service');
 var loginService = require('../services/login-service');
 var logoutService = require('../services/logout-service');
@@ -41,6 +42,22 @@ router.delete('/purchase/:_id', function(req, res) {
   purchaseService.destroy(req, res);
 });
 
+//add income routes
+// router.get('/incomes', function(req, res) {
+//   incomeService.get(req,res);
+// });
+
+// router.post('/income', function(req, res) {
+//   incomeService.create(req, res);
+// });
+
+// router.put('/income', function(req, res) {
+//   incomeService.update(req, res);
+// });
+
+// router.delete('/income/:_id', function(req, res) {
+//   incomeService.destroy(req, res);
+// });
 
 //signup
 router.post('/signup', function(req, res) {
