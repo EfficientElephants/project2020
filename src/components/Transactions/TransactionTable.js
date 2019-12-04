@@ -96,4 +96,4 @@ class TransactionTable extends Component {
         )
     }
 }
-export default TransactionTable
+export default TransactionTable;

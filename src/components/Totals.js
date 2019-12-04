@@ -38,6 +38,8 @@ class Totals extends Component {
 
     getTotalsAll() {
         console.log(this.state.allTotals);
+        const totalArray = JSON.stringify(this.state.allTotals);
+        return totalArray;
     }
 
     render() {
