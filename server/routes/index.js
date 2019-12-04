@@ -33,7 +33,7 @@ router.post('/transaction', function(req, res) {
   transactionService.create(req, res);
 });
 
-router.put('/purchtransactionase', function(req, res) {
+router.put('/transaction', function(req, res) {
   transactionService.update(req, res);
 });
 
