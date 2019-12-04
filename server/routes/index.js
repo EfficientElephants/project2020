@@ -24,7 +24,7 @@ router.delete('/user/:email', function(req, res) {
   userService.destroy(req, res);
 });
 
-//add purchase routes
+//add transaction routes
 router.get('/transactions', function(req, res) {
   transactionService.get(req,res);
 });
@@ -42,7 +42,7 @@ router.delete('/transaction/:_id', function(req, res) {
 });
 
 router.get('/transaction/totals/:userId', function(req, res) {
-  purchaseService.getTotalsAll(req, res);
+  transactionService.getTotalsAll(req, res);
 })
 
 //signup

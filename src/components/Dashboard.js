@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Container, Alert } from 'react-bootstrap';
 import NavBar from './Navbar';
-//import PurchaseTransactions from './Transaction/NewStructure/PurchaseTransactions';
 import AddExpense from './Transactions/AddExpense';
 import AddIncome from './Transactions/Income/AddIncome';
 import { getFromStorage } from './Storage';
@@ -106,7 +105,6 @@ class Dashboard extends Component {
                         </Col>
                     </Row>
                 </Container>
-                {/* <PurchaseTransactions /> */}
             </div>
         );
     }

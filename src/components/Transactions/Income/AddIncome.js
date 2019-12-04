@@ -105,20 +105,20 @@ class AddIncome extends Component {
   
         if (!v_income.item) {
             formIsValid = false;
-            errors["item"] = "Please enter an item.";
+            errors["item"] = "Please enter an income source.";
         }
 
         if (!v_income.price) {
             formIsValid = false;
-            errors["price"] = "Please enter a valid price.";
+            errors["price"] = "Please enter a valid amount.";
         }
 
-        if (v_income.price !== "undefined") {
+        if (v_income.price !== "") {
             //regular expression for price validation
             var pattern = new RegExp(/^(\d+(\.\d{2})?|\.\d{2})$/);
             if (!pattern.test(v_income.price)) {
                 formIsValid = false;
-                errors["price"] = "Please enter a valid non-negative price";
+                errors["price"] = "Please enter a valid non-negative amount";
             }
         }
 

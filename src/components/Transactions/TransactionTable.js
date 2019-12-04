@@ -69,7 +69,7 @@ class TransactionTable extends Component {
         event.preventDefault();
         if (this.state.selectedTransaction.transactionType === "expense"){
             if (this.validateExpenseForm()) {
-                purchaseAPI
+                transactionAPI
                     .update(this.state.selectedTransaction)
                     .then(() => {
                         this.setState({
