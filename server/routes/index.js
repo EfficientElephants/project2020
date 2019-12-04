@@ -41,6 +41,10 @@ router.delete('/transaction/:_id', function(req, res) {
   transactionService.destroy(req, res);
 });
 
+router.get('/transaction/totals/:userId', function(req, res) {
+  purchaseService.getTotalsAll(req, res);
+})
+
 //signup
 router.post('/signup', function(req, res) {
   signupService.signup(req, res);
@@ -64,6 +68,11 @@ router.get('/logout', function(req, res) {
 // must also send token from local storage
 router.get('/getUserId', function(req, res) {
   getUserIdService.getUserId(req, res);
+});
+
+//Get user's name
+router.get('/users/:userId', function(req, res){
+  getUserIdService.getUserName(req, res);
 });
 
 module.exports = router;

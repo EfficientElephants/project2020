@@ -1,9 +1,11 @@
+// not in use--phase out
+
 const baseAPI = '/api';
 
-const transactionAPI = {
-  get(userId) {
+const zusersAPI = {
+  get() {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/transactions?userId=` + userId) //maybe want to pass this in as a param *maybe future state*
+      fetch(`${baseAPI}/users`)
         .then(response => response.json())
         .then(json => resolve(json))
         .catch(err => {
@@ -12,12 +14,11 @@ const transactionAPI = {
     });
   },
 
-  create(transaction, userId) {
-    console.log(transaction);
+  create(user) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/transaction?userId=` + userId, {
+      fetch(`${baseAPI}/user`, {
         method: 'POST',
-        body: JSON.stringify(transaction),
+        body: JSON.stringify(user),
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -31,11 +32,11 @@ const transactionAPI = {
     });
   },
 
-  update(transaction) {
+  update(user) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/transaction`, {
+      fetch(`${baseAPI}/user`, {
         method: 'PUT',
-        body: JSON.stringify(transaction),
+        body: JSON.stringify(user),
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -50,29 +51,16 @@ const transactionAPI = {
     });
   },
 
-  destroy(transaction) {
+  destroy(user) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/transaction/${transaction._id}`, { method: 'DELETE' })
+      fetch(`${baseAPI}/user/${user.email}`, { method: 'DELETE' })
         .then(response => response.json())
         .then(json => resolve(json))
         .catch(err => {
           reject(err);
         });
     });
-  },
-
-
-  getTotalsAll(userId) {
-    console.log('API', userId);
-    return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/transaction/totals/${userId}`)
-      .then(response => response.json())
-      .then(json => resolve(json))
-      .catch(err => {
-        reject(err);
-      });
-   });
   }
-}
-export default transactionAPI;
+};
 
+export default zusersAPI;
