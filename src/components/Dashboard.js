@@ -78,7 +78,6 @@ class Dashboard extends Component {
                             <Row>
                                 <Col>
                                     <p>A graph of spending status will go here later.</p>
-                                    <Totals />
                                 </Col>
                                 <Col>
                                     <AddExpense successfullyCreatedAlert = {this.successfullyCreatedAlert} />
@@ -95,12 +94,7 @@ class Dashboard extends Component {
                         </Col>
                         <Col>
                             <h3>Expense Breakdown</h3>
-                            <p>Rent</p>
-                            <p>Food</p>
-                            <p>Social</p>
-                            <p>Medical</p>
-                            <p>Transportation</p>
-                            <p>Personal Care</p>
+                            <Totals />
                         </Col>
                     </Row>
                 </Container>

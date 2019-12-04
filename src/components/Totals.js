@@ -11,12 +11,12 @@ class Totals extends Component {
             allTotals: [],
         }
     }
-    componentDidMount() {
+    async componentDidMount() {
         // query for all of the logged in users transactions
         const obj = getFromStorage('expense_app');
         if (obj && obj.token) {
             const { token } = obj;
-            fetch('api/getUserId?token=' + token)
+            await fetch('api/getUserId?token=' + token)
             .then(res => res.json())
             .then(json => {
                 if (json.success){
@@ -39,14 +39,14 @@ class Totals extends Component {
     getTotalsAll() {
         console.log(this.state.allTotals);
     }
-    
+
     render() {
         return (
         <div>
-            Totals Here
+            <p>Totals</p>
             <div>{this.getTotalsAll()}</div>
         </div>
         );
     }
 }
-export default Totals
+export default Totals;
