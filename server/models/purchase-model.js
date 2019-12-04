@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const validator = require('validator')
 
+const now = Date.now()
 const purchaseSchema = new Schema({
     userId: {
         type: String,
@@ -25,22 +26,14 @@ const purchaseSchema = new Schema({
             return validator.isIn(value, ['Rent', 'Food', 'Social', 'Medical', 'Transportation', 'Personal Care'])
         }
     },
-    createdAt: Date,
-    updatedAt: Date
-});
-
-
-purchaseSchema.pre('save', function (next) {
-    let now = Date.now()
-     
-    this.updatedAt = now
-    // Set a value for createdAt only if it is null
-    if (!this.createdAt) {
-      this.createdAt = now
-    }
-    
-    // Call the next function in the pre-save chain
-    next()    
+    createdAt: {
+        type: Date,
+        default: now
+    },
+    updatedAt: {
+        type: Date,
+        default: now
+    },
 })
 
 function getPrice(num){
