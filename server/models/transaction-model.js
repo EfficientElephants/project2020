@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const validator = require('validator')
 
+const now = Date.now()
 const transactionSchema = new Schema({
     userId: {
         type: String,
@@ -29,22 +30,14 @@ const transactionSchema = new Schema({
         type: String,
         requried: true
     },
-    createdAt: Date,
-    updatedAt: Date
-});
-
-
-transactionSchema.pre('save', function (next) {
-    let now = Date.now()
-     
-    this.updatedAt = now
-    // Set a value for createdAt only if it is null
-    if (!this.createdAt) {
-      this.createdAt = now
-    }
-    
-    // Call the next function in the pre-save chain
-    next()    
+    createdAt: {
+        type: Date,
+        default: now
+    },
+    updatedAt: {
+        type: Date,
+        default: now
+    },
 })
 
 function getPrice(num){

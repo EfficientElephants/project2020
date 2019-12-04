@@ -102,10 +102,7 @@ class AddExpense extends Component {
         }
     }
     handleAlert(){
-        var successfullyCreatedAlert = this.props.successfullyCreatedAlert;
-        console.log(this.props.successfullyCreatedAlert);
-        console.log(this.state.alertOpen);
-        return successfullyCreatedAlert(this.state.alertOpen);
+        this.props.typeChange('expense');
     }
 
     validateForm() {
@@ -123,7 +120,7 @@ class AddExpense extends Component {
             errors["price"] = "Please enter a valid price.";
         }
 
-        if (v_expense.price !== "undefined") {
+        if (v_expense.price !== "") {
             //regular expression for price validation
             var pattern = new RegExp(/^(\d+(\.\d{2})?|\.\d{2})$/);
             if (!pattern.test(v_expense.price)) {

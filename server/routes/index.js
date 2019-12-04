@@ -24,7 +24,7 @@ router.delete('/user/:email', function(req, res) {
   userService.destroy(req, res);
 });
 
-//add purchase routes
+//add transaction routes
 router.get('/transactions', function(req, res) {
   transactionService.get(req,res);
 });

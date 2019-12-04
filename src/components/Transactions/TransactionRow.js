@@ -10,7 +10,11 @@ const Transaction = props => {
         >
             <td>{props.transaction.category}</td>
             <td>{props.transaction.item}</td>
-            <td>{props.transaction.price}</td>
+            <td
+                className={props.transaction.transactionType === "expense" ? "expenseAmount" : "incomeAmount"}
+            >
+                {props.transaction.transactionType === "expense" ? "-"+props.transaction.price : props.transaction.price}
+                </td>
 
                 <td><Button
                         variant="info"

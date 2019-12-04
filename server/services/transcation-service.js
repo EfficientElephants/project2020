@@ -40,7 +40,7 @@ function update(req, res) {
     transaction.item = item;
     transaction.price = price;
     transaction.category = category;
-    transaction.createdAt = Date.now();
+    transaction.updatedAt = Date.now();
     transaction.save().then(res.json(transaction));
   })
   .catch(err => {
@@ -60,4 +60,28 @@ function destroy(req, res) {
     });
 }
 
-module.exports = { get, create, update, destroy };
+function getTotalsAll(req, res) {
+  const {userId} = req.params;
+  return Transaction.aggregate([
+    {
+      '$match': {
+        'userId': `${userId}`
+      }
+    }, {
+      '$group': {
+        '_id': '$category', 
+        'totals': {
+          '$sum': '$price'
+        }
+      }
+    }
+  ])
+  .then(all => {
+    res.json(all);
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  });
+}
+
+module.exports = { get, create, update, destroy, getTotalsAll };
