@@ -48,5 +48,5 @@ function setGoal(num){
 
 goalSchema.set('toObject', { getters: true });
 goalSchema.set('toJSON', { getters: true });
-const Goals = mongoose.model('Goals', goalSchema);
-module.exports = Goals;
+const Goal = mongoose.model('Goal', goalSchema);
+module.exports = Goal;
