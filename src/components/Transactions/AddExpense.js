@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Button } from 'react-bootstrap';
 
 import AddExpenseModal from './AddExpenseModal';
-import purchaseAPI from '../../api/purchaseAPI';
+import transactionAPI from '../../api/transactionAPI';
 import { getFromStorage } from '../Storage';
 
 class AddExpense extends Component {
@@ -32,7 +32,7 @@ class AddExpense extends Component {
             .then(json => {
                 if (json.success){
                     this.setState({ userId: json.userId }) //, error: false })
-                    // purchaseAPI.get(this.state.userId).then(json => this.setState({expenses:json}));  
+                    // transactionAPI.get(this.state.userId).then(json => this.setState({expenses:json}));  
                     
                 } else {
                     // handle error
@@ -79,7 +79,7 @@ class AddExpense extends Component {
         event.preventDefault();
 
         if (this.validateForm()) {
-            purchaseAPI
+            transactionAPI
             .create(this.state.selectedExpense, this.state.userId)
             .then(result => {
                 if (result.errors) {
@@ -135,7 +135,7 @@ class AddExpense extends Component {
             <Container>
                 <Row>
                     <div>
-                        <Button variant="secondary" onClick={this.handleEnableModal}>Add New Purchase</Button>
+                        <Button variant="secondary" onClick={this.handleEnableModal}>Add New Expense</Button>
                         <AddExpenseModal 
                             show={this.state.showModal}
                             onHide={this.handleDisableModal}

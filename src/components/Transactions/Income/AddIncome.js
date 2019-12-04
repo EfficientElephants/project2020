@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Button } from 'react-bootstrap';
 
 import AddIncomeModal from './AddIncomeModal';
-import purchaseAPI from '../../../api/purchaseAPI';
+import transactionAPI from '../../../api/transactionAPI';
 import { getFromStorage } from '../../Storage';
 
 class AddIncome extends Component {
@@ -10,7 +10,7 @@ class AddIncome extends Component {
         super();
         this.state = {
             userId: '',
-            expenses: [],
+            income: [],
             errors: {},
             showModal: false
         };
@@ -32,7 +32,7 @@ class AddIncome extends Component {
             .then(json => {
                 if (json.success){
                     this.setState({ userId: json.userId }) //, error: false })
-                    // purchaseAPI.get(this.state.userId).then(json => this.setState({expenses:json}));  
+                    // transactionAPI.get(this.state.userId).then(json => this.setState({expenses:json}));  
                     
                 } else {
                     // handle error
@@ -79,7 +79,7 @@ class AddIncome extends Component {
         event.preventDefault();
 
         if (this.validateForm()) {
-            purchaseAPI
+            transactionAPI
             .create(this.state.selectedIncome, this.state.userId)
             .then(result => {
                 if (result.errors) {
@@ -99,24 +99,24 @@ class AddIncome extends Component {
     }
 
     validateForm() {
-        let v_expense = this.state.selectedIncome;
+        let v_income = this.state.selectedIncome;
         let errors = {};
         let formIsValid = true;
   
-        if (!v_expense.item) {
+        if (!v_income.item) {
             formIsValid = false;
             errors["item"] = "Please enter an item.";
         }
 
-        if (!v_expense.price) {
+        if (!v_income.price) {
             formIsValid = false;
             errors["price"] = "Please enter a valid price.";
         }
 
-        if (v_expense.price !== "undefined") {
+        if (v_income.price !== "undefined") {
             //regular expression for price validation
             var pattern = new RegExp(/^(\d+(\.\d{2})?|\.\d{2})$/);
-            if (!pattern.test(v_expense.price)) {
+            if (!pattern.test(v_income.price)) {
                 formIsValid = false;
                 errors["price"] = "Please enter a valid non-negative price";
             }

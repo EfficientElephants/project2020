@@ -1,9 +1,9 @@
 const baseAPI = '/api';
 
-const purchaseAPI = {
+const transactionAPI = {
   get(userId) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/purchases?userId=` + userId) //maybe want to pass this in as a param *maybe future state*
+      fetch(`${baseAPI}/transactions?userId=` + userId) //maybe want to pass this in as a param *maybe future state*
         .then(response => response.json())
         .then(json => resolve(json))
         .catch(err => {
@@ -12,12 +12,12 @@ const purchaseAPI = {
     });
   },
 
-  create(purchase, userId) {
-    console.log(purchase);
+  create(transaction, userId) {
+    console.log(transaction);
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/purchase?userId=` + userId, {
+      fetch(`${baseAPI}/transaction?userId=` + userId, {
         method: 'POST',
-        body: JSON.stringify(purchase),
+        body: JSON.stringify(transaction),
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -31,11 +31,11 @@ const purchaseAPI = {
     });
   },
 
-  update(purchase) {
+  update(transaction) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/purchase`, {
+      fetch(`${baseAPI}/transaction`, {
         method: 'PUT',
-        body: JSON.stringify(purchase),
+        body: JSON.stringify(transaction),
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -50,9 +50,9 @@ const purchaseAPI = {
     });
   },
 
-  destroy(purchase) {
+  destroy(transaction) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/purchase/${purchase._id}`, { method: 'DELETE' })
+      fetch(`${baseAPI}/transaction/${transaction._id}`, { method: 'DELETE' })
         .then(response => response.json())
         .then(json => resolve(json))
         .catch(err => {
@@ -62,4 +62,4 @@ const purchaseAPI = {
   }
 };
 
-export default purchaseAPI;
+export default transactionAPI;

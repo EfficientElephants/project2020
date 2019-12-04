@@ -11,7 +11,7 @@ const AddExpenseModal = props => {
                 centered
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Add a Purchase</Modal.Title>
+                    <Modal.Title>Add an Expense</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Group controlId="formItem">
