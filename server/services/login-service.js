@@ -44,6 +44,7 @@ function login(req, res) {
         userSession.userId = user._id;
         userSession.save((err, doc) => {
             if (err) {
+                console.log(err);
                 return res.send({
                     success: false,
                     message: 'Error: Server error4'

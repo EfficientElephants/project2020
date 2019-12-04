@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Table } from 'react-bootstrap';
 import Transaction from './TransactionRow';
-import purchaseAPI from '../../api/purchaseAPI';
+import transactionAPI from '../../api/transactionAPI';
 import { getFromStorage } from '../Storage';
 import AddExpenseModal from './AddExpenseModal';
 
@@ -33,8 +33,10 @@ class TransactionTable extends Component {
             .then(json => {
                 if (json.success){
                     this.setState({ userId: json.userId, error: false })
-                    purchaseAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
-                    
+                    transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
+                } else {
+                    // handle error
+                    console.log('not working');
                 }
             })
             
@@ -52,7 +54,7 @@ class TransactionTable extends Component {
     handleDelete(event, transaction) {
         console.log(transaction);
         event.stopPropagation();
-        purchaseAPI.destroy(transaction).then(() => {
+        transactionAPI.destroy(transaction).then(() => {
             let transactions = this.state.transactions;
             transactions = transactions.filter(h => h !== transaction);
             this.setState({ transactions: transactions });

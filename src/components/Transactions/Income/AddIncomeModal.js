@@ -1,8 +1,8 @@
 import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-const AddExpenseModal = props => {
-    if (props.selectedexpense) {
+const AddIncomeModal = props => {
+    if (props.selectedincome) {
         return (
             <Modal
                 {...props}
@@ -11,50 +11,31 @@ const AddExpenseModal = props => {
                 centered
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Add an Expense</Modal.Title>
+                    <Modal.Title>Add Income</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Group controlId="formItem">
-                        <Form.Label>Item</Form.Label>
+                        <Form.Label>Source</Form.Label>
                         <Form.Control 
                             type="text"
                             name="item"
-                            value={props.selectedexpense.item}
+                            value={props.selectedincome.item}
                             onChange = {props.onChange} 
                             className={props.errors.item ? "errorBox" : "" }
                         />
                         <div className="errorMsg">{props.errors.item}</div>
                     </Form.Group>
                     <Form.Group controlId="formPrice">
-                        <Form.Label>Price</Form.Label>
+                        <Form.Label>Amount</Form.Label>
                         <Form.Control 
                             type="number" 
                             name="price"
                             placeholder="$"
-                            value={props.selectedexpense.price} 
+                            value={props.selectedincome.price} 
                             onChange={props.onChange}
                             className={props.errors.price ? "errorBox" : "" }
                         />
                         <div className="errorMsg">{props.errors.price}</div>
-                    </Form.Group>
-                    <Form.Group controlId="formCategory">
-                        <Form.Label>Category</Form.Label>
-                        <Form.Control 
-                            as="select"
-                            name="category"
-                            value = {props.selectedexpense.category}
-                            onChange={props.onChange}
-                            className={props.errors.category ? "errorBox" : "" }
-                        >
-                            <option value="">Choose...</option>
-                            <option value="Rent">Rent</option>
-                            <option value="Food">Food</option>
-                            <option value="Social">Social</option>
-                            <option value="Medical">Medical</option>
-                            <option value="Transportation">Transportation</option>
-                            <option value="Personal Care">Personal Care</option>
-                        </Form.Control>
-                        <div className="errorMsg">{props.errors.category}</div>
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
@@ -72,4 +53,4 @@ const AddExpenseModal = props => {
     }
 };
 
-export default AddExpenseModal;
+export default AddIncomeModal;
