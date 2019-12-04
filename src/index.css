@@ -1,9 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+You can add global styles to this file, and also import other style files
 * {
   font-family: Arial;
 }
 
-/* h2 {
+h2 {
   color: #444;
   font-weight: lighter;
 }
@@ -51,7 +51,7 @@ div {
   color: white;
 }
 
-.users {
+/* .users {
   float: left;
   margin: 0 0 2em 0;
   list-style-type: none;
@@ -75,8 +75,8 @@ div {
   left: .1em;
 }
 .users li.selected:hover {
-  /*background-color: #BBD8DC !important;*/
-  /* color: white;
+  background-color: #BBD8DC !important;
+  color: white;
 }
 .users .text {
   position: relative;
@@ -89,8 +89,8 @@ div {
   font-weight: bold;
 }
 .users .badge {
-  /* display: inline-block; */
-  /* float: left;
+  display: inline-block;
+  float: left;
   font-size: small;
   color: white;
   padding: 0.7em 0.7em 0 0.5em;
@@ -105,9 +105,9 @@ div {
   margin-right: .8em;
   border-radius: 4px 0 0 4px;
   width: 1.2em;
-}
+} */
 
-.header-bar {
+/* .header-bar {
   background-color: #0078d7;
   height: 4px;
   margin-top: 10px;
@@ -160,4 +160,12 @@ input::placeholder {
 .form-control.errorBox {
   border: 2px solid red;
   /* border-color: red; */
+}
+
+.expenseAmount {
+  color: red;
+}
+
+.incomeAmount {
+  color: green;
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Button, Table } from 'react-bootstrap';
 import Expense from './Expense';
 import EditExpense from './EditExpense';
-import purchaseAPI from '../../../api/purchaseAPI';
+import transactionAPI from '../../../api/transactionAPI';
 import { getFromStorage } from '../../Storage';
 
 
@@ -29,7 +29,7 @@ class Expenses extends Component {
             .then(json => {
                 if (json.success){
                     this.setState({ userId: json.userId, error: false })
-                    purchaseAPI.get(this.state.userId).then(json => this.setState({expenses:json}));  
+                    transactionAPI.get(this.state.userId).then(json => this.setState({expenses:json}));  
                     
                 } else {
                     // handle error
@@ -46,7 +46,7 @@ class Expenses extends Component {
 
     handleDelete(event, expense) {
         event.stopPropagation();
-        purchaseAPI.destroy(expense).then(() => {
+        transactionAPI.destroy(expense).then(() => {
             let expenses = this.state.expenses;
             expenses = expenses.filter(h => h !== expense);
             this.setState({ expenses: expenses });
@@ -62,7 +62,7 @@ class Expenses extends Component {
         
 
         if (this.state.addingExpense) {
-        purchaseAPI
+        transactionAPI
             .create(this.state.selectedExpense, this.state.userId)
             .then(result => {
                 if (result.errors) {
@@ -82,10 +82,10 @@ class Expenses extends Component {
             .catch(err => {
                 console.log(err);
             });
-        purchaseAPI.get().then(json => this.setState({expenses:json}));
+        transactionAPI.get().then(json => this.setState({expenses:json}));
         } else {
             console.log(this.state.selectedExpense)
-        purchaseAPI
+        transactionAPI
             .update(this.state.selectedExpense)
             .then(() => {
                 this.setState({ selectedExpense: null });

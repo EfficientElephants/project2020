@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Row, Col, Container, Alert } from 'react-bootstrap';
+import { Row, Col, Container, Toast } from 'react-bootstrap';
 import NavBar from './Navbar';
-//import PurchaseTransactions from './Transaction/NewStructure/PurchaseTransactions';
 import AddExpense from './Transactions/AddExpense';
+import AddIncome from './Transactions/Income/AddIncome';
 import { getFromStorage } from './Storage';
 import usersAPI from '../api/userAPI';
 import Totals from './Totals';
@@ -14,8 +14,11 @@ class Dashboard extends Component {
         this.state = {
             userId: '',
             fullName: "",
-            alertOpen: false, 
+            alertOpen: false,
+            alertType: "", 
+            toastShow: false,
         }
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
@@ -47,18 +50,47 @@ class Dashboard extends Component {
         return this.state.fullName;                          
     }
 
-    successfullyCreatedAlert = (argument) => {
-        if (argument) {
-            this.setState({alertOpen: argument})
-        }
+    handleChange(type) {
+        console.log(type);
+        this.setState({
+            alertType: type,
+            alertOpen: true,
+            toastShow: true
+        })
+    }
+
+    closeToast(){
+        this.setState({toastShow:false})
     }
 
     createAlert() {
+        console.log(this.state.alertOpen);
+        console.log(this.state.alertType);
+        const toggleShow = () => this.setState({toastShow:false});
         if (this.state.alertOpen) {
             return (
-                <Alert variant="success" onClose={() => this.setState({alertOpen: false})} dismissible >
-                    <Alert.Heading>Successfully Created!</Alert.Heading>
-                </Alert>
+                    <Toast 
+                        style={{
+                            position: 'absolute',
+                            top: '2%',
+                            right: 0,
+                            background: "#5cb85c"
+                        }}
+                        show={this.state.toastShow} 
+                        onClose={toggleShow} 
+                        delay={3000} 
+                        autohide
+                    >
+                        <Toast.Header
+                              style={{
+                                background: "#53a653",
+                                color: "#282828"
+                            }}
+                        >
+                            <strong className="mr-auto">Expense Elephant</strong>
+                        </Toast.Header>
+                        <Toast.Body>{this.state.alertType==="expense" ? "Sucessfully Added Expense": "Sucessfully Added Income" }</Toast.Body>
+                    </Toast>
             )
         }
     }
@@ -66,9 +98,10 @@ class Dashboard extends Component {
     render() {
         return (
             <div>
+                
                 <NavBar />
                 <Container>
-                    {this.createAlert()}
+                    
                     <br />
                     <h1>{this.state.fullName}'s Dashboard</h1>
                     <br />
@@ -80,7 +113,12 @@ class Dashboard extends Component {
                                     <p>A graph of spending status will go here later.</p>
                                 </Col>
                                 <Col>
-                                    <AddExpense successfullyCreatedAlert = {this.successfullyCreatedAlert} />
+                                    <AddExpense 
+                                        typeChange = {this.handleChange} 
+                                    />
+                                    <AddIncome 
+                                        typeChange = {this.handleChange}
+                                    />
                                 </Col>
                             </Row>
                         </Col>
@@ -97,8 +135,8 @@ class Dashboard extends Component {
                             <Totals />
                         </Col>
                     </Row>
+                    {this.createAlert()}
                 </Container>
-                {/* <PurchaseTransactions /> */}
             </div>
         );
     }

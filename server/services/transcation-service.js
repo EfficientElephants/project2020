@@ -1,4 +1,4 @@
-const Purchase = require('../models/purchase-model');
+const Transaction = require('../models/transaction-model');
 const ReadPreference = require('mongodb').ReadPreference;
 
 require('../mongo').connect();
@@ -6,10 +6,10 @@ require('../mongo').connect();
 function get(req, res) {
   const { query } = req;
   const { userId } = query;
-  const docquery = Purchase.find({userId: userId}).sort({createdAt: 'descending'}).read(ReadPreference.NEAREST);
+  const docquery = Transaction.find({userId: userId}).sort({createdAt: 'descending'}).read(ReadPreference.NEAREST);
   return docquery
-    .then(purchases => {
-      res.json(purchases);
+    .then(transactions => {
+      res.json(transactions);
     })
     .catch(err => {
       res.status(500).send(err);
@@ -17,14 +17,14 @@ function get(req, res) {
 }
 
 function create(req, res) {
-  const { item, price, category } = req.body;
+  const { item, price, category, transactionType } = req.body;
   const { query } = req;
   const { userId } = query;
-  const purchase = new Purchase({ userId, item, price, category});
-  purchase
+  const transaction = new Transaction({ userId, item, price, category, transactionType});
+  transaction
     .save()
     .then(() => {
-      res.json(purchase);
+      res.json(transaction);
     })
     .catch(err => {
       res.status(500).send(err);
@@ -35,13 +35,13 @@ function create(req, res) {
 function update(req, res) {
   const { item, price, category, _id} = req.body;
 
-  Purchase.findOne({ _id })
-  .then(purchase => {
-    purchase.item = item;
-    purchase.price = price;
-    purchase.category = category;
-    purchase.updatedAt = Date.now();
-    purchase.save().then(res.json(purchase));
+  Transaction.findOne({ _id })
+  .then(transaction => {
+    transaction.item = item;
+    transaction.price = price;
+    transaction.category = category;
+    transaction.updatedAt = Date.now();
+    transaction.save().then(res.json(transaction));
   })
   .catch(err => {
     res.status(500).send(err);
@@ -51,9 +51,9 @@ function update(req, res) {
 function destroy(req, res) {
   const { _id } = req.params;
 
-  Purchase.findOneAndRemove({ _id })
-    .then(purchase => {
-      res.json(purchase);
+  Transaction.findOneAndRemove({ _id })
+    .then(transaction => {
+      res.json(transaction);
     })
     .catch(err => {
       res.status(500).send(err);
@@ -62,8 +62,7 @@ function destroy(req, res) {
 
 function getTotalsAll(req, res) {
   const {userId} = req.params;
-  console.log("purchase-service userID", userId);
-  return Purchase.aggregate([
+  return Transaction.aggregate([
     {
       '$match': {
         'userId': `${userId}`
