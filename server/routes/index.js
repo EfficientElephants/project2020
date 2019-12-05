@@ -2,11 +2,12 @@ var express = require('express');
 var router = express.Router();
 
 var userService = require('../services/user-service');
-var transactionService = require('../services/transcation-service');
+var transactionService = require('../services/transaction-service');
 var signupService = require('../services/signup-service');
 var loginService = require('../services/login-service');
 var logoutService = require('../services/logout-service');
 var getUserIdService = require('../services/get-userId-service');
+var goalService = require('../services/goal-service');
 
 router.get('/users', function(req, res) {
   userService.get(req,res);
@@ -73,6 +74,23 @@ router.get('/getUserId', function(req, res) {
 //Get user's name
 router.get('/users/:userId', function(req, res){
   getUserIdService.getUserName(req, res);
+});
+
+//goal
+router.get('/goals', function(req, res) {
+  goalService.get(req,res);
+});
+
+router.post('/goal', function(req, res) {
+  goalService.create(req, res);
+});
+
+router.put('/goal', function(req, res) {
+  goalService.update(req, res);
+});
+
+router.delete('/goal/:_id', function(req, res) {
+  goalService.destroy(req, res);
 });
 
 module.exports = router;
