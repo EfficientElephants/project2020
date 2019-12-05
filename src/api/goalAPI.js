@@ -61,18 +61,6 @@ const goalAPI = {
     });
   },
 
-
-  getTotalsAll(userId) {
-    console.log('API', userId);
-    return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/goal/totals/${userId}`)
-      .then(response => response.json())
-      .then(json => resolve(json))
-      .catch(err => {
-        reject(err);
-      });
-   });
-  }
 }
 export default goalAPI;
 

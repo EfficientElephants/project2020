@@ -7,6 +7,7 @@ var signupService = require('../services/signup-service');
 var loginService = require('../services/login-service');
 var logoutService = require('../services/logout-service');
 var getUserIdService = require('../services/get-userId-service');
+var goalService = require('../services/goal-service');
 
 router.get('/users', function(req, res) {
   userService.get(req,res);
