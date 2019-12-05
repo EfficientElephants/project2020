@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Container, Row, Button } from 'react-bootstrap';
 
 import AddGoalModal from './AddGoalModal';
-//import transactionAPI from '../../api/transactionAPI';
+import goalAPI from '../../api/goalAPI';
+import transactionAPI from '../../api/transactionAPI'
 import { getFromStorage } from '../Storage';
 
 class AddGoal extends Component {
@@ -72,6 +73,11 @@ class AddGoal extends Component {
         })
     }
 
+    findSpentTotalAmount(allTotals) {
+        console.log(this.state.selectedGoal.category);
+        
+    }
+
     handleSave(event) {
         console.log(event.currentTarget);
         event.preventDefault();
@@ -81,7 +87,24 @@ class AddGoal extends Component {
         if (this.validateForm()) {
             console.log("Saving", this.state.selectedGoal);
             console.log('validated')
-            // transactionAPI
+            var totalSpent = 0;
+            transactionAPI.getTotalsAll(this.state.userId)
+            .then(allTotals => {
+                allTotals.forEach(function(item){
+                    item.totals = ((item.totals/100).toFixed(2));
+                })
+                console.log(allTotals);
+                allTotals.forEach((element) => {
+                    console.log(element);
+                    if (element._id === this.state.selectedGoal.category) {
+                        totalSpent = element.totals
+                    }
+                });
+            });
+            console.log(totalSpent);
+                // selectedGoal.spentAmount = totalSpent;
+                // console.log(selectedGoal);
+            // goalAPI  
             // .create(this.state.selectedGoal, this.state.userId)
             // .then(result => {
             //     if (result.errors) {
@@ -100,7 +123,6 @@ class AddGoal extends Component {
             //         this.handleAlert();
             //     }
             // })
-            this.handleDisableModal();
         }
     }
     handleAlert(){

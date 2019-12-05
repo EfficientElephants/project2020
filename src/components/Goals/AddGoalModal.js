@@ -3,7 +3,6 @@ import { Modal, Button, Form } from 'react-bootstrap';
 
 const AddGoalModal = props => {
     if (props.selectedgoal) {
-        console.log(props.selectedgoal);
         return (
             <Modal
                 {...props}
