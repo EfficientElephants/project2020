@@ -14,6 +14,7 @@ const AddGoalModal = props => {
                     <Modal.Title>Add a Goal</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <div className="goalMsg">{props.errors.goalError}</div>
                     <Form.Group controlId="formCategory">
                         <Form.Label>Category</Form.Label>
                         <Form.Control 

@@ -7,6 +7,7 @@ import { getFromStorage } from './Storage';
 import usersAPI from '../api/userAPI';
 import Totals from './Totals';
 import AddGoal from './Goals/AddGoal';
+import Goals from './Goals/Goals';
 
 
 class Dashboard extends Component {
@@ -134,6 +135,7 @@ class Dashboard extends Component {
                         <Col>
                             <h3>Expense Breakdown</h3>
                             <Totals />
+                            <Goals />
                         </Col>
                     </Row>
                     {this.createAlert()}

@@ -78,7 +78,27 @@ class AddGoal extends Component {
         
     }
 
-    handleSave(event) {
+    // getspentTotal() {
+    //     console.log("Saving", this.state.selectedGoal);
+    //     transactionAPI.getTotalsAll(this.state.userId)
+    //     .then(allTotals => {
+    //         allTotals.forEach(function(item){
+    //             item.totals = ((item.totals/100).toFixed(2));
+    //         })
+    //         console.log(allTotals);
+    //         allTotals.forEach((element) => {
+    //             console.log(element);
+    //             if (element._id === this.state.selectedGoal.category) {
+    //                 totalSpent = element.totals
+    //             }
+    //         });
+    //     }).then(totalSpent => {return totalSpent});
+
+    // }
+
+
+
+    async handleSave(event) {
         console.log(event.currentTarget);
         event.preventDefault();
         
@@ -86,47 +106,39 @@ class AddGoal extends Component {
 
         if (this.validateForm()) {
             console.log("Saving", this.state.selectedGoal);
-            console.log('validated')
-            var totalSpent = 0;
-            transactionAPI.getTotalsAll(this.state.userId)
+
+            var spent = await (transactionAPI.getTotalsAll(this.state.userId)
             .then(allTotals => {
                 allTotals.forEach(function(item){
                     item.totals = ((item.totals/100).toFixed(2));
                 })
-                console.log(allTotals);
+                var total = 0;
                 allTotals.forEach((element) => {
-                    console.log(element);
                     if (element._id === this.state.selectedGoal.category) {
-                        totalSpent = element.totals
+                        total = element.totals;
                     }
                 });
-            });
-            console.log(totalSpent);
-                // selectedGoal.spentAmount = totalSpent;
-                // console.log(selectedGoal);
-            // goalAPI  
-            // .create(this.state.selectedGoal, this.state.userId)
-            // .then(result => {
-            //     if (result.errors) {
-            //         console.log(result);
-            //         this.setState({error: true});
+                return total
+            }));
+            this.state.selectedGoal.spentAmount = spent;
+            goalAPI  
+            .create(this.state.selectedGoal, this.state.userId)
+            .then(result => {
+                if (result.errors) {
+                    console.log(result);
+                    this.setState({errors: {"goalError": "Goal already exists, please update existing goal."}});
+                }
+                else {
 
-            //     }
-            //     else {
-
-            //         console.log('Successfully created!');
-            //         this.setState({
-            //             selectedGoal: null, 
-            //             alertOpen: true
-            //         });
-            //         this.handleDisableModal();
-            //         this.handleAlert();
-            //     }
-            // })
+                    console.log('Successfully created!');
+                    this.setState({
+                        selectedGoal: null, 
+                        alertOpen: true
+                    });
+                    this.handleDisableModal();
+                }
+            })
         }
-    }
-    handleAlert(){
-        this.props.typeChange('expense');
     }
 
     validateForm() {
