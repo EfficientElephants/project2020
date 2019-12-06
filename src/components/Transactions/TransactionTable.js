@@ -87,7 +87,7 @@ class TransactionTable extends Component {
         
     }
 
-    handleSave(event) {
+    async handleSave(event) {
         event.preventDefault();
         let validatedInputs = false
         if (this.state.selectedTransaction.transactionType === "expense"){
@@ -102,7 +102,8 @@ class TransactionTable extends Component {
             }
         }
         if(validatedInputs){
-            transactionAPI
+            // eslint-disable-next-line
+            var transRes = await(transactionAPI
                 .update(this.state.selectedTransaction)
                 .then(() => {
                     this.setState({
@@ -110,7 +111,32 @@ class TransactionTable extends Component {
                     });
                     this.handleDisableModal();
                 })
+                .catch(err => {}));
+            
+            var allTotals = await(transactionAPI.getTotalsAll(this.state.userId).then(allTotals => {
+                allTotals.forEach(function(item){
+                    item.totals = ((item.totals/100).toFixed(2));
+                })
+                return allTotals
+            }));
+
+            var allGoals = await(goalAPI.get(this.state.userId).then(allGoals => {return allGoals}))
+
+            var updatedGoal = null;
+            allTotals.forEach(function(total){
+                allGoals.forEach(function(goal){
+                    if (goal.category === total._id){
+                        updatedGoal = goal
+                        updatedGoal.spentAmount = total.totals
+                    }
+                })
+            });
+
+            if (updatedGoal) {
+                goalAPI
+                .update(updatedGoal)
                 .catch(err => {});
+            }
         }
     }
 
