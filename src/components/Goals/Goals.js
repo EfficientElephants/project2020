@@ -22,9 +22,7 @@ class Goals extends Component {
             .then(json => {
                 if (json.success){
                     this.setState({ userId: json.userId, error: false })
-                    goalAPI.get(this.state.userId).then(allGoals => {
-                        this.setState({allGoals: allGoals})
-                    })        
+                    this.getGoalsAll();     
                 } else {
                     // handle error
                     console.log('not working');
@@ -33,13 +31,24 @@ class Goals extends Component {
             
         }
     }
+    
+    componentWillReceiveProps(render) {
+        if (this.props.render){
+            this.getGoalsAll();
+        }
+    }
 
-    getGoalsAll() {
-        const allGoals = this.state.allGoals;
-        console.log(allGoals);
-
-        // return allTotals;
+    async getGoalsAll() {
+        var res = await (goalAPI.get(this.state.userId)
+            .then(allGoals => {
+                console.log(allGoals);
+                return allGoals
+            }) 
+        );
+        const allGoals = res;
         const goalArray = JSON.stringify(allGoals);
+        this.setState({allGoals: goalArray})
+        console.log(goalArray);
         return goalArray;
     }
 
@@ -47,7 +56,7 @@ class Goals extends Component {
         return (
         <div>
             <p>Goals</p>
-            <div>{this.getGoalsAll()}</div>
+            <div>{this.state.allGoals}</div>
             {/* <ul>
                 {this.getGoalsAll().map(total => (
                     <li key={total}>{total}</li>

@@ -19,8 +19,10 @@ class Dashboard extends Component {
             alertOpen: false,
             alertType: "", 
             toastShow: false,
+            render: false
         }
         this.handleChange = this.handleChange.bind(this);
+        this.rerender = this.rerender.bind(this);
     }
 
     componentDidMount() {
@@ -38,22 +40,18 @@ class Dashboard extends Component {
                     console.log('not working');
                 }
             })
-            
         }
-        
     }
 
     getFullName() {
         usersAPI.get(this.state.userId)
             .then(results => {
-                console.log(results[0]);
                 this.setState({fullName: results[0].firstName + " " + results[0].lastName});
             });
         return this.state.fullName;                          
     }
 
     handleChange(type) {
-        console.log(type);
         this.setState({
             alertType: type,
             alertOpen: true,
@@ -61,13 +59,11 @@ class Dashboard extends Component {
         })
     }
 
-    closeToast(){
-        this.setState({toastShow:false})
+    rerender(val) {
+        this.setState( {render: val} )
     }
 
     createAlert() {
-        console.log(this.state.alertOpen);
-        console.log(this.state.alertType);
         const toggleShow = () => this.setState({toastShow:false});
         if (this.state.alertOpen) {
             return (
@@ -116,10 +112,12 @@ class Dashboard extends Component {
                                 </Col>
                                 <Col>
                                     <AddExpense 
-                                        typeChange = {this.handleChange} 
+                                        typeChange = {this.handleChange}
+                                        stateChange = {this.rerender} 
                                     />
                                     <AddIncome 
                                         typeChange = {this.handleChange}
+                                        stateChange = {this.rerender}
                                     />
                                 </Col>
                             </Row>
@@ -134,8 +132,8 @@ class Dashboard extends Component {
                         </Col>
                         <Col>
                             <h3>Expense Breakdown</h3>
-                            <Totals />
-                            <Goals />
+                            <Totals render={this.state.render} />
+                            <Goals render={this.state.render} />
                         </Col>
                     </Row>
                     {this.createAlert()}

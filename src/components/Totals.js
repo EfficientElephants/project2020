@@ -20,30 +20,32 @@ class Totals extends Component {
             .then(res => res.json())
             .then(json => {
                 if (json.success){
-                    this.setState({ userId: json.userId, error: false })
-                    transactionAPI.getTotalsAll(this.state.userId).then(allTotals => {
-                        allTotals.forEach(function(item){
-                            item.totals = ((item.totals/100).toFixed(2));
-                        })
-                        this.setState({allTotals: allTotals})
-                    })
-                    
-                    
+                    this.setState({ userId: json.userId, error: false });
+                    this.getTotalsAll();
                 } else {
                     // handle error
                     console.log('not working');
                 }
             })
-            
         }
     }
 
-    getTotalsAll() {
-        const allTotals = this.state.allTotals;
-        console.log(allTotals);
+    componentWillReceiveProps(render) {
+        if (this.props.render){
+            this.getTotalsAll();
+        }
+    }
 
-        // return allTotals;
+    async getTotalsAll() {
+        var resp = await(transactionAPI.getTotalsAll(this.state.userId).then(allTotals => {
+            allTotals.forEach(function(item){
+                item.totals = ((item.totals/100).toFixed(2));
+            })
+            return allTotals
+        }));
+        const allTotals = resp;
         const totalArray = JSON.stringify(allTotals);
+        this.setState({allTotals:totalArray})
         return totalArray;
     }
 
@@ -51,7 +53,7 @@ class Totals extends Component {
         return (
         <div>
             <p>Totals</p>
-            <div>{this.getTotalsAll()}</div>
+            <div>{this.state.allTotals}</div>
             {/* <ul>
                 {this.getTotalsAll().map(total => (
                     <li key={total}>{total}</li>

@@ -40,7 +40,6 @@ class AddExpense extends Component {
                     console.log('not working');
                 }
             })
-            
         }
     }
 
@@ -63,7 +62,6 @@ class AddExpense extends Component {
             selectedExpense: {item: '', price:'', category: '', transactionType: 'expense'}
         });
         console.log("enabling");
-        console.log(this.state.showModal);
         
     }
 
@@ -76,13 +74,9 @@ class AddExpense extends Component {
     }
 
     async handleSave(event) {
-        console.log(event.currentTarget);
-        event.preventDefault();
-        
+        event.preventDefault();      
         
         if (this.validateForm()) {
-            console.log(this.state.selectedExpense)
-            
             var allGoals = await (goalAPI
             .get(this.state.userId)
             .then(goals => {
@@ -95,27 +89,21 @@ class AddExpense extends Component {
                 if(element.category === selectedExpenseCat){
                     goal = element;
                 }
+                
             })
-
-            console.log(goal.spentAmount);
-            goal.spentAmount = parseFloat(goal.spentAmount) + parseFloat(selectedExpensePrice);
-            console.log(goal.spentAmount);
-            console.log(goal);
-
-            goalAPI
-            .update(goal)
-            .catch(err => {});
-
+            if (goal) {
+                goal.spentAmount = parseFloat(goal.spentAmount) + parseFloat(selectedExpensePrice);
+                goalAPI
+                    .update(goal)
+                    .catch(err => {});
+            }
             transactionAPI
             .create(this.state.selectedExpense, this.state.userId)
             .then(result => {
                 if (result.errors) {
-                    console.log(result);
                     this.setState({error: true});
-
                 }
                 else {
-
                     console.log('Successfully created!');
                     this.setState({
                         selectedExpense: null, 
@@ -124,11 +112,13 @@ class AddExpense extends Component {
                     this.handleDisableModal();
                     this.handleAlert();
                 }
-            })
+            });
+            this.forceUpdate();
         }
     }
     handleAlert(){
         this.props.typeChange('expense');
+        this.props.stateChange(true);
     }
 
     validateForm() {
