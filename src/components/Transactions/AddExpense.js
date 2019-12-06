@@ -4,6 +4,7 @@ import { Container, Row, Button } from 'react-bootstrap';
 import AddExpenseModal from './AddExpenseModal';
 import transactionAPI from '../../api/transactionAPI';
 import { getFromStorage } from '../Storage';
+import goalAPI from '../../api/goalAPI';
 
 class AddExpense extends Component {
     constructor(props) {
@@ -74,12 +75,37 @@ class AddExpense extends Component {
         })
     }
 
-    handleSave(event) {
+    async handleSave(event) {
         console.log(event.currentTarget);
         event.preventDefault();
         
-
+        
         if (this.validateForm()) {
+            console.log(this.state.selectedExpense)
+            
+            var allGoals = await (goalAPI
+            .get(this.state.userId)
+            .then(goals => {
+                return goals
+            }));
+            var goal = null;
+            var selectedExpenseCat = this.state.selectedExpense.category;
+            var selectedExpensePrice = this.state.selectedExpense.price;
+            allGoals.forEach(function (element){
+                if(element.category === selectedExpenseCat){
+                    goal = element;
+                }
+            })
+
+            console.log(goal.spentAmount);
+            goal.spentAmount = parseFloat(goal.spentAmount) + parseFloat(selectedExpensePrice);
+            console.log(goal.spentAmount);
+            console.log(goal);
+
+            goalAPI
+            .update(goal)
+            .catch(err => {});
+
             transactionAPI
             .create(this.state.selectedExpense, this.state.userId)
             .then(result => {
