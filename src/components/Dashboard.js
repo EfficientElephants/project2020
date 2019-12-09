@@ -29,6 +29,7 @@ class Dashboard extends Component {
             .then(res => res.json())
             .then(json => {
                 if (json.success){
+                    console.log('here');
                     this.setState({ userId: json.userId })
                     this.getFullName();
                 } else {
@@ -44,14 +45,12 @@ class Dashboard extends Component {
     getFullName() {
         usersAPI.get(this.state.userId)
             .then(results => {
-                console.log(results[0]);
                 this.setState({fullName: results[0].firstName + " " + results[0].lastName});
             });
         return this.state.fullName;                          
     }
 
     handleChange(type) {
-        console.log(type);
         this.setState({
             alertType: type,
             alertOpen: true,
@@ -64,8 +63,6 @@ class Dashboard extends Component {
     }
 
     createAlert() {
-        console.log(this.state.alertOpen);
-        console.log(this.state.alertType);
         const toggleShow = () => this.setState({toastShow:false});
         if (this.state.alertOpen) {
             return (

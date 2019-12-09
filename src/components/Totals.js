@@ -39,7 +39,7 @@ class Totals extends Component {
     }
 
     getTotalsAll() {
-        console.log(this.state.allTotals);
+        // console.log(this.state.allTotals);
     }
     render() {
         return (
