@@ -55,7 +55,6 @@ class Goals extends Component {
     render() {
         return (
         <div>
-            <p>Goals</p>
             <div>{this.state.allGoals}</div>
             {/* <ul>
                 {this.getGoalsAll().map(total => (
