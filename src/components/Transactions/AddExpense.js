@@ -96,7 +96,13 @@ class AddExpense extends Component {
                         alertOpen: true
                     });
                     this.handleDisableModal();
-                    this.handleAlert();
+                    if (this.props.typeChange){
+                        console.log(true);
+                        this.handleAlert();
+                    }else{
+                        this.setState({render: true});
+                    }
+                    
                 }
             })
         }
