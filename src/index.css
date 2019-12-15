@@ -1,15 +1,56 @@
 You can add global styles to this file, and also import other style files
+
 * {
-  font-family: Arial;
+  font-family: 'Roboto';
 }
+
+.login-form {
+  width: 40% !important;
+  margin-top: 200px !important;
+  padding: 30px !important;
+  border: gray solid 1px;
+  border-radius: 5%;
+}
+
+.signup-form {
+  width: 40% !important;
+  margin-top: 100px !important;
+  padding: 30px !important;
+  border: gray solid 1px;
+  border-radius: 5%;
+}
+
+/* body {
+  background-color: #00AD79 !important;
+} */
+
+.navbar {
+  /* background-image: linear-gradient(#8DEB67, #63E0B0); */
+  background-color: #00AD79;
+  padding: 25px !important;
+}
+
+.navbar-link {
+  color: white;
+  padding: 8px;
+  margin-top: 40px;
+}
+
+.navbar-link:hover {
+  color: white;
+}
+
+.navbar-link:active {
+  text-decoration: underline;
+}
+
+/* .dashboard-title { */
+  /* text-align: center; */
+/* } */
 
 h2 {
   color: #444;
   font-weight: lighter;
-}
-
-body {
-  margin: 2em;
 }
 
 body,
@@ -20,7 +61,7 @@ button {
 
 button {
   font-size: 14px;
-  font-family: Arial;
+  /* font-family: Arial; */
   background-color: #eee;
   border: none;
   padding: 5px 10px;
@@ -41,15 +82,11 @@ button.delete-button {
   font-size: 12px;
 }
 
-div {
-  margin: .1em;
-}
-
-.selected {
+/* .selected {
   background-color: #cfd8dc !important;
   background-color: #0078d7 !important;
   color: white;
-}
+} */
 
 /* .users {
   float: left;
@@ -168,4 +205,41 @@ input::placeholder {
 
 .incomeAmount {
   color: green;
+}
+
+.graph {
+  position: relative;
+  max-width: 800px;
+  height: 400px;
+  /* background-color: #ddd; */
+  display: flex;
+}
+
+.line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(0,0,0,0.1);
+  left:10%;
+}
+
+.bar-text-content {
+  height: 100%;
+  width: 12%;
+}
+
+.bar-lines-container {
+  width: 88%;
+  height: 100%;
+  position: relative;
+  background-color: #ddd;
+}
+
+.bar {
+  height: 16.66667%;
+  background-color: #e05b42;
+  z-index: 25;
+  border-bottom: 1px solid #222;
+  border-right: 1px solid #222;
 }

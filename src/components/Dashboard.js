@@ -5,7 +5,9 @@ import AddExpense from './Transactions/AddExpense';
 import AddIncome from './Transactions/Income/AddIncome';
 import { getFromStorage } from './Storage';
 import usersAPI from '../api/userAPI';
+import transactionAPI from '../api/transactionAPI';
 import Totals from './Totals';
+import Graph from './Graph/Graph';
 
 
 class Dashboard extends Component {
@@ -31,6 +33,7 @@ class Dashboard extends Component {
                 if (json.success){
                     this.setState({ userId: json.userId })
                     this.getFullName();
+                    this.total();
                 } else {
                     // handle error
                     console.log('not working');
@@ -41,6 +44,11 @@ class Dashboard extends Component {
         
     }
 
+    total() {
+        transactionAPI.getSpendingTotal(this.state.userId).then(spendTotal => {
+            this.setState({spentTotal: (spendTotal[0].spendingTotal/100).toFixed(2)})
+        })
+    }
     getFullName() {
         usersAPI.get(this.state.userId)
             .then(results => {
@@ -57,6 +65,10 @@ class Dashboard extends Component {
             alertOpen: true,
             toastShow: true
         })
+    }
+
+    rerender(val) {
+        this.setState({render: val})
     }
 
     closeToast(){
@@ -103,20 +115,23 @@ class Dashboard extends Component {
                 <Container>
                     
                     <br />
-                    <h1>{this.state.fullName}'s Dashboard</h1>
+                    <h3 class="dashboard-title">Welcome back, {this.state.fullName}!</h3>
                     <br />
                     <Row>
                         <Col>
                             <h3>Spending Status</h3>
                             <Row>
-                                <Col>
+                                <Col md={6}>
                                     <p>A graph of spending status will go here later.</p>
+                                    <Graph spentTotal = {this.state.spentTotal} />
                                     <Totals />
                                 </Col>
                                 <Col>
                                     <AddExpense 
                                         typeChange = {this.handleChange} 
                                     />
+                                </Col>
+                                <Col>
                                     <AddIncome 
                                         typeChange = {this.handleChange}
                                     />
