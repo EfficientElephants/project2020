@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { Container, Row, Button } from 'react-bootstrap';
 
-import AddExpenseModal from './AddExpenseModal';
-import transactionAPI from '../../api/transactionAPI';
-import { getFromStorage } from '../Storage';
+import AddGoalModal from './AddGoalModal';
 import goalAPI from '../../api/goalAPI';
+import transactionAPI from '../../api/transactionAPI'
+import { getFromStorage } from '../Storage';
 
-class AddExpense extends Component {
+class AddGoal extends Component {
     constructor(props) {
         super();
         this.state = {
             userId: '',
-            expenses: [],
             errors: {},
             showModal: false, 
         };
@@ -33,25 +32,25 @@ class AddExpense extends Component {
             .then(json => {
                 if (json.success){
                     this.setState({ userId: json.userId }) //, error: false })
-                    // transactionAPI.get(this.state.userId).then(json => this.setState({expenses:json}));  
                     
                 } else {
                     // handle error
                     console.log('not working');
                 }
             })
+            
         }
     }
 
     handleChange(event) {
-        let selectedExpense = this.state.selectedExpense;
-        selectedExpense[event.target.name] = event.target.value;
-        this.setState({ selectedExpense: selectedExpense });
+        let selectedGoal = this.state.selectedGoal;
+        selectedGoal[event.target.name] = event.target.value;
+        this.setState({ selectedGoal: selectedGoal });
 
     }
 
     handleCancel() {
-        this.setState({ selectedExpense: null, showModal: false });
+        this.setState({ selectedGoal: null, showModal: false });
         this.handleDisableModal();
 
     }
@@ -59,9 +58,10 @@ class AddExpense extends Component {
     handleEnableModal () {
         this.setState({
             showModal: true,
-            selectedExpense: {item: '', price:'', category: '', transactionType: 'expense'}
+            selectedGoal: {category: '', goalAmount: ''}
         });
         console.log("enabling");
+        console.log(this.state.showModal);
         
     }
 
@@ -69,89 +69,98 @@ class AddExpense extends Component {
         console.log("disabling");
         this.setState({
             showModal: false,
-            selectedExpense: null
+            selectedGoal: null
         })
     }
 
-    async handleSave(event) {
-        event.preventDefault();      
+    findSpentTotalAmount(allTotals) {
+        console.log(this.state.selectedGoal.category);
         
+    }
+
+    // getspentTotal() {
+    //     console.log("Saving", this.state.selectedGoal);
+    //     transactionAPI.getTotalsAll(this.state.userId)
+    //     .then(allTotals => {
+    //         allTotals.forEach(function(item){
+    //             item.totals = ((item.totals/100).toFixed(2));
+    //         })
+    //         console.log(allTotals);
+    //         allTotals.forEach((element) => {
+    //             console.log(element);
+    //             if (element._id === this.state.selectedGoal.category) {
+    //                 totalSpent = element.totals
+    //             }
+    //         });
+    //     }).then(totalSpent => {return totalSpent});
+
+    // }
+
+
+
+    async handleSave(event) {
+        console.log(event.currentTarget);
+        event.preventDefault();
+        
+        
+
         if (this.validateForm()) {
-            var allGoals = await (goalAPI
-            .get(this.state.userId)
-            .then(goals => {
-                return goals
+            console.log("Saving", this.state.selectedGoal);
+
+            var spent = await (transactionAPI.getTotalsAll(this.state.userId)
+            .then(allTotals => {
+                allTotals.forEach(function(item){
+                    item.totals = ((item.totals/100).toFixed(2));
+                })
+                var total = 0;
+                allTotals.forEach((element) => {
+                    if (element._id === this.state.selectedGoal.category) {
+                        total = element.totals;
+                    }
+                });
+                return total
             }));
-            var goal = null;
-            var selectedExpenseCat = this.state.selectedExpense.category;
-            var selectedExpensePrice = this.state.selectedExpense.price;
-            allGoals.forEach(function (element){
-                if(element.category === selectedExpenseCat){
-                    goal = element;
-                }
-                
-            })
-            if (goal) {
-                goal.spentAmount = parseFloat(goal.spentAmount) + parseFloat(selectedExpensePrice);
-                goalAPI
-                    .update(goal)
-                    .catch(err => {});
-            }
-            transactionAPI
-            .create(this.state.selectedExpense, this.state.userId)
+            this.state.selectedGoal.spentAmount = spent;
+            goalAPI  
+            .create(this.state.selectedGoal, this.state.userId)
             .then(result => {
                 if (result.errors) {
-                    this.setState({error: true});
+                    console.log(result);
+                    this.setState({errors: {"goalError": "Goal already exists, please update existing goal."}});
                 }
                 else {
+
                     console.log('Successfully created!');
                     this.setState({
-                        selectedExpense: null, 
+                        selectedGoal: null, 
                         alertOpen: true
                     });
                     this.handleDisableModal();
-                    if (this.props.typeChange){
-                        console.log(true);
-                        this.handleAlert();
-                    }else{
-                        this.setState({render: true});
-                    }
-                    
                 }
-            });
-            this.forceUpdate();
+            })
         }
-    }
-    handleAlert(){
-        this.props.typeChange('expense');
-        this.props.stateChange(true);
     }
 
     validateForm() {
-        let v_expense = this.state.selectedExpense;
+        let v_goal = this.state.selectedGoal;
         let errors = {};
         let formIsValid = true;
-  
-        if (!v_expense.item) {
+
+        if (!v_goal.goalAmount) {
             formIsValid = false;
-            errors["item"] = "Please enter an item.";
+            errors["goalAmount"] = "Please enter a valid amount.";
         }
 
-        if (!v_expense.price) {
-            formIsValid = false;
-            errors["price"] = "Please enter a valid price.";
-        }
-
-        if (v_expense.price !== "") {
+        if (v_goal.goalAmount !== "") {
             //regular expression for price validation
             var pattern = new RegExp(/^(\d+(\.\d{2})?|\.\d{2})$/);
-            if (!pattern.test(v_expense.price)) {
+            if (!pattern.test(v_goal.goalAmount)) {
                 formIsValid = false;
-                errors["price"] = "Please enter a valid non-negative price";
+                errors["goalAmount"] = "Please enter a valid non-negative amount";
             }
         }
 
-        if (!v_expense.category) {
+        if (!v_goal.category) {
             formIsValid = false;
             errors["category"] = "Please select a category.";
         }
@@ -166,14 +175,14 @@ class AddExpense extends Component {
             <Container>
                 <Row>
                     <div>
-                        <Button variant="secondary" onClick={this.handleEnableModal}>Add New Expense</Button>
-                        <AddExpenseModal 
+                        <Button variant="secondary" onClick={this.handleEnableModal}>Add New Goal</Button>
+                        <AddGoalModal 
                             show={this.state.showModal}
                             onHide={this.handleDisableModal}
                             onSubmit = {this.handleSave}
                             onCancel = {this.handleCancel}
                             onChange = {this.handleChange}
-                            selectedexpense = {this.state.selectedExpense}
+                            selectedgoal = {this.state.selectedGoal}
                             errors = {this.state.errors}
                         />
                     </div>
@@ -182,4 +191,4 @@ class AddExpense extends Component {
         )
     }
 }
-export default AddExpense;
+export default AddGoal;
