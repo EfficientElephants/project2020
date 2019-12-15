@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Table } from 'react-bootstrap';
 import Transaction from './TransactionRow';
 import transactionAPI from '../../api/transactionAPI';
+import goalAPI from '../../api/goalAPI'
 import { getFromStorage } from '../Storage';
 import AddExpenseModal from './AddExpenseModal';
 import AddIncomeModal from './Income/AddIncomeModal';
@@ -52,9 +53,9 @@ class TransactionTable extends Component {
         console.log(transaction);
     }
 
-    handleDelete(event, transaction) {
-        console.log(transaction);
+    async handleDelete(event, transaction) {
         event.stopPropagation();
+        let price = transaction.price
         transactionAPI.destroy(transaction).then(() => {
             let transactions = this.state.transactions;
             transactions = transactions.filter(h => h !== transaction);
@@ -64,9 +65,29 @@ class TransactionTable extends Component {
                 this.setState({ selectedTransaction: null });
             }
         });
+        var goals = await (goalAPI
+            .get(this.state.userId)
+            .then(goals => {
+                return goals
+            })
+        )
+        var goal = null;
+        goals.forEach( (item) => {
+            if (item.category === transaction.category){
+                goal = item;
+            }
+        })
+        console.log(goal);
+        if (goal){
+            goal.spentAmount = parseFloat(goal.spentAmount) - parseFloat(price)
+            goalAPI
+                .update(goal)
+                .catch(err => {});
+        }
+        
     }
 
-    handleSave(event) {
+    async handleSave(event) {
         event.preventDefault();
         let validatedInputs = false
         if (this.state.selectedTransaction.transactionType === "expense"){
@@ -81,7 +102,8 @@ class TransactionTable extends Component {
             }
         }
         if(validatedInputs){
-            transactionAPI
+            // eslint-disable-next-line
+            var transRes = await(transactionAPI
                 .update(this.state.selectedTransaction)
                 .then(() => {
                     this.setState({
@@ -89,7 +111,32 @@ class TransactionTable extends Component {
                     });
                     this.handleDisableModal();
                 })
+                .catch(err => {}));
+            
+            var allTotals = await(transactionAPI.getTotalsAll(this.state.userId).then(allTotals => {
+                allTotals.forEach(function(item){
+                    item.totals = ((item.totals/100).toFixed(2));
+                })
+                return allTotals
+            }));
+
+            var allGoals = await(goalAPI.get(this.state.userId).then(allGoals => {return allGoals}))
+
+            var updatedGoal = null;
+            allTotals.forEach(function(total){
+                allGoals.forEach(function(goal){
+                    if (goal.category === total._id){
+                        updatedGoal = goal
+                        updatedGoal.spentAmount = total.totals
+                    }
+                })
+            });
+
+            if (updatedGoal) {
+                goalAPI
+                .update(updatedGoal)
                 .catch(err => {});
+            }
         }
     }
 
@@ -245,4 +292,4 @@ class TransactionTable extends Component {
         )
     }
 }
-export default TransactionTable
+export default TransactionTable;

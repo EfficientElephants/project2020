@@ -8,6 +8,8 @@ import usersAPI from '../api/userAPI';
 import transactionAPI from '../api/transactionAPI';
 import Totals from './Totals';
 import Graph from './Graph/Graph';
+import AddGoal from './Goals/AddGoal';
+import Goals from './Goals/Goals';
 
 
 class Dashboard extends Component {
@@ -19,8 +21,10 @@ class Dashboard extends Component {
             alertOpen: false,
             alertType: "", 
             toastShow: false,
+            render: false
         }
         this.handleChange = this.handleChange.bind(this);
+        this.rerender = this.rerender.bind(this);
     }
 
     componentDidMount() {
@@ -31,6 +35,7 @@ class Dashboard extends Component {
             .then(res => res.json())
             .then(json => {
                 if (json.success){
+                    console.log('here');
                     this.setState({ userId: json.userId })
                     this.getFullName();
                     this.total();
@@ -39,9 +44,7 @@ class Dashboard extends Component {
                     console.log('not working');
                 }
             })
-            
         }
-        
     }
 
     total() {
@@ -52,14 +55,12 @@ class Dashboard extends Component {
     getFullName() {
         usersAPI.get(this.state.userId)
             .then(results => {
-                console.log(results[0]);
                 this.setState({fullName: results[0].firstName + " " + results[0].lastName});
             });
         return this.state.fullName;                          
     }
 
     handleChange(type) {
-        console.log(type);
         this.setState({
             alertType: type,
             alertOpen: true,
@@ -68,16 +69,10 @@ class Dashboard extends Component {
     }
 
     rerender(val) {
-        this.setState({render: val})
-    }
-
-    closeToast(){
-        this.setState({toastShow:false})
+        this.setState( {render: val} )
     }
 
     createAlert() {
-        console.log(this.state.alertOpen);
-        console.log(this.state.alertType);
         const toggleShow = () => this.setState({toastShow:false});
         if (this.state.alertOpen) {
             return (
@@ -128,12 +123,14 @@ class Dashboard extends Component {
                                 </Col>
                                 <Col>
                                     <AddExpense 
-                                        typeChange = {this.handleChange} 
+                                        typeChange = {this.handleChange}
+                                        stateChange = {this.rerender} 
                                     />
                                 </Col>
                                 <Col>
                                     <AddIncome 
                                         typeChange = {this.handleChange}
+                                        stateChange = {this.rerender}
                                     />
                                 </Col>
                             </Row>
@@ -148,15 +145,13 @@ class Dashboard extends Component {
                         </Col>
                         <Col>
                             <h3>Expense Breakdown</h3>
-                            <p>Rent</p>
-                            <p>Food</p>
-                            <p>Social</p>
-                            <p>Medical</p>
-                            <p>Transportation</p>
-                            <p>Personal Care</p>
+                            <Totals render={this.state.render} />
+                            <Goals render={this.state.render} />
                         </Col>
                     </Row>
                     {this.createAlert()}
+
+                    <AddGoal />
                 </Container>
             </div>
         );

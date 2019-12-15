@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 //import { Container, Row, Table } from 'react-bootstrap';
-import transactionAPI from '../api/transactionAPI';
-import { getFromStorage } from './Storage';
+//import  from '../api/transactionAPI';
+import { getFromStorage } from '../Storage';
+import goalAPI from '../../api/goalAPI';
 
-class Totals extends Component {
+class Goals extends Component {
     constructor() {
         super();
         this.state = {
             userId: '',
-            allTotals: [],
+            allGoals: [],
         }
     }
     async componentDidMount() {
@@ -20,42 +21,44 @@ class Totals extends Component {
             .then(res => res.json())
             .then(json => {
                 if (json.success){
-                    this.setState({ userId: json.userId, error: false });
-                    this.getTotalsAll();
+                    this.setState({ userId: json.userId, error: false })
+                    this.getGoalsAll();     
                 } else {
                     // handle error
                     console.log('not working');
                 }
             })
+            
         }
     }
-
+    
     componentWillReceiveProps(render) {
         if (this.props.render){
-            this.getTotalsAll();
+            this.getGoalsAll();
         }
     }
 
-    async getTotalsAll() {
-        var resp = await(transactionAPI.getTotalsAll(this.state.userId).then(allTotals => {
-            allTotals.forEach(function(item){
-                item.totals = ((item.totals/100).toFixed(2));
-            })
-            return allTotals
-        }));
-        const allTotals = resp;
-        const totalArray = JSON.stringify(allTotals);
-        this.setState({allTotals:totalArray})
-        return totalArray;
+    async getGoalsAll() {
+        var res = await (goalAPI.get(this.state.userId)
+            .then(allGoals => {
+                console.log(allGoals);
+                return allGoals
+            }) 
+        );
+        const allGoals = res;
+        const goalArray = JSON.stringify(allGoals);
+        this.setState({allGoals: goalArray})
+        console.log(goalArray);
+        return goalArray;
     }
 
     render() {
         return (
         <div>
-            <p>Totals</p>
-            <div>{this.state.allTotals}</div>
+            <p>Goals</p>
+            <div>{this.state.allGoals}</div>
             {/* <ul>
-                {this.getTotalsAll().map(total => (
+                {this.getGoalsAll().map(total => (
                     <li key={total}>{total}</li>
                 ))}
             </ul> */}
@@ -63,4 +66,4 @@ class Totals extends Component {
         );
     }
 }
-export default Totals;
+export default Goals;
