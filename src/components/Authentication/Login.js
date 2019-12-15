@@ -17,14 +17,13 @@ class Login extends Component {
         }
 
     this.onLogin = this.onLogin.bind(this);
-    this.authenticate = this.authenticate.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
 }
 
     componentDidMount() {
         this.setState({
-            isLoading: false,
+            isLoading: true,
         })
         const obj = getFromStorage('expense_app');
         if (obj && obj.token) {
@@ -38,7 +37,16 @@ class Login extends Component {
                         token,
                         isLoading: false
                     })
-                    this.authenticate();
+                    // console.log(this.props.location.state)
+                    auth.login(() => {
+                        if (this.props.location.state) {
+                            this.props.history.push(this.props.location.state);
+                        } else {
+                            this.props.history.push('/dashboard')
+                        }
+                        
+                    })
+                    // this.authenticate();
                 } else {
                     this.setState({
                         isLoading: false,
@@ -50,6 +58,20 @@ class Login extends Component {
                 isLoading: false,
             })
         }
+        // console.log(auth.isAuthenticated());
+        // if (auth.isAuthenticated()){
+        //     const obj = getFromStorage('expense_app');
+        //     const { token } = obj;
+        //     this.authenticate();
+        //     this.setState({
+        //         token,
+        //         isLoading: false
+        //     })
+        // } else {
+        //     this.setState({
+        //         isLoading: false,
+        //     })
+        // }
     }
 
     onChangeEmail(event) {
@@ -92,7 +114,9 @@ class Login extends Component {
               isLoading: false,
               token: json.token
             });
-            this.authenticate();
+            auth.login(() => {
+                this.props.history.push('/dashboard');
+            })
           } else {
             this.setState({
               loginError: json.message,
@@ -100,12 +124,6 @@ class Login extends Component {
             });
           }
         });
-      }
-
-      authenticate() {
-            auth.login(() => {
-                this.props.history.push('/dashboard');
-            })
       }
 
     render () {
