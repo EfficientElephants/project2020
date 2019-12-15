@@ -28,38 +28,46 @@ class Graph extends Component {
     // }
 
     async componentDidMount() {
+        this.setState({rerender: false});
         var userId = await this.getUserId();
         this.setState({userId: userId})
         if (userId) {
             var catTotal = await this.renderCatTotals();
             var spendingTotal = await this.renderSpendingTotal();
-            this.setState({catTotals: catTotal, spentTotal: spendingTotal})
+            this.setState({catTotals: catTotal, spentTotal: spendingTotal,})
+            var dataPoints = this.creatingDataPoints();
+            this.setState({datapoints: dataPoints})
         }
         
     }
 
-    async componentDidUpdate() {
-
-        if(this.props.spendingTotal !== this.state.spentTotal){
+    async componentWillReceiveProps(render) {
+        if (this.props.render) {
+            console.log("RENDERING");
             var catTotal = await this.renderCatTotals();
             var spendingTotal = await this.renderSpendingTotal();
-            this.setState({catTotals: catTotal, spentTotal: spendingTotal})
+            this.setState({catTotals: catTotal, spentTotal: spendingTotal,})
+            var dataPoints = this.creatingDataPoints();
+            this.setState({datapoints: dataPoints})
         }
     }
 
     creatingDataPoints() {
         var dataPoints = [];
         this.state.catTotals.forEach(cat => {
-            var category = cat._id;
-            var categoryTotal = cat.totals;
-            var percent = 100 * (categoryTotal/this.state.spentTotal).toFixed(2);
-            dataPoints.push({
-                y: percent,
-                label: category
-            })
+            if (cat._id !== "Income"){
+                var category = cat._id;
+                var categoryTotal = cat.totals;
+                var percent = 100 * (categoryTotal/this.state.spentTotal).toFixed(2);
+                dataPoints.push({
+                    y: percent,
+                    label: category
+                })
+            }
+            
         }) 
 
-        return (dataPoints)
+        return dataPoints
     }
 
     async getUserId() {
@@ -100,6 +108,7 @@ class Graph extends Component {
     }
 
     render() {
+        console.log(this.state.datapoints);
         const options = {
 			theme: "dark",
 			animationEnabled: true,
@@ -114,7 +123,7 @@ class Graph extends Component {
 				toolTipContent: "{label}: <strong>{y}%</strong>",
 				indexLabel: "{y}%",
 				indexLabelPlacement: "inside",
-                dataPoints: this.creatingDataPoints()
+                dataPoints: this.state.datapoints
                 //[
 				// 	{ y: 32, label: "Rent" },
 				// 	{ y: 22, label: "Food" },

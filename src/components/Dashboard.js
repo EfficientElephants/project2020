@@ -118,8 +118,7 @@ class Dashboard extends Component {
                             <Row>
                                 <Col md={6}>
                                     <p>A graph of spending status will go here later.</p>
-                                    <Graph spentTotal = {this.state.spentTotal} />
-                                    <Totals />
+                                    <Graph render = {this.state.render} />
                                 </Col>
                                 <Col>
                                     <AddExpense 
