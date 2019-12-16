@@ -13,7 +13,8 @@ const transactionAPI = {
   },
 
   create(transaction, userId) {
-    console.log(transaction);
+    console.log(transaction.date);
+    console.log(JSON.stringify(transaction));
     return new Promise((resolve, reject) => {
       fetch(`${baseAPI}/transaction?userId=` + userId, {
         method: 'POST',

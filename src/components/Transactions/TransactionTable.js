@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Table } from 'react-bootstrap';
+import { parseISO, format } from 'date-fns';
 import Transaction from './TransactionRow';
 import transactionAPI from '../../api/transactionAPI';
 import { getFromStorage } from '../Storage';
@@ -48,6 +49,7 @@ class TransactionTable extends Component {
         this.setState({ 
             selectedTransaction: transaction
         });
+        console.log(transaction.date);
         this.handleEnableModal(transaction);
         console.log(transaction);
     }
@@ -109,6 +111,8 @@ class TransactionTable extends Component {
     }
 
     handleEnableModal (transaction) {
+        transaction.date = (parseISO(transaction.date));
+        console.log(transaction);
         if(transaction.transactionType === "expense"){
             this.setState({
                 showExpenseModal: true
@@ -206,6 +210,7 @@ class TransactionTable extends Component {
                             onChange = {this.handleChange}
                             selectedexpense = {this.state.selectedTransaction}
                             errors = {this.state.errors}
+                            datechange = {this.handleDateChange}
                         />
                         <AddIncomeModal
                             show={this.state.showIncomeModal}
@@ -222,6 +227,7 @@ class TransactionTable extends Component {
                     <Table>
                         <thead>
                             <tr>
+                                <th>Date</th>
                                 <th>Category</th>
                                 <th>Item</th>
                                 <th>Price</th>

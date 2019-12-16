@@ -6,7 +6,7 @@ require('../mongo').connect();
 function get(req, res) {
   const { query } = req;
   const { userId } = query;
-  const docquery = Transaction.find({userId: userId}).sort({createdAt: 'descending'}).read(ReadPreference.NEAREST);
+  const docquery = Transaction.find({userId: userId}).sort({date: 'descending', createdAt: 'descending'}).read(ReadPreference.NEAREST);
   return docquery
     .then(transactions => {
       res.json(transactions);
@@ -17,10 +17,11 @@ function get(req, res) {
 }
 
 function create(req, res) {
-  const { item, price, category, transactionType } = req.body;
+  const { item, date, price, category, transactionType } = req.body;
   const { query } = req;
   const { userId } = query;
-  const transaction = new Transaction({ userId, item, price, category, transactionType});
+  const transaction = new Transaction({ userId, date, item, price, category, transactionType});
+  console.log(transaction.date);
   transaction
     .save()
     .then(() => {
@@ -33,11 +34,12 @@ function create(req, res) {
   
 
 function update(req, res) {
-  const { item, price, category, _id} = req.body;
-
+  const { item, date, price, category, _id} = req.body;
+  console.log(date);
   Transaction.findOne({ _id })
   .then(transaction => {
     transaction.item = item;
+    transaction.date = date;
     transaction.price = price;
     transaction.category = category;
     transaction.updatedAt = Date.now();

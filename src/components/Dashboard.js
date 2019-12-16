@@ -66,10 +66,11 @@ class Dashboard extends Component {
         const toggleShow = () => this.setState({toastShow:false});
         if (this.state.alertOpen) {
             return (
+                <div>
                     <Toast 
                         style={{
                             position: 'absolute',
-                            top: '2%',
+                            top: '5%',
                             right: 0,
                             background: "#5cb85c"
                         }}
@@ -88,7 +89,10 @@ class Dashboard extends Component {
                         </Toast.Header>
                         <Toast.Body>{this.state.alertType==="expense" ? "Sucessfully Added Expense": "Sucessfully Added Income" }</Toast.Body>
                     </Toast>
+                </div>
             )
+        } else {
+            return <div></div>
         }
     }
 

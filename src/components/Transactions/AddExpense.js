@@ -13,8 +13,11 @@ class AddExpense extends Component {
             expenses: [],
             errors: {},
             showModal: false, 
-        };
+            date: new Date(),
+            focus: null,
 
+        };
+        this.handleDateChange = this.handleDateChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -43,11 +46,21 @@ class AddExpense extends Component {
         }
     }
 
+    
+
+    handleDateChange(val, propSelected){
+        console.log(val.format("DD/MM/YYYY"));
+        this.setState({date: val});
+        console.log(this.state.date)
+        let selectedExpense = propSelected;
+        selectedExpense['date'] = val;
+        this.setState({selectedExpense: selectedExpense});
+    }
+
     handleChange(event) {
         let selectedExpense = this.state.selectedExpense;
         selectedExpense[event.target.name] = event.target.value;
         this.setState({ selectedExpense: selectedExpense });
-
     }
 
     handleCancel() {
@@ -57,9 +70,10 @@ class AddExpense extends Component {
     }
 
     handleEnableModal () {
+        console.log(this.state.date);
         this.setState({
             showModal: true,
-            selectedExpense: {item: '', price:'', category: '', transactionType: 'expense'}
+            selectedExpense: {date: this.state.date, item: '', price:'', category: '', transactionType: 'expense'}
         });
         console.log("enabling");
         console.log(this.state.showModal);
@@ -78,6 +92,7 @@ class AddExpense extends Component {
         console.log(event.currentTarget);
         event.preventDefault();
         
+        console.log(this.state.selectedExpense);
 
         if (this.validateForm()) {
             transactionAPI
@@ -153,6 +168,7 @@ class AddExpense extends Component {
                             onChange = {this.handleChange}
                             selectedexpense = {this.state.selectedExpense}
                             errors = {this.state.errors}
+                            datechange = {this.handleDateChange}
                         />
                     </div>
                 </Row>

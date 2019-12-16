@@ -8,6 +8,7 @@ const Transaction = props => {
         <tr 
             className={props.transaction === props.selectedTransaction ? 'selected' : ''} 
         >
+            <td>{props.transaction.date}</td>
             <td>{props.transaction.category}</td>
             <td>{props.transaction.item}</td>
             <td
