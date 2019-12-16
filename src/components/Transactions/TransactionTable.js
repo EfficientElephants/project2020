@@ -305,6 +305,9 @@ class TransactionTable extends Component {
                                     onDelete={this.handleDelete}
                                 />
                             })}
+                            <tr>
+                                <th>I AM TESTING THIS</th>
+                            </tr>
                         </tbody>
                     </Table>
                 </Row>

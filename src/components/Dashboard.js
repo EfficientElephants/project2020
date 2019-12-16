@@ -80,7 +80,7 @@ class Dashboard extends Component {
                     <Toast 
                         style={{
                             position: 'absolute',
-                            top: '2%',
+                            top: '6%',
                             right: '2%',
                             background: "white"
                         }}

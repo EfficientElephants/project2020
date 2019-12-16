@@ -36,7 +36,10 @@ class Transactions extends Component {
                 <AddIncome stateChange = {this.rerender} />
               </Col>
             </Row>
-            <TransactionTable render={this.state.render} />
+            <br />
+            <Row>
+              <TransactionTable render={this.state.render} />
+            </Row>
           </Container>
         </div>
       );
