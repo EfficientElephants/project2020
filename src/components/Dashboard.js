@@ -20,7 +20,9 @@ class Dashboard extends Component {
             alertOpen: false,
             alertType: "", 
             toastShow: false,
-            render: false
+            render: false,
+            spendingTotal: '',
+            incomeTotal: ''
         }
         this.handleChange = this.handleChange.bind(this);
         this.rerender = this.rerender.bind(this);
@@ -37,6 +39,22 @@ class Dashboard extends Component {
                     this.setState({ userId: json.userId })
                     this.getFullName();
                     this.total();
+
+                    transactionAPI.getSpendingTotal(this.state.userId).then(json => {
+                        if (json[0]){
+                            this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
+                        } else {
+                            this.setState({spendingTotal: 0});
+                        }
+                    });
+                    transactionAPI.getIncomeTotal(this.state.userId).then(json => {
+                        if (json[0]){
+                            this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
+                        } else {
+                            this.setState({incomeTotal: 0});
+                        }
+                    });
+
                 } else {
                     // handle error
                     console.log('not working');
@@ -132,6 +150,18 @@ class Dashboard extends Component {
                                 typeChange = {this.handleChange}
                                 stateChange = {this.rerender}
                             />
+                        </Col>
+                    </Row>
+                    <br/>
+                    <Row>
+                        <h5>For this period, you have done the following:</h5>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <h6>Spent ${this.state.spendingTotal}</h6>
+                        </Col>
+                        <Col>
+                            <h6>Earned ${this.state.incomeTotal}</h6>
                         </Col>
                     </Row>
                     
