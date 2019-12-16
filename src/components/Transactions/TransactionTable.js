@@ -19,6 +19,7 @@ class TransactionTable extends Component {
             showIncomeModal: false,
             rerender: false
         }
+        this.handleDateChange = this.handleDateChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
@@ -51,6 +52,14 @@ class TransactionTable extends Component {
             })
             
         }
+    }
+
+    handleDateChange(val, propSelected){
+        this.setState({date: val});
+        console.log(this.state.date)
+        let selectedExpense = propSelected;
+        selectedExpense['date'] = val;
+        this.setState({selectedExpense: selectedExpense});
     }
 
     handleSelect(transaction) {
@@ -120,7 +129,6 @@ class TransactionTable extends Component {
                     this.setState({
                         selectedTransaction: null
                     });
-                    this.handleDisableModal();
                 })
                 .catch(err => {}));
             
@@ -148,6 +156,10 @@ class TransactionTable extends Component {
                 .update(updatedGoal)
                 .catch(err => {});
             }
+
+            await transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
+            this.handleDisableModal();
+            
         }
     }
 

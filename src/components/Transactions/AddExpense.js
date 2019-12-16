@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Button } from 'react-bootstrap';
-
+import { parseISO, format } from 'date-fns';
 import AddExpenseModal from './AddExpenseModal';
 import transactionAPI from '../../api/transactionAPI';
 import { getFromStorage } from '../Storage';
@@ -46,10 +46,7 @@ class AddExpense extends Component {
         }
     }
 
-    
-
     handleDateChange(val, propSelected){
-        console.log(val.format("DD/MM/YYYY"));
         this.setState({date: val});
         console.log(this.state.date)
         let selectedExpense = propSelected;

@@ -13,6 +13,7 @@ class AddExpenseModal extends Component {
     }
     render() {
         if (this.props.selectedexpense) {
+            console.log(this.props.selectedexpense.date)
             return (
                 <Modal
                     {...this.props}
@@ -77,8 +78,8 @@ class AddExpenseModal extends Component {
                         </Form.Group>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={this.props.onHide}>
-                            Close
+                        <Button variant="secondary" onClick={this.props.onCancel}>
+                            Cancel
                         </Button>
                         <Button variant="primary" onClick={this.props.onSubmit}>
                             Save Changes
