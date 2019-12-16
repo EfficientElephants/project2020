@@ -80,7 +80,11 @@ class Graph extends Component {
 
     async renderSpendingTotal() {
         return await transactionAPI.getSpendingTotal(this.state.userId).then(spendTotal => {
-            return (spendTotal[0].spendingTotal/100).toFixed(2)
+            if(spendTotal[0]){
+                return (spendTotal[0].spendingTotal/100).toFixed(2)
+            }else {
+                return 0
+            }
         })
     }
 
