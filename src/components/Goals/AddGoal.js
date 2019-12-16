@@ -73,11 +73,6 @@ class AddGoal extends Component {
         })
     }
 
-    handleSelect(goal) {
-        this.setState({selectedGoal:goal});
-        this.handleEnableModal(goal);
-    }
-
     async handleSave(event) {
         console.log(event.currentTarget);
         event.preventDefault();
@@ -107,13 +102,13 @@ class AddGoal extends Component {
                     this.setState({errors: {"goalError": "Goal already exists, please update existing goal."}});
                 }
                 else {
-
                     console.log('Successfully created!');
                     this.setState({
                         selectedGoal: null, 
                         alertOpen: true
                     });
                     this.handleDisableModal();
+                    this.props.stateChange(true);
                 }
             })
         }

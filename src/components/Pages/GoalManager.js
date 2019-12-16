@@ -7,10 +7,17 @@ import Goals from '../Goals/Goals';
 
 class GoalManager extends Component {
 
-//     const now = 60;
-//     const progressInstance = <ProgressBar now={now} label={`${now}%`} srOnly />;
+    constructor() {
+        super();
+        this.state = {render: false}
 
-// render(progressInstance);
+        this.rerender = this.rerender.bind(this);
+    }
+
+    rerender(val) {
+        this.setState({render:val});
+        this.forceUpdate();
+    }
 
     render() {
         return (
@@ -20,9 +27,14 @@ class GoalManager extends Component {
                     <br />
                     <h1>Manage Goals</h1>
                     <br />
-                    <AddGoal />
+                    <AddGoal 
+                        stateChange = {this.rerender}
+                    />
                     <br />
-                    <Goals />
+                    <Goals 
+                        render = {this.state.render}
+                        stateChange = {this.rerender}
+                    />
                 </Container>
             </div>
         );

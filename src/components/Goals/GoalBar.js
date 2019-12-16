@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, ProgressBar } from 'react-bootstrap';
+import { Row, Col, ProgressBar, Button } from 'react-bootstrap';
 //import  from '../api/transactionAPI';
 
 class GoalBar extends Component {
@@ -7,12 +7,20 @@ class GoalBar extends Component {
         super();
         this.state = {
             gradient: "",
-            percent: ""
+            percent: "",
+            //refresh: false
         };
 
         this.percent = this.percent.bind(this);
         this.gradient = this.gradient.bind(this);
         this.remaining = this.remaining.bind(this);
+    }
+
+    componentWillReceiveProps(rerender) {
+        console.log(this.props.rerender);
+        if (this.props.rerender) {
+            this.componentDidMount();
+        }
     }
 
     componentDidMount() {
@@ -54,6 +62,19 @@ class GoalBar extends Component {
                     <p>Goal Amount: {this.props.goal.goalAmount}</p>
                     <p>Amount Spent: {this.props.goal.spentAmount}</p>
                     <p>Amount Remaining: {this.remaining()}</p>
+                    <Button
+                        variant="info"
+                        onClick={() => this.props.onSelect(this.props.goal)}
+                    >
+                        Edit Goal
+                    </Button>
+                    &nbsp;
+                    <Button
+                        variant="danger"
+                        onClick={e => this.props.onDelete(e, this.props.goal)}
+                    >
+                        Delete Goal
+                    </Button>
                 </div>
             </Col>
         )
