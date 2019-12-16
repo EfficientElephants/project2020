@@ -3,6 +3,7 @@ import { Container, Row, Col, ProgressBar } from 'react-bootstrap';
 //import  from '../api/transactionAPI';
 import { getFromStorage } from '../Storage';
 import goalAPI from '../../api/goalAPI';
+import GoalBar from './GoalBar';
 
 class Goals extends Component {
     constructor() {
@@ -46,28 +47,14 @@ class Goals extends Component {
         return (
         <div>
             {console.log(this.state.allGoals)}
-            <ul>
-                {(this.state.allGoals).map(total => (
-                    <li key={total._id}>{total.category}, Goal: {total.goalAmount}, Spent: {total.spentAmount}</li>
-                ))}
-            </ul>
             <Row>
-            <Col>
-                <div>
-                    <h4>Goal 1</h4>
-                    <ProgressBar striped variant="success" now={40} />
-                    {/* {(progressBar().progressInstance)} */}
-                </div>
-            </Col>
-            <Col>
-                <div>
-                    <h4>Goal 2</h4>
-                    <ProgressBar striped variant="success" now={40} />
-                    {/* {(progressBar().progressInstance)} */}
-                </div>
-            </Col>
+                {(this.state.allGoals).map(total => {
+                    return <GoalBar
+                    goal={total}
+                    key={total._id}
+                    />
+                })}
             </Row>
-
         </div>
         );
     }
