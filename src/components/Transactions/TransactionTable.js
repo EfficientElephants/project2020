@@ -286,6 +286,7 @@ class TransactionTable extends Component {
                             </tr>
                         </thead>
                         <tbody>
+                            {console.log(this.state.transactions)}
                             {this.state.transactions.map(transaction => {
                                 return <Transaction
                                     transaction={transaction}
