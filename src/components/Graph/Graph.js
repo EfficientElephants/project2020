@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-// import Line from './Line';
-// import BarTextContent from './BarTextContent'
-// import Bar from './Bar';
 import transactionAPI from '../../api/transactionAPI';
 import { getFromStorage } from './../Storage';
 
 import CanvasJSReact from './../../assets/canvasjs.react';
-// var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class Graph extends Component {
@@ -19,13 +15,6 @@ class Graph extends Component {
             dataPoints: []
         }
     }
-    
-
-    // renderLines() {
-    //     return Array(10).fill(null).map((el, i) => (
-    //         <Line left={i * 10} key={i}/>
-    //     ))
-    // }
 
     async componentDidMount() {
         this.setState({rerender: false});
@@ -43,7 +32,6 @@ class Graph extends Component {
 
     async componentWillReceiveProps(render) {
         if (this.props.render) {
-            console.log("RENDERING");
             var catTotal = await this.renderCatTotals();
             var spendingTotal = await this.renderSpendingTotal();
             this.setState({catTotals: catTotal, spentTotal: spendingTotal,})
@@ -78,7 +66,6 @@ class Graph extends Component {
             .then(res => res.json())
             .then(json => {
                 if (json.success){
-                    console.log("GETUSERID", json.userId)
                     return json.userId;
                     // this.setState({ userId: json.userId, error: false })
                 }else {
@@ -108,13 +95,12 @@ class Graph extends Component {
     }
 
     render() {
-        console.log(this.state.datapoints);
         const options = {
 			theme: "dark",
 			animationEnabled: true,
 			exportEnabled: false,
 			title:{
-				text: "Spending Status"
+				text: "Category Spending"
 			},
 			data: [{
 				type: "pie",
@@ -124,32 +110,15 @@ class Graph extends Component {
 				indexLabel: "{y}%",
 				indexLabelPlacement: "inside",
                 dataPoints: this.state.datapoints
-                //[
-				// 	{ y: 32, label: "Rent" },
-				// 	{ y: 22, label: "Food" },
-				// 	{ y: 15, label: "Social" },
-				// 	{ y: 19, label: "Medical" },
-				// 	{ y: 5, label: "Personal Care" },
-				// 	{ y: 7, label: "Transportation" }
-				// ]
 			}]
 		}
         return (
             <div className="graph-wrapper">
-                <div className="graph">
-                <div>
+                {/* <div className="graph"> */}
                     <CanvasJSChart options = {options}
                         /* onRef = {ref => this.chart = ref} */
                     />
-                </div>
-                    {/* <BarTextContent />
-                    <div className="bar-lines-container">
-                        {this.renderLines()}
-                        <Bar percent={50} />
-                        <Bar percent={25} />
-                        <Bar percent={25} />
-                    </div> */}
-                </div>
+                {/* </div> */}
             </div>
         )
     }

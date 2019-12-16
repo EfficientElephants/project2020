@@ -80,8 +80,8 @@ class Dashboard extends Component {
                         style={{
                             position: 'absolute',
                             top: '2%',
-                            right: 0,
-                            background: "#5cb85c"
+                            right: '2%',
+                            background: "white"
                         }}
                         show={this.state.toastShow} 
                         onClose={toggleShow} 
@@ -90,13 +90,14 @@ class Dashboard extends Component {
                     >
                         <Toast.Header
                               style={{
-                                background: "#53a653",
-                                color: "#282828"
+                                background: "#DEDEDE",
+                                color: "black"
                             }}
                         >
+                            <img src="./../assets/expense-elephant-logo.png" className="rounded mr-2" alt="" />
                             <strong className="mr-auto">Expense Elephant</strong>
                         </Toast.Header>
-                        <Toast.Body>{this.state.alertType==="expense" ? "Sucessfully Added Expense": "Sucessfully Added Income" }</Toast.Body>
+                        <Toast.Body>{this.state.alertType==="expense" ? "Sucessfully Added Expense.": "Sucessfully Added Income." }</Toast.Body>
                     </Toast>
             )
         }
@@ -108,33 +109,31 @@ class Dashboard extends Component {
                 
                 <NavBar />
                 <Container>
-                    
-                    <br />
-                    <h3 class="dashboard-title">Welcome back, {this.state.fullName}!</h3>
-                    <br />
-                    <Row>
+                    <Row className="dashboard-header">
+                        <Col md={7}>
+                        <h3 class="dashboard-title">Welcome back, {this.state.fullName}!</h3>
+                        </Col>
                         <Col>
-                            <h3>Spending Status</h3>
-                            <Row>
-                                <Col md={6}>
-                                    <p>A graph of spending status will go here later.</p>
-                                    <Graph render = {this.state.render} />
-                                </Col>
-                                <Col>
-                                    <AddExpense 
-                                        typeChange = {this.handleChange}
-                                        stateChange = {this.rerender} 
-                                    />
-                                </Col>
-                                <Col>
-                                    <AddIncome 
-                                        typeChange = {this.handleChange}
-                                        stateChange = {this.rerender}
-                                    />
-                                </Col>
-                            </Row>
+                        <AddExpense 
+                            typeChange = {this.handleChange}
+                            stateChange = {this.rerender} 
+                        />
+                        </Col>
+                        <Col>
+                            <AddIncome 
+                                typeChange = {this.handleChange}
+                                stateChange = {this.rerender}
+                            />
                         </Col>
                     </Row>
+                    
+                    <Row>
+                        <Col>
+                            <Graph render = {this.state.render} />
+                        </Col>
+                    </Row>
+                    <br />
+                    <br />
                     <br />
                     <Row>
                         <Col>

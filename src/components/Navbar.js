@@ -48,26 +48,28 @@ class NavBar extends Component {
     render() {
         return (
             <div className="center-navbar">
-                <Navbar class="navbar" collapseOnSelect variant="dark">
-                    <Navbar.Brand>Expense Elephant</Navbar.Brand>
+                <Navbar class="navbar" collapseOnSelect expand="lg" variant="dark">
+                    <Navbar.Brand> Expense Elephant
+                        {/* <img src="./../assets/expense-elephant-logo.png" alt="Expense Elephant"></img> */}
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         
-                        <Nav className="ml-auto justify-content-center" defaultActiveKey="/">
+                        <Nav className="nav-center" defaultActiveKey="/">
                             <Nav.Item>
                                 <Link class="navbar-link" to="/dashboard">Dashboard</Link>&nbsp;
                             </Nav.Item>
                             <Nav.Item>
                                 <Link class="navbar-link" to="/transactions">Transactions</Link>&nbsp;
                             </Nav.Item>
-                            <Nav.Item>
+                            {/* <Nav.Item>
                                 <Link  class="navbar-link"to="/income-mgr">Income Manager</Link>&nbsp;
-                            </Nav.Item>
+                            </Nav.Item> */}
                             <Nav.Item>
                                 <Link class="navbar-link" to="/goal-mgr">Goal Manager</Link>&nbsp;
                             </Nav.Item>
-                            <Button variant="secondary" class="logout-button" onClick={this.onLogout}>Logout</Button>
                         </Nav>
+                        <Button variant="light" class="logout-button" onClick={this.onLogout}>Logout</Button>
                     </Navbar.Collapse>
                 </Navbar>
             </div>
