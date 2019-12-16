@@ -120,7 +120,6 @@ class Dashboard extends Component {
                                         typeChange = {this.handleChange}
                                         stateChange = {this.rerender}
                                     />
-                                    <AddGoal />
                                 </Col>
                             </Row>
                         </Col>

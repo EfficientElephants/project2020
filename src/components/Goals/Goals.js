@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, ProgressBar } from 'react-bootstrap';
-//import  from '../api/transactionAPI';
+import { Row, Col } from 'react-bootstrap';
 import { getFromStorage } from '../Storage';
 import goalAPI from '../../api/goalAPI';
 import GoalBar from './GoalBar';
@@ -31,16 +30,8 @@ class Goals extends Component {
                     // handle error
                     console.log('not working');
                 }
-            })
-            
+            })   
         }
-
-        function progressBar() {
-            const progressInstance = <ProgressBar now={now} label={`${now}%`} srOnly />;
-            const now = 60;
-            return progressInstance;
-        }
-
     }
 
     render() {
