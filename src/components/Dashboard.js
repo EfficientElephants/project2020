@@ -48,7 +48,12 @@ class Dashboard extends Component {
 
     total() {
         transactionAPI.getSpendingTotal(this.state.userId).then(spendTotal => {
-            this.setState({spentTotal: (spendTotal[0].spendingTotal/100).toFixed(2)})
+            if(spendTotal[0]) {
+                this.setState({spentTotal: (spendTotal[0].spendingTotal/100).toFixed(2)})
+            } else {
+                this.setState({spentTotal: 0})
+            }
+            
         })
     }
     getFullName() {
