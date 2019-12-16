@@ -39,8 +39,8 @@ const AddIncomeModal = props => {
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={props.onHide}>
-                        Close
+                    <Button variant="secondary" onClick={props.onCancel}>
+                        Cancel
                     </Button>
                     <Button variant="primary" onClick={props.onSubmit}>
                         Save Changes
