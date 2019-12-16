@@ -22,7 +22,10 @@ class Goals extends Component {
             .then(json => {
                 if (json.success){
                     this.setState({ userId: json.userId, error: false })
-                    this.getGoalsAll();     
+                    goalAPI.get(this.state.userId).then(json => {
+                        console.log(json);
+                        this.setState({allGoals: json})
+                    }); 
                 } else {
                     // handle error
                     console.log('not working');
@@ -38,29 +41,16 @@ class Goals extends Component {
         }
     }
 
-    async getGoalsAll() {
-        var res = await (goalAPI.get(this.state.userId)
-            .then(allGoals => {
-                console.log(allGoals);
-                return allGoals
-            }) 
-        );
-        const allGoals = res;
-        const goalArray = JSON.stringify(allGoals);
-        this.setState({allGoals: goalArray})
-        console.log(goalArray);
-        return goalArray;
-    }
 
     render() {
         return (
         <div>
-            <div>{this.state.allGoals}</div>
-            {/* <ul>
-                {this.getGoalsAll().map(total => (
-                    <li key={total}>{total}</li>
+            {console.log(this.state.allGoals)}
+            <ul>
+                {(this.state.allGoals).map(total => (
+                    <li key={total._id}>{total.category}</li>
                 ))}
-            </ul> */}
+            </ul>
         </div>
         );
     }
