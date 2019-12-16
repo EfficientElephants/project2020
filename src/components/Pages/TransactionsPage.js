@@ -17,7 +17,6 @@ class Transactions extends Component {
   }
 
   rerender(val) {
-    console.log(val);
     this.setState( {render: val} )
     this.forceUpdate();
   }

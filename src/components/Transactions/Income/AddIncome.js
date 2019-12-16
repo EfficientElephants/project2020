@@ -46,7 +46,6 @@ class AddIncome extends Component {
 
     handleDateChange(val, propSelected){
         this.setState({date: val});
-        console.log(this.state.date)
         let selectedIncome = propSelected;
         selectedIncome['date'] = val;
         this.setState({selectedIncome: selectedIncome});
@@ -70,13 +69,10 @@ class AddIncome extends Component {
             showModal: true,
             selectedIncome: {date: this.state.date, item: '', price:'', category: 'Income', transactionType: 'income'}
         });
-        console.log("enabling");
-        console.log(this.state.showModal);
         
     }
 
     handleDisableModal() {
-        console.log("disabling");
         this.setState({
             showModal: false,
             selectedIncome: null
@@ -84,7 +80,6 @@ class AddIncome extends Component {
     }
 
     handleSave(event) {
-        console.log(event.currentTarget);
         event.preventDefault();
 
         if (this.validateForm()) {
@@ -92,12 +87,10 @@ class AddIncome extends Component {
             .create(this.state.selectedIncome, this.state.userId)
             .then(result => {
                 if (result.errors) {
-                    console.log(result);
                     this.setState({error: true});
 
                 }
                 else {
-                    console.log('Successfully created!');
                     this.setState({
                         selectedIncome: null
                     });

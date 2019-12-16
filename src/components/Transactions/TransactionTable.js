@@ -30,7 +30,6 @@ class TransactionTable extends Component {
     }
     componentWillReceiveProps(render) {
         if (this.props.render){
-            console.log("HERE");
             transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
         }
     }
@@ -56,7 +55,6 @@ class TransactionTable extends Component {
 
     handleDateChange(val, propSelected){
         this.setState({date: val});
-        console.log(this.state.date)
         let selectedTransaction = propSelected;
         selectedTransaction['date'] = val;
         this.setState({selectedTransaction: selectedTransaction});
@@ -67,9 +65,7 @@ class TransactionTable extends Component {
             selectedTransaction: transaction, 
             editingTransaction: transaction
         });
-        console.log(transaction.date);
         this.handleEnableModal(transaction);
-        console.log(transaction);
     }
 
     async handleDelete(event, transaction) {
@@ -96,7 +92,6 @@ class TransactionTable extends Component {
                 goal = item;
             }
         })
-        console.log(goal);
         if (goal){
             goal.spentAmount = parseFloat(goal.spentAmount) - parseFloat(price)
             goalAPI
@@ -107,17 +102,14 @@ class TransactionTable extends Component {
     }
 
     async handleSave(event) {
-        console.log("EVENT", event);
         event.preventDefault();
         let validatedInputs = false
         if (this.state.selectedTransaction.transactionType === "expense"){
             if (this.validateExpenseForm()) {
-                console.log("Expense Validation")
                 validatedInputs = true;
             }
         }else if (this.state.selectedTransaction.transactionType === "income"){
             if (this.validateIncomeForm()){
-                console.log("InputValidation")
                 validatedInputs = true;
             }
         }
@@ -181,7 +173,6 @@ class TransactionTable extends Component {
 
     handleEnableModal (transaction) {
         transaction.date = (parseISO(transaction.date));
-        console.log(transaction);
         if(transaction.transactionType === "expense"){
             this.setState({
                 showExpenseModal: true
@@ -305,7 +296,6 @@ class TransactionTable extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {console.log(this.state.transactions)}
                             {this.state.transactions.map(transaction => {
                                 return <Transaction
                                     transaction={transaction}

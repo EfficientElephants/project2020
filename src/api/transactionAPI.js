@@ -13,8 +13,6 @@ const transactionAPI = {
   },
 
   create(transaction, userId) {
-    console.log(transaction.date);
-    console.log(JSON.stringify(transaction));
     return new Promise((resolve, reject) => {
       fetch(`${baseAPI}/transaction?userId=` + userId, {
         method: 'POST',
@@ -64,7 +62,6 @@ const transactionAPI = {
 
 
   getTotalsAll(userId) {
-    console.log('API', userId);
     return new Promise((resolve, reject) => {
       fetch(`${baseAPI}/transaction/totals/${userId}`)
       .then(response => response.json())

@@ -8,7 +8,6 @@ export const ProtectedRoute = ({ component: Component, ...rest }) => {
         <Route {...rest} render={
             props => {
                 if (getFromStorage('expense_app')) {
-                    // console.log('inProtectedRoute')
                     return <Component {...props} />;
                 } else {
                     return (<Redirect to={

@@ -33,7 +33,6 @@ class Dashboard extends Component {
             .then(res => res.json())
             .then(json => {
                 if (json.success){
-                    console.log('here');
                     this.setState({ userId: json.userId })
                     this.getFullName();
                 } else {

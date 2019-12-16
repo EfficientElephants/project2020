@@ -46,7 +46,6 @@ class AddExpense extends Component {
 
     handleDateChange(val, propSelected){
         this.setState({date: val});
-        console.log(this.state.date)
         let selectedExpense = propSelected;
         selectedExpense['date'] = val;
         this.setState({selectedExpense: selectedExpense});
@@ -65,17 +64,14 @@ class AddExpense extends Component {
     }
 
     handleEnableModal () {
-        console.log(this.state.date);
         this.setState({
             showModal: true,
             selectedExpense: {date: this.state.date, item: '', price:'', category: '', transactionType: 'expense'}
         });
-        console.log("enabling");
         
     }
 
     handleDisableModal() {
-        console.log("disabling");
         this.setState({
             showModal: false,
             selectedExpense: null
@@ -84,9 +80,6 @@ class AddExpense extends Component {
 
     async handleSave(event) {
         event.preventDefault();      
-        
-        console.log(this.state.selectedExpense);
-
         if (this.validateForm()) {
             var allGoals = await (goalAPI
             .get(this.state.userId)
@@ -115,14 +108,12 @@ class AddExpense extends Component {
                     this.setState({error: true});
                 }
                 else {
-                    console.log('Successfully created!');
                     this.setState({
                         selectedExpense: null, 
                         alertOpen: true
                     });
                     this.handleDisableModal();
                     if (this.props.typeChange){
-                        console.log(true);
                         this.handleAlert();
                     }else{
                         this.props.stateChange(true);

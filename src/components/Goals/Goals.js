@@ -30,13 +30,8 @@ class Goals extends Component {
     }
 
     componentWillReceiveProps(render) {
-        console.log('Goals: Props:', this.props.render)
         if (this.props.render) {
-            console.log("inside render");
             this.componentDidMount();
-            // goalAPI.get(this.state.userId).then(json => this.setState({
-            //     allGoals:json
-            // })).then(done => console.log("done"))
         }
     }
 
@@ -55,7 +50,6 @@ class Goals extends Component {
                 if (json.success){
                     this.setState({ userId: json.userId, error: false })
                     goalAPI.get(this.state.userId).then(json => {
-                        console.log(json);
                         this.setState({allGoals: json})
                     }); 
                 } else {
@@ -89,13 +83,9 @@ class Goals extends Component {
             showModal: true,
             // selectedGoal: {category: '', goalAmount: ''}
         });
-        console.log("enabling");
-        console.log(this.state.showModal);
-        
     }
 
     handleDisableModal() {
-        console.log("disabling");
         this.setState({
             showModal: false,
             selectedGoal: null
@@ -118,12 +108,9 @@ class Goals extends Component {
 
 
     async handleSave(event) {
-        console.log(event.currentTarget);
         event.preventDefault();
 
         if (this.validateForm()) {
-            console.log("Saving", this.state.selectedGoal);
-
             var spent = await (transactionAPI.getTotalsAll(this.state.userId)
             .then(allTotals => {
                 allTotals.forEach(function(item){
@@ -142,11 +129,9 @@ class Goals extends Component {
             .update(this.state.selectedGoal)
             .then(result => {
                 if (result.errors) {
-                    console.log(result);
                     this.setState({errors: {"goalError": "Goal already exists, please update existing goal."}});
                 }
                 else {
-                    console.log('Successfully created!');
                     this.setState({
                         selectedGoal: null,
                         render: true,
@@ -186,7 +171,6 @@ class Goals extends Component {
     }
 
     render() {
-        {console.log(this.state.allGoals)}
         return (
         <div>
             <Container>

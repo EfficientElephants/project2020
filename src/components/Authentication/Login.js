@@ -37,7 +37,6 @@ class Login extends Component {
                         token,
                         isLoading: false
                     })
-                    // console.log(this.props.location.state)
                     auth.login(() => {
                         if (this.props.location.state) {
                             this.props.history.push(this.props.location.state);
@@ -58,7 +57,6 @@ class Login extends Component {
                 isLoading: false,
             })
         }
-        // console.log(auth.isAuthenticated());
         // if (auth.isAuthenticated()){
         //     const obj = getFromStorage('expense_app');
         //     const { token } = obj;

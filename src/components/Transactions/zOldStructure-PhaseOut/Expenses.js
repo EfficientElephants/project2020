@@ -69,7 +69,6 @@ class Expenses extends Component {
                     this.setState({error: true});
                 }
                 else {
-                    console.log('Successfully created!');
                     expenses.push(this.state.selectedExpense);
                     this.setState({
                         expenses: expenses,
@@ -84,15 +83,14 @@ class Expenses extends Component {
             });
         transactionAPI.get().then(json => this.setState({expenses:json}));
         } else {
-            console.log(this.state.selectedExpense)
-        transactionAPI
-            .update(this.state.selectedExpense)
-            .then(() => {
-                this.setState({ selectedExpense: null });
-            })
-            .catch(err => {});
+            transactionAPI
+                .update(this.state.selectedExpense)
+                .then(() => {
+                    this.setState({ selectedExpense: null });
+                })
+                .catch(err => {});
+        }
     }
-  }
 
     handleChange(event) {
         let selectedExpense = this.state.selectedExpense;
@@ -126,7 +124,6 @@ class Expenses extends Component {
     }
 
     render() {
-        // console.log(this.state.defaultSelect);
         return (
             <Container>
                 <Row>

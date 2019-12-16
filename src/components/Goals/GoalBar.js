@@ -18,7 +18,6 @@ class GoalBar extends Component {
     }
 
     componentWillReceiveProps(rerender) {
-        console.log(this.props.rerender);
         if (this.props.rerender) {
             this.componentDidMount();
         }
