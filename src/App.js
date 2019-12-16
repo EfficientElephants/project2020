@@ -14,7 +14,6 @@ class App extends Component {
 
   render() {
     return (  
-      <div>
         <BrowserRouter>
           <Route exact path="/" component={ Login }/>
           <Route exact path="/signup" component={ Signup }/>
@@ -23,7 +22,6 @@ class App extends Component {
           <ProtectedRoute exact path="/goal-mgr" component={ GoalManager }/>
           <ProtectedRoute exact path="/income-mgr" component={ IncomeManager }/>
         </BrowserRouter>
-          </div>
     );
   }
 }

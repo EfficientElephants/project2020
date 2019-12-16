@@ -44,7 +44,11 @@ router.delete('/transaction/:_id', function(req, res) {
 
 router.get('/transaction/totals/:userId', function(req, res) {
   transactionService.getTotalsAll(req, res);
-})
+});
+
+router.get('/transaction/spendingTotal/:userId', function(req, res) {
+  transactionService.getSpendingTotal(req, res);
+});
 
 //signup
 router.post('/signup', function(req, res) {

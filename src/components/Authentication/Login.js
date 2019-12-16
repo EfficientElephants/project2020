@@ -144,7 +144,7 @@ class Login extends Component {
         if (!token) {
             return (
                 <div>
-                    <Container>
+                    <Container className="login-form">
                     {
                         (loginError) ? (
                             <p>{loginError}</p>

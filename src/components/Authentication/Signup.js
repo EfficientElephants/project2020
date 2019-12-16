@@ -184,7 +184,7 @@ render () {
 
   if (!token) {
     return (
-      <Container>
+      <Container className="signup-form">
         {
         (signupError) ? (
             <p>{signupError}</p>

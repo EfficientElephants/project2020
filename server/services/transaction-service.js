@@ -86,4 +86,30 @@ function getTotalsAll(req, res) {
   });
 }
 
-module.exports = { get, create, update, destroy, getTotalsAll };
+function getSpendingTotal(req, res) {
+  const {userId} = req.params;
+  return Transaction.aggregate([
+    {
+      '$match': {
+        'userId': `${userId}`
+      }
+    }, {
+      '$group': {
+        '_id': '$userId', 
+        'spendingTotal': {
+          '$sum': '$price'
+        }
+      }
+    }
+  ])
+  .then(all => {
+    res.json(all);
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  });
+}
+
+
+
+module.exports = { get, create, update, destroy, getTotalsAll, getSpendingTotal };

@@ -5,7 +5,9 @@ import AddExpense from './Transactions/Expense/AddExpense';
 import AddIncome from './Transactions/Income/AddIncome';
 import { getFromStorage } from './Storage';
 import usersAPI from '../api/userAPI';
+import transactionAPI from '../api/transactionAPI';
 import Totals from './Totals';
+import Graph from './Graph/Graph';
 import AddGoal from './Goals/AddGoal';
 import Goals from './Goals/Goals';
 
@@ -35,6 +37,7 @@ class Dashboard extends Component {
                 if (json.success){
                     this.setState({ userId: json.userId })
                     this.getFullName();
+                    this.total();
                 } else {
                     // handle error
                     console.log('not working');
@@ -43,6 +46,11 @@ class Dashboard extends Component {
         }
     }
 
+    total() {
+        transactionAPI.getSpendingTotal(this.state.userId).then(spendTotal => {
+            this.setState({spentTotal: (spendTotal[0].spendingTotal/100).toFixed(2)})
+        })
+    }
     getFullName() {
         usersAPI.get(this.state.userId)
             .then(results => {
@@ -72,9 +80,9 @@ class Dashboard extends Component {
                     <Toast 
                         style={{
                             position: 'absolute',
-                            top: '5%',
-                            right: 0,
-                            background: "#5cb85c"
+                            top: '2%',
+                            right: '2%',
+                            background: "white"
                         }}
                         show={this.state.toastShow} 
                         onClose={toggleShow} 
@@ -83,13 +91,14 @@ class Dashboard extends Component {
                     >
                         <Toast.Header
                               style={{
-                                background: "#53a653",
-                                color: "#282828"
+                                background: "#DEDEDE",
+                                color: "black"
                             }}
                         >
+                            <img src="./../assets/expense-elephant-logo.png" className="rounded mr-2" alt="" />
                             <strong className="mr-auto">Expense Elephant</strong>
                         </Toast.Header>
-                        <Toast.Body>{this.state.alertType==="expense" ? "Sucessfully Added Expense": "Sucessfully Added Income" }</Toast.Body>
+                        <Toast.Body>{this.state.alertType==="expense" ? "Sucessfully Added Expense.": "Sucessfully Added Income." }</Toast.Body>
                     </Toast>
                 </div>
             )
@@ -104,36 +113,27 @@ class Dashboard extends Component {
                 
                 <NavBar />
                 <Container>
-                    
-                    <br />
-                    <h1>{this.state.fullName}'s Dashboard</h1>
-                    <br />
-                    <Row>
+                    <Row className="dashboard-header">
+                        <Col md={7}>
+                        <h3 class="dashboard-title">Welcome back, {this.state.fullName}!</h3>
+                        </Col>
                         <Col>
-                            <h3>Spending Status</h3>
-                            <Row>
-                                <Col>
-                                    <p>A graph of spending status will go here later.</p>
-                                </Col>
-                                <Col>
-                                    <AddExpense 
-                                        typeChange = {this.handleChange}
-                                        stateChange = {this.rerender} 
-                                    />
-                                    <AddIncome 
-                                        typeChange = {this.handleChange}
-                                        stateChange = {this.rerender}
-                                    />
-                                </Col>
-                            </Row>
+                            <AddExpense 
+                                typeChange = {this.handleChange}
+                                stateChange = {this.rerender} 
+                            />
+                        </Col>
+                        <Col>
+                            <AddIncome 
+                                typeChange = {this.handleChange}
+                                stateChange = {this.rerender}
+                            />
                         </Col>
                     </Row>
-                    <br />
-                    <Row>
+                    
+                    <Row style={{ marginTop: 85 }}>
                         <Col>
-                            <h3>Loan Tracker</h3>
-                            <p>Student Debt</p>
-                            <p>Car Payment</p>
+                            <Graph render = {this.state.render} />
                         </Col>
                         <Col>
                             <h3>Monthly Breakdown</h3>
@@ -144,6 +144,17 @@ class Dashboard extends Component {
                             />
                         </Col>
                     </Row>
+                    {/* <br />
+                    <br />
+                    <br /> */}
+                    {/* <Row>
+                        <Col>
+                            <h3>Loan Tracker</h3>
+                            <p>Student Debt</p>
+                            <p>Car Payment</p>
+                        </Col>
+                       
+                    </Row> */}
                     {this.createAlert()}
                 </Container>
             </div>

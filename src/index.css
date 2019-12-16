@@ -1,15 +1,71 @@
 @import "~react-datepicker/dist/react-datepicker.css";
-* {
-  font-family: Arial;
+
+body {
+  font-family: 'Arial' !important;
+}
+
+.login-form {
+  width: 40% !important;
+  margin-top: 200px !important;
+  padding: 30px !important;
+  border: gray solid 1px;
+  border-radius: 5%;
+}
+
+.signup-form {
+  width: 40% !important;
+  margin-top: 100px !important;
+  padding: 30px !important;
+  border: gray solid 1px;
+  border-radius: 5%;
+}
+
+/* body {
+  background-color: #00AD79 !important;
+} */
+
+/* .logout-button {
+  right: 0%;
+} */
+
+.nav-center {
+  width: 50%;
+  margin-left: 30%;
+  margin-right: 25%;
+
+}
+
+.navbar {
+  /* background-image: linear-gradient(#8DEB67, #00AD79); */
+  background-color: #00AD79;
+  padding: 15px !important;
+}
+
+.navbar-link {
+  color: white;
+  padding: 8px;
+  margin-top: 40px;
+}
+
+.navbar-link:hover {
+  color: white;
+}
+
+.navbar-link:active {
+  text-decoration: underline;
+}
+
+/* .dashboard-title { */
+  /* text-align: center; */
+/* } */
+
+.dashboard-header {
+  padding: 30px;
 }
 
 h2 {
   color: #444;
   font-weight: lighter;
-}
-
-body {
-  margin: 2em;
 }
 
 body,
@@ -20,7 +76,7 @@ button {
 
 button {
   font-size: 14px;
-  font-family: Arial;
+  /* font-family: Arial; */
   background-color: #eee;
   border: none;
   padding: 5px 10px;
@@ -41,15 +97,12 @@ button.delete-button {
   font-size: 12px;
 }
 
-div {
-  margin: .1em;
-}
-
-.selected {
+/* .selected {
   background-color: #cfd8dc !important;
   background-color: #0078d7 !important;
   color: white;
-}
+} */
+
 .react-datepicker-wrapper{
   display: block;
 }
@@ -57,7 +110,7 @@ div {
   display: block;
 }
 
- div input{
+div input{
   display: block;
   width: 100%;
   height: calc(1.5em + .75rem + 2px);
@@ -193,4 +246,11 @@ input::placeholder {
 
 .incomeAmount {
   color: green;
+}
+
+.graph {
+  position: relative;
+  /* max-width: 800px; */
+  height: 400px;
+  display: flex;
 }
