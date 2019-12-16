@@ -26,14 +26,22 @@ class Goals extends Component {
         this.handleEnableModal = this.handleEnableModal.bind(this);
         this.handleDisableModal = this.handleDisableModal.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.rerender = this.rerender.bind(this);
     }
 
     componentWillReceiveProps(render) {
+        console.log('Goals: Props:', this.props.render)
         if (this.props.render) {
-            goalAPI.get(this.state.userId).then(json => this.setState({
-                allGoals:json
-            }))
+            console.log("inside render");
+            this.componentDidMount();
+            // goalAPI.get(this.state.userId).then(json => this.setState({
+            //     allGoals:json
+            // })).then(done => console.log("done"))
         }
+    }
+
+    rerender(val) {
+        this.setState( {render: val} )
     }
 
     async componentDidMount() {
@@ -59,7 +67,7 @@ class Goals extends Component {
     }
 
     handleSelect(goal) {
-        this.setState({selectedGoal:goal});
+        this.setState({selectedGoal:goal, render: false});
         this.handleEnableModal(goal);
     }
 
@@ -140,10 +148,11 @@ class Goals extends Component {
                 else {
                     console.log('Successfully created!');
                     this.setState({
-                        selectedGoal: null, 
-                        render: true
+                        selectedGoal: null,
+                        render: true,
                     });
                     this.handleDisableModal();
+                    this.props.stateChange(true);
                 }
             })
         }
@@ -177,6 +186,7 @@ class Goals extends Component {
     }
 
     render() {
+        {console.log(this.state.allGoals)}
         return (
         <div>
             <Container>
@@ -193,15 +203,15 @@ class Goals extends Component {
                         />
                     </div>
                 </Row>
-                {console.log("GOALS", this.state.render)}
                 <Row>
-                    {(this.state.allGoals).map(total => {
+                    {(this.state.allGoals).map(goal => {
                         return <GoalBar
-                        goal={total}
-                        key={total._id}
+                        goal={goal}
+                        key={goal._id}
                         onSelect={this.handleSelect}
                         rerender = {this.state.render}
                         onDelete={this.handleDelete}
+                        stateChange = {this.rerender}
                         />
                     })}
                 </Row>

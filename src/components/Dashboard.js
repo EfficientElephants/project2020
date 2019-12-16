@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Container, Toast } from 'react-bootstrap';
 import NavBar from './Navbar';
-import AddExpense from './Transactions/AddExpense';
+import AddExpense from './Transactions/Expense/AddExpense';
 import AddIncome from './Transactions/Income/AddIncome';
 import { getFromStorage } from './Storage';
 import usersAPI from '../api/userAPI';
@@ -62,6 +62,7 @@ class Dashboard extends Component {
 
     rerender(val) {
         this.setState( {render: val} )
+        this.forceUpdate();
     }
 
     createAlert() {
@@ -138,7 +139,10 @@ class Dashboard extends Component {
                         <Col>
                             <h3>Monthly Breakdown</h3>
                             {/* <Totals render={this.state.render} /> */}
-                            <Goals render={this.state.render} />
+                            <Goals 
+                                render = {this.state.render}
+                                stateChange = {this.rerender} 
+                            />
                         </Col>
                     </Row>
                     {this.createAlert()}
