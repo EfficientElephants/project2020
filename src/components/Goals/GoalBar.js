@@ -12,6 +12,7 @@ class GoalBar extends Component {
 
         this.percent = this.percent.bind(this);
         this.gradient = this.gradient.bind(this);
+        this.remaining = this.remaining.bind(this);
     }
 
     componentDidMount() {
@@ -37,6 +38,11 @@ class GoalBar extends Component {
         }
     }
 
+    remaining() {
+        const remains = (this.props.goal.goalAmount - this.props.goal.spentAmount);
+        return remains.toFixed(2);
+    }
+
     render () {
         return (
             <Col>
@@ -44,6 +50,10 @@ class GoalBar extends Component {
                     <h5>{this.props.goal.category}</h5>
                     {console.log(this.percent)}
                     <ProgressBar striped variant={this.state.gradient} now={this.state.percent} label={`${this.state.percent}%`} />
+                    <br />
+                    <p>Goal Amount: {this.props.goal.goalAmount}</p>
+                    <p>Amount Spent: {this.props.goal.spentAmount}</p>
+                    <p>Amount Remaining: {this.remaining()}</p>
                 </div>
             </Col>
         )

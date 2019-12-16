@@ -73,36 +73,14 @@ class AddGoal extends Component {
         })
     }
 
-    findSpentTotalAmount(allTotals) {
-        console.log(this.state.selectedGoal.category);
-        
+    handleSelect(goal) {
+        this.setState({selectedGoal:goal});
+        this.handleEnableModal(goal);
     }
-
-    // getspentTotal() {
-    //     console.log("Saving", this.state.selectedGoal);
-    //     transactionAPI.getTotalsAll(this.state.userId)
-    //     .then(allTotals => {
-    //         allTotals.forEach(function(item){
-    //             item.totals = ((item.totals/100).toFixed(2));
-    //         })
-    //         console.log(allTotals);
-    //         allTotals.forEach((element) => {
-    //             console.log(element);
-    //             if (element._id === this.state.selectedGoal.category) {
-    //                 totalSpent = element.totals
-    //             }
-    //         });
-    //     }).then(totalSpent => {return totalSpent});
-
-    // }
-
-
 
     async handleSave(event) {
         console.log(event.currentTarget);
         event.preventDefault();
-        
-        
 
         if (this.validateForm()) {
             console.log("Saving", this.state.selectedGoal);
@@ -167,8 +145,6 @@ class AddGoal extends Component {
         this.setState({errors: errors})
         return formIsValid
     }
-
-    
 
     render() {
         return (
