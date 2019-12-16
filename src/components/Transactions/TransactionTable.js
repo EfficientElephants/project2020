@@ -15,7 +15,8 @@ class TransactionTable extends Component {
             transactions: [],
             errors: {},
             showExpenseModal: false,
-            showIncomeModal: false
+            showIncomeModal: false,
+            rerender: false
         }
         this.handleSelect = this.handleSelect.bind(this);
         this.handleSave = this.handleSave.bind(this);
@@ -24,6 +25,12 @@ class TransactionTable extends Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.handleEnableModal = this.handleEnableModal.bind(this);
         this.handleDisableModal = this.handleDisableModal.bind(this);
+    }
+    componentWillReceiveProps(render) {
+        if (this.props.render){
+            console.log("HERE");
+            transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
+        }
     }
     componentDidMount() {
         // query for all of the logged in users transactions
@@ -47,7 +54,8 @@ class TransactionTable extends Component {
 
     handleSelect(transaction) {
         this.setState({ 
-            selectedTransaction: transaction
+            selectedTransaction: transaction, 
+            editingTransaction: transaction
         });
         this.handleEnableModal(transaction);
         console.log(transaction);
@@ -88,6 +96,7 @@ class TransactionTable extends Component {
     }
 
     async handleSave(event) {
+        console.log("EVENT", event);
         event.preventDefault();
         let validatedInputs = false
         if (this.state.selectedTransaction.transactionType === "expense"){
@@ -144,11 +153,12 @@ class TransactionTable extends Component {
         let selectedTransaction = this.state.selectedTransaction;
         selectedTransaction[event.target.name] = event.target.value;
         this.setState({
-            selectedTransaction: selectedTransaction,
+            selectedTransaction: selectedTransaction
         })
     }
 
     handleCancel() {
+        transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
         this.setState({ 
             selectedTransaction: null, 
         });
