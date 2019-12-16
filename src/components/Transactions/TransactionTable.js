@@ -5,7 +5,7 @@ import Transaction from './TransactionRow';
 import transactionAPI from '../../api/transactionAPI';
 import goalAPI from '../../api/goalAPI'
 import { getFromStorage } from '../Storage';
-import AddExpenseModal from './AddExpenseModal';
+import AddExpenseModal from './Expense/AddExpenseModal';
 import AddIncomeModal from './Income/AddIncomeModal';
 
 class TransactionTable extends Component {
