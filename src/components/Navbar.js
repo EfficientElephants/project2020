@@ -1,4 +1,4 @@
-import { Navbar, Nav, Button, Container } from 'react-bootstrap';
+import { Navbar, Nav, Button } from 'react-bootstrap';
 import React from 'react';
 import { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
@@ -47,21 +47,30 @@ class NavBar extends Component {
 
     render() {
         return (
-            <div>
-                <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-                    <Container>
-                    <Navbar.Brand>Expense Elephant</Navbar.Brand>
+            <div className="center-navbar">
+                <Navbar class="navbar" collapseOnSelect expand="lg" variant="dark">
+                    <Navbar.Brand> Expense Elephant
+                        {/* <img src="./../assets/expense-elephant-logo.png" alt="Expense Elephant"></img> */}
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="ml-auto justify-content-end" defaultActiveKey="/">
-                            <Link to="/dashboard">Dashboard</Link>&nbsp;
-                            <Link to="/transactions">Transactions</Link>&nbsp;
-                            <Link to="/income-mgr">Income Manager</Link>&nbsp;
-                            <Link to="/goal-mgr">Goal Manager</Link>&nbsp;
-                            <Button onClick={this.onLogout}>Logout</Button>
+                        
+                        <Nav className="nav-center" defaultActiveKey="/">
+                            <Nav.Item>
+                                <Link class="navbar-link" to="/dashboard">Dashboard</Link>&nbsp;
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Link class="navbar-link" to="/transactions">Transactions</Link>&nbsp;
+                            </Nav.Item>
+                            {/* <Nav.Item>
+                                <Link  class="navbar-link"to="/income-mgr">Income Manager</Link>&nbsp;
+                            </Nav.Item> */}
+                            <Nav.Item>
+                                <Link class="navbar-link" to="/goal-mgr">Goal Manager</Link>&nbsp;
+                            </Nav.Item>
                         </Nav>
+                        <Button variant="light" class="logout-button" onClick={this.onLogout}>Logout</Button>
                     </Navbar.Collapse>
-                    </Container>
                 </Navbar>
             </div>
         );

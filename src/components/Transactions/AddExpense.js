@@ -165,7 +165,7 @@ class AddExpense extends Component {
             <Container>
                 <Row>
                     <div>
-                        <Button variant="secondary" onClick={this.handleEnableModal}>Add New Expense</Button>
+                        <Button variant="dark" onClick={this.handleEnableModal}>Add New Expense</Button>
                         <AddExpenseModal 
                             show={this.state.showModal}
                             onHide={this.handleDisableModal}
