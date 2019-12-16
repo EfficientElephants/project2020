@@ -93,7 +93,12 @@ class AddIncome extends Component {
                         selectedIncome: null
                     });
                     this.handleDisableModal();
-                    this.handleAlert();
+                    if (this.props.typeChange){
+                        this.handleAlert();
+                    } else {
+                        this.props.stateChange(true);
+                    }
+                    
                 }
             })
         }

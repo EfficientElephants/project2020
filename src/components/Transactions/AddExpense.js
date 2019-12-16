@@ -114,12 +114,11 @@ class AddExpense extends Component {
                         console.log(true);
                         this.handleAlert();
                     }else{
-                        this.setState({render: true});
+                        this.props.stateChange(true);
                     }
                     
                 }
             });
-            this.forceUpdate();
         }
     }
     handleAlert(){

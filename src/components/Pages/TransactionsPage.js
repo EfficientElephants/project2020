@@ -8,7 +8,19 @@ import NavBar from '../Navbar';
 //add code to pull things from db--model after User.js?
 
 class Transactions extends Component {
+  constructor() {
+    super();
+    this.state = {
+      render: false
+    }
+    this.rerender = this.rerender.bind(this);
+  }
 
+  rerender(val) {
+    console.log(val);
+    this.setState( {render: val} )
+    this.forceUpdate();
+  }
     render() {
       return (
         <div>
@@ -19,13 +31,13 @@ class Transactions extends Component {
             <br />
             <Row>
               <Col>
-                <AddExpense />
+                <AddExpense stateChange = {this.rerender} />
               </Col>
               <Col>
-                <AddIncome />
+                <AddIncome stateChange = {this.rerender} />
               </Col>
             </Row>
-            <TransactionTable />
+            <TransactionTable render={this.state.render} />
           </Container>
         </div>
       );
