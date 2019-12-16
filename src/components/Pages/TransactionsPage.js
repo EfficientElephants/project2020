@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
-import { Container } from 'react-bootstrap';
-
+import { Container, Row, Col } from 'react-bootstrap';
+import AddExpense from '../Transactions/AddExpense';
+import AddIncome from '../Transactions/Income/AddIncome';
 import TransactionTable from '../Transactions/TransactionTable';
 import NavBar from '../Navbar';
 
 //add code to pull things from db--model after User.js?
 
 class Transactions extends Component {
+  constructor() {
+    super();
+    this.state = {
+      render: false
+    }
+    this.rerender = this.rerender.bind(this);
+  }
 
+  rerender(val) {
+    console.log(val);
+    this.setState( {render: val} )
+    this.forceUpdate();
+  }
     render() {
       return (
         <div>
@@ -16,7 +29,15 @@ class Transactions extends Component {
             <br />
             <h1>Your Transactions</h1>
             <br />
-            <TransactionTable />
+            <Row>
+              <Col>
+                <AddExpense stateChange = {this.rerender} />
+              </Col>
+              <Col>
+                <AddIncome stateChange = {this.rerender} />
+              </Col>
+            </Row>
+            <TransactionTable render={this.state.render} />
           </Container>
         </div>
       );

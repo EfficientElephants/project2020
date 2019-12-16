@@ -178,6 +178,10 @@ input::placeholder {
   font-size: small;
 }
 
+.goalMsg {
+  color: red;
+  font-size: large;
+}
 .form-control.errorBox {
   border: 2px solid red;
   /* border-color: red; */

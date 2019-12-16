@@ -4,6 +4,7 @@ import { Container, Row, Button } from 'react-bootstrap';
 import AddExpenseModal from './AddExpenseModal';
 import transactionAPI from '../../api/transactionAPI';
 import { getFromStorage } from '../Storage';
+import goalAPI from '../../api/goalAPI';
 
 class AddExpense extends Component {
     constructor(props) {
@@ -42,7 +43,6 @@ class AddExpense extends Component {
                     console.log('not working');
                 }
             })
-            
         }
     }
 
@@ -76,7 +76,6 @@ class AddExpense extends Component {
             selectedExpense: {date: this.state.date, item: '', price:'', category: '', transactionType: 'expense'}
         });
         console.log("enabling");
-        console.log(this.state.showModal);
         
     }
 
@@ -88,36 +87,59 @@ class AddExpense extends Component {
         })
     }
 
-    handleSave(event) {
-        console.log(event.currentTarget);
-        event.preventDefault();
+    async handleSave(event) {
+        event.preventDefault();      
         
         console.log(this.state.selectedExpense);
 
         if (this.validateForm()) {
+            var allGoals = await (goalAPI
+            .get(this.state.userId)
+            .then(goals => {
+                return goals
+            }));
+            var goal = null;
+            var selectedExpenseCat = this.state.selectedExpense.category;
+            var selectedExpensePrice = this.state.selectedExpense.price;
+            allGoals.forEach(function (element){
+                if(element.category === selectedExpenseCat){
+                    goal = element;
+                }
+                
+            })
+            if (goal) {
+                goal.spentAmount = parseFloat(goal.spentAmount) + parseFloat(selectedExpensePrice);
+                goalAPI
+                    .update(goal)
+                    .catch(err => {});
+            }
             transactionAPI
             .create(this.state.selectedExpense, this.state.userId)
             .then(result => {
                 if (result.errors) {
-                    console.log(result);
                     this.setState({error: true});
-
                 }
                 else {
-
                     console.log('Successfully created!');
                     this.setState({
                         selectedExpense: null, 
                         alertOpen: true
                     });
                     this.handleDisableModal();
-                    this.handleAlert();
+                    if (this.props.typeChange){
+                        console.log(true);
+                        this.handleAlert();
+                    }else{
+                        this.props.stateChange(true);
+                    }
+                    
                 }
-            })
+            });
         }
     }
     handleAlert(){
         this.props.typeChange('expense');
+        this.props.stateChange(true);
     }
 
     validateForm() {

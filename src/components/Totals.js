@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import { Container, Row, Table } from 'react-bootstrap';
+import { Container, Table } from 'react-bootstrap';
 import transactionAPI from '../api/transactionAPI';
 import { getFromStorage } from './Storage';
 
@@ -11,43 +11,70 @@ class Totals extends Component {
             allTotals: [],
         }
     }
-    componentDidMount() {
+    async componentDidMount() {
         // query for all of the logged in users transactions
         const obj = getFromStorage('expense_app');
         if (obj && obj.token) {
             const { token } = obj;
-            fetch('api/getUserId?token=' + token)
+            await fetch('api/getUserId?token=' + token)
             .then(res => res.json())
             .then(json => {
                 if (json.success){
-                    this.setState({ userId: json.userId, error: false })
-                    transactionAPI.getTotalsAll(this.state.userId).then(allTotals => {
-                        allTotals.forEach(function(item){
-                            item.totals = ((item.totals/100).toFixed(2));
-                        })
-                        this.setState({allTotals: allTotals})
-                    })
-                    
-                    
+                    this.setState({ userId: json.userId, error: false });
+                    this.getTotalsAll();
                 } else {
                     // handle error
                     console.log('not working');
                 }
             })
-            
         }
     }
 
-    getTotalsAll() {
-        // console.log(this.state.allTotals);
+    componentWillReceiveProps(render) {
+        if (this.props.render){
+            this.getTotalsAll();
+        }
     }
+
+    async getTotalsAll() {
+        var resp = await(transactionAPI.getTotalsAll(this.state.userId).then(allTotals => {
+            allTotals.forEach(function(item){
+                item.totals = ((item.totals/100).toFixed(2));
+            })
+            return allTotals
+        }));
+        const allTotals = resp;
+        const totalArray = JSON.stringify(allTotals);
+        this.setState({allTotals:totalArray})
+        return totalArray;
+    }
+
     render() {
         return (
-        <div>
-            Totals Here
-            <div>{this.getTotalsAll()}</div>
-        </div>
+        <Container>
+            <p>Totals</p>
+            <div>{this.state.allTotals}</div>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Amount Spent</th>
+                    </tr>
+                </thead>
+                {/* <tbody>
+                        {this.state.allTotals.map(total => {
+                            return <Totals
+                                total={total}
+                                key={total._id}
+                                onSelect={this.handleSelect} 
+                                selectedTotal = {this.state.selectedTotal}
+                                onDelete={this.handleDelete}
+                            />
+                        })}
+                </tbody> */}
+            </Table>
+        </Container>
         );
     }
 }
-export default Totals
+export default Totals;
