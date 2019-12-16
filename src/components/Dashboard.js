@@ -114,10 +114,10 @@ class Dashboard extends Component {
                         <h3 class="dashboard-title">Welcome back, {this.state.fullName}!</h3>
                         </Col>
                         <Col>
-                        <AddExpense 
-                            typeChange = {this.handleChange}
-                            stateChange = {this.rerender} 
-                        />
+                            <AddExpense 
+                                typeChange = {this.handleChange}
+                                stateChange = {this.rerender} 
+                            />
                         </Col>
                         <Col>
                             <AddIncome 
@@ -127,29 +127,28 @@ class Dashboard extends Component {
                         </Col>
                     </Row>
                     
-                    <Row>
+                    <Row style={{ marginTop: 85 }}>
                         <Col>
                             <Graph render = {this.state.render} />
                         </Col>
+                        <Col>
+                            <h3>Monthly Breakdown</h3>
+                            {/* <Totals render={this.state.render} /> */}
+                            <Goals render={this.state.render} />
+                        </Col>
                     </Row>
+                    {/* <br />
                     <br />
-                    <br />
-                    <br />
-                    <Row>
+                    <br /> */}
+                    {/* <Row>
                         <Col>
                             <h3>Loan Tracker</h3>
                             <p>Student Debt</p>
                             <p>Car Payment</p>
                         </Col>
-                        <Col>
-                            <h3>Expense Breakdown</h3>
-                            {/* <Totals render={this.state.render} />
-                            <Goals render={this.state.render} /> */}
-                        </Col>
-                    </Row>
+                       
+                    </Row> */}
                     {this.createAlert()}
-
-                    {/* <AddGoal /> */}
                 </Container>
             </div>
         );

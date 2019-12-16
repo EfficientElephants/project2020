@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { Container, Row, Button } from 'react-bootstrap';
 
-import AddIncomeModal from './AddIncomeModal';
+import AddExpenseModal from './AddExpenseModal';
 import transactionAPI from '../../../api/transactionAPI';
 import { getFromStorage } from '../../Storage';
 
-class AddIncome extends Component {
-    constructor() {
+class AddExpense extends Component {
+    constructor(props) {
         super();
         this.state = {
             userId: '',
-            income: [],
+            expenses: [],
             errors: {},
-            showModal: false
+            showModal: false, 
         };
 
         this.handleSave = this.handleSave.bind(this);
@@ -44,14 +44,14 @@ class AddIncome extends Component {
     }
 
     handleChange(event) {
-        let selectedIncome = this.state.selectedIncome;
-        selectedIncome[event.target.name] = event.target.value;
-        this.setState({ selectedIncome: selectedIncome });
+        let selectedExpense = this.state.selectedExpense;
+        selectedExpense[event.target.name] = event.target.value;
+        this.setState({ selectedExpense: selectedExpense });
 
     }
 
     handleCancel() {
-        this.setState({ selectedIncome: null, showModal: false });
+        this.setState({ selectedExpense: null, showModal: false });
         this.handleDisableModal();
 
     }
@@ -59,7 +59,7 @@ class AddIncome extends Component {
     handleEnableModal () {
         this.setState({
             showModal: true,
-            selectedIncome: {item: '', price:'', category: 'Income', transactionType: 'income'}
+            selectedExpense: {item: '', price:'', category: '', transactionType: 'expense'}
         });
         console.log("enabling");
         console.log(this.state.showModal);
@@ -70,17 +70,18 @@ class AddIncome extends Component {
         console.log("disabling");
         this.setState({
             showModal: false,
-            selectedIncome: null
+            selectedExpense: null
         })
     }
 
     handleSave(event) {
         console.log(event.currentTarget);
         event.preventDefault();
+        
 
         if (this.validateForm()) {
             transactionAPI
-            .create(this.state.selectedIncome, this.state.userId)
+            .create(this.state.selectedExpense, this.state.userId)
             .then(result => {
                 if (result.errors) {
                     console.log(result);
@@ -88,67 +89,69 @@ class AddIncome extends Component {
 
                 }
                 else {
+
                     console.log('Successfully created!');
                     this.setState({
-                        selectedIncome: null
+                        selectedExpense: null, 
+                        alertOpen: true
                     });
                     this.handleDisableModal();
-                    if (this.props.typeChange){
-                        this.handleAlert();
-                    } else {
-                        this.props.stateChange(true);
-                    }
-                    
+                    this.handleAlert();
                 }
             })
         }
     }
-
     handleAlert(){
-        this.props.typeChange('income');
+        this.props.typeChange('expense');
     }
 
     validateForm() {
-        let v_income = this.state.selectedIncome;
+        let v_expense = this.state.selectedExpense;
         let errors = {};
         let formIsValid = true;
   
-        if (!v_income.item) {
+        if (!v_expense.item) {
             formIsValid = false;
-            errors["item"] = "Please enter an income source.";
+            errors["item"] = "Please enter an item.";
         }
 
-        if (!v_income.price) {
+        if (!v_expense.price) {
             formIsValid = false;
-            errors["price"] = "Please enter a valid amount.";
+            errors["price"] = "Please enter a valid price.";
         }
 
-        if (v_income.price !== "") {
+        if (v_expense.price !== "") {
             //regular expression for price validation
             var pattern = new RegExp(/^(\d+(\.\d{2})?|\.\d{2})$/);
-            if (!pattern.test(v_income.price)) {
+            if (!pattern.test(v_expense.price)) {
                 formIsValid = false;
-                errors["price"] = "Please enter a valid non-negative amount";
+                errors["price"] = "Please enter a valid non-negative price";
             }
         }
 
+        if (!v_expense.category) {
+            formIsValid = false;
+            errors["category"] = "Please select a category.";
+        }
         this.setState({errors: errors})
         return formIsValid
     }
+
+    
 
     render() {
         return (
             <Container>
                 <Row>
                     <div>
-                        <Button variant="dark" onClick={this.handleEnableModal}>Add New Income</Button>
-                        <AddIncomeModal 
+                        <Button variant="secondary" onClick={this.handleEnableModal}>Add New Expense</Button>
+                        <AddExpenseModal 
                             show={this.state.showModal}
                             onHide={this.handleDisableModal}
                             onSubmit = {this.handleSave}
                             onCancel = {this.handleCancel}
                             onChange = {this.handleChange}
-                            selectedincome = {this.state.selectedIncome}
+                            selectedexpense = {this.state.selectedExpense}
                             errors = {this.state.errors}
                         />
                     </div>
@@ -157,4 +160,4 @@ class AddIncome extends Component {
         )
     }
 }
-export default AddIncome;
+export default AddExpense;

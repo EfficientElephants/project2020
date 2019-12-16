@@ -100,7 +100,7 @@ class Graph extends Component {
 			animationEnabled: true,
 			exportEnabled: false,
 			title:{
-				text: "Category Spending"
+				text: "Category Spending Breakdown"
 			},
 			data: [{
 				type: "pie",

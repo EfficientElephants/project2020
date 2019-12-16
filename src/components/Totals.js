@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import { Container, Row, Table } from 'react-bootstrap';
+import { Container, Table } from 'react-bootstrap';
 import transactionAPI from '../api/transactionAPI';
 import { getFromStorage } from './Storage';
 
@@ -51,15 +51,29 @@ class Totals extends Component {
 
     render() {
         return (
-        <div>
+        <Container>
             <p>Totals</p>
             <div>{this.state.allTotals}</div>
-            {/* <ul>
-                {this.getTotalsAll().map(total => (
-                    <li key={total}>{total}</li>
-                ))}
-            </ul> */}
-        </div>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Amount Spent</th>
+                    </tr>
+                </thead>
+                {/* <tbody>
+                        {this.state.allTotals.map(total => {
+                            return <Totals
+                                total={total}
+                                key={total._id}
+                                onSelect={this.handleSelect} 
+                                selectedTotal = {this.state.selectedTotal}
+                                onDelete={this.handleDelete}
+                            />
+                        })}
+                </tbody> */}
+            </Table>
+        </Container>
         );
     }
 }

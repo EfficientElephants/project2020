@@ -228,7 +228,7 @@ input::placeholder {
 
 .graph {
   position: relative;
-  max-width: 800px;
+  /* max-width: 800px; */
   height: 400px;
   display: flex;
 }

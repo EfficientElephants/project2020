@@ -1,8 +1,8 @@
 import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-const AddIncomeModal = props => {
-    if (props.selectedincome) {
+const EditGoalModal = props => {
+    if (props.selectedgoal) {
         return (
             <Modal
                 {...props}
@@ -11,36 +11,31 @@ const AddIncomeModal = props => {
                 centered
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Add Income</Modal.Title>
+                    <Modal.Title>Edit a Goal</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form.Group controlId="formItem">
-                        <Form.Label>Source</Form.Label>
-                        <Form.Control 
-                            type="text"
-                            name="item"
-                            value={props.selectedincome.item}
-                            onChange = {props.onChange} 
-                            className={props.errors.item ? "errorBox" : "" }
-                        />
-                        <div className="errorMsg">{props.errors.item}</div>
+                    <div className="goalMsg">{props.errors.goalError}</div>
+                    <Form.Group controlId="formCategory">
+                        <Form.Label>Category</Form.Label>
+                        <h6>{props.selectedgoal.category}</h6>
+                        <div className="errorMsg">{props.errors.category}</div>
                     </Form.Group>
                     <Form.Group controlId="formPrice">
                         <Form.Label>Amount</Form.Label>
                         <Form.Control 
                             type="number" 
-                            name="price"
+                            name="goalAmount"
                             placeholder="$"
-                            value={props.selectedincome.price} 
+                            value={props.selectedgoal.goalAmount} 
                             onChange={props.onChange}
-                            className={props.errors.price ? "errorBox" : "" }
+                            className={props.errors.goalAmount ? "errorBox" : "" }
                         />
-                        <div className="errorMsg">{props.errors.price}</div>
+                        <div className="errorMsg">{props.errors.goalAmount}</div>
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={props.onCancel}>
-                        Cancel
+                    <Button variant="secondary" onClick={props.onHide}>
+                        Close
                     </Button>
                     <Button variant="primary" onClick={props.onSubmit}>
                         Save Changes
@@ -53,4 +48,4 @@ const AddIncomeModal = props => {
     }
 };
 
-export default AddIncomeModal;
+export default EditGoalModal;
