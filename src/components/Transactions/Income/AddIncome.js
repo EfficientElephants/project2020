@@ -12,9 +12,10 @@ class AddIncome extends Component {
             userId: '',
             income: [],
             errors: {},
+            date: new Date(), 
             showModal: false
         };
-
+        this.handleDateChange = this.handleDateChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -43,6 +44,13 @@ class AddIncome extends Component {
         }
     }
 
+    handleDateChange(val, propSelected){
+        this.setState({date: val});
+        let selectedIncome = propSelected;
+        selectedIncome['date'] = val;
+        this.setState({selectedIncome: selectedIncome});
+    }
+
     handleChange(event) {
         let selectedIncome = this.state.selectedIncome;
         selectedIncome[event.target.name] = event.target.value;
@@ -59,15 +67,12 @@ class AddIncome extends Component {
     handleEnableModal () {
         this.setState({
             showModal: true,
-            selectedIncome: {item: '', price:'', category: 'Income', transactionType: 'income'}
+            selectedIncome: {date: this.state.date, item: '', price:'', category: 'Income', transactionType: 'income'}
         });
-        console.log("enabling");
-        console.log(this.state.showModal);
         
     }
 
     handleDisableModal() {
-        console.log("disabling");
         this.setState({
             showModal: false,
             selectedIncome: null
@@ -75,7 +80,6 @@ class AddIncome extends Component {
     }
 
     handleSave(event) {
-        console.log(event.currentTarget);
         event.preventDefault();
 
         if (this.validateForm()) {
@@ -83,12 +87,10 @@ class AddIncome extends Component {
             .create(this.state.selectedIncome, this.state.userId)
             .then(result => {
                 if (result.errors) {
-                    console.log(result);
                     this.setState({error: true});
 
                 }
                 else {
-                    console.log('Successfully created!');
                     this.setState({
                         selectedIncome: null
                     });
@@ -150,6 +152,7 @@ class AddIncome extends Component {
                             onChange = {this.handleChange}
                             selectedincome = {this.state.selectedIncome}
                             errors = {this.state.errors}
+                            datechange = {this.handleDateChange}
                         />
                     </div>
                 </Row>

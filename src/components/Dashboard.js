@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Container, Toast } from 'react-bootstrap';
 import NavBar from './Navbar';
-import AddExpense from './Transactions/AddExpense';
+import AddExpense from './Transactions/Expense/AddExpense';
 import AddIncome from './Transactions/Income/AddIncome';
 import { getFromStorage } from './Storage';
 import usersAPI from '../api/userAPI';
@@ -35,7 +35,6 @@ class Dashboard extends Component {
             .then(res => res.json())
             .then(json => {
                 if (json.success){
-                    console.log('here');
                     this.setState({ userId: json.userId })
                     this.getFullName();
                     this.total();
@@ -70,16 +69,18 @@ class Dashboard extends Component {
 
     rerender(val) {
         this.setState( {render: val} )
+        this.forceUpdate();
     }
 
     createAlert() {
         const toggleShow = () => this.setState({toastShow:false});
         if (this.state.alertOpen) {
             return (
+                <div>
                     <Toast 
                         style={{
                             position: 'absolute',
-                            top: '2%',
+                            top: '6%',
                             right: '2%',
                             background: "white"
                         }}
@@ -99,7 +100,10 @@ class Dashboard extends Component {
                         </Toast.Header>
                         <Toast.Body>{this.state.alertType==="expense" ? "Sucessfully Added Expense.": "Sucessfully Added Income." }</Toast.Body>
                     </Toast>
+                </div>
             )
+        } else {
+            return <div></div>
         }
     }
 
@@ -134,7 +138,10 @@ class Dashboard extends Component {
                         <Col>
                             <h3>Monthly Breakdown</h3>
                             {/* <Totals render={this.state.render} /> */}
-                            <Goals render={this.state.render} />
+                            <Goals 
+                                render = {this.state.render}
+                                stateChange = {this.rerender} 
+                            />
                         </Col>
                     </Row>
                     {/* <br />

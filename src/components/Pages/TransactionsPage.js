@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import AddExpense from '../Transactions/AddExpense';
+import AddExpense from '../Transactions/Expense/AddExpense';
 import AddIncome from '../Transactions/Income/AddIncome';
 import TransactionTable from '../Transactions/TransactionTable';
 import NavBar from '../Navbar';
@@ -17,7 +17,6 @@ class Transactions extends Component {
   }
 
   rerender(val) {
-    console.log(val);
     this.setState( {render: val} )
     this.forceUpdate();
   }
@@ -37,7 +36,10 @@ class Transactions extends Component {
                 <AddIncome stateChange = {this.rerender} />
               </Col>
             </Row>
-            <TransactionTable render={this.state.render} />
+            <br />
+            <Row>
+              <TransactionTable render={this.state.render} />
+            </Row>
           </Container>
         </div>
       );

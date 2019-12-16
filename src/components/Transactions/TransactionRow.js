@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
+var dateformat = require('dateformat');
 
 
 
@@ -8,6 +9,7 @@ const Transaction = props => {
         <tr 
             className={props.transaction === props.selectedTransaction ? 'selected' : ''} 
         >
+            <td>{dateformat(props.transaction.date, 'mmm dd, yyyy')}</td>
             <td>{props.transaction.category}</td>
             <td>{props.transaction.item}</td>
             <td

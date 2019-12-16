@@ -13,7 +13,6 @@ const goalAPI = {
   },
 
   create(goal, userId) {
-    console.log(goal);
     return new Promise((resolve, reject) => {
       fetch(`${baseAPI}/goal?userId=` + userId, {
         method: 'POST',

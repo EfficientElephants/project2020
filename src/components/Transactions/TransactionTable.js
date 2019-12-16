@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Container, Row, Table } from 'react-bootstrap';
+import { parseISO, format } from 'date-fns';
 import Transaction from './TransactionRow';
 import transactionAPI from '../../api/transactionAPI';
 import goalAPI from '../../api/goalAPI'
 import { getFromStorage } from '../Storage';
-import AddExpenseModal from './AddExpenseModal';
+import AddExpenseModal from './Expense/AddExpenseModal';
 import AddIncomeModal from './Income/AddIncomeModal';
 
 class TransactionTable extends Component {
@@ -18,6 +19,7 @@ class TransactionTable extends Component {
             showIncomeModal: false,
             rerender: false
         }
+        this.handleDateChange = this.handleDateChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
@@ -28,7 +30,6 @@ class TransactionTable extends Component {
     }
     componentWillReceiveProps(render) {
         if (this.props.render){
-            console.log("HERE");
             transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
         }
     }
@@ -52,13 +53,19 @@ class TransactionTable extends Component {
         }
     }
 
+    handleDateChange(val, propSelected){
+        this.setState({date: val});
+        let selectedTransaction = propSelected;
+        selectedTransaction['date'] = val;
+        this.setState({selectedTransaction: selectedTransaction});
+    }
+
     handleSelect(transaction) {
         this.setState({ 
             selectedTransaction: transaction, 
             editingTransaction: transaction
         });
         this.handleEnableModal(transaction);
-        console.log(transaction);
     }
 
     async handleDelete(event, transaction) {
@@ -85,7 +92,6 @@ class TransactionTable extends Component {
                 goal = item;
             }
         })
-        console.log(goal);
         if (goal){
             goal.spentAmount = parseFloat(goal.spentAmount) - parseFloat(price)
             goalAPI
@@ -96,17 +102,14 @@ class TransactionTable extends Component {
     }
 
     async handleSave(event) {
-        console.log("EVENT", event);
         event.preventDefault();
         let validatedInputs = false
         if (this.state.selectedTransaction.transactionType === "expense"){
             if (this.validateExpenseForm()) {
-                console.log("Expense Validation")
                 validatedInputs = true;
             }
         }else if (this.state.selectedTransaction.transactionType === "income"){
             if (this.validateIncomeForm()){
-                console.log("InputValidation")
                 validatedInputs = true;
             }
         }
@@ -118,7 +121,6 @@ class TransactionTable extends Component {
                     this.setState({
                         selectedTransaction: null
                     });
-                    this.handleDisableModal();
                 })
                 .catch(err => {}));
             
@@ -146,6 +148,10 @@ class TransactionTable extends Component {
                 .update(updatedGoal)
                 .catch(err => {});
             }
+
+            await transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
+            this.handleDisableModal();
+            
         }
     }
 
@@ -166,6 +172,7 @@ class TransactionTable extends Component {
     }
 
     handleEnableModal (transaction) {
+        transaction.date = (parseISO(transaction.date));
         if(transaction.transactionType === "expense"){
             this.setState({
                 showExpenseModal: true
@@ -263,6 +270,7 @@ class TransactionTable extends Component {
                             onChange = {this.handleChange}
                             selectedexpense = {this.state.selectedTransaction}
                             errors = {this.state.errors}
+                            datechange = {this.handleDateChange}
                         />
                         <AddIncomeModal
                             show={this.state.showIncomeModal}
@@ -272,6 +280,7 @@ class TransactionTable extends Component {
                             onChange = {this.handleChange}
                             selectedincome = {this.state.selectedTransaction}
                             errors = {this.state.errors}
+                            datechange = {this.handleDateChange}
                         />
                     </div>
                 </Row>
@@ -279,6 +288,7 @@ class TransactionTable extends Component {
                     <Table>
                         <thead>
                             <tr>
+                                <th>Date</th>
                                 <th>Category</th>
                                 <th>Item</th>
                                 <th>Price</th>
@@ -286,7 +296,6 @@ class TransactionTable extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {console.log(this.state.transactions)}
                             {this.state.transactions.map(transaction => {
                                 return <Transaction
                                     transaction={transaction}
@@ -296,6 +305,9 @@ class TransactionTable extends Component {
                                     onDelete={this.handleDelete}
                                 />
                             })}
+                            <tr>
+                                <th>I AM TESTING THIS</th>
+                            </tr>
                         </tbody>
                     </Table>
                 </Row>

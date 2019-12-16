@@ -49,12 +49,10 @@ class Users extends Component {
             .create(this.state.selectedUser)
             .then(result => {
                 if (result.errors) {
-                    console.log(result);
                     this.setState({error: true});
 
                 }
                 else {
-                    console.log('Successfully created!');
                     users.push(this.state.selectedUser);
                     this.setState({
                         users: users,
@@ -68,15 +66,14 @@ class Users extends Component {
                 console.log(err);
             });
         } else {
-            console.log(this.state.selectedUser)
         usersAPI
             .update(this.state.selectedUser)
             .then(() => {
                 this.setState({ selectedUser: null });
             })
             .catch(err => {});
+        }
     }
-  }
 
     handleChange(event) {
         let selectedUser = this.state.selectedUser;

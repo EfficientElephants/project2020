@@ -26,14 +26,17 @@ class Goals extends Component {
         this.handleEnableModal = this.handleEnableModal.bind(this);
         this.handleDisableModal = this.handleDisableModal.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.rerender = this.rerender.bind(this);
     }
 
     componentWillReceiveProps(render) {
         if (this.props.render) {
-            goalAPI.get(this.state.userId).then(json => this.setState({
-                allGoals:json
-            }))
+            this.componentDidMount();
         }
+    }
+
+    rerender(val) {
+        this.setState( {render: val} )
     }
 
     async componentDidMount() {
@@ -47,7 +50,6 @@ class Goals extends Component {
                 if (json.success){
                     this.setState({ userId: json.userId, error: false })
                     goalAPI.get(this.state.userId).then(json => {
-                        console.log(json);
                         this.setState({allGoals: json})
                     }); 
                 } else {
@@ -59,7 +61,7 @@ class Goals extends Component {
     }
 
     handleSelect(goal) {
-        this.setState({selectedGoal:goal});
+        this.setState({selectedGoal:goal, render: false});
         this.handleEnableModal(goal);
     }
 
@@ -81,13 +83,9 @@ class Goals extends Component {
             showModal: true,
             // selectedGoal: {category: '', goalAmount: ''}
         });
-        console.log("enabling");
-        console.log(this.state.showModal);
-        
     }
 
     handleDisableModal() {
-        console.log("disabling");
         this.setState({
             showModal: false,
             selectedGoal: null
@@ -110,12 +108,9 @@ class Goals extends Component {
 
 
     async handleSave(event) {
-        console.log(event.currentTarget);
         event.preventDefault();
 
         if (this.validateForm()) {
-            console.log("Saving", this.state.selectedGoal);
-
             var spent = await (transactionAPI.getTotalsAll(this.state.userId)
             .then(allTotals => {
                 allTotals.forEach(function(item){
@@ -134,16 +129,15 @@ class Goals extends Component {
             .update(this.state.selectedGoal)
             .then(result => {
                 if (result.errors) {
-                    console.log(result);
                     this.setState({errors: {"goalError": "Goal already exists, please update existing goal."}});
                 }
                 else {
-                    console.log('Successfully created!');
                     this.setState({
-                        selectedGoal: null, 
-                        render: true
+                        selectedGoal: null,
+                        render: true,
                     });
                     this.handleDisableModal();
+                    this.props.stateChange(true);
                 }
             })
         }
@@ -193,15 +187,15 @@ class Goals extends Component {
                         />
                     </div>
                 </Row>
-                {console.log("GOALS", this.state.render)}
                 <Row>
-                    {(this.state.allGoals).map(total => {
+                    {(this.state.allGoals).map(goal => {
                         return <GoalBar
-                        goal={total}
-                        key={total._id}
+                        goal={goal}
+                        key={goal._id}
                         onSelect={this.handleSelect}
                         rerender = {this.state.render}
                         onDelete={this.handleDelete}
+                        stateChange = {this.rerender}
                         />
                     })}
                 </Row>

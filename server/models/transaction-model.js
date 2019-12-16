@@ -3,10 +3,16 @@ const Schema = mongoose.Schema;
 const validator = require('validator')
 
 const now = Date.now()
+const date = new Date();
 const transactionSchema = new Schema({
     userId: {
         type: String,
         default: '',
+        required: true
+    },
+    date: {
+        type: Date,
+        default: date,
         required: true
     },
     item: {

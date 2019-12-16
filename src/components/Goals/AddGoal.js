@@ -59,14 +59,10 @@ class AddGoal extends Component {
         this.setState({
             showModal: true,
             selectedGoal: {category: '', goalAmount: ''}
-        });
-        console.log("enabling");
-        console.log(this.state.showModal);
-        
+        });     
     }
 
     handleDisableModal() {
-        console.log("disabling");
         this.setState({
             showModal: false,
             selectedGoal: null
@@ -74,12 +70,9 @@ class AddGoal extends Component {
     }
 
     async handleSave(event) {
-        console.log(event.currentTarget);
         event.preventDefault();
 
         if (this.validateForm()) {
-            console.log("Saving", this.state.selectedGoal);
-
             var spent = await (transactionAPI.getTotalsAll(this.state.userId)
             .then(allTotals => {
                 allTotals.forEach(function(item){
@@ -98,11 +91,9 @@ class AddGoal extends Component {
             .create(this.state.selectedGoal, this.state.userId)
             .then(result => {
                 if (result.errors) {
-                    console.log(result);
                     this.setState({errors: {"goalError": "Goal already exists, please update existing goal."}});
                 }
                 else {
-                    console.log('Successfully created!');
                     this.setState({
                         selectedGoal: null, 
                         alertOpen: true
