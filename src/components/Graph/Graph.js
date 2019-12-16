@@ -72,7 +72,6 @@ class Graph extends Component {
                     // handle error
                     console.log('not working');
                 }
-                console.log(json.userId);
                 return json.userId
             })
         }

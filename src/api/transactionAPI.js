@@ -73,7 +73,6 @@ const transactionAPI = {
   },
 
   getSpendingTotal(userId) {
-    console.log('API', userId);
     return new Promise((resolve, reject) => {
       fetch(`${baseAPI}/transaction/spendingTotal/${userId}`)
       .then(response => response.json())
