@@ -48,7 +48,7 @@ class NavBar extends Component {
     render() {
         return (
             <div className="center-navbar">
-                <Navbar class="navbar" collapseOnSelect expand="lg" variant="dark">
+                <Navbar className="navbar" collapseOnSelect expand="lg" variant="dark">
                     <Navbar.Brand> Expense Elephant
                         {/* <img src="./../assets/expense-elephant-logo.png" alt="Expense Elephant"></img> */}
                     </Navbar.Brand>
@@ -57,19 +57,19 @@ class NavBar extends Component {
                         
                         <Nav className="nav-center" defaultActiveKey="/">
                             <Nav.Item>
-                                <Link class="navbar-link" to="/dashboard">Dashboard</Link>&nbsp;
+                                <Link className="navbar-link" to="/dashboard">Dashboard</Link>&nbsp;
                             </Nav.Item>
                             <Nav.Item>
-                                <Link class="navbar-link" to="/transactions">Transactions</Link>&nbsp;
+                                <Link className="navbar-link" to="/transactions">Transactions</Link>&nbsp;
                             </Nav.Item>
                             {/* <Nav.Item>
-                                <Link  class="navbar-link"to="/income-mgr">Income Manager</Link>&nbsp;
+                                <Link  className="navbar-link"to="/income-mgr">Income Manager</Link>&nbsp;
                             </Nav.Item> */}
                             <Nav.Item>
-                                <Link class="navbar-link" to="/goal-mgr">Goal Manager</Link>&nbsp;
+                                <Link className="navbar-link" to="/goal-mgr">Goal Manager</Link>&nbsp;
                             </Nav.Item>
                         </Nav>
-                        <Button variant="light" class="logout-button" onClick={this.onLogout}>Logout</Button>
+                        <Button variant="light" className="logout-button" onClick={this.onLogout}>Logout</Button>
                     </Navbar.Collapse>
                 </Navbar>
             </div>

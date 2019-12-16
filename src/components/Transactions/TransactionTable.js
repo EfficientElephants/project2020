@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Table } from 'react-bootstrap';
-import { parseISO, format } from 'date-fns';
+import { parseISO } from 'date-fns';
 import Transaction from './TransactionRow';
 import transactionAPI from '../../api/transactionAPI';
 import goalAPI from '../../api/goalAPI'
@@ -28,7 +28,7 @@ class TransactionTable extends Component {
         this.handleEnableModal = this.handleEnableModal.bind(this);
         this.handleDisableModal = this.handleDisableModal.bind(this);
     }
-    componentWillReceiveProps(render) {
+    UNSAFE_componentWillReceiveProps(render) {
         if (this.props.render){
             transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
         }

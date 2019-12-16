@@ -6,9 +6,8 @@ import AddIncome from './Transactions/Income/AddIncome';
 import { getFromStorage } from './Storage';
 import usersAPI from '../api/userAPI';
 import transactionAPI from '../api/transactionAPI';
-import Totals from './Totals';
+// import Totals from './Totals';
 import Graph from './Graph/Graph';
-import AddGoal from './Goals/AddGoal';
 import Goals from './Goals/Goals';
 
 
@@ -120,7 +119,7 @@ class Dashboard extends Component {
                 <Container>
                     <Row className="dashboard-header">
                         <Col md={7}>
-                        <h3 class="dashboard-title">Welcome back, {this.state.fullName}!</h3>
+                        <h3 className="dashboard-title">Welcome back, {this.state.fullName}!</h3>
                         </Col>
                         <Col>
                             <AddExpense 
