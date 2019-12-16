@@ -4,6 +4,7 @@ import { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import auth from './Authentication/Auth';
 import { getFromStorage, removeFromStorage } from './Storage';
+import Logo from '../assets/expense-elephant-logo.png';
 
 
 class NavBar extends Component {
@@ -49,8 +50,11 @@ class NavBar extends Component {
         return (
             <div className="center-navbar">
                 <Navbar className="navbar" collapseOnSelect expand="lg" variant="dark">
-                    <Navbar.Brand> Expense Elephant
-                        {/* <img src="./../assets/expense-elephant-logo.png" alt="Expense Elephant"></img> */}
+                    <Navbar.Brand> 
+                        <h3 className="company">
+                            <Link className="navbar-link-home" to="/dashboard">Expense Elephant</Link>
+                        </h3>
+                        <img src={Logo} height="42" width="42" alt="Expense Elephant Logo" />
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">

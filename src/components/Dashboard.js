@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Container, Toast } from 'react-bootstrap';
+import { Row, Col, Container, Toast, Figure } from 'react-bootstrap';
 import NavBar from './Navbar';
 import AddExpense from './Transactions/Expense/AddExpense';
 import AddIncome from './Transactions/Income/AddIncome';
@@ -9,6 +9,7 @@ import transactionAPI from '../api/transactionAPI';
 // import Totals from './Totals';
 import Graph from './Graph/Graph';
 import Goals from './Goals/Goals';
+import Logo from '../assets/expense-elephant-logo.png';
 
 
 class Dashboard extends Component {
@@ -91,7 +92,7 @@ class Dashboard extends Component {
 
     rerender(val) {
         this.setState( {render: val} )
-        this.forceUpdate();
+        this.componentDidMount();
     }
 
     createAlert() {
@@ -117,7 +118,16 @@ class Dashboard extends Component {
                                 color: "black"
                             }}
                         >
-                            <img src="./../assets/expense-elephant-logo.png" className="rounded mr-2" alt="" />
+                            <Figure.Image
+                                width={20}
+                                height={20}
+                                alt="Logo of an Elephant"
+                                src={Logo}
+                                className="rounded mr-2"
+                            />
+                            
+                            {/* <img src={Logo} className="rounded mr-2" alt="" /> */}
+                            {/* <img src="../assets/expense-elephant-logo.png" className="rounded mr-2" alt="" /> */}
                             <strong className="mr-auto">Expense Elephant</strong>
                         </Toast.Header>
                         <Toast.Body>{this.state.alertType==="expense" ? "Sucessfully Added Expense.": "Sucessfully Added Income." }</Toast.Body>
