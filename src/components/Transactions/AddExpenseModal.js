@@ -6,10 +6,6 @@ import DatePicker from "react-datepicker";
 class AddExpenseModal extends Component {
     constructor(props) {
         super();
-        this.state ={
-            date: null,
-            focused: null
-        }
     }
     render() {
         if (this.props.selectedexpense) {

@@ -12,9 +12,10 @@ class AddIncome extends Component {
             userId: '',
             income: [],
             errors: {},
+            date: new Date(), 
             showModal: false
         };
-
+        this.handleDateChange = this.handleDateChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -43,6 +44,14 @@ class AddIncome extends Component {
         }
     }
 
+    handleDateChange(val, propSelected){
+        this.setState({date: val});
+        console.log(this.state.date)
+        let selectedIncome = propSelected;
+        selectedIncome['date'] = val;
+        this.setState({selectedIncome: selectedIncome});
+    }
+
     handleChange(event) {
         let selectedIncome = this.state.selectedIncome;
         selectedIncome[event.target.name] = event.target.value;
@@ -59,7 +68,7 @@ class AddIncome extends Component {
     handleEnableModal () {
         this.setState({
             showModal: true,
-            selectedIncome: {item: '', price:'', category: 'Income', transactionType: 'income'}
+            selectedIncome: {date: this.state.date, item: '', price:'', category: 'Income', transactionType: 'income'}
         });
         console.log("enabling");
         console.log(this.state.showModal);
@@ -150,6 +159,7 @@ class AddIncome extends Component {
                             onChange = {this.handleChange}
                             selectedincome = {this.state.selectedIncome}
                             errors = {this.state.errors}
+                            datechange = {this.handleDateChange}
                         />
                     </div>
                 </Row>

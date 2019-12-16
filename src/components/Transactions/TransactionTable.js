@@ -57,9 +57,9 @@ class TransactionTable extends Component {
     handleDateChange(val, propSelected){
         this.setState({date: val});
         console.log(this.state.date)
-        let selectedExpense = propSelected;
-        selectedExpense['date'] = val;
-        this.setState({selectedExpense: selectedExpense});
+        let selectedTransaction = propSelected;
+        selectedTransaction['date'] = val;
+        this.setState({selectedTransaction: selectedTransaction});
     }
 
     handleSelect(transaction) {
@@ -289,6 +289,7 @@ class TransactionTable extends Component {
                             onChange = {this.handleChange}
                             selectedincome = {this.state.selectedTransaction}
                             errors = {this.state.errors}
+                            datechange = {this.handleDateChange}
                         />
                     </div>
                 </Row>

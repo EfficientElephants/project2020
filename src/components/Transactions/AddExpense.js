@@ -14,9 +14,7 @@ class AddExpense extends Component {
             expenses: [],
             errors: {},
             showModal: false, 
-            date: new Date(),
-            focus: null,
-
+            date: new Date()
         };
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
