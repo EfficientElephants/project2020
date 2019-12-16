@@ -144,13 +144,13 @@ class Dashboard extends Component {
                         </Col>
                         <Col>
                             <h3>Expense Breakdown</h3>
-                            <Totals render={this.state.render} />
-                            <Goals render={this.state.render} />
+                            {/* <Totals render={this.state.render} />
+                            <Goals render={this.state.render} /> */}
                         </Col>
                     </Row>
                     {this.createAlert()}
 
-                    <AddGoal />
+                    {/* <AddGoal /> */}
                 </Container>
             </div>
         );
