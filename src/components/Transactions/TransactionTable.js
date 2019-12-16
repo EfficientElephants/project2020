@@ -17,7 +17,9 @@ class TransactionTable extends Component {
             errors: {},
             showExpenseModal: false,
             showIncomeModal: false,
-            rerender: false
+            rerender: false,
+            spendingTotal: '',
+            incomeTotal: '',
         }
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
@@ -44,6 +46,20 @@ class TransactionTable extends Component {
                 if (json.success){
                     this.setState({ userId: json.userId, error: false })
                     transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
+                    transactionAPI.getSpendingTotal(this.state.userId).then(json => {
+                        if (json[0]){
+                            this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
+                        } else {
+                            this.setState({spendingTotal: 0});
+                        }
+                    });
+                    transactionAPI.getIncomeTotal(this.state.userId).then(json => {
+                        if (json[0]){
+                            this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
+                        } else {
+                            this.setState({incomeTotal: 0});
+                        }
+                    });
                 } else {
                     // handle error
                     console.log('not working');
@@ -306,7 +322,10 @@ class TransactionTable extends Component {
                                 />
                             })}
                             <tr>
-                                <th>I AM TESTING THIS</th>
+                                <th>Total Amount Spent</th>
+                                <th>${this.state.spendingTotal}</th>
+                                <th>Total Income</th>
+                                <th>${this.state.incomeTotal}</th>
                             </tr>
                         </tbody>
                     </Table>

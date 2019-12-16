@@ -109,6 +109,31 @@ function getSpendingTotal(req, res) {
   });
 }
 
+function getIncomeTotal(req, res) {
+  const {userId} = req.params;
+  return Transaction.aggregate([
+    {
+      '$match': {
+        'userId': `${userId}`,
+        'category': 'Income'
+      }
+    }, {
+      '$group': {
+        '_id': '$userId', 
+        'incomeTotal': {
+          '$sum': '$price'
+        }
+      }
+    }
+  ])
+  .then(all => {
+    res.json(all);
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  });
+}
 
 
-module.exports = { get, create, update, destroy, getTotalsAll, getSpendingTotal };
+
+module.exports = { get, create, update, destroy, getTotalsAll, getSpendingTotal, getIncomeTotal };
