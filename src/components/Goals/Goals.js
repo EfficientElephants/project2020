@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import { Container, Row, Table } from 'react-bootstrap';
+import { Container, Row, Col, ProgressBar } from 'react-bootstrap';
 //import  from '../api/transactionAPI';
 import { getFromStorage } from '../Storage';
 import goalAPI from '../../api/goalAPI';
@@ -33,14 +33,14 @@ class Goals extends Component {
             })
             
         }
-    }
-    
-    componentWillReceiveProps(render) {
-        if (this.props.render){
-            this.getGoalsAll();
-        }
-    }
 
+        function progressBar() {
+            const progressInstance = <ProgressBar now={now} label={`${now}%`} srOnly />;
+            const now = 60;
+            return progressInstance;
+        }
+
+    }
 
     render() {
         return (
@@ -48,9 +48,26 @@ class Goals extends Component {
             {console.log(this.state.allGoals)}
             <ul>
                 {(this.state.allGoals).map(total => (
-                    <li key={total._id}>{total.category}</li>
+                    <li key={total._id}>{total.category}, Goal: {total.goalAmount}, Spent: {total.spentAmount}</li>
                 ))}
             </ul>
+            <Row>
+            <Col>
+                <div>
+                    <h4>Goal 1</h4>
+                    <ProgressBar striped variant="success" now={40} />
+                    {/* {(progressBar().progressInstance)} */}
+                </div>
+            </Col>
+            <Col>
+                <div>
+                    <h4>Goal 2</h4>
+                    <ProgressBar striped variant="success" now={40} />
+                    {/* {(progressBar().progressInstance)} */}
+                </div>
+            </Col>
+            </Row>
+
         </div>
         );
     }

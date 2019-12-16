@@ -7,18 +7,22 @@ import Goals from '../Goals/Goals';
 
 class GoalManager extends Component {
 
+//     const now = 60;
+//     const progressInstance = <ProgressBar now={now} label={`${now}%`} srOnly />;
+
+// render(progressInstance);
+
     render() {
         return (
             <div>
                 <NavBar />
                 <Container>
                     <br />
-                    <h1>Manage Your Goals</h1>
+                    <h1>Manage Goals</h1>
                     <br />
                     <AddGoal />
+                    <br />
                     <Goals />
-
-                    
                 </Container>
             </div>
         );

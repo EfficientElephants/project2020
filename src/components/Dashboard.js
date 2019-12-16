@@ -120,6 +120,7 @@ class Dashboard extends Component {
                                         typeChange = {this.handleChange}
                                         stateChange = {this.rerender}
                                     />
+                                    <AddGoal />
                                 </Col>
                             </Row>
                         </Col>
@@ -132,14 +133,12 @@ class Dashboard extends Component {
                             <p>Car Payment</p>
                         </Col>
                         <Col>
-                            <h3>Expense Breakdown</h3>
-                            <Totals render={this.state.render} />
+                            <h3>Monthly Breakdown</h3>
+                            {/* <Totals render={this.state.render} /> */}
                             <Goals render={this.state.render} />
                         </Col>
                     </Row>
                     {this.createAlert()}
-
-                    <AddGoal />
                 </Container>
             </div>
         );
