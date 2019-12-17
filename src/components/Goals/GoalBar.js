@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, ProgressBar } from 'react-bootstrap';
+import { Col, ProgressBar, Button } from 'react-bootstrap';
 //import  from '../api/transactionAPI';
 
 class GoalBar extends Component {
@@ -17,7 +17,7 @@ class GoalBar extends Component {
         this.remaining = this.remaining.bind(this);
     }
 
-    componentWillReceiveProps(rerender) {
+    UNSAFE_componentWillReceiveProps(rerender) {
         if (this.props.rerender) {
             this.componentDidMount();
         }

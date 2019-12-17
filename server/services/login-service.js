@@ -5,7 +5,6 @@ require('../mongo').connect();
 
 function login(req, res) {
     const { body } = req;
-    console.log(body);
     const { 
         password
     } = body;
@@ -73,7 +72,6 @@ function verify(req, res) {
         _id: token,
         isLoggedOut: false
     }, (err, sessions) => {
-        console.log(sessions);
         if (err) {
             return res.send({
                 success: false,

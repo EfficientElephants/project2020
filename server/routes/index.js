@@ -49,6 +49,9 @@ router.get('/transaction/totals/:userId', function(req, res) {
 router.get('/transaction/spendingTotal/:userId', function(req, res) {
   transactionService.getSpendingTotal(req, res);
 });
+router.get('/transaction/incomeTotal/:userId', function(req, res) {
+  transactionService.getIncomeTotal(req, res);
+});
 
 //signup
 router.post('/signup', function(req, res) {

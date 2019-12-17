@@ -27,8 +27,8 @@ class Goals extends Component {
 
     }
 
-    componentWillReceiveProps(render) {
-        if (this.props.render){
+    UNSAFE_componentWillReceiveProps(render) {
+        if (this.props.render) {
             goalAPI.get(this.state.userId).then(json => this.setState({goalList:json}));
         }
     }

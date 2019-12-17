@@ -4,6 +4,7 @@ import { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import auth from './Authentication/Auth';
 import { getFromStorage, removeFromStorage } from './Storage';
+import Logo from '../assets/expense-elephant-logo.png';
 
 
 class NavBar extends Component {
@@ -48,28 +49,31 @@ class NavBar extends Component {
     render() {
         return (
             <div className="center-navbar">
-                <Navbar class="navbar" collapseOnSelect expand="lg" variant="dark">
-                    <Navbar.Brand> Expense Elephant
-                        {/* <img src="./../assets/expense-elephant-logo.png" alt="Expense Elephant"></img> */}
+                <Navbar className="navbar" collapseOnSelect expand="lg" variant="dark">
+                    <Navbar.Brand> 
+                        <h3 className="company">
+                            <Link className="navbar-link-home" to="/dashboard">Expense Elephant</Link>
+                        </h3>
+                        <img src={Logo} height="42" width="42" alt="Expense Elephant Logo" />
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         
                         <Nav className="nav-center" defaultActiveKey="/">
                             <Nav.Item>
-                                <Link class="navbar-link" to="/dashboard">Dashboard</Link>&nbsp;
+                                <Link className="navbar-link" to="/dashboard">Dashboard</Link>&nbsp;
                             </Nav.Item>
                             <Nav.Item>
-                                <Link class="navbar-link" to="/transactions">Transactions</Link>&nbsp;
+                                <Link className="navbar-link" to="/transactions">Transactions</Link>&nbsp;
                             </Nav.Item>
                             {/* <Nav.Item>
-                                <Link  class="navbar-link"to="/income-mgr">Income Manager</Link>&nbsp;
+                                <Link  className="navbar-link"to="/income-mgr">Income Manager</Link>&nbsp;
                             </Nav.Item> */}
                             <Nav.Item>
-                                <Link class="navbar-link" to="/goal-mgr">Goal Manager</Link>&nbsp;
+                                <Link className="navbar-link" to="/goal-mgr">Goal Manager</Link>&nbsp;
                             </Nav.Item>
                         </Nav>
-                        <Button variant="light" class="logout-button" onClick={this.onLogout}>Logout</Button>
+                        <Button variant="light" className="logout-button" onClick={this.onLogout}>Logout</Button>
                     </Navbar.Collapse>
                 </Navbar>
             </div>

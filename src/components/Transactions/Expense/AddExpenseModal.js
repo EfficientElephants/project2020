@@ -9,7 +9,6 @@ class AddExpenseModal extends Component {
     }
     render() {
         if (this.props.selectedexpense) {
-            console.log(this.props.selectedexpense.date)
             return (
                 <Modal
                     {...this.props}

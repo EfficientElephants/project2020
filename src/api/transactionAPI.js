@@ -81,6 +81,16 @@ const transactionAPI = {
         reject(err);
       });
    });
+  },
+  getIncomeTotal(userId) {
+    return new Promise((resolve, reject) => {
+      fetch(`${baseAPI}/transaction/incomeTotal/${userId}`)
+      .then(response => response.json())
+      .then(json => resolve(json))
+      .catch(err => {
+        reject(err);
+      });
+   });
   }
 }
 export default transactionAPI;

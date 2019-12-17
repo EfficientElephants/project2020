@@ -30,7 +30,7 @@ class Totals extends Component {
         }
     }
 
-    componentWillReceiveProps(render) {
+    UNSAFE_componentWillReceiveProps(render) {
         if (this.props.render){
             this.getTotalsAll();
         }
