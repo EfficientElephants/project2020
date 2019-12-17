@@ -11,7 +11,7 @@ import AddExpense from './Transactions/Expense/AddExpense';
 import AddIncome from './Transactions/Income/AddIncome';
 import Graph from './Graph/Graph';
 import GoalBar from './Goals/GoalBar';
-import Logo from '../assets/expense-elephant-logo.png';
+import Logo from '../assets/expense-elephant-logo2.png';
 
 
 
@@ -122,8 +122,6 @@ class Dashboard extends Component {
                                 className="rounded mr-2"
                             />
                             
-                            {/* <img src={Logo} className="rounded mr-2" alt="" /> */}
-                            {/* <img src="../assets/expense-elephant-logo.png" className="rounded mr-2" alt="" /> */}
                             <strong className="mr-auto">Expense Elephant</strong>
                         </Toast.Header>
                         <Toast.Body>{this.state.alertType==="expense" ? "Sucessfully Added Expense.": "Sucessfully Added Income." }</Toast.Body>
@@ -159,17 +157,18 @@ class Dashboard extends Component {
                         </Col>
                     </Row>
                     <br/>
-                    <Row>
-                        <h5>For this period, you have done the following:</h5>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <h6>Spent ${this.state.spendingTotal}</h6>
-                        </Col>
-                        <Col>
-                            <h6>Earned ${this.state.incomeTotal}</h6>
-                        </Col>
-                    </Row>
+
+                    <Container>
+                        <Row>
+                            <Col>
+                                <h5>For this period, you have done the following:</h5>
+                            </Col>
+                            <Col>
+                                <p><strong>Spent</strong> ${this.state.spendingTotal}</p>
+                                <p><strong>Earned</strong> ${this.state.incomeTotal}</p>
+                            </Col>
+                        </Row>
+                    </Container>
                     
                     <Row style={{ marginTop: 85 }}>
                         <Col>
