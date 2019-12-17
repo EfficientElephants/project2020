@@ -21,7 +21,6 @@ function create(req, res) {
   const { query } = req;
   const { userId } = query;
   const transaction = new Transaction({ userId, date, item, price, category, transactionType});
-  console.log(transaction.date);
   transaction
     .save()
     .then(() => {
@@ -35,7 +34,6 @@ function create(req, res) {
 
 function update(req, res) {
   const { item, date, price, category, _id} = req.body;
-  console.log(date);
   Transaction.findOne({ _id })
   .then(transaction => {
     transaction.item = item;
@@ -91,7 +89,8 @@ function getSpendingTotal(req, res) {
   return Transaction.aggregate([
     {
       '$match': {
-        'userId': `${userId}`
+        'userId': `${userId}`,
+        'category': {'$ne':'Income'}
       }
     }, {
       '$group': {
@@ -110,6 +109,31 @@ function getSpendingTotal(req, res) {
   });
 }
 
+function getIncomeTotal(req, res) {
+  const {userId} = req.params;
+  return Transaction.aggregate([
+    {
+      '$match': {
+        'userId': `${userId}`,
+        'category': 'Income'
+      }
+    }, {
+      '$group': {
+        '_id': '$userId', 
+        'incomeTotal': {
+          '$sum': '$price'
+        }
+      }
+    }
+  ])
+  .then(all => {
+    res.json(all);
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  });
+}
 
 
-module.exports = { get, create, update, destroy, getTotalsAll, getSpendingTotal };
+
+module.exports = { get, create, update, destroy, getTotalsAll, getSpendingTotal, getIncomeTotal };

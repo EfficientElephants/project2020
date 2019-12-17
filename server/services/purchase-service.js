@@ -62,7 +62,6 @@ function destroy(req, res) {
 
 function getTotalsAll(req, res) {
   const {userId} = req.params;
-  console.log("purchase-service userID", userId);
   return Purchase.aggregate([
     {
       '$match': {

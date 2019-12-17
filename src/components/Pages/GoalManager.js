@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
-
 import NavBar from '../Navbar';
 import AddGoal from '../Goals/AddGoal';
 import Goals from '../Goals/Goals';
@@ -9,8 +8,9 @@ class GoalManager extends Component {
 
     constructor() {
         super();
-        this.state = {render: false}
-
+        this.state = {
+            render: "",
+        }
         this.rerender = this.rerender.bind(this);
     }
 
@@ -33,8 +33,8 @@ class GoalManager extends Component {
                     <br />
                     <Goals 
                         render = {this.state.render}
-                        stateChange = {this.rerender}
                     />
+
                 </Container>
             </div>
         );

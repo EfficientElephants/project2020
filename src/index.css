@@ -55,6 +55,20 @@ body {
   text-decoration: underline;
 }
 
+h3.company{
+  display: inline;
+}
+.navbar-link-home {
+  color: white;
+  padding: 8px;
+  padding-right: 10px;
+  display: inline;
+}
+.navbar-link-home:hover {
+  color: white;
+  text-decoration: none;
+}
+
 /* .dashboard-title { */
   /* text-align: center; */
 /* } */

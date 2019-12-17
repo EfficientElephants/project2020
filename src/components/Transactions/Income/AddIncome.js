@@ -108,6 +108,7 @@ class AddIncome extends Component {
 
     handleAlert(){
         this.props.typeChange('income');
+        this.props.stateChange(true);
     }
 
     validateForm() {
