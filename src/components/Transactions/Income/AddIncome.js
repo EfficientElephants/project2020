@@ -144,7 +144,7 @@ class AddIncome extends Component {
             <Container>
                 <Row>
                     <div>
-                        <Button variant="dark" onClick={this.handleEnableModal}>Add New Income</Button>
+                        <Button variant="secondary" onClick={this.handleEnableModal}>Add New Income</Button>
                         <AddIncomeModal 
                             show={this.state.showModal}
                             onHide={this.handleDisableModal}
