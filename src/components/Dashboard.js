@@ -9,7 +9,7 @@ import transactionAPI from '../api/transactionAPI';
 import Totals from './Totals';
 import Graph from './Graph/Graph';
 import AddGoal from './Goals/AddGoal';
-import Goals from './Goals/Goals';
+import Goals from './Goals/Goals_old';
 import GoalInfo from './Goals/GoalInfo';
 
 
@@ -147,10 +147,10 @@ class Dashboard extends Component {
                             {/* <GoalInfo
                                 render={this.state.render}
                             /> */}
-                            <Goals
+                            {/* <Goals
                                 render = {this.state.render}
                                 stateChange = {this.rerender} 
-                            />
+                            /> */}
                         </Col>
                     </Row>
                     {/* <br />
