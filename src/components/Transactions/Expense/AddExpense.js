@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Container, Row, Button } from 'react-bootstrap';
-import { parseISO, format } from 'date-fns';
 import AddExpenseModal from './AddExpenseModal';
 import transactionAPI from '../../../api/transactionAPI';
 import { getFromStorage } from '../../Storage';

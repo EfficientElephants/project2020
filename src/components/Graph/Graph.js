@@ -30,7 +30,7 @@ class Graph extends Component {
         
     }
 
-    async componentWillReceiveProps(render) {
+    async UNSAFE_componentWillReceiveProps(render) {
         if (this.props.render) {
             var catTotal = await this.renderCatTotals();
             var spendingTotal = await this.renderSpendingTotal();
@@ -72,7 +72,6 @@ class Graph extends Component {
                     // handle error
                     console.log('not working');
                 }
-                console.log(json.userId);
                 return json.userId
             })
         }

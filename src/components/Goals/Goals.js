@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Row, Col, Container, Button } from 'react-bootstrap';
+import { Row, Container } from 'react-bootstrap';
 
 import { getFromStorage } from '../Storage';
 import GoalBar from './GoalBar';
-import AddGoalModal from './AddGoalModal';
 import EditGoalModal from './EditGoalModal';
 import goalAPI from '../../api/goalAPI';
 import transactionAPI from '../../api/transactionAPI'
@@ -29,7 +28,7 @@ class Goals extends Component {
         this.rerender = this.rerender.bind(this);
     }
 
-    componentWillReceiveProps(render) {
+    UNSAFE_componentWillReceiveProps(render) {
         if (this.props.render) {
             this.componentDidMount();
         }

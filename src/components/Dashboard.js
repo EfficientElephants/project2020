@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Row, Col, Container, Toast } from 'react-bootstrap';
+import { Row, Col, Container, Toast, Figure } from 'react-bootstrap';
 import NavBar from './Navbar';
 import AddExpense from './Transactions/Expense/AddExpense';
 import AddIncome from './Transactions/Income/AddIncome';
 import { getFromStorage } from './Storage';
 import usersAPI from '../api/userAPI';
 import transactionAPI from '../api/transactionAPI';
-import Totals from './Totals';
+// import Totals from './Totals';
 import Graph from './Graph/Graph';
-import AddGoal from './Goals/AddGoal';
 import Goals from './Goals/Goals';
+import Logo from '../assets/expense-elephant-logo.png';
 
 
 class Dashboard extends Component {
@@ -21,7 +21,9 @@ class Dashboard extends Component {
             alertOpen: false,
             alertType: "", 
             toastShow: false,
-            render: false
+            render: false,
+            spendingTotal: '',
+            incomeTotal: ''
         }
         this.handleChange = this.handleChange.bind(this);
         this.rerender = this.rerender.bind(this);
@@ -38,6 +40,22 @@ class Dashboard extends Component {
                     this.setState({ userId: json.userId })
                     this.getFullName();
                     this.total();
+
+                    transactionAPI.getSpendingTotal(this.state.userId).then(json => {
+                        if (json[0]){
+                            this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
+                        } else {
+                            this.setState({spendingTotal: 0});
+                        }
+                    });
+                    transactionAPI.getIncomeTotal(this.state.userId).then(json => {
+                        if (json[0]){
+                            this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
+                        } else {
+                            this.setState({incomeTotal: 0});
+                        }
+                    });
+
                 } else {
                     // handle error
                     console.log('not working');
@@ -74,7 +92,7 @@ class Dashboard extends Component {
 
     rerender(val) {
         this.setState( {render: val} )
-        this.forceUpdate();
+        this.componentDidMount();
     }
 
     createAlert() {
@@ -100,7 +118,16 @@ class Dashboard extends Component {
                                 color: "black"
                             }}
                         >
-                            <img src="./../assets/expense-elephant-logo.png" className="rounded mr-2" alt="" />
+                            <Figure.Image
+                                width={20}
+                                height={20}
+                                alt="Logo of an Elephant"
+                                src={Logo}
+                                className="rounded mr-2"
+                            />
+                            
+                            {/* <img src={Logo} className="rounded mr-2" alt="" /> */}
+                            {/* <img src="../assets/expense-elephant-logo.png" className="rounded mr-2" alt="" /> */}
                             <strong className="mr-auto">Expense Elephant</strong>
                         </Toast.Header>
                         <Toast.Body>{this.state.alertType==="expense" ? "Sucessfully Added Expense.": "Sucessfully Added Income." }</Toast.Body>
@@ -120,7 +147,7 @@ class Dashboard extends Component {
                 <Container>
                     <Row className="dashboard-header">
                         <Col md={7}>
-                        <h3 class="dashboard-title">Welcome back, {this.state.fullName}!</h3>
+                        <h3 className="dashboard-title">Welcome back, {this.state.fullName}!</h3>
                         </Col>
                         <Col>
                             <AddExpense 
@@ -133,6 +160,18 @@ class Dashboard extends Component {
                                 typeChange = {this.handleChange}
                                 stateChange = {this.rerender}
                             />
+                        </Col>
+                    </Row>
+                    <br/>
+                    <Row>
+                        <h5>For this period, you have done the following:</h5>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <h6>Spent ${this.state.spendingTotal}</h6>
+                        </Col>
+                        <Col>
+                            <h6>Earned ${this.state.incomeTotal}</h6>
                         </Col>
                     </Row>
                     
