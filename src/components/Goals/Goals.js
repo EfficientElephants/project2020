@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Row, Col, Container, Button } from 'react-bootstrap';
+import { Row, Container } from 'react-bootstrap';
 
 import { getFromStorage } from '../Storage';
-import GoalBar from './GoalBar';
-import AddGoalModal from './AddGoalModal';
+// import GoalBar from './GoalBar';
+import GoalInfo from './GoalInfo';
+// import AddGoalModal from './AddGoalModal';
 import EditGoalModal from './EditGoalModal';
 import goalAPI from '../../api/goalAPI';
 import transactionAPI from '../../api/transactionAPI'
@@ -188,7 +189,7 @@ class Goals extends Component {
                     </div>
                 </Row>
                 <Row>
-                    {(this.state.allGoals).map(goal => {
+                    {/* {(this.state.allGoals).map(goal => {
                         return <GoalBar
                         goal={goal}
                         key={goal._id}
@@ -196,6 +197,16 @@ class Goals extends Component {
                         rerender = {this.state.render}
                         onDelete={this.handleDelete}
                         stateChange = {this.rerender}
+                        />
+                    })} */}
+                    {(this.state.allGoals).map(goalInfo => {
+                        return <GoalInfo
+                        goalInfo={goalInfo}
+                        key={goalInfo._id}
+                        onSelect={this.handleSelect}
+                        rerender = {this.state.render}
+                        onDelete={this.handleDelete}
+                        stateChange= {this.rerender}
                         />
                     })}
                 </Row>

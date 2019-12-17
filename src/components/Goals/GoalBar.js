@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, ProgressBar, Button } from 'react-bootstrap';
+import { Col, ProgressBar } from 'react-bootstrap';
 //import  from '../api/transactionAPI';
 
 class GoalBar extends Component {
@@ -47,10 +47,10 @@ class GoalBar extends Component {
         }
     }
 
-    remaining() {
-        const remains = (this.props.goal.goalAmount - this.props.goal.spentAmount);
-        return remains.toFixed(2);
-    }
+    // remaining() {
+    //     const remains = (this.props.goal.goalAmount - this.props.goal.spentAmount);
+    //     return remains.toFixed(2);
+    // }
 
     render () {
         return (
@@ -59,22 +59,6 @@ class GoalBar extends Component {
                     <h5>{this.props.goal.category}</h5>
                     <ProgressBar striped variant={this.state.gradient} now={this.state.percent} label={`${this.state.percent}%`} />
                     <br />
-                    <p>Goal Amount: {this.state.goalAmount}</p>
-                    <p>Amount Spent: {this.props.goal.spentAmount}</p>
-                    <p>Amount Remaining: {this.remaining()}</p>
-                    <Button
-                        variant="info"
-                        onClick={() => this.props.onSelect(this.props.goal)}
-                    >
-                        Edit Goal
-                    </Button>
-                    &nbsp;
-                    <Button
-                        variant="danger"
-                        onClick={e => this.props.onDelete(e, this.props.goal)}
-                    >
-                        Delete Goal
-                    </Button>
                 </div>
             </Col>
         )
