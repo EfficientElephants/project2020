@@ -103,9 +103,9 @@ class Graph extends Component {
 			theme: "dark",
 			animationEnabled: true,
 			exportEnabled: false,
-			title:{
-				text: "Category Spending Breakdown"
-			},
+			// title:{
+			// 	text: "Category Spending Breakdown"
+			// },
 			data: [{
 				type: "pie",
 				showInLegend: true,
@@ -118,6 +118,7 @@ class Graph extends Component {
 		}
         return (
             <div className="graph-wrapper">
+                <h3>Category Spending Breakdown</h3>
                 {/* <div className="graph"> */}
                     <CanvasJSChart options = {options}
                         /* onRef = {ref => this.chart = ref} */
