@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import { Row, Col, Container, Toast, Figure } from 'react-bootstrap';
 import NavBar from './Navbar';
-import AddExpense from './Transactions/Expense/AddExpense';
-import AddIncome from './Transactions/Income/AddIncome';
 import { getFromStorage } from './Storage';
+
 import usersAPI from '../api/userAPI';
 import transactionAPI from '../api/transactionAPI';
-// import Totals from './Totals';
+import goalAPI from '../api/goalAPI';
+
+import AddExpense from './Transactions/Expense/AddExpense';
+import AddIncome from './Transactions/Income/AddIncome';
 import Graph from './Graph/Graph';
-import GoalInfo from './Goals/GoalInfo';
+import GoalBar from './Goals/GoalBar';
 import Logo from '../assets/expense-elephant-logo.png';
+
 
 
 class Dashboard extends Component {
@@ -23,7 +26,8 @@ class Dashboard extends Component {
             toastShow: false,
             render: false,
             spendingTotal: '',
-            incomeTotal: ''
+            incomeTotal: '',
+            goalList: [],
         }
         this.handleChange = this.handleChange.bind(this);
         this.rerender = this.rerender.bind(this);
@@ -39,8 +43,10 @@ class Dashboard extends Component {
                 if (json.success){
                     this.setState({ userId: json.userId })
                     this.getFullName();
-                    this.total();
+                    
 
+                    goalAPI.get(this.state.userId).then(json => this.setState({goalList:json}));
+                    
                     transactionAPI.getSpendingTotal(this.state.userId).then(json => {
                         if (json[0]){
                             this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
@@ -55,6 +61,9 @@ class Dashboard extends Component {
                             this.setState({incomeTotal: 0});
                         }
                     });
+                
+                    console.log(this.state.goalList);
+                    
 
                 } else {
                     // handle error
@@ -64,16 +73,11 @@ class Dashboard extends Component {
         }
     }
 
-    total() {
-        transactionAPI.getSpendingTotal(this.state.userId).then(spendTotal => {
-            if(spendTotal[0]) {
-                this.setState({spentTotal: (spendTotal[0].spendingTotal/100).toFixed(2)})
-            } else {
-                this.setState({spentTotal: 0})
-            }
-            
-        })
-    }
+    // total() {
+       
+    //     // return true;
+    // }
+
     getFullName() {
         usersAPI.get(this.state.userId)
             .then(results => {
@@ -181,6 +185,15 @@ class Dashboard extends Component {
                         </Col>
                         <Col>
                             <h3>Monthly Breakdown</h3>
+                            {this.state.goalList.map(goal => {
+                                return <GoalBar
+                                    goal={goal}
+                                    key={goal._id}
+                                    render = {this.state.render}
+                                />
+                            })}
+                            {/* // return 
+                            // <GoalBar render = {this.state.render} /> */}
                             {/* <Totals render={this.state.render} /> */}
                             {/* <GoalInfo
                                 render={this.state.render}

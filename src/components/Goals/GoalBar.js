@@ -14,20 +14,23 @@ class GoalBar extends Component {
 
         this.percent = this.percent.bind(this);
         this.gradient = this.gradient.bind(this);
-        this.remaining = this.remaining.bind(this);
+        // this.remaining = this.remaining.bind(this);
     }
 
     UNSAFE_componentWillReceiveProps(rerender) {
-        if (this.props.rerender) {
+        if (this.props.render) {
             this.componentDidMount();
         }
     }
 
     componentDidMount() {
-        let goal = this.props.goal.goalAmount;
-        let per = this.percent();
-        let grad = this.gradient(per);
-        this.setState({goalAmount:goal, percent:per, gradient:grad});
+        if (this.props.goal){
+            let goal = this.props.goal.goalAmount;
+            let per = this.percent();
+            let grad = this.gradient(per);
+            this.setState({goalAmount:goal, percent:per, gradient:grad});
+        }
+        
     }
     
     percent() {
@@ -49,19 +52,24 @@ class GoalBar extends Component {
 
     // remaining() {
     //     const remains = (this.props.goal.goalAmount - this.props.goal.spentAmount);
-    //     return remains.toFixed(2);
+        // return remains.toFixed(2);
     // }
 
     render () {
-        return (
-            <Col>
-                <div>
-                    <h5>{this.props.goal.category}</h5>
-                    <ProgressBar striped variant={this.state.gradient} now={this.state.percent} label={`${this.state.percent}%`} />
-                    <br />
-                </div>
-            </Col>
-        )
+        if (this.props.goal){
+            return (
+                <Col>
+                    <div>
+                        <h5>{this.props.goal.category}</h5>
+                        <ProgressBar striped variant={this.state.gradient} now={this.state.percent} label={`${this.state.percent}%`} />
+                        <br />
+                    </div>
+                </Col>
+            )
+        } else{
+            return (<div />)
+        }
+        
     }
 
 }
