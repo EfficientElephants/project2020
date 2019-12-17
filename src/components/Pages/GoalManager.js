@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
-
 import NavBar from '../Navbar';
 import AddGoal from '../Goals/AddGoal';
 import Goals from '../Goals/Goals';
-import goalAPI from '../../api/goalAPI';
-import { getFromStorage } from '../Storage';
 
 class GoalManager extends Component {
 
@@ -34,18 +31,10 @@ class GoalManager extends Component {
                         stateChange = {this.rerender}
                     />
                     <br />
-
                     <Goals 
-                        // stateChange = {this.rerender}
                         render = {this.state.render}
                     />
 
-
-
-                    {/* <Goals 
-                        // render = {this.state.render}
-                        stateChange = {this.rerender}
-                    /> */}
                 </Container>
             </div>
         );

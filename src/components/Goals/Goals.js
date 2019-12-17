@@ -164,9 +164,7 @@ class Goals extends Component {
             }else {
                 subarray.push([])
             }
-            
             array.push(subarray);
-            console.log(i)
         }
         return array
     }
@@ -188,16 +186,11 @@ class Goals extends Component {
                             />
                         </div>
                     </Row>
-                    {console.log(this.state.goalList.length)}
-                    {console.log(this.createArray())}
                     {this.createArray().map(array =>{
                         return (
                             <><Row>
                                 {array.map((goal, i) => {
-                                    console.log(i%2);
-                                    console.log(goal.length)
-                                    if (goal.length ===0 && i%2 == 1){
-                                        console.log("in blank");
+                                    if (goal.length === 0 && i%2 === 1){
                                         return <Col/>
                                     }
                                     return <GoalInfo
@@ -212,37 +205,6 @@ class Goals extends Component {
                             <br /></>
                         )
                     })}
-
-                    
-                    {/* {(this.state.goalList).map((goal, i) => {
-                        if (i%2 === 0) {
-                            return (
-                                <Row>
-                                    <GoalInfo
-                                        goal={goal}
-                                        key={goal._id}
-                                        onSelect={this.handleSelect}
-                                        rerender = {this.state.render}
-                                        onDelete={this.handleDelete}
-                                    />
-                                </Row>
-                            )
-                        }else{
-                            console.log(i);
-                        }
-                        
-                    })}
-                    <Row>
-                        {(this.state.goalList).map(goal => {
-                            return <GoalInfo
-                            goal={goal}
-                            key={goal._id}
-                            onSelect={this.handleSelect}
-                            rerender = {this.state.render}
-                            onDelete={this.handleDelete}
-                            />
-                        })}
-                    </Row> */}
                 </Container>
             </div>
         );

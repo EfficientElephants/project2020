@@ -61,10 +61,7 @@ class Dashboard extends Component {
                             this.setState({incomeTotal: 0});
                         }
                     });
-                
-                    console.log(this.state.goalList);
                     
-
                 } else {
                     // handle error
                     console.log('not working');
@@ -72,11 +69,6 @@ class Dashboard extends Component {
             })
         }
     }
-
-    // total() {
-       
-    //     // return true;
-    // }
 
     getFullName() {
         usersAPI.get(this.state.userId)
@@ -192,16 +184,6 @@ class Dashboard extends Component {
                                     render = {this.state.render}
                                 />
                             })}
-                            {/* // return 
-                            // <GoalBar render = {this.state.render} /> */}
-                            {/* <Totals render={this.state.render} /> */}
-                            {/* <GoalInfo
-                                render={this.state.render}
-                            /> */}
-                            {/* <Goals
-                                render = {this.state.render}
-                                stateChange = {this.rerender} 
-                            /> */}
                         </Col>
                     </Row>
                     {/* <br />

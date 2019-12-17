@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, ProgressBar, Button } from 'react-bootstrap';
+import { Col, ProgressBar } from 'react-bootstrap';
 //import  from '../api/transactionAPI';
 
 class GoalBar extends Component {
