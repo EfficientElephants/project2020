@@ -144,9 +144,12 @@ class Dashboard extends Component {
                         <Col>
                             <h3>Monthly Breakdown</h3>
                             {/* <Totals render={this.state.render} /> */}
-                            <GoalInfo
+                            {/* <GoalInfo
+                                render={this.state.render}
+                            /> */}
+                            <Goals
                                 render = {this.state.render}
-                                // stateChange = {this.rerender} 
+                                stateChange = {this.rerender} 
                             />
                         </Col>
                     </Row>
