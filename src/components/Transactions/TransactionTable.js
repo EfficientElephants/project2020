@@ -32,7 +32,21 @@ class TransactionTable extends Component {
     }
     UNSAFE_componentWillReceiveProps(render) {
         if (this.props.render){
-            transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
+            transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json})); 
+            transactionAPI.getSpendingTotal(this.state.userId).then(json => {
+                if (json[0]){
+                    this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
+                } else {
+                    this.setState({spendingTotal: 0});
+                }
+            });
+            transactionAPI.getIncomeTotal(this.state.userId).then(json => {
+                if (json[0]){
+                    this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
+                } else {
+                    this.setState({incomeTotal: 0});
+                }
+            }); 
         }
     }
     componentDidMount() {
@@ -114,6 +128,21 @@ class TransactionTable extends Component {
                 .update(goal)
                 .catch(err => {});
         }
+
+        await transactionAPI.getSpendingTotal(this.state.userId).then(json => {
+            if (json[0]){
+                this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
+            } else {
+                this.setState({spendingTotal: 0});
+            }
+        });
+        await transactionAPI.getIncomeTotal(this.state.userId).then(json => {
+            if (json[0]){
+                this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
+            } else {
+                this.setState({incomeTotal: 0});
+            }
+        });  
         
     }
 
@@ -165,7 +194,21 @@ class TransactionTable extends Component {
                 .catch(err => {});
             }
 
-            await transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
+            await transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json})); 
+            await transactionAPI.getSpendingTotal(this.state.userId).then(json => {
+                if (json[0]){
+                    this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
+                } else {
+                    this.setState({spendingTotal: 0});
+                }
+            });
+            await transactionAPI.getIncomeTotal(this.state.userId).then(json => {
+                if (json[0]){
+                    this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
+                } else {
+                    this.setState({incomeTotal: 0});
+                }
+            });  
             this.handleDisableModal();
             
         }

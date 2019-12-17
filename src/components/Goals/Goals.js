@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
-import { Row, Container } from 'react-bootstrap';
-
-import { getFromStorage } from '../Storage';
-import GoalBar from './GoalBar';
-import EditGoalModal from './EditGoalModal';
 import goalAPI from '../../api/goalAPI';
-import transactionAPI from '../../api/transactionAPI'
-
+import { getFromStorage } from '../Storage';
+import { Row, Col, Container } from 'react-bootstrap';
+import transactionAPI from '../../api/transactionAPI';
+import EditGoalModal from './EditGoalModal';
+import GoalInfo from './GoalInfo';
 class Goals extends Component {
     constructor() {
         super();
         this.state = {
             userId: '',
-            allGoals: [],
+            goalList: [],
             errors: {},
-            showModal: false, 
+            showModal: false,
             render: false
-
+            // remaining: '',
         }
+        this.createArray = this.createArray.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
@@ -25,37 +24,30 @@ class Goals extends Component {
         this.handleEnableModal = this.handleEnableModal.bind(this);
         this.handleDisableModal = this.handleDisableModal.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
-        this.rerender = this.rerender.bind(this);
+
     }
 
     UNSAFE_componentWillReceiveProps(render) {
         if (this.props.render) {
-            this.componentDidMount();
+            goalAPI.get(this.state.userId).then(json => this.setState({goalList:json}));
         }
     }
 
-    rerender(val) {
-        this.setState( {render: val} )
-    }
-
-    async componentDidMount() {
-        // query for all of the logged in users transactions
+    componentDidMount(){
         const obj = getFromStorage('expense_app');
         if (obj && obj.token) {
             const { token } = obj;
-            await fetch('api/getUserId?token=' + token)
+            fetch('api/getUserId?token=' + token)
             .then(res => res.json())
             .then(json => {
                 if (json.success){
-                    this.setState({ userId: json.userId, error: false })
-                    goalAPI.get(this.state.userId).then(json => {
-                        this.setState({allGoals: json})
-                    }); 
+                    this.setState({ userId: json.userId })
+                    goalAPI.get(this.state.userId).then(json => this.setState({goalList:json}));
                 } else {
                     // handle error
                     console.log('not working');
                 }
-            })   
+            })
         }
     }
 
@@ -94,17 +86,14 @@ class Goals extends Component {
     handleDelete(event, goal) {
         event.stopPropagation();
         goalAPI.destroy(goal).then(() => {
-            let goals = this.state.allGoals;
+            let goals = this.state.allGoals;
             goals = goals.filter(h => h !== goal);
-            this.setState({ allGoals: goals });
-    
-            if (this.selectedgoal === goal) {
-                this.setState({ selectedGoal: null });
-            }
-        });
+            this.setState({ allGoals: goals });
+            if (this.selectedgoal === goal) {
+                this.setState({ selectedGoal: null });
+            }
+        });
     }
-
-
 
     async handleSave(event) {
         event.preventDefault();
@@ -127,18 +116,13 @@ class Goals extends Component {
             await goalAPI  
             .update(this.state.selectedGoal)
             .then(result => {
-                if (result.errors) {
-                    this.setState({errors: {"goalError": "Goal already exists, please update existing goal."}});
-                }
-                else {
-                    this.setState({
-                        selectedGoal: null,
-                        render: true,
-                    });
-                    this.handleDisableModal();
-                    this.props.stateChange(true);
-                }
+                this.setState({
+                    selectedGoal: null,
+                    render: true,
+                });
+                this.componentDidMount();
             })
+            this.handleDisableModal();
         }
     }
 
@@ -169,38 +153,62 @@ class Goals extends Component {
         return formIsValid
     }
 
+    createArray() {
+        let array = [];
+
+        for(let i = 0; i < this.state.goalList.length; i = i + 2){
+            let subarray = [];
+            subarray.push(this.state.goalList[i]);
+            if (i+1 < this.state.goalList.length){
+                subarray.push(this.state.goalList[i+1]);
+            }else {
+                subarray.push([])
+            }
+            array.push(subarray);
+        }
+        return array
+    }
+
     render() {
-        return (
-        <div>
-            <Container>
-                <Row>
-                    <div>
-                        <EditGoalModal 
-                            show={this.state.showModal}
-                            onHide={this.handleDisableModal}
-                            onSubmit = {this.handleSave}
-                            onCancel = {this.handleCancel}
-                            onChange = {this.handleChange}
-                            selectedgoal = {this.state.selectedGoal}
-                            errors = {this.state.errors}
-                        />
-                    </div>
-                </Row>
-                <Row>
-                    {(this.state.allGoals).map(goal => {
-                        return <GoalBar
-                        goal={goal}
-                        key={goal._id}
-                        onSelect={this.handleSelect}
-                        rerender = {this.state.render}
-                        onDelete={this.handleDelete}
-                        stateChange = {this.rerender}
-                        />
+        return(
+            <div>
+                <Container>
+                    <Row>
+                        <div>
+                            <EditGoalModal 
+                                show={this.state.showModal}
+                                onHide={this.handleDisableModal}
+                                onSubmit = {this.handleSave}
+                                onCancel = {this.handleCancel}
+                                onChange = {this.handleChange}
+                                selectedgoal = {this.state.selectedGoal}
+                                errors = {this.state.errors}
+                            />
+                        </div>
+                    </Row>
+                    {this.createArray().map(array =>{
+                        return (
+                            <><Row>
+                                {array.map((goal, i) => {
+                                    if (goal.length === 0 && i%2 === 1){
+                                        return <Col/>
+                                    }
+                                    return <GoalInfo
+                                        goal={goal}
+                                        key={goal._id}
+                                        onSelect={this.handleSelect}
+                                        rerender = {this.state.render}
+                                        onDelete={this.handleDelete}
+                                    />
+                                })}
+                            </Row>
+                            <br /></>
+                        )
                     })}
-                </Row>
-            </Container>
-        </div>
+                </Container>
+            </div>
         );
     }
+
 }
-export default Goals;
+export default Goals
