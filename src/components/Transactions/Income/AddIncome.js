@@ -75,7 +75,8 @@ class AddIncome extends Component {
     handleDisableModal() {
         this.setState({
             showModal: false,
-            selectedIncome: null
+            selectedIncome: null, 
+            date: new Date()
         })
     }
 
