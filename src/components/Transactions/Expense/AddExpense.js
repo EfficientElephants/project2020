@@ -73,7 +73,8 @@ class AddExpense extends Component {
     handleDisableModal() {
         this.setState({
             showModal: false,
-            selectedExpense: null
+            selectedExpense: null,
+            date: new Date()
         })
     }
 
