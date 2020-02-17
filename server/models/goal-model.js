@@ -14,7 +14,7 @@ const goalSchema = new Schema({
         type: String,
         required: true,
         validate: (value) => {
-            return validator.isIn(value, ['Income', 'Rent', 'Food', 'Social', 'Medical', 'Transportation', 'Personal Care'])
+            return validator.isIn(value, ['Income', 'Housing', 'Food', 'Social', 'Healthcare', 'Transportation', 'Personal Spending', 'Education', 'Utilities', 'Misc.'])
         }
     },
     goalAmount: {
