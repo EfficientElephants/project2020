@@ -160,6 +160,7 @@ class Login extends Component {
                                 <Form.Label>Password: </Form.Label>
                                 <Form.Control type="password" value={loginPassword} onChange={this.onChangePassword}/>
                             </Form.Group>
+                            <Link to="/forgotPassword">Forgot password?</Link>
                             <Form.Group>
                             <Button onClick={this.onLogin}
                                 variant="primary">Login</Button>
