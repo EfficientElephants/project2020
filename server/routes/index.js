@@ -84,7 +84,8 @@ router.get('/users/:userId', function(req, res){
 });
 
 //goal
-router.get('/goals', function(req, res) {
+router.get('/goals/:userId/:mmyyID', function(req, res) {
+  console.log(req.params);
   goalService.get(req,res);
 });
 
