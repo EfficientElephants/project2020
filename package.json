@@ -51,8 +51,7 @@
     "build": "cd server && rm -rf build && cd .. && react-scripts build && mv build server",
     "test": "nyc --reporter=html --reporter=text mocha",
     "report-coverage": "nyc report --reporter=text-lcov | codecov",
-    "eject": "react-scripts eject",
-    "test-cover": "nyc cover --include-all-sources spec/specs.js && nyc check-coverage"
+    "eject": "react-scripts eject"
   },
   "nyc": {
     "all": true,
