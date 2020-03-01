@@ -9,4 +9,4 @@ install:
 - npm install nyc
 script:
 - npm run test
-- npm run codecov
+- npm run report-coverage
