@@ -1,12 +1,15 @@
 language: node_js
-node_js: 
-  - "stable"
+node_js:
+- stable
 cache:
   directories:
-    - "node_modules"
+  - node_modules
 install:
-  - npm install -g codecov
-  - npm install nyc
+- npm install -g codecov
+- npm install nyc
 script:
-  - npm run test
-  - npm run report-coverage
+- npm run test
+- npm run report-coverage
+env:
+  global:
+    secure: 20hchJKysbnDrMEVN39Sw60i8FHhw8rjNTHELD96gMadChDs/JW5mMlexaQJX+FSPirrt6rqXEQ6wHAblmYKaXqMTyEh8WyeyLCXALgVvYBRjTixPM2UwWKMrw/cMS4rrdyH+DXmUbHUU1SeyNzP/f6AKuY7AwZxwsQu9zcSO/YjuvlO2g6vfIyWTywaxNlXL/qlr5zYNIDT00H9Ap0p3y8oSdsEss6s9a1B/UrqhFQHc4+xNptqzTdsDSaGhY09ewYjuYS4KDAej7uKr9auy0xRMZxzeUXzNFJhiEIY0Dngvuc4HQ8s2CqVTDc1G6bpeNoXJ4Igp/yGHgPFARMGlY6TLJ20guSS3ec9XJ2b0JAm61kP696V+vrnxvrmRH5Brj6TIyP74Vh+MbHBprc7MCpMwu5V5uIFEaQd7mxPcPc6Il49XuC2IQlD8PYzL5/3z53oiqM2cu2lx5TuzHPte77A967qHj9IkXFQWt1NutaVjNGlAzEyY68iCO/mlpG6MkXo1UUn2bYhWuQw8dk1F/VdgRruYS8HJmtss0023bAP6rNRB7ox9E8taF9o+li71/bgQV5UPDHoxkwH1pbRhlrm6KkGTGKOutVfOcpXUuSoQtyIiQDSozE1NKufyA8O4os/3WSwsPkw/yxkctXavQLZbL8qgchcJ/MPPAgbAiA=
