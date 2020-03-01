@@ -154,15 +154,15 @@ class Login extends Component {
                         <h1>Login Here</h1>
                             <Form.Group>
                                 <Form.Label>Email: </Form.Label>
-                                <Form.Control type="email" value={loginEmail} onChange={this.onChangeEmail}/>
+                                <Form.Control id="emailInput" type="email" value={loginEmail} onChange={this.onChangeEmail}/>
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label>Password: </Form.Label>
-                                <Form.Control type="password" value={loginPassword} onChange={this.onChangePassword}/>
+                                <Form.Control id="passwordInput" type="password" value={loginPassword} onChange={this.onChangePassword}/>
                             </Form.Group>
                             <Form.Group>
                             <Button onClick={this.onLogin}
-                                variant="primary">Login</Button>
+                                variant="primary" id="login">Login</Button>
                             </Form.Group>
                             <Link to="/signup">Don't have an account?</Link>
                         </Form>
