@@ -21,7 +21,7 @@ it('Save test user', function(done){
 });
 
 describe("Don't save in database incorrectly", function() {
-    it("Don't save is missing required information", function(done) {
+    it("Don't save if missing required information", function(done) {
         var incorrectUser1 = User({
             firstName: "Only First Name"
         })
