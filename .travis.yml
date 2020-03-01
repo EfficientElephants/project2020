@@ -1,12 +1,12 @@
 language: node_js
-node_js: 
-  - "stable"
+node_js:
+- stable
 cache:
   directories:
-    - "node_modules"
+  - node_modules
 install:
-  - npm install -g codecov
-  - npm install nyc
+- npm install -g codecov
+- npm install nyc
 script:
-  - npm run test
-  - npm run report-coverage
+- npm run test
+- npm run codecov
