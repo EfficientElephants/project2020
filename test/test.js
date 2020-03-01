@@ -6,7 +6,7 @@ chai.use(chaiAsPromised);
 const assert = chai.assert;
 const expect = chai.expect;
 const dotenv = require('dotenv').config();
-const mongoURI = process.env.CONNECTION_STRING_TESTING;
+const mongoURI = CONNECTION_STRING_TESTING;
 
 
 // Import User Information
