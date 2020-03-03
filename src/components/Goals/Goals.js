@@ -72,7 +72,6 @@ class Goals extends Component {
             var currentGoals = await this.getGoals(mmyyID);
 
             this.setState({
-                goalList: currentGoals,
                 mmyyID: mmyyID,
                 month: month,
                 year: year,
@@ -96,12 +95,13 @@ class Goals extends Component {
                 var updatedGoals = await this.createNewDatabases(oldGoals)
                     .then(res =>
                         {   
-                            console.log(res);
                             var updatedGoals = this.getGoals(this.state.mmyyID);
                             return updatedGoals
                         }
                     )
                 this.setState({goalList: updatedGoals});
+            }else {
+                this.setState({goalList: currentGoals})
             }
         }
     }
@@ -166,10 +166,10 @@ class Goals extends Component {
     handleDelete(event, goal) {
         event.stopPropagation();
         goalAPI.destroy(goal).then(() => {
-            let goals = this.state.allGoals;
+            let goals = this.state.goalList;
             goals = goals.filter(h => h !== goal);
             this.setState({
-                allGoals: goals
+                goalList: goals
             });
             if (this.selectedgoal === goal) {
                 this.setState({

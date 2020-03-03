@@ -17,10 +17,10 @@ function get(req, res) {
 }
 
 function create(req, res) {
-  const { item, date, price, category, transactionType } = req.body;
+  const { item, date, price, category, transactionType, monthYearId } = req.body;
   const { query } = req;
   const { userId } = query;
-  const transaction = new Transaction({ userId, date, item, price, category, transactionType});
+  const transaction = new Transaction({ userId, date, item, price, category, transactionType, monthYearId});
   transaction
     .save()
     .then(() => {
@@ -33,13 +33,14 @@ function create(req, res) {
   
 
 function update(req, res) {
-  const { item, date, price, category, _id} = req.body;
+  const { item, date, price, category, _id, monthYearId} = req.body;
   Transaction.findOne({ _id })
   .then(transaction => {
     transaction.item = item;
     transaction.date = date;
     transaction.price = price;
     transaction.category = category;
+    transaction.monthYearId = monthYearId
     transaction.updatedAt = Date.now();
     transaction.save().then(res.json(transaction));
   })

@@ -44,6 +44,10 @@ const transactionSchema = new Schema({
         type: Date,
         default: now
     },
+    monthYearId: {
+        type: String,
+        required: true,
+    },
 })
 
 function getPrice(num){

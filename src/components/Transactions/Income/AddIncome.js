@@ -4,6 +4,7 @@ import { Container, Row, Button } from 'react-bootstrap';
 import AddIncomeModal from './AddIncomeModal';
 import transactionAPI from '../../../api/transactionAPI';
 import { getFromStorage } from '../../Storage';
+var dateformat = require('dateformat');
 
 class AddIncome extends Component {
     constructor() {
@@ -48,6 +49,7 @@ class AddIncome extends Component {
         this.setState({date: val});
         let selectedIncome = propSelected;
         selectedIncome['date'] = val;
+        selectedIncome['monthYearId'] = dateformat(val, 'mmyy')
         this.setState({selectedIncome: selectedIncome});
     }
 

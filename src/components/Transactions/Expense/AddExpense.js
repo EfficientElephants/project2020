@@ -4,6 +4,7 @@ import AddExpenseModal from './AddExpenseModal';
 import transactionAPI from '../../../api/transactionAPI';
 import { getFromStorage } from '../../Storage';
 import goalAPI from '../../../api/goalAPI';
+var dateformat = require('dateformat');
 
 class AddExpense extends Component {
     constructor(props) {
@@ -47,6 +48,7 @@ class AddExpense extends Component {
         this.setState({date: val});
         let selectedExpense = propSelected;
         selectedExpense['date'] = val;
+        selectedExpense['monthYearId'] = dateformat(val, 'mmyy')
         this.setState({selectedExpense: selectedExpense});
     }
 
@@ -78,8 +80,10 @@ class AddExpense extends Component {
         })
     }
 
+    //REWORK
     async handleSave(event) {
-        event.preventDefault();      
+        event.preventDefault();
+        console.log(this.state.selectedExpense);   
         if (this.validateForm()) {
             var allGoals = await (goalAPI
             .get(this.state.userId)
@@ -123,6 +127,7 @@ class AddExpense extends Component {
             });
         }
     }
+
     handleAlert(){
         this.props.typeChange('expense');
         this.props.stateChange(true);
