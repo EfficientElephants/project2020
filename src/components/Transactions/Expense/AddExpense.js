@@ -9,12 +9,14 @@ var dateformat = require('dateformat');
 class AddExpense extends Component {
     constructor(props) {
         super();
+        var CommonDate = new Date()
         this.state = {
             userId: '',
             expenses: [],
             errors: {},
             showModal: false, 
-            date: new Date()
+            date: CommonDate,
+            mmyyID: dateformat(CommonDate , 'mmyy')
         };
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
@@ -45,7 +47,7 @@ class AddExpense extends Component {
     }
 
     handleDateChange(val, propSelected){
-        this.setState({date: val});
+        this.setState({date: val, mmyyID: dateformat(val, 'mmyy')});
         let selectedExpense = propSelected;
         selectedExpense['date'] = val;
         selectedExpense['monthYearId'] = dateformat(val, 'mmyy')
@@ -67,7 +69,7 @@ class AddExpense extends Component {
     handleEnableModal () {
         this.setState({
             showModal: true,
-            selectedExpense: {date: this.state.date, monthYearId: dateformat(this.state.date, 'mmyy'), item: '', price:'', category: '', transactionType: 'expense'}
+            selectedExpense: {date: this.state.date, monthYearId: this.state.mmyyID, item: '', price:'', category: '', transactionType: 'expense'}
         });
         
     }
@@ -86,7 +88,7 @@ class AddExpense extends Component {
         console.log(this.state.selectedExpense);   
         if (this.validateForm()) {
             var allGoals = await (goalAPI
-            .get(this.state.userId)
+            .get({userId: this.state.userId, mmyyID: this.state.mmyyID})
             .then(goals => {
                 return goals
             }));

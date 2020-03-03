@@ -5,7 +5,7 @@ import { Row, Col, Container } from 'react-bootstrap';
 import transactionAPI from '../../api/transactionAPI';
 import EditGoalModal from './EditGoalModal';
 import GoalInfo from './GoalInfo';
-// var { ObjectId } = require('mongodb');
+var dateformat = require('dateformat');
 
 class Goals extends Component {
     constructor() {
@@ -65,9 +65,9 @@ class Goals extends Component {
                     }
                 })
             this.setState({userId: userId})
-            var month = ((this.state.date.getMonth() + 1) < 10 ? '0' : '') + (this.state.date.getMonth() + 1)
+            var month = this.state.date.getMonth() + 1
             var year = this.state.date.getFullYear() - 2000
-            var mmyyID = month + year
+            var mmyyID = dateformat(this.state.date, 'mmyy')
 
             var currentGoals = await this.getGoals(mmyyID);
 
@@ -82,7 +82,7 @@ class Goals extends Component {
 
             var lastMonth = month
             var lastYear = year
-            if (month === '01'){
+            if (month === 1){
                 lastMonth = '12'
                 lastYear -= 1
             }else{

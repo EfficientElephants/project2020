@@ -21,6 +21,7 @@ class TransactionTable extends Component {
             rerender: false,
             spendingTotal: '',
             incomeTotal: '',
+            mmyyID: ''
         }
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
@@ -85,7 +86,7 @@ class TransactionTable extends Component {
     }
 
     handleDateChange(val, propSelected){
-        this.setState({date: val});
+        this.setState({date: val, mmyyID: dateformat(val, 'mmyy')});
         let selectedTransaction = propSelected;
         selectedTransaction['date'] = val;
         selectedTransaction['monthYearId'] = dateformat(val, 'mmyy')
@@ -114,7 +115,7 @@ class TransactionTable extends Component {
             }
         });
         var goals = await (goalAPI
-            .get(this.state.userId)
+            .get({userId: this.state.userId, mmyyID: this.state.mmyyID})
             .then(goals => {
                 return goals
             })
@@ -179,7 +180,7 @@ class TransactionTable extends Component {
                 return allTotals
             }));
 
-            var allGoals = await(goalAPI.get(this.state.userId).then(allGoals => {return allGoals}))
+            var allGoals = await(goalAPI.get({userId: this.state.userId, mmyyID: this.state.mmyyID}).then(allGoals => {return allGoals}))
 
             var updatedGoal = null;
             allTotals.forEach(function(total){
