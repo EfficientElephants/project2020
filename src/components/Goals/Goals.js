@@ -47,68 +47,80 @@ class Goals extends Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const obj = getFromStorage('expense_app');
         if (obj && obj.token) {
             const {
                 token
             } = obj;
-            fetch('api/getUserId?token=' + token)
+            var userId = await fetch('api/getUserId?token=' + token)
                 .then(res => res.json())
                 .then(json => {
                     if (json.success) {
-                        var month = ((this.state.date.getMonth() + 1) < 10 ? '0' : '') + (this.state.date.getMonth() + 1)
-                        var year = this.state.date.getFullYear() - 2000
-                        var mmyyID = month + year
-
-                        this.setState({
-                            userId: json.userId,
-                            mmyyID: mmyyID,
-                            month: month,
-                            year: year
-                        })
-                        goalAPI.get({userId: this.state.userId, mmyyID:this.state.mmyyID}).then(json => this.setState({goalList:json}));
-                        console.log(this.state.oldID);
-                        if (this.createNewDatabases()) {
-                            console.log(this.state.oldID);
-                            console.log(this.state.lastmonthGoals);
-                        }
-
+                       console.log(json);
+                        return json.userId;
                     } else {
                         // handle error
                         console.log('not working');
                     }
                 })
+            this.setState({userId: userId})
+            var month = ((this.state.date.getMonth() + 1) < 10 ? '0' : '') + (this.state.date.getMonth() + 1)
+            var year = this.state.date.getFullYear() - 2000
+            var mmyyID = month + year
+
+            var currentGoals = await this.getGoals(mmyyID);
+
+            this.setState({
+                goalList: currentGoals,
+                mmyyID: mmyyID,
+                month: month,
+                year: year,
+            })
+
+            
+            console.log(currentGoals);
+
+            var lastMonth = month
+            var lastYear = year
+            if (month === '01'){
+                lastMonth = '12'
+                lastYear -= 1
+            }else{
+                lastMonth = ((this.state.date.getMonth() + 1) < 10 ? '0' : '') + (this.state.date.getMonth())
+            }
+            var oldMMYYID = lastMonth+lastYear;
+            var oldGoals = await this.getGoals(oldMMYYID);
+            
+            if (currentGoals.length === 0 && oldGoals.length!== 0 && this.state.date.getDate() === 2){
+                var updatedGoals = await this.createNewDatabases(oldGoals)
+                    .then(res =>
+                        {   
+                            console.log(res);
+                            var updatedGoals = this.getGoals(this.state.mmyyID);
+                            return updatedGoals
+                        }
+                    )
+                this.setState({goalList: updatedGoals});
+            }
         }
     }
 
-    async createNewDatabases() {
-        console.log("here");
-        if (this.state.date.getDate() === 18){ // && this.state.date.getMinutes === 25) {
-            var oldMonth = ((this.state.month - 1) < 10 ? '0' : '') + (this.state.month - 1)
-            var oldID = oldMonth + (this.state.year).toString()
-            this.setState({
-                oldID: oldID
-            })
-            console.log(this.state.oldID);
-            var passing = {
-                userId: this.state.userId,
-                mmyyID: oldID
-            }
+    getGoals(mmyyID) {
+        return goalAPI.get({userId: this.state.userId, mmyyID: mmyyID});
+    }
 
-            var oldGoals = goalAPI.get(passing);
-            console.log(await oldGoals);
-            var newGoals = await oldGoals;
-
-            for (const goalIdx in newGoals) {
-                var goal = {}
-                goal.category = newGoals[goalIdx].category
-                goal.goalAmount = newGoals[goalIdx].goalAmount
-                goal.spentAmount = 0;
-                console.log(goal);
-                goalAPI.create(goal, this.state.userId);
-            }
+    createNewDatabases(oldGoals) {
+        for (const goalIdx in oldGoals) {
+            var goal = {}
+            goal.category = oldGoals[goalIdx].category
+            goal.goalAmount = oldGoals[goalIdx].goalAmount
+            goal.spentAmount = 0;
+            console.log(goal);
+            goalAPI.create(goal, this.state.userId);
         }
+        return this.getGoals(this.state.mmyyID)
+
     }
 
     handleSelect(goal) {
@@ -265,7 +277,9 @@ class Goals extends Component {
                             <><Row>
                                 {array.map((goal, i) => {
                                     if (goal.length === 0 && i%2 === 1){
-                                        return <Col/>
+                                        return <Col
+                                        key={goal.length}
+                                        />
                                     }
                                     return <GoalInfo
                                         goal={goal}
