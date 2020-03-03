@@ -36,7 +36,7 @@ class Transactions extends Component {
                 <Pagination.Prev />
 
                 <Pagination.Item>{11}</Pagination.Item>
-                <Pagination.Item active>{12}</Pagination.Item>
+                <Pagination.Item active>{1}</Pagination.Item>
                 <Pagination.Item>{13}</Pagination.Item>
 
                 <Pagination.Next />
