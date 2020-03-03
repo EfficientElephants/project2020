@@ -1,9 +1,9 @@
 const baseAPI = '/api';
 
 const goalAPI = {
-  get(userId) {
+  get(userInfo) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/goals?userId=` + userId) //maybe want to pass this in as a param *maybe future state*
+      fetch(`${baseAPI}/goals/${userInfo.userId}/${userInfo.mmyyID}`) //maybe want to pass this in as a param *maybe future state*
         .then(response => response.json())
         .then(json => resolve(json))
         .catch(err => {
