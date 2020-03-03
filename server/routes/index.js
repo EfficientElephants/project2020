@@ -42,14 +42,14 @@ router.delete('/transaction/:_id', function(req, res) {
   transactionService.destroy(req, res);
 });
 
-router.get('/transaction/totals/:userId', function(req, res) {
+router.get('/transaction/totals/:userId/:dates', function(req, res) {
   transactionService.getTotalsAll(req, res);
 });
 
-router.get('/transaction/spendingTotal/:userId', function(req, res) {
+router.get('/transaction/spendingTotal/:userId/:dates', function(req, res) {
   transactionService.getSpendingTotal(req, res);
 });
-router.get('/transaction/incomeTotal/:userId', function(req, res) {
+router.get('/transaction/incomeTotal/:userId/:dates', function(req, res) {
   transactionService.getIncomeTotal(req, res);
 });
 
@@ -85,7 +85,6 @@ router.get('/users/:userId', function(req, res){
 
 //goal
 router.get('/goals/:userId/:mmyyID', function(req, res) {
-  console.log(req.params);
   goalService.get(req,res);
 });
 

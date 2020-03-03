@@ -5,8 +5,13 @@ require('../mongo').connect();
 
 function get(req, res) {
   const { query } = req;
-  const { userId } = query;
-  const docquery = Transaction.find({userId: userId}).sort({date: 'descending', createdAt: 'descending'}).read(ReadPreference.NEAREST);
+  const { userId, dates } = query;
+  if (dates === 'all'){
+    docquery = Transaction.find({userId: userId}).sort({date: 'descending', createdAt: 'descending'}).read(ReadPreference.NEAREST);
+  }else {
+    docquery = Transaction.find({userId: userId, monthYearId: dates}).sort({date: 'descending', createdAt: 'descending'}).read(ReadPreference.NEAREST);
+  }
+  
   return docquery
     .then(transactions => {
       res.json(transactions);
@@ -62,21 +67,40 @@ function destroy(req, res) {
 }
 
 function getTotalsAll(req, res) {
-  const {userId} = req.params;
-  return Transaction.aggregate([
-    {
-      '$match': {
-        'userId': `${userId}`
-      }
-    }, {
-      '$group': {
-        '_id': '$category', 
-        'totals': {
-          '$sum': '$price'
+  const {userId, dates} = req.params;
+  if (dates === 'all') {
+    transactionQuery = Transaction.aggregate([
+      {
+        '$match': {
+          'userId': `${userId}`
+        }
+      }, {
+        '$group': {
+          '_id': '$category', 
+          'totals': {
+            '$sum': '$price'
+          }
         }
       }
-    }
-  ])
+    ])
+  } else {
+    transactionQuery = Transaction.aggregate([
+      {
+        '$match': {
+          'userId': `${userId}`,
+          'monthYearId': `${dates}`
+        }
+      }, {
+        '$group': {
+          '_id': '$category', 
+          'totals': {
+            '$sum': '$price'
+          }
+        }
+      }
+    ])
+  }
+  return transactionQuery
   .then(all => {
     res.json(all);
   })
@@ -86,22 +110,42 @@ function getTotalsAll(req, res) {
 }
 
 function getSpendingTotal(req, res) {
-  const {userId} = req.params;
-  return Transaction.aggregate([
-    {
-      '$match': {
-        'userId': `${userId}`,
-        'category': {'$ne':'Income'}
-      }
-    }, {
-      '$group': {
-        '_id': '$userId', 
-        'spendingTotal': {
-          '$sum': '$price'
+  const {userId, dates} = req.params;
+  if (dates === 'all'){
+    transactionQuery =  Transaction.aggregate([
+      {
+        '$match': {
+          'userId': `${userId}`,
+          'category': {'$ne':'Income'}
+        }
+      }, {
+        '$group': {
+          '_id': '$userId', 
+          'spendingTotal': {
+            '$sum': '$price'
+          }
         }
       }
-    }
-  ])
+    ])
+  } else{
+    transactionQuery = Transaction.aggregate([
+      {
+        '$match': {
+          'userId': `${userId}`,
+          'monthYearId': `${dates}`,
+          'category': {'$ne':'Income'}
+        }
+      }, {
+        '$group': {
+          '_id': '$userId', 
+          'spendingTotal': {
+            '$sum': '$price'
+          }
+        }
+      }
+    ])
+  }
+  return transactionQuery
   .then(all => {
     res.json(all);
   })
@@ -111,22 +155,44 @@ function getSpendingTotal(req, res) {
 }
 
 function getIncomeTotal(req, res) {
-  const {userId} = req.params;
-  return Transaction.aggregate([
-    {
-      '$match': {
-        'userId': `${userId}`,
-        'category': 'Income'
-      }
-    }, {
-      '$group': {
-        '_id': '$userId', 
-        'incomeTotal': {
-          '$sum': '$price'
+  const {userId, dates} = req.params;
+  if (dates === 'all') {
+    transactionQuery = Transaction.aggregate([
+      {
+        '$match': {
+          'userId': `${userId}`,
+          'category': 'Income'
+        }
+      }, {
+        '$group': {
+          '_id': '$userId', 
+          'incomeTotal': {
+            '$sum': '$price'
+          }
         }
       }
-    }
-  ])
+    ])
+  } else(
+    transactionQuery = Transaction.aggregate([
+      {
+        '$match': {
+          'userId': `${userId}`,
+          'monthYearId': `${dates}`,
+          'category': 'Income'
+        }
+      }, {
+        '$group': {
+          '_id': '$userId', 
+          'incomeTotal': {
+            '$sum': '$price'
+          }
+        }
+      }
+    ])
+  )
+
+
+  return transactionQuery
   .then(all => {
     res.json(all);
   })

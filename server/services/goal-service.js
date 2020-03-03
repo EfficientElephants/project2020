@@ -5,12 +5,9 @@ require('../mongo').connect();
 
 function get(req, res) {
   const { userId, mmyyID } = req.params
-  console.log(userId);
-  console.log(typeof parseInt(mmyyID));
   const docquery = Goal.find({userId: userId, monthYearId: mmyyID}).sort({createdAt: 'descending'}).read(ReadPreference.NEAREST);
   return docquery
     .then(goals => {
-      console.log(goals)
       res.json(goals);
     })
     .catch(err => {
@@ -40,11 +37,9 @@ function create(req, res) {
   //Logic to create month and year ids for new goals
   var year = date.getFullYear() - 2000
   var month = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1)
-  console.log(month);
   const mmyyID = (month + year).toString();
   const metGoal = (goalAmount < spentAmount ? false : true)
   const goal = new Goal({ userId, category, goalAmount, spentAmount, metGoal, monthYearId: mmyyID });
-  console.log(goal);
   goal
     .save()
     .then(() => {

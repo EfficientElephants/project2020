@@ -34,15 +34,15 @@ class TransactionTable extends Component {
     }
     UNSAFE_componentWillReceiveProps(render) {
         if (this.props.render){
-            transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json})); 
-            transactionAPI.getSpendingTotal(this.state.userId).then(json => {
+            transactionAPI.get(this.state.userId, this.props.dates).then(json => this.setState({transactions:json})); 
+            transactionAPI.getSpendingTotal(this.state.userId, this.props.dates).then(json => {
                 if (json[0]){
                     this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
                 } else {
                     this.setState({spendingTotal: 0});
                 }
             });
-            transactionAPI.getIncomeTotal(this.state.userId).then(json => {
+            transactionAPI.getIncomeTotal(this.state.userId, this.props.dates).then(json => {
                 if (json[0]){
                     this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
                 } else {
@@ -61,15 +61,15 @@ class TransactionTable extends Component {
             .then(json => {
                 if (json.success){
                     this.setState({ userId: json.userId, error: false })
-                    transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
-                    transactionAPI.getSpendingTotal(this.state.userId).then(json => {
+                    transactionAPI.get(this.state.userId, this.props.dates).then(json => this.setState({transactions:json}));  
+                    transactionAPI.getSpendingTotal(this.state.userId, this.props.dates).then(json => {
                         if (json[0]){
                             this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
                         } else {
                             this.setState({spendingTotal: 0});
                         }
                     });
-                    transactionAPI.getIncomeTotal(this.state.userId).then(json => {
+                    transactionAPI.getIncomeTotal(this.state.userId, this.props.dates).then(json => {
                         if (json[0]){
                             this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
                         } else {
@@ -80,6 +80,7 @@ class TransactionTable extends Component {
                     // handle error
                     console.log('not working');
                 }
+            
             })
             
         }
@@ -115,7 +116,7 @@ class TransactionTable extends Component {
             }
         });
         var goals = await (goalAPI
-            .get({userId: this.state.userId, mmyyID: this.state.mmyyID})
+            .get({userId: this.state.userId, mmyyID: transaction.monthYearId})
             .then(goals => {
                 return goals
             })
@@ -133,14 +134,14 @@ class TransactionTable extends Component {
                 .catch(err => {});
         }
 
-        await transactionAPI.getSpendingTotal(this.state.userId).then(json => {
+        await transactionAPI.getSpendingTotal(this.state.userId, this.props.dates).then(json => {
             if (json[0]){
                 this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
             } else {
                 this.setState({spendingTotal: 0});
             }
         });
-        await transactionAPI.getIncomeTotal(this.state.userId).then(json => {
+        await transactionAPI.getIncomeTotal(this.state.userId, this.props.dates).then(json => {
             if (json[0]){
                 this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
             } else {
@@ -173,7 +174,7 @@ class TransactionTable extends Component {
                 })
                 .catch(err => {}));
             
-            var allTotals = await(transactionAPI.getTotalsAll(this.state.userId).then(allTotals => {
+            var allTotals = await(transactionAPI.getTotalsAll(this.state.userId, this.props.dates).then(allTotals => {
                 allTotals.forEach(function(item){
                     item.totals = ((item.totals/100).toFixed(2));
                 })
@@ -198,15 +199,15 @@ class TransactionTable extends Component {
                 .catch(err => {});
             }
 
-            await transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json})); 
-            await transactionAPI.getSpendingTotal(this.state.userId).then(json => {
+            await transactionAPI.get(this.state.userId, this.props.dates).then(json => this.setState({transactions:json})); 
+            await transactionAPI.getSpendingTotal(this.state.userId, this.props.dates).then(json => {
                 if (json[0]){
                     this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
                 } else {
                     this.setState({spendingTotal: 0});
                 }
             });
-            await transactionAPI.getIncomeTotal(this.state.userId).then(json => {
+            await transactionAPI.getIncomeTotal(this.state.userId, this.props.dates).then(json => {
                 if (json[0]){
                     this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
                 } else {
@@ -227,7 +228,7 @@ class TransactionTable extends Component {
     }
 
     handleCancel() {
-        transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
+        transactionAPI.get(this.state.userId, this.props.dates).then(json => this.setState({transactions:json}));  
         this.setState({ 
             selectedTransaction: null, 
         });

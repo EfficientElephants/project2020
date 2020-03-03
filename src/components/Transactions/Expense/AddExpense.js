@@ -84,8 +84,7 @@ class AddExpense extends Component {
 
     //REWORK
     async handleSave(event) {
-        event.preventDefault();
-        console.log(this.state.selectedExpense);   
+        event.preventDefault();  
         if (this.validateForm()) {
             var allGoals = await (goalAPI
             .get({userId: this.state.userId, mmyyID: this.state.mmyyID})

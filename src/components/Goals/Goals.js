@@ -39,7 +39,6 @@ class Goals extends Component {
                 userId: this.state.userId,
                 mmyyID: this.state.mmyyID
             }).then(json => {
-                console.log(json)
                 this.setState({
                     goalList: json
                 })
@@ -57,7 +56,6 @@ class Goals extends Component {
                 .then(res => res.json())
                 .then(json => {
                     if (json.success) {
-                       console.log(json);
                         return json.userId;
                     } else {
                         // handle error
@@ -76,9 +74,6 @@ class Goals extends Component {
                 month: month,
                 year: year,
             })
-
-            
-            console.log(currentGoals);
 
             var lastMonth = month
             var lastYear = year
@@ -116,7 +111,6 @@ class Goals extends Component {
             goal.category = oldGoals[goalIdx].category
             goal.goalAmount = oldGoals[goalIdx].goalAmount
             goal.spentAmount = 0;
-            console.log(goal);
             goalAPI.create(goal, this.state.userId);
         }
         return this.getGoals(this.state.mmyyID)
@@ -183,7 +177,7 @@ class Goals extends Component {
         event.preventDefault();
 
         if (this.validateForm()) {
-            var spent = await (transactionAPI.getTotalsAll(this.state.userId)
+            var spent = await (transactionAPI.getTotalsAll(this.state.userId, this.state.mmyyID)
                 .then(allTotals => {
                     allTotals.forEach(function (item) {
                         item.totals = ((item.totals / 100).toFixed(2));
