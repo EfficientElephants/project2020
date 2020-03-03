@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard';
 import Transactions from './components/Pages/TransactionsPage';
 import IncomeManager from './components/Pages/IncomeManager';
 import GoalManager from './components/Pages/GoalManager';
+import History from './components/Pages/History';
 
 class App extends Component {
 
@@ -21,6 +22,7 @@ class App extends Component {
           <ProtectedRoute exact path="/dashboard" component={ Dashboard }/>
           <ProtectedRoute exact path="/goal-mgr" component={ GoalManager }/>
           <ProtectedRoute exact path="/income-mgr" component={ IncomeManager }/>
+          <ProtectedRoute exact path="/history" component={ History }/>
         </HashRouter>
     );
   }
