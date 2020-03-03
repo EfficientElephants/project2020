@@ -92,6 +92,11 @@ const transactionAPI = {
       });
    });
   }
+
+  // ADD getTotalTransactions(userId) {
+  //   return 
+  //   db.collection.find(query).count
+  // }
 }
 export default transactionAPI;
 
