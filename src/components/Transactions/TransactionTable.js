@@ -7,6 +7,7 @@ import goalAPI from '../../api/goalAPI'
 import { getFromStorage } from '../Storage';
 import AddExpenseModal from './Expense/AddExpenseModal';
 import AddIncomeModal from './Income/AddIncomeModal';
+var dateformat = require('dateformat');
 
 class TransactionTable extends Component {
     constructor() {
@@ -20,6 +21,7 @@ class TransactionTable extends Component {
             rerender: false,
             spendingTotal: '',
             incomeTotal: '',
+            mmyyID: ''
         }
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
@@ -32,15 +34,15 @@ class TransactionTable extends Component {
     }
     UNSAFE_componentWillReceiveProps(render) {
         if (this.props.render){
-            transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json})); 
-            transactionAPI.getSpendingTotal(this.state.userId).then(json => {
+            transactionAPI.get(this.state.userId, this.props.dates).then(json => this.setState({transactions:json})); 
+            transactionAPI.getSpendingTotal(this.state.userId, this.props.dates).then(json => {
                 if (json[0]){
                     this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
                 } else {
                     this.setState({spendingTotal: 0});
                 }
             });
-            transactionAPI.getIncomeTotal(this.state.userId).then(json => {
+            transactionAPI.getIncomeTotal(this.state.userId, this.props.dates).then(json => {
                 if (json[0]){
                     this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
                 } else {
@@ -59,15 +61,15 @@ class TransactionTable extends Component {
             .then(json => {
                 if (json.success){
                     this.setState({ userId: json.userId, error: false })
-                    transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
-                    transactionAPI.getSpendingTotal(this.state.userId).then(json => {
+                    transactionAPI.get(this.state.userId, this.props.dates).then(json => this.setState({transactions:json}));  
+                    transactionAPI.getSpendingTotal(this.state.userId, this.props.dates).then(json => {
                         if (json[0]){
                             this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
                         } else {
                             this.setState({spendingTotal: 0});
                         }
                     });
-                    transactionAPI.getIncomeTotal(this.state.userId).then(json => {
+                    transactionAPI.getIncomeTotal(this.state.userId, this.props.dates).then(json => {
                         if (json[0]){
                             this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
                         } else {
@@ -78,15 +80,17 @@ class TransactionTable extends Component {
                     // handle error
                     console.log('not working');
                 }
+            
             })
             
         }
     }
 
     handleDateChange(val, propSelected){
-        this.setState({date: val});
+        this.setState({date: val, mmyyID: dateformat(val, 'mmyy')});
         let selectedTransaction = propSelected;
         selectedTransaction['date'] = val;
+        selectedTransaction['monthYearId'] = dateformat(val, 'mmyy')
         this.setState({selectedTransaction: selectedTransaction});
     }
 
@@ -98,6 +102,7 @@ class TransactionTable extends Component {
         this.handleEnableModal(transaction);
     }
 
+    //REWORK
     async handleDelete(event, transaction) {
         event.stopPropagation();
         let price = transaction.price
@@ -111,7 +116,7 @@ class TransactionTable extends Component {
             }
         });
         var goals = await (goalAPI
-            .get(this.state.userId)
+            .get({userId: this.state.userId, mmyyID: transaction.monthYearId})
             .then(goals => {
                 return goals
             })
@@ -129,14 +134,14 @@ class TransactionTable extends Component {
                 .catch(err => {});
         }
 
-        await transactionAPI.getSpendingTotal(this.state.userId).then(json => {
+        await transactionAPI.getSpendingTotal(this.state.userId, this.props.dates).then(json => {
             if (json[0]){
                 this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
             } else {
                 this.setState({spendingTotal: 0});
             }
         });
-        await transactionAPI.getIncomeTotal(this.state.userId).then(json => {
+        await transactionAPI.getIncomeTotal(this.state.userId, this.props.dates).then(json => {
             if (json[0]){
                 this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
             } else {
@@ -169,14 +174,14 @@ class TransactionTable extends Component {
                 })
                 .catch(err => {}));
             
-            var allTotals = await(transactionAPI.getTotalsAll(this.state.userId).then(allTotals => {
+            var allTotals = await(transactionAPI.getTotalsAll(this.state.userId, this.props.dates).then(allTotals => {
                 allTotals.forEach(function(item){
                     item.totals = ((item.totals/100).toFixed(2));
                 })
                 return allTotals
             }));
 
-            var allGoals = await(goalAPI.get(this.state.userId).then(allGoals => {return allGoals}))
+            var allGoals = await(goalAPI.get({userId: this.state.userId, mmyyID: this.state.mmyyID}).then(allGoals => {return allGoals}))
 
             var updatedGoal = null;
             allTotals.forEach(function(total){
@@ -194,15 +199,15 @@ class TransactionTable extends Component {
                 .catch(err => {});
             }
 
-            await transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json})); 
-            await transactionAPI.getSpendingTotal(this.state.userId).then(json => {
+            await transactionAPI.get(this.state.userId, this.props.dates).then(json => this.setState({transactions:json})); 
+            await transactionAPI.getSpendingTotal(this.state.userId, this.props.dates).then(json => {
                 if (json[0]){
                     this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
                 } else {
                     this.setState({spendingTotal: 0});
                 }
             });
-            await transactionAPI.getIncomeTotal(this.state.userId).then(json => {
+            await transactionAPI.getIncomeTotal(this.state.userId, this.props.dates).then(json => {
                 if (json[0]){
                     this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
                 } else {
@@ -223,7 +228,7 @@ class TransactionTable extends Component {
     }
 
     handleCancel() {
-        transactionAPI.get(this.state.userId).then(json => this.setState({transactions:json}));  
+        transactionAPI.get(this.state.userId, this.props.dates).then(json => this.setState({transactions:json}));  
         this.setState({ 
             selectedTransaction: null, 
         });

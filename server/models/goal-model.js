@@ -29,6 +29,14 @@ const goalSchema = new Schema({
         get: getGoal,
         set: setGoal,
     },
+    monthYearId: {
+        type: String,
+        required: true,
+    },
+    metGoal: {
+        type: Boolean,
+        required: true,
+    },
     createdAt: {
         type: Date,
         default: now
@@ -49,7 +57,7 @@ function setGoal(num){
 
 goalSchema.set('toObject', { getters: true });
 goalSchema.set('toJSON', { getters: true });
-goalSchema.index( { userId: 1, category: 1 }, { unique: true } )
+goalSchema.index( { userId: 1, category: 1, monthYearId: 1 }, { unique: true } )
 goalSchema.plugin(uniqueValidator);
 const Goal = mongoose.model('Goal', goalSchema);
 module.exports = Goal;
