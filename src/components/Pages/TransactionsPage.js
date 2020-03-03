@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import Pagination from 'react-bootstrap/Pagination'
 import AddExpense from '../Transactions/Expense/AddExpense';
 import AddIncome from '../Transactions/Income/AddIncome';
 import TransactionTable from '../Transactions/TransactionTable';
@@ -11,7 +12,7 @@ class Transactions extends Component {
   constructor() {
     super();
     this.state = {
-      render: false
+      render: false,
     }
     this.rerender = this.rerender.bind(this);
   }
@@ -28,6 +29,21 @@ class Transactions extends Component {
             <br />
             <h1>Your Transactions</h1>
             <br />
+
+            <div>
+              <Pagination>
+                <Pagination.First />
+                <Pagination.Prev />
+
+                <Pagination.Item>{11}</Pagination.Item>
+                <Pagination.Item active>{12}</Pagination.Item>
+                <Pagination.Item>{13}</Pagination.Item>
+
+                <Pagination.Next />
+                <Pagination.Last />
+              </Pagination>
+            </div>
+
             <Row>
               <Col>
                 <AddExpense stateChange = {this.rerender} />
