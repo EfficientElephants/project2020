@@ -7,6 +7,7 @@ import goalAPI from '../../api/goalAPI'
 import { getFromStorage } from '../Storage';
 import AddExpenseModal from './Expense/AddExpenseModal';
 import AddIncomeModal from './Income/AddIncomeModal';
+var dateformat = require('dateformat');
 
 class TransactionTable extends Component {
     constructor() {
@@ -87,6 +88,7 @@ class TransactionTable extends Component {
         this.setState({date: val});
         let selectedTransaction = propSelected;
         selectedTransaction['date'] = val;
+        selectedTransaction['monthYearId'] = dateformat(val, 'mmyy')
         this.setState({selectedTransaction: selectedTransaction});
     }
 
@@ -98,6 +100,7 @@ class TransactionTable extends Component {
         this.handleEnableModal(transaction);
     }
 
+    //REWORK
     async handleDelete(event, transaction) {
         event.stopPropagation();
         let price = transaction.price

@@ -38,7 +38,6 @@ class AddGoal extends Component {
                     console.log('not working');
                 }
             })
-            
         }
     }
 
@@ -87,6 +86,7 @@ class AddGoal extends Component {
                 return total
             }));
             this.state.selectedGoal.spentAmount = spent;
+            console.log(this.state.selectedGoal);
             goalAPI  
             .create(this.state.selectedGoal, this.state.userId)
             .then(result => {
