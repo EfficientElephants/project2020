@@ -69,7 +69,7 @@ class AddIncome extends Component {
     handleEnableModal () {
         this.setState({
             showModal: true,
-            selectedIncome: {date: this.state.date, item: '', price:'', category: 'Income', transactionType: 'income'}
+            selectedIncome: {date: this.state.date, monthYearId: dateformat(this.state.date, 'mmyy'), item: '', price:'', category: 'Income', transactionType: 'income'}
         });
         
     }

@@ -67,7 +67,7 @@ class AddExpense extends Component {
     handleEnableModal () {
         this.setState({
             showModal: true,
-            selectedExpense: {date: this.state.date, item: '', price:'', category: '', transactionType: 'expense'}
+            selectedExpense: {date: this.state.date, monthYearId: dateformat(this.state.date, 'mmyy'), item: '', price:'', category: '', transactionType: 'expense'}
         });
         
     }
