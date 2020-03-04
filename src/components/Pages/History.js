@@ -7,12 +7,12 @@ import { getFromStorage } from '../Storage';
 import usersAPI from '../../api/userAPI';
 import DatePicker from "react-datepicker";
 // import transactionAPI from '../api/transactionAPI';
-// import goalAPI from '../api/goalAPI';
+import goalAPI from '../../api/goalAPI';
 
 // import AddExpense from './Transactions/Expense/AddExpense';
 // import AddIncome from './Transactions/Income/AddIncome';
-// import Graph from './Graph/Graph';
-// import GoalBar from './Goals/GoalBar';
+import Graph from '../Graph/Graph';
+import GoalBar from '../Goals/GoalBar';
 // import Logo from '../assets/expense-elephant-logo2.png';
 
 var dateformat = require('dateformat');
@@ -32,17 +32,21 @@ class History extends Component {
             incomeTotal: '',
             goalList: [],
             monthYearDisplay: '',
-            mmyyID: '',
             date: moment().subtract(1, 'month').toDate(),
-            maxDate: moment().subtract(1, 'month').toDate()
+            mmyyID: dateformat(moment().subtract(1, 'month').toDate(), 'mmyy'),
+            maxDate: moment().subtract(1, 'month').toDate(),
+            //render: true
 
         }
         this.handleDateChange = this.handleDateChange.bind(this);
         //this.handleChange = this.handleChange.bind(this);
-        // this.rerender = this.rerender.bind(this);
+        this.rerender = this.rerender.bind(this);
     }
 
     componentDidMount() {
+        
+        console.log(this.state.date)
+        //console.log(dateformat(this.state.mmyyID, 'mmyy'));
         const obj = getFromStorage('expense_app');
         if (obj && obj.token) {
             const { token } = obj;
@@ -52,15 +56,15 @@ class History extends Component {
                 if (json.success){
                     this.setState({ userId: json.userId })
                     this.getFullName();
-                    console.log(dateformat(this.state.date, 'mmyy'))
-                    
+                    this.setState({mmyyID: dateformat(this.state.date, 'mmyy')})
+                    goalAPI.get({userId:this.state.userId, mmyyID: this.state.mmyyID}).then(json => this.setState({goalList:json}));
+
 
                 }
             })
         };
                     
 
-        //             goalAPI.get(this.state.userId).then(json => this.setState({goalList:json}));
                     
         //             transactionAPI.getSpendingTotal(this.state.userId).then(json => {
         //                 if (json[0]){
@@ -93,9 +97,10 @@ class History extends Component {
         return this.state.fullName;                          
     }
 
-    handleDateChange(val){
-        this.setState({date: val});
+    handleDateChange(val) {
         console.log(dateformat(val, 'mmyy'));
+        this.setState({date: val, mmyyID: dateformat(val, 'mmyy')});
+        this.rerender(true);
         //let selectedExpense = propSelected;
         //selectedExpense['date'] = val;
         //this.setState({selectedExpense: selectedExpense});
@@ -110,10 +115,10 @@ class History extends Component {
     //     })
     // }
 
-    // rerender(val) {
-    //     this.setState( {render: val} )
-    //     this.componentDidMount();
-    // }
+    rerender(val) {
+        this.setState( {render: val} )
+        this.componentDidMount();
+    }
 
     // createAlert() {
     //     const toggleShow = () => this.setState({toastShow:false});
@@ -181,10 +186,18 @@ class History extends Component {
                     <Container>
                         <Row>
                             <Col>
-                                <Graph  />
+                                <Graph 
+                                    date={this.state.mmyyID}
+                                    render = {this.state.render} />
                             </Col>
                             <Col>
-                                Goals
+                                <h3>Monthly Breakdown</h3>
+                                {this.state.goalList.map(goal => {
+                                    return <GoalBar
+                                        goal={goal}
+                                        key={goal._id}
+                                    />
+                                })}
                             </Col>
                         </Row>
                     </Container>
@@ -228,16 +241,7 @@ class History extends Component {
                         <Col>
                             <Graph render = {this.state.render} />
                         </Col>
-                        <Col>
-                            <h3>Monthly Breakdown</h3>
-                            {this.state.goalList.map(goal => {
-                                return <GoalBar
-                                    goal={goal}
-                                    key={goal._id}
-                                    render = {this.state.render}
-                                />
-                            })}
-                        </Col>
+                        
                     </Row>
                     {/* <br />
                     <br />

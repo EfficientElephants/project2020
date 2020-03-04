@@ -174,7 +174,9 @@ class Dashboard extends Component {
                     
                     <Row style={{ marginTop: 85 }}>
                         <Col>
-                            <Graph render = {this.state.render} />
+                            <Graph 
+                                date = {this.state.mmyyID}
+                                render = {this.state.render} />
                         </Col>
                         <Col>
                             <h3>Monthly Breakdown</h3>
