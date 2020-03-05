@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Container, Toast, Figure } from 'react-bootstrap';
+import { Row, Col, Container, Button, ButtonToolbar, ButtonGroup, Toast, Figure } from 'react-bootstrap';
 import NavBar from '../Navbar';
 import { getFromStorage } from '../Storage';
 
@@ -14,6 +14,7 @@ import goalAPI from '../../api/goalAPI';
 import Graph from '../Graph/Graph';
 import GoalBar from '../Goals/GoalBar';
 // import Logo from '../assets/expense-elephant-logo2.png';
+import TransactionTable from '../Transactions/TransactionTable';
 
 var dateformat = require('dateformat');
 var moment = require('moment');
@@ -21,6 +22,7 @@ var moment = require('moment');
 class History extends Component {
     constructor() {
         super();
+        //var commonMoment = moment();
         this.state = {
             userId: '',
             fullName: "",
@@ -31,7 +33,7 @@ class History extends Component {
             spendingTotal: '',
             incomeTotal: '',
             goalList: [],
-            monthYearDisplay: '',
+            monthYearDisplay: dateformat(moment().subtract(1, 'month').toDate(),  'mmmm yyyy'),
             date: moment().subtract(1, 'month').toDate(),
             mmyyID: dateformat(moment().subtract(1, 'month').toDate(), 'mmyy'),
             maxDate: moment().subtract(1, 'month').toDate(),
@@ -41,12 +43,11 @@ class History extends Component {
         this.handleDateChange = this.handleDateChange.bind(this);
         //this.handleChange = this.handleChange.bind(this);
         this.rerender = this.rerender.bind(this);
+        this.leftClick = this.leftClick.bind(this);
+        this.rightClick = this.rightClick.bind(this);
     }
 
     componentDidMount() {
-        
-        console.log(this.state.date)
-        //console.log(dateformat(this.state.mmyyID, 'mmyy'));
         const obj = getFromStorage('expense_app');
         if (obj && obj.token) {
             const { token } = obj;
@@ -58,35 +59,9 @@ class History extends Component {
                     this.getFullName();
                     this.setState({mmyyID: dateformat(this.state.date, 'mmyy')})
                     goalAPI.get({userId:this.state.userId, mmyyID: this.state.mmyyID}).then(json => this.setState({goalList:json}));
-
-
                 }
             })
         };
-                    
-
-                    
-        //             transactionAPI.getSpendingTotal(this.state.userId).then(json => {
-        //                 if (json[0]){
-        //                     this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
-        //                 } else {
-        //                     this.setState({spendingTotal: 0});
-        //                 }
-        //             });
-        //             transactionAPI.getIncomeTotal(this.state.userId).then(json => {
-        //                 if (json[0]){
-        //                     this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
-        //                 } else {
-        //                     this.setState({incomeTotal: 0});
-        //                 }
-        //             });
-                    
-        //         } else {
-        //             // handle error
-        //             console.log('not working');
-        //         }
-        //     })
-        // }
     }
 
     getFullName() {
@@ -98,82 +73,52 @@ class History extends Component {
     }
 
     handleDateChange(val) {
-        console.log(dateformat(val, 'mmyy'));
-        this.setState({date: val, mmyyID: dateformat(val, 'mmyy')});
+        this.setState({date: val, mmyyID: dateformat(val, 'mmyy'), monthYearDisplay: dateformat(val,  'mmmm yyyy')});
         this.rerender(true);
-        //let selectedExpense = propSelected;
-        //selectedExpense['date'] = val;
-        //this.setState({selectedExpense: selectedExpense});
     }
-    
-
-    // handleChange(type) {
-    //     this.setState({
-    //         alertType: type,
-    //         alertOpen: true,
-    //         toastShow: true
-    //     })
-    // }
 
     rerender(val) {
-        this.setState( {render: val} )
+        this.setState( {render: val, goalList: []} )
         this.componentDidMount();
     }
 
-    // createAlert() {
-    //     const toggleShow = () => this.setState({toastShow:false});
-    //     if (this.state.alertOpen) {
-    //         return (
-    //             <div>
-    //                 <Toast 
-    //                     style={{
-    //                         position: 'absolute',
-    //                         top: '6%',
-    //                         right: '2%',
-    //                         background: "white"
-    //                     }}
-    //                     show={this.state.toastShow} 
-    //                     onClose={toggleShow} 
-    //                     delay={3000} 
-    //                     autohide
-    //                 >
-    //                     <Toast.Header
-    //                           style={{
-    //                             background: "#DEDEDE",
-    //                             color: "black"
-    //                         }}
-    //                     >
-    //                         <Figure.Image
-    //                             width={20}
-    //                             height={20}
-    //                             alt="Logo of an Elephant"
-    //                             src={Logo}
-    //                             className="rounded mr-2"
-    //                         />
-                            
-    //                         <strong className="mr-auto">Expense Elephant</strong>
-    //                     </Toast.Header>
-    //                     <Toast.Body>{this.state.alertType==="expense" ? "Sucessfully Added Expense.": "Sucessfully Added Income." }</Toast.Body>
-    //                 </Toast>
-    //             </div>
-    //         )
-    //     } else {
-    //         return <div></div>
-    //     }
-    // }
+    leftClick() {
+        var newDate = moment(this.state.date).subtract(1, 'month').toDate();
+        this.handleDateChange(newDate);
+    }
+
+    rightClick() {
+        var newDate = moment(this.state.date).add(1, 'month').toDate();
+        this.handleDateChange(newDate);
+    }
+
 
     render() {
         return (
             <div>
                 <NavBar />
                 <Container>
-                     <Row className="dashboard-header">
-                        <Col md={7}>
+                    <Row className="dashboard-header">
+                        <Col>
                             <h1 class="dashboard-title">{this.state.fullName}'s Historical Data for {this.state.monthYearDisplay}</h1>
                         </Col>
+                        <Col>
+                            <ButtonToolbar>
+                                <Button variant="secondary" onClick={this.leftClick}><h1>&lt;</h1></Button>
+                                &nbsp;&nbsp;&nbsp;
+                                <Button variant="secondary" onClick={this.rightClick} disabled={dateformat(this.state.maxDate, 'mmyy') === dateformat(this.state.date, 'mmyy')} ><h1>&gt;</h1></Button>
+                            </ButtonToolbar>
+                            
+                        
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                        
+                        </Col>
                         <Col> 
+                            <h5>Jump to a month</h5>
                             <DatePicker
-                                inline
                                 showPopperArrow={false}
                                 selected={this.state.date}
                                 maxDate={this.state.maxDate}
@@ -196,65 +141,21 @@ class History extends Component {
                                     return <GoalBar
                                         goal={goal}
                                         key={goal._id}
+                                        render = {this.state.render}
                                     />
                                 })}
                             </Col>
                         </Row>
                     </Container>
                     <Container>
-                        <Row>
-                            Transactions
-                        </Row>
-                    </Container>
-                    
-
-                    {/* 
-                        </Col>
-                        <Col>
-                            <AddExpense 
-                                typeChange = {this.handleChange}
-                                stateChange = {this.rerender} 
-                            />
-                        </Col>
-                        <Col>
-                            <AddIncome 
-                                typeChange = {this.handleChange}
-                                stateChange = {this.rerender}
-                            />
-                        </Col>
-                    </Row>
-                    <br/>
-
-                    <Container>
-                        <Row>
-                            <Col>
-                                <h5>For this period, you have done the following:</h5>
-                            </Col>
-                            <Col>
-                                <p><strong>Spent</strong> ${this.state.spendingTotal}</p>
-                                <p><strong>Earned</strong> ${this.state.incomeTotal}</p>
-                            </Col>
-                        </Row>
-                    </Container>
-                    
-                    <Row style={{ marginTop: 85 }}>
-                        <Col>
-                            <Graph render = {this.state.render} />
-                        </Col>
-                        
-                    </Row>
-                    {/* <br />
-                    <br />
-                    <br />
                     <Row>
-                        <Col>
-                            <h3>Loan Tracker</h3>
-                            <p>Student Debt</p>
-                            <p>Car Payment</p>
-                        </Col>
-                       
-                    </Row> 
-                    {this.createAlert()} */}
+                        <TransactionTable 
+                            render={this.state.render}
+                            dates={this.state.mmyyID}
+                            stateChange = {this.rerender}
+                        />
+                    </Row>
+                    </Container>
                 </Container>
             </div>
         );

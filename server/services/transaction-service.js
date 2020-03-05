@@ -47,8 +47,8 @@ function update(req, res) {
     transaction.category = category;
     transaction.monthYearId = monthYearId
     transaction.updatedAt = Date.now();
-    transaction.save().then(res.json(transaction));
-  })
+    transaction.save().then(() => {
+      res.json(transaction)})})
   .catch(err => {
     res.status(500).send(err);
   });

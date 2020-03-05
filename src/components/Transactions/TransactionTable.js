@@ -167,38 +167,36 @@ class TransactionTable extends Component {
             // eslint-disable-next-line
             var transRes = await(transactionAPI
                 .update(this.state.selectedTransaction)
-                .then(() => {
-                    this.setState({
-                        selectedTransaction: null
-                    });
+                .then( resp => {
+                    return transactionAPI.getTotalsAll(this.state.userId, this.state.selectedTransaction.monthYearId)
+                    .then(allTotals => {
+                        allTotals.forEach(function(item){
+                            item.totals = ((item.totals/100).toFixed(2));
+                        })
+                        return allTotals
+                    })
                 })
+                .then(totals => {
+                    goalAPI
+                        .get({userId: this.state.userId, mmyyID: this.state.selectedTransaction.monthYearId})
+                        .then(allGoals => {
+                            var updatedGoal = null;
+                            totals.forEach(function(total){
+                                allGoals.forEach(function(goal){
+                                    if (goal.category === total._id){
+                                        updatedGoal = goal
+                                        updatedGoal.spentAmount = total.totals
+                                    }
+                                })
+                            })
+                            if (updatedGoal) {
+                                goalAPI
+                                .update(updatedGoal)
+                                .catch(err => {});
+                            }
+                        });
+                    })  
                 .catch(err => {}));
-            
-            var allTotals = await(transactionAPI.getTotalsAll(this.state.userId, this.props.dates).then(allTotals => {
-                allTotals.forEach(function(item){
-                    item.totals = ((item.totals/100).toFixed(2));
-                })
-                return allTotals
-            }));
-
-            var allGoals = await(goalAPI.get({userId: this.state.userId, mmyyID: this.state.mmyyID}).then(allGoals => {return allGoals}))
-
-            var updatedGoal = null;
-            allTotals.forEach(function(total){
-                allGoals.forEach(function(goal){
-                    if (goal.category === total._id){
-                        updatedGoal = goal
-                        updatedGoal.spentAmount = total.totals
-                    }
-                })
-            });
-
-            if (updatedGoal) {
-                goalAPI
-                .update(updatedGoal)
-                .catch(err => {});
-            }
-
             await transactionAPI.get(this.state.userId, this.props.dates).then(json => this.setState({transactions:json})); 
             await transactionAPI.getSpendingTotal(this.state.userId, this.props.dates).then(json => {
                 if (json[0]){
@@ -213,9 +211,10 @@ class TransactionTable extends Component {
                 } else {
                     this.setState({incomeTotal: 0});
                 }
-            });  
-            this.handleDisableModal();
+            });
             
+            this.props.stateChange(true);
+            this.handleDisableModal();
         }
     }
 

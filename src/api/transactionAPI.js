@@ -62,8 +62,6 @@ const transactionAPI = {
 
 
   getTotalsAll(userId, dates) {
-    console.log(userId)
-    console.log(dates)
     return new Promise((resolve, reject) => {
       fetch(`${baseAPI}/transaction/totals/${userId}/${dates}`)
       .then(response => response.json())
