@@ -49,16 +49,20 @@
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"nodemon server/server.js\"",
     "build": "cd server && rm -rf build && cd .. && react-scripts build && mv build server",
-    "test": "nyc mocha",
-    "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "test": "nyc --reporter=html --reporter=text mocha",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "eject": "react-scripts eject"
   },
   "nyc": {
     "all": true,
     "include": [
-      "src/**",
       "server/**"
-    ]
+    ],
+    "check-coverage": false,
+    "branches": 50,
+    "lines": 50,
+    "functions": 50,
+    "statements": 50
   },
   "proxy": "http://localhost:3001",
   "description": "This is a template for using Express and React in the same project. It is based on Create React App.",
