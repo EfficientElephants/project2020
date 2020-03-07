@@ -42,12 +42,12 @@ To start up the local server, run the following:
 ## Testing
 
 To test our project, we used a variety of different technologies.
-* Chai(https://www.chaijs.com/)
-* Mocha(https://mochajs.org/)
-* Travis CI(https://travis-ci.org/)
-* CodeCov(https://codecov.io/)
-* Selenium(https://www.selenium.dev/)
-* Cucumber(https://cucumber.io/)
+* [Chai](https://www.chaijs.com/)
+* [Mocha](https://mochajs.org/)
+* [Travis CI](https://travis-ci.org/)
+* [CodeCov](https://codecov.io/)
+* [Selenium](https://www.selenium.dev/)
+* [Cucumber](https://cucumber.io/)
 
 ### Unit Testing
 
