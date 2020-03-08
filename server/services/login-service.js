@@ -1,6 +1,6 @@
 const User = require('../models/user-model')
 
-const crypto = require('crypto');
+//const crypto = require('crypto');
 require('dotenv').config();
 
 
@@ -18,7 +18,7 @@ function login(req, res) {
     } = body;
 
     email = email.toLowerCase();
-    
+    console.log(body)
 
     //Verify user in db. If not there create an entry.
     User.find({

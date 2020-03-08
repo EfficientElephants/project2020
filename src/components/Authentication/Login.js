@@ -150,7 +150,7 @@ class Login extends Component {
           body: JSON.stringify({
             email: data.email,
             googleId: data.googleId,
-            firstName: data.giveName,
+            firstName: data.givenName,
             lastName: data.familyName
           }),
         }).then(res => res.json())
@@ -180,7 +180,7 @@ class Login extends Component {
             <div>
                 <GoogleLogin
                     clientId="477867082908-vktv6mdclisbivl921gdje29kv2bec07.apps.googleusercontent.com"
-                    redirect_uri="http://localhost:3000/auth/google/callback"
+                    //redirectUri="http://localhost:3000/auth/google/callback"
                     buttonText="Google"
                     onSuccess={this.responseGoogle}
                     onFailure={this.responseGoogle}
