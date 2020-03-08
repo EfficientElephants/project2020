@@ -51,7 +51,7 @@ To test our project, we used a variety of different technologies.
 
 ### Unit Testing
 
-To write unit tests, we use javascript's Mocha and Chai frameworks. Navigate to the test/ directory and create a new file in the models/ subdirectory to write your unit tests. For contributors, it is expected that 90% of your code is covered by unit testing.
+To write unit tests, we use javascript's Mocha and Chai frameworks. Navigate to the test/ directory and create a new file to write your unit tests. For contributors, it is expected that 90% of your code is covered by unit testing.
 
 To run unit tests, enter the following command in your terminal:
 ```
@@ -71,7 +71,7 @@ npm run test-automation
 
 ## Deployment
 
-When a change is pushed to the master branch, it will sync with our deployment center in Azure and will be pushed into production on the live website.
+When a change is pushed to the master branch, it will need to be manually synced with our deployment center in Azure and will then be pushed into production on the live website.
 
 ## Built With
 
