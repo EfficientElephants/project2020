@@ -4,6 +4,7 @@ import { getFromStorage } from './../Storage';
 
 import CanvasJSReact from './../../assets/canvasjs.react';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+var dateformat = require('dateformat');
 
 class Graph extends Component {
     constructor(){
@@ -12,11 +13,13 @@ class Graph extends Component {
             userId: '',
             catTotals: [],
             spentTotal: '',
-            dataPoints: []
+            dataPoints: [],
+            mmyyID: ''
         }
     }
 
     async componentDidMount() {
+        this.setState({mmyyID: this.props.date})
         this.setState({rerender: false});
         var userId = await this.getUserId();
         this.setState({userId: userId})
@@ -26,11 +29,13 @@ class Graph extends Component {
             this.setState({catTotals: catTotal, spentTotal: spendingTotal,})
             var dataPoints = this.creatingDataPoints();
             this.setState({datapoints: dataPoints})
+            
         }
         
     }
 
     async UNSAFE_componentWillReceiveProps(render) {
+        this.setState({mmyyID: this.props.date})
         if (this.props.render) {
             var catTotal = await this.renderCatTotals();
             var spendingTotal = await this.renderSpendingTotal();
@@ -78,7 +83,7 @@ class Graph extends Component {
     }
 
     async renderSpendingTotal() {
-        return await transactionAPI.getSpendingTotal(this.state.userId).then(spendTotal => {
+        return await transactionAPI.getSpendingTotal(this.state.userId, this.state.mmyyID).then(spendTotal => {
             if(spendTotal[0]){
                 return (spendTotal[0].spendingTotal/100).toFixed(2)
             }else {
@@ -89,12 +94,14 @@ class Graph extends Component {
 
     async renderCatTotals() {
         // query for all of the logged in users transactions
-        return await transactionAPI.getTotalsAll(this.state.userId).then(catTotals => {
+        var vals =  await transactionAPI.getTotalsAll(this.state.userId, this.state.mmyyID).then(catTotals => {
             catTotals.forEach(function(item){
                 item.totals = ((item.totals/100).toFixed(2));
                 })
+               
             return catTotals
         })
+        return vals
     }
 
     render() {

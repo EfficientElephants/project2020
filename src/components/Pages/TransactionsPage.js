@@ -38,7 +38,10 @@ class Transactions extends Component {
             </Row>
             <br />
             <Row>
-              <TransactionTable render={this.state.render} />
+              <TransactionTable 
+                render={this.state.render}
+                dates="all"
+              />
             </Row>
           </Container>
         </div>

@@ -25,12 +25,15 @@ const AddGoalModal = props => {
                             className={props.errors.category ? "errorBox" : "" }
                         >
                             <option value="">Choose...</option>
-                            <option value="Rent">Rent</option>
+                            <option value="Housing">Housing</option>
                             <option value="Food">Food</option>
                             <option value="Social">Social</option>
-                            <option value="Medical">Medical</option>
+                            <option value="Healthcare">Healthcare</option>
                             <option value="Transportation">Transportation</option>
-                            <option value="Personal Care">Personal Care</option>
+                            <option value="Personal Spending">Personal Spending</option>
+                            <option value="Education">Education</option>
+                            <option value="Utilities">Utilities</option>
+                            <option value="Misc.">Misc</option>
                         </Form.Control>
                         <div className="errorMsg">{props.errors.category}</div>
                     </Form.Group>

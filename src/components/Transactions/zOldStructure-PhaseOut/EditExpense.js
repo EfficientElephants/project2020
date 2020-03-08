@@ -32,12 +32,15 @@ const EditExpense = props => {
                           value = {props.selectedExpense.category.value}
                           defaultValue = {props.test}
                           onChange={props.onChange}>
-                <option value="Rent">Rent</option>
+                <option value="Housing">Housing</option>
                 <option value="Food">Food</option>
                 <option value="Social">Social</option>
-                <option value="Medical">Medical</option>
+                <option value="Healthcare">Healthcare</option>
                 <option value="Transportation">Transportation</option>
-                <option value="Personal Care">Personal Care</option>
+                <option value="Personal Spending">Personal Spending</option>
+                <option value="Education">Education</option>
+                <option value="Utilities">Utilities</option>
+                <option value="Misc.">Misc</option>
             </Form.Control>
           </Form.Group>
         <Button variant="outline-danger" onClick={props.onCancel}>Cancel</Button>&nbsp;
