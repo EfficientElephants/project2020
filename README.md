@@ -66,7 +66,7 @@ To write a new scenario, please include step definitions and a feature file.
 
 To run automated testing, enter the following command into your terminal.
 ```
-npm test-automation
+npm run test-automation
 ```
 
 ## Deployment
