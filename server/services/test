@@ -15,18 +15,6 @@ function get(req, res) {
     })
 }
 
-// function getOnMYid (req, res) {
-//   console.log(req);
-//   const {userId, mmyyId} = req.params;
-//   const docs = Goal.find({userId: userId, monthYearId: mmyyId}).read(ReadPreference.NEAREST);
-//   return docs
-//     .then(goals => {
-//       res.json(goals);
-//     })
-//     .catch(err => {
-//       res.status(500).send(err);
-//     })
-// }
 
 function create(req, res) {
   const { category, goalAmount, spentAmount } = req.body;
