@@ -72,6 +72,9 @@ class NavBar extends Component {
                             <Nav.Item>
                                 <Link className="navbar-link" to="/goal-mgr">Goal Manager</Link>&nbsp;
                             </Nav.Item>
+                            <Nav.Item>
+                                <Link className="navbar-link" to="/history">Historical Data</Link>&nbsp;
+                            </Nav.Item>
                         </Nav>
                         <Button variant="light" className="logout-button" onClick={this.onLogout}>Logout</Button>
                     </Navbar.Collapse>

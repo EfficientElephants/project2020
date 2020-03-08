@@ -14,11 +14,12 @@ class Graph extends Component {
             catTotals: [],
             spentTotal: '',
             dataPoints: [],
-            mmyyID: dateformat(new Date(), 'mmyy')
+            mmyyID: ''
         }
     }
 
     async componentDidMount() {
+        this.setState({mmyyID: this.props.date})
         this.setState({rerender: false});
         var userId = await this.getUserId();
         this.setState({userId: userId})
@@ -28,11 +29,13 @@ class Graph extends Component {
             this.setState({catTotals: catTotal, spentTotal: spendingTotal,})
             var dataPoints = this.creatingDataPoints();
             this.setState({datapoints: dataPoints})
+            
         }
         
     }
 
     async UNSAFE_componentWillReceiveProps(render) {
+        this.setState({mmyyID: this.props.date})
         if (this.props.render) {
             var catTotal = await this.renderCatTotals();
             var spendingTotal = await this.renderSpendingTotal();
@@ -91,12 +94,14 @@ class Graph extends Component {
 
     async renderCatTotals() {
         // query for all of the logged in users transactions
-        return await transactionAPI.getTotalsAll(this.state.userId, this.state.mmyyID).then(catTotals => {
+        var vals =  await transactionAPI.getTotalsAll(this.state.userId, this.state.mmyyID).then(catTotals => {
             catTotals.forEach(function(item){
                 item.totals = ((item.totals/100).toFixed(2));
                 })
+               
             return catTotals
         })
+        return vals
     }
 
     render() {

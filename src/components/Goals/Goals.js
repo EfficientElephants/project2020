@@ -68,6 +68,7 @@ class Goals extends Component {
             var mmyyID = dateformat(this.state.date, 'mmyy')
 
             var currentGoals = await this.getGoals(mmyyID);
+            console.log(currentGoals);
 
             this.setState({
                 mmyyID: mmyyID,
