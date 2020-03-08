@@ -1,9 +1,9 @@
 const baseAPI = '/api';
 
 const transactionAPI = {
-  get(userId) {
+  get(userId, dates) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/transactions?userId=` + userId) //maybe want to pass this in as a param *maybe future state*
+      fetch(`${baseAPI}/transactions?userId=` + userId +`&dates=`+dates) //maybe want to pass this in as a param *maybe future state*
         .then(response => response.json())
         .then(json => resolve(json))
         .catch(err => {
@@ -61,9 +61,9 @@ const transactionAPI = {
   },
 
 
-  getTotalsAll(userId) {
+  getTotalsAll(userId, dates) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/transaction/totals/${userId}`)
+      fetch(`${baseAPI}/transaction/totals/${userId}/${dates}`)
       .then(response => response.json())
       .then(json => resolve(json))
       .catch(err => {
@@ -72,9 +72,9 @@ const transactionAPI = {
    });
   },
 
-  getSpendingTotal(userId) {
+  getSpendingTotal(userId, dates) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/transaction/spendingTotal/${userId}`)
+      fetch(`${baseAPI}/transaction/spendingTotal/${userId}/${dates}`)
       .then(response => response.json())
       .then(json => resolve(json))
       .catch(err => {
@@ -82,9 +82,9 @@ const transactionAPI = {
       });
    });
   },
-  getIncomeTotal(userId) {
+  getIncomeTotal(userId, dates) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/transaction/incomeTotal/${userId}`)
+      fetch(`${baseAPI}/transaction/incomeTotal/${userId}/${dates}`)
       .then(response => response.json())
       .then(json => resolve(json))
       .catch(err => {
