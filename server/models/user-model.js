@@ -26,12 +26,8 @@ const userSchema = new Schema({
         },
         default: ''
     },
-    googleId: {
+    userId: {
         type: String
-    },
-    isDeleted: {
-        type: Boolean,
-        default: false
     }
 
 

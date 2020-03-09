@@ -11,19 +11,11 @@ class Login extends Component {
         super(props);
 
         this.state = {
-            // isLoading: true,
-            // token: '',
-            // loginError:  '',
-            // loginEmail: '',
-            // loginPassword: ''
+            // loginError:  ''
         }
 
     this.responseGoogle = this.responseGoogle.bind(this);
     this.oauthGoogle = this.oauthGoogle.bind(this);
-
-    // this.onLogin = this.onLogin.bind(this);
-    // this.onChangeEmail = this.onChangeEmail.bind(this);
-    // this.onChangePassword = this.onChangePassword.bind(this);
 }
 
     // componentDidMount() {
@@ -131,11 +123,11 @@ class Login extends Component {
 
     async responseGoogle(res) {
         console.log('resonseGoogle', res);
-        await this.oauthGoogle(res.profileObj)
+        await this.oauthGoogle(res)
     }
 
     async oauthGoogle(data) {
-        console.log('here:', data.email)
+        console.log('here:', data.profileObj.email)
 
         // const {
         //     loginEmail,
@@ -148,10 +140,10 @@ class Login extends Component {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            email: data.email,
-            googleId: data.googleId,
-            firstName: data.givenName,
-            lastName: data.familyName
+            email: data.profileObj.email,
+            firstName: data.profileObj.givenName,
+            lastName: data.profileObj.familyName,
+            googleId: data.profileObj.googleId
           }),
         }).then(res => res.json())
         .then(json => {
@@ -160,8 +152,8 @@ class Login extends Component {
             setInStorage('expense_app', { token: json.token });
             this.setState({
               loginError: json.message,
-              isLoading: false,
-              token: json.token
+              //isLoading: false,
+              //token: json.token
             });
             auth.login(() => {
                 this.props.history.push('/dashboard');
@@ -169,7 +161,7 @@ class Login extends Component {
           } else {
             this.setState({
               loginError: json.message,
-              isLoading: false,
+              //isLoading: false,
             });
           }
         });

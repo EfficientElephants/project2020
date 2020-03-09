@@ -22,7 +22,7 @@ function login(req, res) {
 
     //Verify user in db. If not there create an entry.
     User.find({
-        googleId: googleId
+        userId: googleId
     }, (err, users) => {
         if (err) {
             return res.send({
@@ -36,7 +36,7 @@ function login(req, res) {
             newUser.email = email;
             newUser.firstName = firstName;
             newUser.lastName = lastName;
-            newUser.googleId = googleId;
+            newUser.userId = googleId;
             newUser.save((err, user) => {
                 if (err) {
                     console.log(err);
@@ -54,12 +54,9 @@ function login(req, res) {
             return res.send({
                 success: true,
                 message: 'Valid login',
-                token: doc._id
+                token: googleId
             });
         }
-        
-
-       
     });
 }
 
