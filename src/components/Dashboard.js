@@ -46,7 +46,7 @@ class Dashboard extends Component {
                     this.setState({ userId: json.userId })
                     this.getFullName();
             
-
+                    
                     goalAPI.get({userId: this.state.userId, mmyyID: this.state.mmyyID}).then(json => this.setState({goalList:json}));
                     
                     transactionAPI.getSpendingTotal(this.state.userId, this.state.mmyyID).then(json => {
@@ -77,6 +77,7 @@ class Dashboard extends Component {
             .then(results => {
                 this.setState({fullName: results[0].firstName + " " + results[0].lastName});
             });
+            
         return this.state.fullName;                          
     }
 
@@ -174,9 +175,14 @@ class Dashboard extends Component {
                     
                     <Row style={{ marginTop: 85 }}>
                         <Col>
+                        {
+                            (this.state.render) ? (
                             <Graph 
                                 date = {this.state.mmyyID}
                                 render = {this.state.render} />
+                            ) : (null)
+                        }
+                            
                         </Col>
                         <Col>
                             <h3>Monthly Breakdown</h3>

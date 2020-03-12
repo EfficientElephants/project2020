@@ -18,9 +18,9 @@ function get(req, res) {
 }
 
 function create(req, res) {
-  const { email, username, password } = req.body;
+  const { email, firstName, lastName, googleId } = req.body;
 
-  const user = new User({ email, username, password });
+  const user = new User({ email, firstName, lastName, googleId });
   user
     .save()
     .then(() => {
@@ -32,12 +32,13 @@ function create(req, res) {
 }
 
 function update(req, res) {
-  const { email, username, password } = req.body;
+  const { email, firstName, lastName, googleId } = req.body;
 
   User.findOne({ email })
     .then(user => {
-      user.username = username;
-      user.password = password;
+      user.firstName = firstName;
+      user.lastName = lastName;
+      user.googleId = googleId;
       user.save().then(res.json(user));
     })
     .catch(err => {
