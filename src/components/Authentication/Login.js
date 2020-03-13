@@ -17,8 +17,6 @@ class Login extends Component {
     this.responseGoogle = this.responseGoogle.bind(this);
     this.oauthGoogle = this.oauthGoogle.bind(this);
 }
-
-
     // componentDidMount() {
     //     this.setState({
     //         isLoading: true,

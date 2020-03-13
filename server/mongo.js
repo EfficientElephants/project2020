@@ -3,7 +3,12 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-const mongoURI = process.env.CONNECTION_STRING;
+var mongoURI = ''
+if(process.env.NODE_ENV == 'dev'){
+    mongoURI = process.env.CONNECTION_STRING;
+}else if(process.env.NODE_ENV == 'test'){
+    mongoURI = process.env.CONNECTION_STRING_TESTING;
+}
 
 
 function connect() {

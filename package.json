@@ -10,6 +10,7 @@
     "bootstrap": "^4.3.1",
     "chai-as-promised": "^7.1.1",
     "chai-http": "^4.3.0",
+    "chai-nock": "^1.2.0",
     "cookie-parser": "^1.4.3",
     "core-js": "^3.6.4",
     "date-fns": "^2.9.0",
@@ -18,6 +19,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jquery": "^3.4.1",
+    "kind-of": "^6.0.3",
     "moment": "^2.24.0",
     "mongodb": "^3.5.3",
     "mongoose": "^5.9.1",
@@ -30,28 +32,36 @@
     "react-bootstrap": "^1.0.0-beta.14",
     "react-datepicker": "^2.12.1",
     "react-dom": "^16.12.0",
+    "react-google-login": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-with-direction": "^1.3.1",
     "serve-favicon": "^2.5.0",
+    "supertest": "^4.0.2",
     "travis": "^0.1.1",
     "typescript": "^3.7.5",
     "validator": "^12.2.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "chai-exclude": "^2.0.2",
     "codecov": "^3.6.5",
     "concurrently": "^3.5.0",
+    "fetch-mock": "^9.1.2",
     "mocha": "^6.2.2",
+    "nock": "^12.0.2",
     "nodemon": "^1.19.4",
     "nyc": "^14.1.1",
-    "react-scripts": "^3.4.0"
+    "react-scripts": "^3.4.0",
+    "start-server-and-test": "^1.10.10"
   },
   "scripts": {
-    "start": "concurrently \"react-scripts start\" \"nodemon server/server.js\"",
+    "start": "NODE_ENV=dev concurrently \"react-scripts start\" \"nodemon server/server.js\"",
     "build": "cd server && rm -rf build && cd .. && react-scripts build && mv build server",
-    "test": "nyc --reporter=html --reporter=text mocha",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit",
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start-server": "nodemon server/server.js",
+    "ci": "NODE_ENV=test start-server-and-test start-server http-get://localhost:3001"
   },
   "nyc": {
     "all": true,
