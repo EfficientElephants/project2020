@@ -3,24 +3,23 @@ var options = common.options;
 var assert = common.assert;
 var expect = common.expect;
 var chai = common.chai;
-var app = common.app
+var app = common.app;
+var nock = common.nock;
 
 var Transaction = common.Transaction;
 
 
 var body = require('../body.json');
 var response = require('../response.json')
-const nock = require('nock')
+//const nock = require('nock')
 
 //var transactionAPI = require('../../src/api/transactionAPI')
 
 //console.log(response);
  
-// var scope = nock('https://localhost:3001')
-//   .post('/api/login', JSON.stringify(body))
-//   .reply(200, response)
-// //console.log(scope)
-// testUser = scope
+
+//console.log(scope)
+//testUser = scope
 
 var testToken = (response).token;
 //console.log(testToken);
@@ -32,36 +31,94 @@ describe("Transaction Route Testing", function() {
         assert.isFulfilled(Transaction.deleteMany({}), Error).notify(done);
     });
 
-    it('Check to make sure no transactions for user', function(done){
-        chai.request(app)
-            .get(`/api/transactions?userId=${testToken}`)
-            // .send({userId: testToken})
-            .end((err, res) => {
-                expect(res.body).to.be.an('array');
-                expect(res.body).to.be.of.length(4);
-                done();
-            })
-    })
-    
-    it('Post a transaction', function(done) {
-        chai.request(app)
-            .post(`/api/transaction?userId=${testToken}`)
-            .send({
-                item: "Potato",
-                date: new Date(),
-                price: "5.90",
-                category: "Food",
-                transactionType: "expense",
-                monthYearId: "0320"
-            })
-            .end((err, res) => {
-                console.log(res.body);
-                expect(res.statusCode).to.equal(200);
-                done()
-            })
-    })
+    describe("GET", function() {
+        it('No Transactions for testUser, date = "all"', function(done){
+            chai.request(app)
+                .get(`/api/transactions?userId=${testToken}&dates=all`)
+                // .send({userId: testToken})
+                .end((err, res) => {
+                    expect(res.statusCode).to.equal(200);
+                    expect(res.body).to.be.an('array');
+                    expect(res.body).to.be.of.length(0);
+                    done();
+                })
+        });
 
-})
+        it('No Transactions for testUser, date = undefined', function(done){
+            chai.request(app)
+                .get(`/api/transactions?userId=${testToken}`)
+                // .send({userId: testToken})
+                .end((err, res) => {
+                    expect(res.statusCode).to.equal(200);
+                    expect(res.body).to.be.an('array');
+                    expect(res.body).to.be.of.length(0);
+                    done();
+                })
+        });
+
+        it("Should return an error", function(done) {
+            const requestNock = nock('http://localhost:3001')
+                .get(`/api/transactions?userId=${testToken}`)
+                .reply(500);
+            
+            return chai.request(app)
+                    .get(`/api/transactions?userId=${testToken}`)
+                    .end((err, res) => {
+                        expect(requestNock).to.have.been.requested;
+                        expect(res.statusCode).to.equal(500);
+                        //console.log(res);
+                        //done();
+                    });
+        });
+    });
+});
+
+                // return request(app)
+                // .get('/user/akambi/repos')
+                // .set('Accept', 'application/json')
+                // .expect('Content-Type', /json/)
+                // .expect(200)
+                // .then(response => {
+                //     console.log(response.body);
+                //     expect(response.body).to.deep.equal(githubRepos);
+                // });
+            // const requestNock = nock('http://bbc.co.uk')
+            //     .get('/')
+            //     .reply(200);
+            
+            // request({
+            //     json: true,
+            //     uri: 'http://bbc.co.uk',
+            //     body: {
+            //     hello: 'world'
+            //     }
+            // });
+            
+            // return expect(requestNock).to.have.been.requestedWith({ hello: 'world' });
+
+
+    
+    
+    // it('Post a transaction', function(done) {
+    //     chai.request(app)
+    //         .post(`/api/transaction?userId=${testToken}`)
+    //         .send({
+    //             item: "Potato",
+    //             date: new Date(),
+    //             price: "5.90",
+    //             category: "Food",
+    //             transactionType: "expense",
+    //             monthYearId: "0320"
+    //         })
+    //         .end((err, res) => {
+    //             console.log(res.body);
+    //             expect(res.statusCode).to.equal(200);
+    //             done()
+    //         })
+    // })
+    
+
+// })
 
 
 

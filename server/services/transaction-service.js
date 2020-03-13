@@ -6,7 +6,9 @@ require('../mongo').connect();
 function get(req, res) {
   const { query } = req;
   const { userId, dates } = query;
-  if (dates === 'all' || dates === null){
+  //console.log(dates);
+  if (dates === 'all' || dates === undefined){
+    console.log(dates);
     docquery = Transaction.find({userId: userId}).sort({date: 'descending', createdAt: 'descending'}).read(ReadPreference.NEAREST);
   }else {
     docquery = Transaction.find({userId: userId, monthYearId: dates}).sort({date: 'descending', createdAt: 'descending'}).read(ReadPreference.NEAREST);
