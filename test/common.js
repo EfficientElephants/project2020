@@ -1,6 +1,8 @@
 var chai = require("chai");
 var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
+var chaiHttp = require('chai-http');
+chai.use(chaiHttp)
 
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
@@ -16,5 +18,6 @@ exports.assert = chai.assert;
 exports.expect = chai.expect;
 exports.schema = mongoose.Schema
 
-
+exports.app = require('../server/app');
 exports.User = require('../server/models/user-model');
+exports.Transaction = require('../server/models/transaction-model');

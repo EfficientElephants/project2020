@@ -5,8 +5,13 @@ require('../mongo').connect();
 
 function get(req, res) {
   const { query } = req;
-  const { userId } = query;
-  const docquery = Transaction.find({userId: userId}).sort({date: 'descending', createdAt: 'descending'}).read(ReadPreference.NEAREST);
+  const { userId, dates } = query;
+  if (dates === 'all' || dates === null){
+    docquery = Transaction.find({userId: userId}).sort({date: 'descending', createdAt: 'descending'}).read(ReadPreference.NEAREST);
+  }else {
+    docquery = Transaction.find({userId: userId, monthYearId: dates}).sort({date: 'descending', createdAt: 'descending'}).read(ReadPreference.NEAREST);
+  }
+  
   return docquery
     .then(transactions => {
       res.json(transactions);

@@ -9,21 +9,21 @@ var logoutService = require('../services/logout-service');
 var getUserIdService = require('../services/get-userId-service');
 var goalService = require('../services/goal-service');
 
-router.get('/users', function(req, res) {
-  userService.get(req,res);
-});
+// router.get('/users', function(req, res) {
+//   userService.get(req,res);
+// });
 
-router.post('/user', function(req, res) {
-  userService.create(req, res);
-});
+// router.post('/user', function(req, res) {
+//   userService.create(req, res);
+// });
 
-router.put('/user', function(req, res) {
-  userService.update(req, res);
-});
+// router.put('/user', function(req, res) {
+//   userService.update(req, res);
+// });
 
-router.delete('/user/:email', function(req, res) {
-  userService.destroy(req, res);
-});
+// router.delete('/user/:email', function(req, res) {
+//   userService.destroy(req, res);
+// });
 
 //add transaction routes
 router.get('/transactions', function(req, res) {

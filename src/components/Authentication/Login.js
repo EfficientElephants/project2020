@@ -93,7 +93,52 @@ class Login extends Component {
         this.setState({
           isLoading: true
         });
+    }
       
+    //     fetch('api/login', {
+    //       method: 'POST', 
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       },
+    //       body: JSON.stringify({
+    //         email: loginEmail,
+    //         password: loginPassword
+    //       }),
+    //     }).then(res => res.json())
+    //     .then(json => {
+    //       if (json.success) {
+    //         setInStorage('expense_app', { token: json.token });
+    //         this.setState({
+    //           loginError: json.message,
+    //           isLoading: false,
+    //           token: json.token
+    //         });
+    //         auth.login(() => {
+    //             this.props.history.push('/dashboard');
+    //         })
+    //       } else {
+    //         this.setState({
+    //           loginError: json.message,
+    //           isLoading: false,
+    //         });
+    //       }
+    //     });
+    //   }
+
+    async responseGoogle(res) {
+        console.log('resonseGoogle', res);
+        await this.oauthGoogle(res)
+    }
+
+    async oauthGoogle(data) {
+        console.log(JSON.stringify(data));
+        console.log('here:', data.profileObj.email)
+
+        // const {
+        //     loginEmail,
+        //     loginPassword,
+        // } = this.state
+
         fetch('api/login', {
           method: 'POST', 
           headers: {
@@ -106,6 +151,8 @@ class Login extends Component {
         }).then(res => res.json())
         .then(json => {
           if (json.success) {
+              console.log('success')
+              console.log(json);
             setInStorage('expense_app', { token: json.token });
             this.setState({
               loginError: json.message,

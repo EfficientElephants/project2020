@@ -70,9 +70,10 @@ class Dashboard extends Component {
         }
     }
 
-    getFullName() {
+    getFullName(){
         usersAPI.get(this.state.userId)
             .then(results => {
+                console.log(results)
                 this.setState({fullName: results[0].firstName + " " + results[0].lastName});
             });
         return this.state.fullName;                          
