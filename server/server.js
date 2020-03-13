@@ -69,7 +69,7 @@ function onError(error) {
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      console.error(bind + ' is already in use xxx');
       process.exit(1);
       break;
     default:

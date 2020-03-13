@@ -5,6 +5,8 @@ var chaiHttp = require('chai-http');
 chai.use(chaiHttp)
 const chaiNock = require('chai-nock');
 chai.use(chaiNock);
+var chaiExclude = require('chai-exclude');
+chai.use(chaiExclude);
 
 var nock = require('nock');
 
