@@ -8,8 +8,6 @@ const favicon = require('serve-favicon');
 const index = require('./routes/index');
 
 const app = express();
-console.log(process.env.NODE_ENV);
-console.log(process.env.NODE_ENV === 'test');
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
 app.use(logger('dev'));

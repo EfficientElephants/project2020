@@ -10,6 +10,9 @@ chai.use(chaiExclude);
 
 var nock = require('nock');
 
+var dateformat = require('dateformat');
+var moment = require('moment');
+
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 
@@ -24,7 +27,9 @@ exports.assert = chai.assert;
 exports.expect = chai.expect;
 exports.schema = mongoose.Schema
 exports.nock = nock;
+exports.dateformat = dateformat;
+exports.moment = moment;
 
 exports.app = require('../server/app');
-exports.User = require('../server/models/user-model');
 exports.Transaction = require('../server/models/transaction-model');
+exports.loginResponse = require('./response.json');
