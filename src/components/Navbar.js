@@ -12,17 +12,39 @@ class NavBar extends Component {
         super(props);
 
     this.onLogout = this.onLogout.bind(this);
+    this.logoutNow = this.logoutNow.bind(this);
 }
 
     onLogout() {
-        
-        // remove token from local storage
-        removeFromStorage('expense_app');
+        const obj = getFromStorage('expense_app');
+        if (obj && obj.token) {
+            const { token } = obj;
+            // Logout with token
+            fetch('/api/logout?token=' + token)
+            .then(res => res.json())
+            .then(json => {
+                if(json.success){
+                    // remove token from local storage
+                    removeFromStorage('expense_app');
+                    this.logoutNow();
+                } else {
+                    this.setState({
+                        isLoading: false,
+                    })
+                }
+            })
+        } else {
+            this.setState({
+                isLoading: false,
+            })
+        }
+    }
+
+    logoutNow() {
         auth.logout(() => {
             this.props.history.push("/");
         })
     }
-
 
     render() {
         return (

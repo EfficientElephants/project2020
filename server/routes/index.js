@@ -68,11 +68,6 @@ router.get('/verify', function(req, res) {
   loginService.verify(req, res);
 });
 
-// Send email to reset password
-router.post('/forgotPassword', function(req, res) {
-  loginService.forgotPassword(req, res);
-});
-
 //logout
 router.get('/logout', function(req, res) {
   logoutService.logout(req, res);
@@ -104,6 +99,5 @@ router.put('/goal', function(req, res) {
 router.delete('/goal/:_id', function(req, res) {
   goalService.destroy(req, res);
 });
-
 
 module.exports = router;
