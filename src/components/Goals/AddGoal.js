@@ -5,6 +5,7 @@ import AddGoalModal from './AddGoalModal';
 import goalAPI from '../../api/goalAPI';
 import transactionAPI from '../../api/transactionAPI'
 import { getFromStorage } from '../Storage';
+var dateformat = require('dateformat');
 
 class AddGoal extends Component {
     constructor(props) {
@@ -38,7 +39,6 @@ class AddGoal extends Component {
                     console.log('not working');
                 }
             })
-            
         }
     }
 
@@ -73,7 +73,7 @@ class AddGoal extends Component {
         event.preventDefault();
 
         if (this.validateForm()) {
-            var spent = await (transactionAPI.getTotalsAll(this.state.userId)
+            var spent = await (transactionAPI.getTotalsAll(this.state.userId, dateformat(new Date(), 'mmyy'))
             .then(allTotals => {
                 allTotals.forEach(function(item){
                     item.totals = ((item.totals/100).toFixed(2));
