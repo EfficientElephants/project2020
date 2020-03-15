@@ -26,7 +26,7 @@ function create(req, res) {
   var month = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1)
   const mmyyID = (month + year).toString();
   const metGoal = (goalAmount < spentAmount ? false : true)
-  const goal = new Goal({ userId, category, goalAmount, spentAmount, metGoal, monthYearId: mmyyID });
+  const goal = new Goal({ userId, category, goalAmount, spentAmount, metGoal, monthYearId: mmyyID, createdAt: date, updatedAt: date });
   goal
     .save()
     .then(() => {
@@ -59,7 +59,11 @@ function destroy(req, res) {
 
   Goal.findOneAndRemove({ _id })
     .then(goal => {
-      res.json(goal);
+      if (!goal){
+        res.status(400).send("Goal Not Found");
+      } else {
+        res.json(goal);
+      }
     })
     .catch(err => {
       res.status(500).send(err);

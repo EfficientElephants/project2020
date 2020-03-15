@@ -16,10 +16,14 @@ var moment = require('moment');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 
+var MockDate = require('mockdate');
+
 //put things that need to be passed as variables/options in here
 var options = {
     userpassword: process.env.CORRECT_USER_TEST_PASS
 };
+
+exports.thisMonthFood = 0;
 
 exports.options = options;
 exports.chai = chai;
@@ -29,7 +33,9 @@ exports.schema = mongoose.Schema
 exports.nock = nock;
 exports.dateformat = dateformat;
 exports.moment = moment;
+exports.mockdate = MockDate;
 
 exports.app = require('../server/app');
 exports.Transaction = require('../server/models/transaction-model');
+exports.Goal = require('../server/models/goal-model');
 exports.loginResponse = require('./response.json');
