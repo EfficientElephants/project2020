@@ -5,7 +5,11 @@ require('../mongo').connect();
 
 function get(req, res) {
   const { userId, mmyyID } = req.params
-  const docquery = Goal.find({userId: userId, monthYearId: mmyyID}).sort({createdAt: 'descending'}).read(ReadPreference.NEAREST);
+  if (mmyyID === 'all' || mmyyID === undefined){
+    docquery = Goal.find({userId: userId}).sort({createdAt: 'descending'}).read(ReadPreference.NEAREST);
+  }else {
+    docquery = Goal.find({userId: userId, monthYearId: mmyyID}).sort({createdAt: 'descending'}).read(ReadPreference.NEAREST);
+  }
   return docquery
     .then(goals => {
       res.json(goals);
@@ -46,6 +50,8 @@ function update(req, res) {
     goal.category = category;
     goal.goalAmount = goalAmount;
     goal.spentAmount = spentAmount;
+    const metGoal = (goalAmount < spentAmount ? false : true)
+    goal.metGoal = metGoal;
     goal.updatedAt = Date.now();
     goal.save().then(res.json(goal));
   })
@@ -70,4 +76,17 @@ function destroy(req, res) {
     });
 }
 
-module.exports = { get, create, update, destroy };
+function getAllCategories(req, res) {
+  const { userId } = req.params
+  const docquery = Goal.find({userId: userId}).distinct("category").read(ReadPreference.NEAREST);
+  return docquery
+    .then(goals => {
+      console.log(goals)
+      res.json(goals);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    })
+}
+
+module.exports = { get, create, update, destroy, getAllCategories };

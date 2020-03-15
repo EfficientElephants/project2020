@@ -14,13 +14,14 @@ class Graph extends Component {
             catTotals: [],
             spentTotal: '',
             dataPoints: [],
-            mmyyID: ''
+            mmyyID: '',
+            stopRerender: false
         }
     }
 
     async componentDidMount() {
         this.setState({mmyyID: this.props.date})
-        this.setState({rerender: false});
+        this.setState({rerender: false, stopRerender: false});
         var userId = await this.getUserId();
         this.setState({userId: userId})
         if (userId) {
@@ -36,12 +37,11 @@ class Graph extends Component {
 
     async UNSAFE_componentWillReceiveProps(render) {
         this.setState({mmyyID: this.props.date})
-        if (this.props.render) {
-            var catTotal = await this.renderCatTotals();
-            var spendingTotal = await this.renderSpendingTotal();
-            this.setState({catTotals: catTotal, spentTotal: spendingTotal,})
-            var dataPoints = this.creatingDataPoints();
-            this.setState({datapoints: dataPoints})
+
+        if (this.props.render && !this.state.stopRerender) {
+            console.log('here')
+            this.setState({stopRerender: true})
+            this.componentDidMount();
         }
     }
 
