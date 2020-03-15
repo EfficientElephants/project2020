@@ -1,4 +1,4 @@
-const UserSession = require('../models/user-session-model');
+// const UserSession = require('../models/user-session-model');
 const User = require('../models/user-model');
 
 require('../mongo').connect();

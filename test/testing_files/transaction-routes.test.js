@@ -383,6 +383,25 @@ describe("getTotalsAll", function() {
                 done();
             })
     })
+
+    it("should get category totals of this month's transactions", function(done){
+        chai.request(app)
+        .get(`/api/transaction/totals/${testToken}/${mmyyidToUse}`)
+        .end((err, res) => {
+            for(var i in res.body){
+                if (res.body[i]._id === 'Food'){
+                    common.thisMonthFood = foodTotal;
+                    expect(res.body[i].totals).to.equal(foodTotal);
+                    console.log(common.thisMonthFood);
+
+                } else if (res.body[i]._id === 'Income'){
+                    expect(res.body[i].totals).to.equal(incomeAll-lastmonthIncome);
+                } else{
+                }
+            }
+            done();
+        }) 
+    })
 });
 
 describe("getSpendingTotal", function() {
