@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, ProgressBar } from 'react-bootstrap';
+import { Row, Col, ProgressBar } from 'react-bootstrap';
 //import  from '../api/transactionAPI';
 
 class GoalBar extends Component {
@@ -62,6 +62,14 @@ class GoalBar extends Component {
                     <div>
                         <h5>{this.props.goal.category}</h5>
                         <ProgressBar striped variant={this.state.gradient} now={this.state.percent} label={`${this.state.percent}%`} />
+                        <Row>
+                            <Col>
+                                <p>Goal Amount: {this.props.goal.goalAmount}</p>
+                            </Col>
+                            <Col>
+                                <p>Amount Spent: {this.props.goal.spentAmount}</p>
+                            </Col>
+                        </Row>
                         <br />
                     </div>
                 </Col>

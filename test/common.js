@@ -1,6 +1,17 @@
 var chai = require("chai");
 var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
+var chaiHttp = require('chai-http');
+chai.use(chaiHttp)
+const chaiNock = require('chai-nock');
+chai.use(chaiNock);
+var chaiExclude = require('chai-exclude');
+chai.use(chaiExclude);
+
+var nock = require('nock');
+
+var dateformat = require('dateformat');
+var moment = require('moment');
 
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
@@ -15,6 +26,10 @@ exports.chai = chai;
 exports.assert = chai.assert;
 exports.expect = chai.expect;
 exports.schema = mongoose.Schema
+exports.nock = nock;
+exports.dateformat = dateformat;
+exports.moment = moment;
 
-
-exports.User = require('../server/models/user-model');
+exports.app = require('../server/app');
+exports.Transaction = require('../server/models/transaction-model');
+exports.loginResponse = require('./response.json');

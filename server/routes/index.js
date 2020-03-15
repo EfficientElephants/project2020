@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
-var userService = require('../services/user-service');
+//var userService = require('../services/user-service');
 var transactionService = require('../services/transaction-service');
 var signupService = require('../services/signup-service');
 var loginService = require('../services/login-service');
@@ -9,21 +8,21 @@ var logoutService = require('../services/logout-service');
 var getUserIdService = require('../services/get-userId-service');
 var goalService = require('../services/goal-service');
 
-router.get('/users', function(req, res) {
-  userService.get(req,res);
-});
+// router.get('/users', function(req, res) {
+//   userService.get(req,res);
+// });
 
-router.post('/user', function(req, res) {
-  userService.create(req, res);
-});
+// router.post('/user', function(req, res) {
+//   userService.create(req, res);
+// });
 
-router.put('/user', function(req, res) {
-  userService.update(req, res);
-});
+// router.put('/user', function(req, res) {
+//   userService.update(req, res);
+// });
 
-router.delete('/user/:email', function(req, res) {
-  userService.destroy(req, res);
-});
+// router.delete('/user/:email', function(req, res) {
+//   userService.destroy(req, res);
+// });
 
 //add transaction routes
 router.get('/transactions', function(req, res) {
@@ -42,14 +41,14 @@ router.delete('/transaction/:_id', function(req, res) {
   transactionService.destroy(req, res);
 });
 
-router.get('/transaction/totals/:userId', function(req, res) {
+router.get('/transaction/totals/:userId/:dates', function(req, res) {
   transactionService.getTotalsAll(req, res);
 });
 
-router.get('/transaction/spendingTotal/:userId', function(req, res) {
+router.get('/transaction/spendingTotal/:userId/:dates', function(req, res) {
   transactionService.getSpendingTotal(req, res);
 });
-router.get('/transaction/incomeTotal/:userId', function(req, res) {
+router.get('/transaction/incomeTotal/:userId/:dates', function(req, res) {
   transactionService.getIncomeTotal(req, res);
 });
 
@@ -84,7 +83,7 @@ router.get('/users/:userId', function(req, res){
 });
 
 //goal
-router.get('/goals', function(req, res) {
+router.get('/goals/:userId/:mmyyID', function(req, res) {
   goalService.get(req,res);
 });
 

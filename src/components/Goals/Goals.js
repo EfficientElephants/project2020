@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+ import React, { Component } from 'react';
 import goalAPI from '../../api/goalAPI';
 import { getFromStorage } from '../Storage';
 import { Row, Col, Container } from 'react-bootstrap';
 import transactionAPI from '../../api/transactionAPI';
 import EditGoalModal from './EditGoalModal';
 import GoalInfo from './GoalInfo';
+var dateformat = require('dateformat');
+
 class Goals extends Component {
     constructor() {
         super();
@@ -13,8 +15,12 @@ class Goals extends Component {
             goalList: [],
             errors: {},
             showModal: false,
-            render: false
+            render: false,
             // remaining: '',
+            date: new Date(),
+            mmyyID: '',
+            month: '',
+            year: '',
         }
         this.createArray = this.createArray.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
@@ -29,47 +35,116 @@ class Goals extends Component {
 
     UNSAFE_componentWillReceiveProps(render) {
         if (this.props.render) {
-            goalAPI.get(this.state.userId).then(json => this.setState({goalList:json}));
+            goalAPI.get({
+                userId: this.state.userId,
+                mmyyID: this.state.mmyyID
+            }).then(json => {
+                this.setState({
+                    goalList: json
+                })
+            });
         }
     }
 
-    componentDidMount(){
+    async componentDidMount() {
         const obj = getFromStorage('expense_app');
         if (obj && obj.token) {
-            const { token } = obj;
-            fetch('api/getUserId?token=' + token)
-            .then(res => res.json())
-            .then(json => {
-                if (json.success){
-                    this.setState({ userId: json.userId })
-                    goalAPI.get(this.state.userId).then(json => this.setState({goalList:json}));
-                } else {
-                    // handle error
-                    console.log('not working');
-                }
+            const {
+                token
+            } = obj;
+            var userId = await fetch('api/getUserId?token=' + token)
+                .then(res => res.json())
+                .then(json => {
+                    if (json.success) {
+                        return json.userId;
+                    } else {
+                        // handle error
+                        console.log('not working');
+                    }
+                })
+            this.setState({userId: userId})
+            var month = this.state.date.getMonth() + 1
+            var year = this.state.date.getFullYear() - 2000
+            var mmyyID = dateformat(this.state.date, 'mmyy')
+
+            var currentGoals = await this.getGoals(mmyyID);
+            console.log(currentGoals);
+
+            this.setState({
+                mmyyID: mmyyID,
+                month: month,
+                year: year,
             })
+
+            var lastMonth = month
+            var lastYear = year
+            if (month === 1){
+                lastMonth = '12'
+                lastYear -= 1
+            }else{
+                lastMonth = ((this.state.date.getMonth() + 1) < 10 ? '0' : '') + (this.state.date.getMonth())
+            }
+            var oldMMYYID = lastMonth+lastYear;
+            var oldGoals = await this.getGoals(oldMMYYID);
+            
+            if (currentGoals.length === 0 && oldGoals.length!== 0 && this.state.date.getDate() === 2){
+                var updatedGoals = await this.createNewDatabases(oldGoals)
+                    .then(res =>
+                        {   
+                            var updatedGoals = this.getGoals(this.state.mmyyID);
+                            return updatedGoals
+                        }
+                    )
+                this.setState({goalList: updatedGoals});
+            }else {
+                this.setState({goalList: currentGoals})
+            }
         }
+    }
+
+    getGoals(mmyyID) {
+        return goalAPI.get({userId: this.state.userId, mmyyID: mmyyID});
+    }
+
+    createNewDatabases(oldGoals) {
+        for (const goalIdx in oldGoals) {
+            var goal = {}
+            goal.category = oldGoals[goalIdx].category
+            goal.goalAmount = oldGoals[goalIdx].goalAmount
+            goal.spentAmount = 0;
+            goalAPI.create(goal, this.state.userId);
+        }
+        return this.getGoals(this.state.mmyyID)
+
     }
 
     handleSelect(goal) {
-        this.setState({selectedGoal:goal, render: false});
+        this.setState({
+            selectedGoal: goal,
+            render: false
+        });
         this.handleEnableModal(goal);
     }
 
     handleChange(event) {
         let selectedGoal = this.state.selectedGoal;
         selectedGoal[event.target.name] = event.target.value;
-        this.setState({ selectedGoal: selectedGoal });
+        this.setState({
+            selectedGoal: selectedGoal
+        });
 
     }
 
     handleCancel() {
-        this.setState({ selectedGoal: null, showModal: false });
+        this.setState({
+            selectedGoal: null,
+            showModal: false
+        });
         this.handleDisableModal();
 
     }
 
-    handleEnableModal (goal) {
+    handleEnableModal(goal) {
         this.setState({
             showModal: true,
             // selectedGoal: {category: '', goalAmount: ''}
@@ -86,11 +161,15 @@ class Goals extends Component {
     handleDelete(event, goal) {
         event.stopPropagation();
         goalAPI.destroy(goal).then(() => {
-            let goals = this.state.allGoals;
+            let goals = this.state.goalList;
             goals = goals.filter(h => h !== goal);
-            this.setState({ allGoals: goals });
+            this.setState({
+                goalList: goals
+            });
             if (this.selectedgoal === goal) {
-                this.setState({ selectedGoal: null });
+                this.setState({
+                    selectedGoal: null
+                });
             }
         });
     }
@@ -99,29 +178,29 @@ class Goals extends Component {
         event.preventDefault();
 
         if (this.validateForm()) {
-            var spent = await (transactionAPI.getTotalsAll(this.state.userId)
-            .then(allTotals => {
-                allTotals.forEach(function(item){
-                    item.totals = ((item.totals/100).toFixed(2));
-                })
-                var total = 0;
-                allTotals.forEach((element) => {
-                    if (element._id === this.state.selectedGoal.category) {
-                        total = element.totals;
-                    }
-                });
-                return total
-            }));
+            var spent = await (transactionAPI.getTotalsAll(this.state.userId, this.state.mmyyID)
+                .then(allTotals => {
+                    allTotals.forEach(function (item) {
+                        item.totals = ((item.totals / 100).toFixed(2));
+                    })
+                    var total = 0;
+                    allTotals.forEach((element) => {
+                        if (element._id === this.state.selectedGoal.category) {
+                            total = element.totals;
+                        }
+                    });
+                    return total
+                }));
             this.state.selectedGoal.spentAmount = spent;
-            await goalAPI  
-            .update(this.state.selectedGoal)
-            .then(result => {
-                this.setState({
-                    selectedGoal: null,
-                    render: true,
-                });
-                this.componentDidMount();
-            })
+            await goalAPI
+                .update(this.state.selectedGoal)
+                .then(result => {
+                    this.setState({
+                        selectedGoal: null,
+                        render: true,
+                    });
+                    this.componentDidMount();
+                })
             this.handleDisableModal();
         }
     }
@@ -149,19 +228,21 @@ class Goals extends Component {
             formIsValid = false;
             errors["category"] = "Please select a category.";
         }
-        this.setState({errors: errors})
+        this.setState({
+            errors: errors
+        })
         return formIsValid
     }
 
     createArray() {
         let array = [];
 
-        for(let i = 0; i < this.state.goalList.length; i = i + 2){
+        for (let i = 0; i < this.state.goalList.length; i = i + 2) {
             let subarray = [];
             subarray.push(this.state.goalList[i]);
-            if (i+1 < this.state.goalList.length){
-                subarray.push(this.state.goalList[i+1]);
-            }else {
+            if (i + 1 < this.state.goalList.length) {
+                subarray.push(this.state.goalList[i + 1]);
+            } else {
                 subarray.push([])
             }
             array.push(subarray);
@@ -191,7 +272,9 @@ class Goals extends Component {
                             <><Row>
                                 {array.map((goal, i) => {
                                     if (goal.length === 0 && i%2 === 1){
-                                        return <Col/>
+                                        return <Col
+                                        key={goal.length}
+                                        />
                                     }
                                     return <GoalInfo
                                         goal={goal}

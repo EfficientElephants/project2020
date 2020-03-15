@@ -12,39 +12,17 @@ class NavBar extends Component {
         super(props);
 
     this.onLogout = this.onLogout.bind(this);
-    this.logoutNow = this.logoutNow.bind(this);
 }
 
     onLogout() {
-        const obj = getFromStorage('expense_app');
-        if (obj && obj.token) {
-            const { token } = obj;
-            // Logout with token
-            fetch('/api/logout?token=' + token)
-            .then(res => res.json())
-            .then(json => {
-                if(json.success){
-                    // remove token from local storage
-                    removeFromStorage('expense_app');
-                    this.logoutNow();
-                } else {
-                    this.setState({
-                        isLoading: false,
-                    })
-                }
-            })
-        } else {
-            this.setState({
-                isLoading: false,
-            })
-        }
-    }
-
-    logoutNow() {
+        
+        // remove token from local storage
+        removeFromStorage('expense_app');
         auth.logout(() => {
             this.props.history.push("/");
         })
     }
+
 
     render() {
         return (
@@ -71,6 +49,9 @@ class NavBar extends Component {
                             </Nav.Item> */}
                             <Nav.Item>
                                 <Link className="navbar-link" to="/goal-mgr">Goal Manager</Link>&nbsp;
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Link className="navbar-link" to="/history">Historical Data</Link>&nbsp;
                             </Nav.Item>
                         </Nav>
                         <Button variant="light" className="logout-button" onClick={this.onLogout}>Logout</Button>

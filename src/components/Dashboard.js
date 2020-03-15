@@ -12,7 +12,7 @@ import AddIncome from './Transactions/Income/AddIncome';
 import Graph from './Graph/Graph';
 import GoalBar from './Goals/GoalBar';
 import Logo from '../assets/expense-elephant-logo2.png';
-
+var dateformat = require('dateformat');
 
 
 class Dashboard extends Component {
@@ -28,6 +28,7 @@ class Dashboard extends Component {
             spendingTotal: '',
             incomeTotal: '',
             goalList: [],
+            mmyyID: dateformat(new Date() , 'mmyy')
         }
         this.handleChange = this.handleChange.bind(this);
         this.rerender = this.rerender.bind(this);
@@ -44,17 +45,16 @@ class Dashboard extends Component {
                     this.setState({ userId: json.userId })
                     this.getFullName();
                     
-
-                    goalAPI.get(this.state.userId).then(json => this.setState({goalList:json}));
+                    goalAPI.get({userId: this.state.userId, mmyyID: this.state.mmyyID}).then(json => this.setState({goalList:json}));
                     
-                    transactionAPI.getSpendingTotal(this.state.userId).then(json => {
+                    transactionAPI.getSpendingTotal(this.state.userId, this.state.mmyyID).then(json => {
                         if (json[0]){
                             this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
                         } else {
                             this.setState({spendingTotal: 0});
                         }
                     });
-                    transactionAPI.getIncomeTotal(this.state.userId).then(json => {
+                    transactionAPI.getIncomeTotal(this.state.userId, this.state.mmyyID).then(json => {
                         if (json[0]){
                             this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
                         } else {
@@ -75,6 +75,7 @@ class Dashboard extends Component {
             .then(results => {
                 this.setState({fullName: results[0].firstName + " " + results[0].lastName});
             });
+            
         return this.state.fullName;                          
     }
 
@@ -136,7 +137,6 @@ class Dashboard extends Component {
     render() {
         return (
             <div>
-                
                 <NavBar />
                 <Container>
                     <Row className="dashboard-header">
@@ -172,7 +172,12 @@ class Dashboard extends Component {
                     
                     <Row style={{ marginTop: 85 }}>
                         <Col>
-                            <Graph render = {this.state.render} />
+                        {(this.state.render) 
+                          ? (<Graph 
+                            date = {this.state.mmyyID}
+                            render = {this.state.render} />)
+                          : (null)
+                        }
                         </Col>
                         <Col>
                             <h3>Monthly Breakdown</h3>
