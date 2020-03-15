@@ -57,73 +57,6 @@ describe("POST", function() {
             })
     });
 
-    describe("Mocked Dates", function(){
-        afterEach(function(done) {
-            mockdate.reset();
-            global.dateTime = new Date();
-            done();
-        });
-
-        it("Should post a goal transaction for January 2020", function(done){
-            mockdate.set('01/01/2020');
-            var mockedDate = new Date();
-            global.dateTime  = new Date();
-            
-            chai.request(app)
-                .post(`/api/goal?userId=${testToken}`)
-                .send({
-                    category: "Social",
-                    goalAmount: 20.12,
-                    spentAmount: 0
-                })
-                .end((err, res) => {
-                    expect(Date(res.body.createdAt).toString()).to.equal(mockedDate.toString());
-                    expect(res.statusCode).to.equal(200);
-                    goalJan2020 = res.body;
-                    expect(res.body).to.be.an('object');
-                    expect(res.body.spentAmount).to.equal('0.00');
-                    expect(res.body.goalAmount).to.equal('20.12');
-                    expect(res.body.metGoal).to.equal(true);
-                    done();
-                });
-        });
-
-        it("Should post a goal transaction for December 2019", function(done){
-            mockdate.set('12/24/2019');
-            var mockedDate = new Date();
-            global.dateTime  = new Date();
-            
-            chai.request(app)
-                .post(`/api/goal?userId=${testToken}`)
-                .send({
-                    category: "Social",
-                    goalAmount: 20.12,
-                    spentAmount: 0
-                })
-                .end((err, res) => {
-                    expect(Date(res.body.createdAt).toString()).to.equal(mockedDate.toString());
-                    expect(res.statusCode).to.equal(200);
-                    expect(res.body).to.be.an('object');
-                    expect(res.body.spentAmount).to.equal('0.00');
-                    expect(res.body.goalAmount).to.equal('20.12');
-                    expect(res.body.metGoal).to.equal(true);
-                    done();
-                });
-        });
-
-        it('Should return 1 goals for test User during January 2020', function(done) {
-            chai.request(app)
-                .get(`/api/goals/${testToken}/0120`)
-                // .send({userId: testToken})
-                .end((err, res) => {
-                    expect(res.statusCode).to.equal(200);
-                    expect(res.body).to.be.an('array');
-                    expect(res.body).to.be.of.length(1);
-                    done();
-                })
-        });
-    });
-
     it("Should post a second goal", function(done){
         chai.request(app)
             .post(`/api/goal?userId=${testToken}`)
@@ -183,6 +116,75 @@ describe("POST", function() {
                 expect(res.body).to.be.of.length(2);
                 done();
             })
+    });
+
+    describe("Mocked Dates", function(){
+        afterEach(function(done) {
+            mockdate.reset();
+            global.dateTime = new Date();
+            done();
+        });
+
+        it("Should post a goal transaction for January 2020", function(done){
+            mockdate.set('01/01/2020');
+            var mockedDate = new Date();
+            global.dateTime  = new Date();
+            
+            chai.request(app)
+                .post(`/api/goal?userId=${testToken}`)
+                .send({
+                    category: "Social",
+                    goalAmount: 20.12,
+                    spentAmount: 0
+                })
+                .end((err, res) => {
+                    expect(Date(res.body.createdAt).toString()).to.equal(mockedDate.toString());
+                    expect(res.statusCode).to.equal(200);
+                    goalJan2020 = res.body;
+                    expect(res.body).to.be.an('object');
+                    expect(res.body.spentAmount).to.equal('0.00');
+                    expect(res.body.goalAmount).to.equal('20.12');
+                    expect(res.body.metGoal).to.equal(true);
+                    expect(res.body.monthYearId).to.equal('0120');
+                    done();
+                });
+        });
+
+        it("Should post a goal transaction for December 2019", function(done){
+            mockdate.set('12/24/2019');
+            var mockedDate = new Date();
+            global.dateTime  = new Date();
+            
+            chai.request(app)
+                .post(`/api/goal?userId=${testToken}`)
+                .send({
+                    category: "Social",
+                    goalAmount: 20.12,
+                    spentAmount: 0
+                })
+                .end((err, res) => {
+                    expect(Date(res.body.createdAt).toString()).to.equal(mockedDate.toString());
+                    expect(res.statusCode).to.equal(200);
+                    expect(res.body).to.be.an('object');
+                    expect(res.body.spentAmount).to.equal('0.00');
+                    expect(res.body.goalAmount).to.equal('20.12');
+                    expect(res.body.metGoal).to.equal(true);
+                    expect(res.body.monthYearId).to.equal('1219');
+                    done();
+                });
+        });
+
+        it('Should return 1 goals for test User during January 2020', function(done) {
+            chai.request(app)
+                .get(`/api/goals/${testToken}/0120`)
+                // .send({userId: testToken})
+                .end((err, res) => {
+                    expect(res.statusCode).to.equal(200);
+                    expect(res.body).to.be.an('array');
+                    expect(res.body).to.be.of.length(1);
+                    done();
+                })
+        });
     });
 
 });
