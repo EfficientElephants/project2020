@@ -194,7 +194,6 @@ describe("POST", function() {
                     expect(res.statusCode).to.equal(200);
                     expect(res.body).to.be.an('array');
                     expect(res.body).to.be.of.length(4);
-                    console.log(res.body);
                     done();
                 })
         })
@@ -259,7 +258,6 @@ describe("PUT", function(){
 
 describe("DELETE", function() {
     it("should delete a goal successfully", function (done){
-        console.log(delGoal);
         chai.request(app)
             .delete(`/api/goal/${delGoal._id}`)
             .end((err, res) => {

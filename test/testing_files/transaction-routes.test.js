@@ -14,6 +14,7 @@ var dateToUse = new Date();
 var mmyyidToUse = dateformat(dateToUse, 'mmyy')
 var transaction = ''
 var delTransaction = '';
+var earliestTrans = '';
 
 var totalsAll = 0;
 var lastMonthTotal = 0;
@@ -114,6 +115,7 @@ describe("POST", function() {
                 transpoTotal += (parseFloat(res.body.price) * 100);
                 expect(res.body).to.be.an('object');
                 expect(res.statusCode).to.equal(200);
+                earliestTrans = res.body;
                 done()
             })
     });
@@ -392,8 +394,6 @@ describe("getTotalsAll", function() {
                 if (res.body[i]._id === 'Food'){
                     common.thisMonthFood = foodTotal;
                     expect(res.body[i].totals).to.equal(foodTotal);
-                    console.log(common.thisMonthFood);
-
                 } else if (res.body[i]._id === 'Income'){
                     expect(res.body[i].totals).to.equal(incomeAll-lastmonthIncome);
                 } else{
@@ -431,7 +431,7 @@ describe("getSpendingTotal", function() {
                 done();
             })
         });
-})
+});
 
 describe("getIncomeTotal", function() {
     it("should return total of all incomes with all date in param", function(done){
@@ -460,7 +460,22 @@ describe("getIncomeTotal", function() {
                 done();
             })
         });
-})
+});
+
+describe("earliestTransaction", function() {
+    it("should return the earliest Transaction", function(done){
+        chai.request(app)
+            .get(`/api/transaction/earliest/${testToken}/`)
+            .end((err, res) => {
+                expect(res.statusCode).to.equal(200);
+                expect(res.body).to.be.an('array');
+                expect(res.body[0]).to.be.an('object');
+                expect(res.body[0].userId).to.equal(testToken);
+                expect(res.body[0]).to.deep.equal(earliestTrans);
+                done();
+            })
+        });
+});
 
 
     // after(function (done) {

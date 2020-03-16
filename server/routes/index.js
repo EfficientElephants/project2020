@@ -53,7 +53,6 @@ router.get('/transaction/incomeTotal/:userId/:dates', function(req, res) {
 });
 
 router.get('/transaction/earliest/:userId', function(req, res) {
-  console.log("HERE");
   transactionService.earliestTransaction(req, res);
 })
 

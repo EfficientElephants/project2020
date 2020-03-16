@@ -81,7 +81,6 @@ function getAllCategories(req, res) {
   const docquery = Goal.find({userId: userId}).distinct("category").read(ReadPreference.NEAREST);
   return docquery
     .then(goals => {
-      console.log(goals)
       res.json(goals);
     })
     .catch(err => {
