@@ -14,7 +14,8 @@ var dateToUse = new Date();
 var mmyyIdToUse = dateformat(dateToUse, 'mmyy');
 var goal = {};
 var goalJan2020 = {};
-var delGoal = {}
+var delGoal = {};
+var socialGoal = {};
 
 before(function (done) {
     //appServer = server.listen(3002, done)
@@ -170,6 +171,7 @@ describe("POST", function() {
                     expect(res.body.goalAmount).to.equal('20.12');
                     expect(res.body.metGoal).to.equal(true);
                     expect(res.body.monthYearId).to.equal('1219');
+                    socialGoal = res.body;
                     done();
                 });
         });
@@ -177,7 +179,6 @@ describe("POST", function() {
         it('Should return 1 goals for test User during January 2020', function(done) {
             chai.request(app)
                 .get(`/api/goals/${testToken}/0120`)
-                // .send({userId: testToken})
                 .end((err, res) => {
                     expect(res.statusCode).to.equal(200);
                     expect(res.body).to.be.an('array');
@@ -185,6 +186,18 @@ describe("POST", function() {
                     done();
                 })
         });
+
+        it('Should return 4 goals for test User when mmyy === "all"', function(done){
+            chai.request(app)
+                .get(`/api/goals/${testToken}/all`)
+                .end((err, res) => {
+                    expect(res.statusCode).to.equal(200);
+                    expect(res.body).to.be.an('array');
+                    expect(res.body).to.be.of.length(4);
+                    console.log(res.body);
+                    done();
+                })
+        })
     });
 
 });
@@ -198,7 +211,21 @@ describe("PUT", function(){
             .send(goal)
             .end((err, res) => {
                 expect(res.statusCode).to.equal(200);
-                expect(res.body).excluding('updatedAt').to.deep.equal(goal);
+                expect(res.body).excluding(['updatedAt', 'metGoal']).to.deep.equal(goal);
+                expect(res.body.metGoal).to.equal(true);
+                done();
+            })
+    });
+
+    it('should update metGoal to false if goal amount goes under spent', function (done){
+        socialGoal.spentAmount = (82.89).toString();
+        chai.request(app)
+            .put('/api/goal')
+            .send(socialGoal)
+            .end((err, res) => {
+                expect(res.statusCode).to.equal(200);
+                expect(res.body).excluding(['updatedAt', 'metGoal']).to.deep.equal(socialGoal);
+                expect(res.body.metGoal).to.equal(false);
                 done();
             })
     });
@@ -259,6 +286,20 @@ describe("DELETE", function() {
             .end((err, res) => {
                 expect(res.statusCode).to.equal(400);
                 expect(res.text).to.equal("Goal Not Found");
+                done();
+            })
+    });
+});
+
+describe("getAllCategories", function() {
+    it("should get a list of all distinct categories in the database", function(done){
+        var allCats =  [ 'Food', 'Social' ]
+        chai.request(app)
+            .get(`/api/goal/allCats/${testToken}/`)
+            .end((err, res) => {
+                expect(res.statusCode).to.equal(200);
+                expect(res.body).to.be.an('array');
+                expect(res.body).to.deep.equal(allCats);
                 done();
             })
     });
