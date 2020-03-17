@@ -52,6 +52,10 @@ router.get('/transaction/incomeTotal/:userId/:dates', function(req, res) {
   transactionService.getIncomeTotal(req, res);
 });
 
+router.get('/transaction/earliest/:userId', function(req, res) {
+  transactionService.earliestTransaction(req, res);
+})
+
 //signup
 router.post('/signup', function(req, res) {
   signupService.signup(req, res);
@@ -97,6 +101,10 @@ router.put('/goal', function(req, res) {
 
 router.delete('/goal/:_id', function(req, res) {
   goalService.destroy(req, res);
+});
+
+router.get('/goal/allCats/:userId/', function(req, res){
+  goalService.getAllCategories(req, res);
 });
 
 module.exports = router;
