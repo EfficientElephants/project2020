@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Button, Container, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-
 class ForgotPassword extends Component {
     constructor(props) {
         super(props);
@@ -11,6 +10,7 @@ class ForgotPassword extends Component {
             email: '',
             showError: false,
             messageFromServer: '',
+            confirmation: false
         }
 
         this.onChangeEmail = this.onChangeEmail.bind(this);
@@ -38,28 +38,33 @@ class ForgotPassword extends Component {
                 email: email,
             }),
         })
-        // .then(res => res.text())
-        // .then(text => console.log(text))
-        .then(res => res.json())
+        .then(res => {
+            console.log("res");
+            res.json()
+        })
         .then(json => {
-            console.log('forgotPassword: ', json.email)
+            console.log(json)
             if (json.success) {
+                //console.log('success')
                 this.setState({
                     email: json.email,
                     showError: false,
-                    messageFromServer: json.message
+                    messageFromServer: json.message,
+                    confirmation: true
                 });
+                this.props.history.push('/');
             } else {
                 this.setState({
                     showError: true,
-                    messageFromServer: ''
+                    messageFromServer: '',
+                    confirmation: false
                 });
             }
         });
     }
 
     render() {
-        const { email, messageFromServer, showError } = this.state;
+        const { email, confirmation, showError } = this.state;
     
         return (
             <div>
@@ -73,6 +78,7 @@ class ForgotPassword extends Component {
                     <Form.Group>
                         <Button onClick={this.sendEmail}>Let's Go!</Button>
                     </Form.Group>
+                    <Link to="/">Go home</Link>
                 </Form>
             </Container>
 
@@ -83,10 +89,12 @@ class ForgotPassword extends Component {
                 </div>
                 )
             }
-            {
-                (messageFromServer) ? (
-                    <p>Password reset email successfully sent!</p>
-                ) : (null)
+
+           {confirmation && (
+                <div>
+                    <p>Password reset email successfully sent! Check your spam folder.</p>
+                </div>
+                )
             }
             </div>
         )

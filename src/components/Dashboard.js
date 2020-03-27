@@ -176,11 +176,9 @@ class Dashboard extends Component {
                     <Row style={{ marginTop: 85 }}>
                         <Col>
                         {
-                            (this.state.render) ? (
                             <Graph 
                                 date = {this.state.mmyyID}
                                 render = {this.state.render} />
-                            ) : (null)
                         }
                             
                         </Col>

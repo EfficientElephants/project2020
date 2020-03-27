@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var userService = require('../services/user-service');
+//var userService = require('../services/user-service');
 var transactionService = require('../services/transaction-service');
 var signupService = require('../services/signup-service');
 var loginService = require('../services/login-service');
@@ -9,21 +9,21 @@ var logoutService = require('../services/logout-service');
 var getUserIdService = require('../services/get-userId-service');
 var goalService = require('../services/goal-service');
 
-router.get('/users', function(req, res) {
-  userService.get(req,res);
-});
+// router.get('/users', function(req, res) {
+//   userService.get(req,res);
+// });
 
-router.post('/user', function(req, res) {
-  userService.create(req, res);
-});
+// router.post('/user', function(req, res) {
+//   userService.create(req, res);
+// });
 
-router.put('/user', function(req, res) {
-  userService.update(req, res);
-});
+// router.put('/user', function(req, res) {
+//   userService.update(req, res);
+// });
 
-router.delete('/user/:email', function(req, res) {
-  userService.destroy(req, res);
-});
+// router.delete('/user/:email', function(req, res) {
+//   userService.destroy(req, res);
+// });
 
 //add transaction routes
 router.get('/transactions', function(req, res) {
@@ -58,6 +58,11 @@ router.post('/signup', function(req, res) {
   signupService.signup(req, res);
 });
 
+//reset password
+router.get('/reset', function(req, res) {
+  loginService.reset(req, res);
+});
+
 //login
 router.post('/login', function(req, res) {
   loginService.login(req, res);
@@ -66,6 +71,11 @@ router.post('/login', function(req, res) {
 // Verify token on login and page refresh
 router.get('/verify', function(req, res) {
   loginService.verify(req, res);
+});
+
+// Send email to reset password
+router.post('/forgotPassword', function(req, res) {
+  loginService.forgotPassword(req, res);
 });
 
 //logout
