@@ -31,7 +31,6 @@ class ForgotPassword extends Component {
         fetch('api/forgotPassword', {
             method: 'POST',
             headers: {
-                // 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },    
             body: JSON.stringify({
@@ -40,16 +39,15 @@ class ForgotPassword extends Component {
         })
         .then(res => res.json())
         .then(json => {
-            console.log(json)
+            //console.log(json)
             if (json.success) {
-                console.log('success')
                 this.setState({
                     email: json.email,
                     showError: false,
                     messageFromServer: json.message,
                     confirmation: true
                 });
-                this.props.history.push('/');
+                //this.props.history.push('/');
             } else {
                 this.setState({
                     showError: true,
@@ -89,7 +87,8 @@ class ForgotPassword extends Component {
 
            {confirmation && (
                 <div>
-                    <p>Password reset email successfully sent! Check your spam folder.</p>
+                    <p>Password reset email successfully sent! If you do not see it, check your spam folder.</p>
+                    <Link to="/">Sign in</Link>
                 </div>
                 )
             }

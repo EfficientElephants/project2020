@@ -19,15 +19,16 @@ class Reset extends Component {
 
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         //verify reset token
         const resetToken = this.props.match.params.token
-        await fetch('/api/reset?token=' + resetToken)
+        fetch('/api/verifyReset?token=' + resetToken)
         .then(res => res.json())
         .then(json => {
             if (json.success) {
                 this.setState({
-                    message: json.message
+                    message: json.message,
+                    token: json.token
                 });
             } 
         })
@@ -48,7 +49,6 @@ class Reset extends Component {
         fetch('api/resetPassword', {
             method: 'POST',
             headers: {
-                // 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },    
             body: JSON.stringify({
@@ -62,6 +62,10 @@ class Reset extends Component {
                 this.setState({
                     showSuccess: true
                 })
+            } else {
+                this.setState({
+                    showSuccess: false
+                })
             }
         })
     }
@@ -70,7 +74,10 @@ class Reset extends Component {
     
 
     render () {
+        const { showSuccess } = this.state;
+        
         return (
+            <div>
             <Container className="reset-form">
                 <Form>
                     <Form.Group>
@@ -81,13 +88,14 @@ class Reset extends Component {
                         <Button onClick={this.onReset}>Reset Password</Button>
                     </Form.Group>
                 </Form>
-                {this.showSuccess && (
-                    <div>
-                        <p>Your password has been reset. Go to home page to login.</p>
-                        <Link to="/">Don't have an account?</Link>
-                    </div>
-                )}
             </Container>
+            {showSuccess && (
+                <div>
+                    <p>Your password has been reset. Go to home page to login.</p>
+                    <Link to="/">Go Home</Link>
+                </div>
+            )}
+            </div>
         )
     }
 }

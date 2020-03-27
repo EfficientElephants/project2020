@@ -93,7 +93,6 @@ function forgotPassword(req, res) {
     } = body;
 
     email = email.toLowerCase();
-    console.log('hi', email);
     
     //Verify email exists
     User.find({
@@ -116,10 +115,7 @@ function forgotPassword(req, res) {
         const user = users[0];
 
         const token = crypto.randomBytes(20).toString('hex');
-        // user.update({
-        //     $set: {resetPasswordToken: token}
-        //     resetPasswordExpires: Date.now() + 3600000,
-        // });
+        updateDbToken(user, token)
 
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
@@ -135,7 +131,7 @@ function forgotPassword(req, res) {
             if (err) {
                 console.log(err)
             } else {
-                console.log('All works fine')
+                console.log('Transporter connected')
             }
         })
 
@@ -150,7 +146,6 @@ function forgotPassword(req, res) {
 
         transporter.sendMail(mailOptions)
             .then(function(info) {
-                console.log(info);
                 return res.send({
                     success: true,
                     message: 'Password reset email sent'
@@ -158,36 +153,81 @@ function forgotPassword(req, res) {
             }).catch(function(err){
                 console.log(err);
             });
-            
-            
-            
-    //         , (err, res) => {
-    //         console.log('here1', res);
-    //         console.log(res.accepted);
-    //         if(res.accepted != []){
-    //             return res.send({
-    //                 success: true,
-    //                 message: 'Password reset email sent'
-    //             });
-    //         }else {
-    //             if (err) {
-    //                 console.log('error here: ', err)
-    //                 return res.send({
-    //                     success: false,
-    //                     message: 'Error: Server error'
-    //                 });
-    //         }
-    //     }
-    // });
     });
 }
 
-function reset(req, res) {
+function updateDbToken(user, token) {
+    User.findOne( user._id )
+    .then(user => {
+        user.resetPasswordToken = token;
+        user.save()
+    })
+}
+
+function verifyResetToken(req, res) {
     const { query } = req;
     const { token } = query;
+    User.find({
+        resetPasswordToken: token
+    }, (err, user) => {
+        if (err) {
+            return res.send({
+                success: false,
+                message: 'Error: Server error'
+            });
+            
+        }
+        if (user.length != 1) {
+            return res.send({
+                success: false,
+                message: 'Error: Invalid Session'
+            });
+        } else {
+            return res.send({
+                success: true,
+                message: 'Token Verified',
+                token: token
+            });
+        }
+    });
+}
 
+
+function resetPassword(req, res) {
+    const { body } = req;
+    const { 
+        newPassword,
+        token
+    } = body;
+    User.find({
+        resetPasswordToken: token
+    }, (err, users) => {
+        if (err) {
+            return res.send({
+                success: false,
+                message: 'Error: Server error'
+            });
+            
+        }
+        if (users.length != 1) {
+            return res.send({
+                success: false,
+                message: 'Error: Invalid Session'
+            });
+        } else {
+            const user = users[0]
+            updateDbToken(user, '')
+            //update password
+            user.password = user.generateHash(newPassword)
+            user.save()
+            return res.send({
+                success: true,
+                message: 'Password is updated'
+            }); 
+        }
+    });
 
 }
 
 
-module.exports = { login, forgotPassword, verify, reset };
+module.exports = { login, forgotPassword, verify, resetPassword, verifyResetToken };

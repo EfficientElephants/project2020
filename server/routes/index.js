@@ -59,9 +59,14 @@ router.post('/signup', function(req, res) {
 });
 
 //reset password
-router.get('/reset', function(req, res) {
-  loginService.reset(req, res);
+router.post('/resetPassword', function(req, res) {
+  loginService.resetPassword(req, res);
 });
+
+//verify reset token
+router.get('/verifyReset', function(req, res) {
+  loginService.verifyResetToken(req, res);
+})
 
 //login
 router.post('/login', function(req, res) {
