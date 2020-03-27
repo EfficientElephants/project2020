@@ -38,14 +38,11 @@ class ForgotPassword extends Component {
                 email: email,
             }),
         })
-        .then(res => {
-            console.log("res");
-            res.json()
-        })
+        .then(res => res.json())
         .then(json => {
             console.log(json)
             if (json.success) {
-                //console.log('success')
+                console.log('success')
                 this.setState({
                     email: json.email,
                     showError: false,

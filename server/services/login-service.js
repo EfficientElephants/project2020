@@ -108,7 +108,7 @@ function forgotPassword(req, res) {
         } 
         if (users.length != 1) {
             console.log('error here2: ', err)
-            return res.send({
+            return res.status(500).send({
                 success: false,
                 message: 'Error: Invalid Email'
             });
@@ -133,6 +133,7 @@ function forgotPassword(req, res) {
 
         transporter.verify((err, res) => {
             if (err) {
+                console.log(err)
             } else {
                 console.log('All works fine')
             }
@@ -147,21 +148,37 @@ function forgotPassword(req, res) {
             + `http://localhost:3000/#/reset/${token}\n\n`
         };
 
-        transporter.sendMail(mailOptions, (err, res) => {
-            //console.log('here1', res)
-            if (err) {
-                console.log('error here: ', err)
-                return res.send({
-                    success: false,
-                    message: 'Error: Server error'
-                });
-            } else {
+        transporter.sendMail(mailOptions)
+            .then(function(info) {
+                console.log(info);
                 return res.send({
                     success: true,
                     message: 'Password reset email sent'
                 });
-            }
-        });
+            }).catch(function(err){
+                console.log(err);
+            });
+            
+            
+            
+    //         , (err, res) => {
+    //         console.log('here1', res);
+    //         console.log(res.accepted);
+    //         if(res.accepted != []){
+    //             return res.send({
+    //                 success: true,
+    //                 message: 'Password reset email sent'
+    //             });
+    //         }else {
+    //             if (err) {
+    //                 console.log('error here: ', err)
+    //                 return res.send({
+    //                     success: false,
+    //                     message: 'Error: Server error'
+    //                 });
+    //         }
+    //     }
+    // });
     });
 }
 
