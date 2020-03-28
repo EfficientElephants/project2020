@@ -142,6 +142,7 @@ function forgotPassword(req, res) {
             text: 'You are receiving this because you have requested a password reset.\n\n'
             + 'Please click on the following link to reset your password.\n\n'
             + `http://localhost:3000/#/reset/${token}\n\n`
+            + `http://lhttp://project-2020.azurewebsites.net/reset/${token}\n\n`
         };
 
         transporter.sendMail(mailOptions)
