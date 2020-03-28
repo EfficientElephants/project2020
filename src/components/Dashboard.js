@@ -15,7 +15,6 @@ import Logo from '../assets/expense-elephant-logo2.png';
 var dateformat = require('dateformat');
 
 
-
 class Dashboard extends Component {
     constructor() {
         super();
@@ -45,7 +44,6 @@ class Dashboard extends Component {
                 if (json.success){
                     this.setState({ userId: json.userId })
                     this.getFullName();
-            
                     
                     goalAPI.get({userId: this.state.userId, mmyyID: this.state.mmyyID}).then(json => this.setState({goalList:json}));
                     
@@ -139,7 +137,6 @@ class Dashboard extends Component {
     render() {
         return (
             <div>
-                
                 <NavBar />
                 <Container>
                     <Row className="dashboard-header">
@@ -175,12 +172,12 @@ class Dashboard extends Component {
                     
                     <Row style={{ marginTop: 85 }}>
                         <Col>
-                        {
-                            <Graph 
-                                date = {this.state.mmyyID}
-                                render = {this.state.render} />
+                        {(this.state.render) 
+                          ? (<Graph 
+                            date = {this.state.mmyyID}
+                            render = {this.state.render} />)
+                          : (null)
                         }
-                            
                         </Col>
                         <Col>
                             <h3>Monthly Breakdown</h3>

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 //var userService = require('../services/user-service');
+
 var transactionService = require('../services/transaction-service');
 var signupService = require('../services/signup-service');
 var loginService = require('../services/login-service');
@@ -52,6 +53,10 @@ router.get('/transaction/spendingTotal/:userId/:dates', function(req, res) {
 router.get('/transaction/incomeTotal/:userId/:dates', function(req, res) {
   transactionService.getIncomeTotal(req, res);
 });
+
+router.get('/transaction/earliest/:userId', function(req, res) {
+  transactionService.earliestTransaction(req, res);
+})
 
 //signup
 router.post('/signup', function(req, res) {
@@ -115,5 +120,8 @@ router.delete('/goal/:_id', function(req, res) {
   goalService.destroy(req, res);
 });
 
+router.get('/goal/allCats/:userId/', function(req, res){
+  goalService.getAllCategories(req, res);
+});
 
 module.exports = router;

@@ -11,6 +11,8 @@ import Transactions from './components/Pages/TransactionsPage';
 import IncomeManager from './components/Pages/IncomeManager';
 import GoalManager from './components/Pages/GoalManager';
 import Reset from './components/Authentication/Reset';
+import History from './components/Pages/History';
+import Summary from './components/Pages/Summary';
 
 class App extends Component {
 
@@ -25,6 +27,8 @@ class App extends Component {
           <ProtectedRoute exact path="/dashboard" component={ Dashboard }/>
           <ProtectedRoute exact path="/goal-mgr" component={ GoalManager }/>
           <ProtectedRoute exact path="/income-mgr" component={ IncomeManager }/>
+          <ProtectedRoute exact path="/history" component={ History }/>
+          <ProtectedRoute exact path="/summary" component={ Summary }/>
         </HashRouter>
     );
   }

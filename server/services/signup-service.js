@@ -12,6 +12,7 @@ function signup(req, res) {
     let {
         email
     } = body;
+
     if (!firstName) {
         return res.send({
             success: false,
@@ -42,7 +43,7 @@ function signup(req, res) {
 
     email = email.toLowerCase();
 
-      // Verify email doesn't exist
+    // Verify email doesn't exist
     User.find({
         email: email
     }, (err, previousUsers) => {
