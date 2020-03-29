@@ -71,9 +71,9 @@
     ],
     "check-coverage": true,
     "branches": 0,
-    "lines": 60,
-    "functions": 58,
-    "statements": 60
+    "lines": 56,
+    "functions": 50,
+    "statements": 50
   },
   "proxy": "http://localhost:3001",
   "description": "This is a template for using Express and React in the same project. It is based on Create React App.",
