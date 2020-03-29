@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
+
 //var userService = require('../services/user-service');
+
 var transactionService = require('../services/transaction-service');
 var signupService = require('../services/signup-service');
 var loginService = require('../services/login-service');
@@ -61,6 +63,16 @@ router.post('/signup', function(req, res) {
   signupService.signup(req, res);
 });
 
+//reset password
+router.post('/resetPassword', function(req, res) {
+  loginService.resetPassword(req, res);
+});
+
+//verify reset token
+router.get('/verifyReset', function(req, res) {
+  loginService.verifyResetToken(req, res);
+})
+
 //login
 router.post('/login', function(req, res) {
   loginService.login(req, res);
@@ -69,6 +81,11 @@ router.post('/login', function(req, res) {
 // Verify token on login and page refresh
 router.get('/verify', function(req, res) {
   loginService.verify(req, res);
+});
+
+// Send email to reset password
+router.post('/forgotPassword', function(req, res) {
+  loginService.forgotPassword(req, res);
 });
 
 //logout

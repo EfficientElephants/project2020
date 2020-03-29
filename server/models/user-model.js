@@ -26,12 +26,29 @@ const userSchema = new Schema({
         },
         default: ''
     },
-    userId: {
-        type: String
+    resetPasswordToken: {
+        type: String,
+        default: ''
+    },   
+    password: {
+        type: String,
+        required: true,
+        length: {
+            min: 8,
+            max: 14
+        },
+        default: ''
     }
-
-
 });
+
+userSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+}
+
+userSchema.methods.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+}
+
 
 userSchema.plugin(uniqueValidator);
 const User = mongoose.model('User', userSchema);

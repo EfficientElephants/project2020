@@ -39,6 +39,7 @@ class Transactions extends Component {
             <br />
             <Row>
               <TransactionTable 
+                stateChange = {this.rerender}
                 render={this.state.render}
                 dates="all"
               />
