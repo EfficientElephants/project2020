@@ -91,7 +91,19 @@ const transactionAPI = {
         reject(err);
       });
    });
-  }
+  },
+
+  earliestTransaction(userId) {
+    return new Promise((resolve, reject) => {
+      fetch(`${baseAPI}/transaction/earliest/${userId}`)
+      .then(response => response.json())
+      .then(json => resolve(json))
+      .catch(err => {
+        reject(err);
+      });
+    });
+  },
+
 }
 export default transactionAPI;
 

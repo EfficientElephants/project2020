@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
+
 //var userService = require('../services/user-service');
+
 var transactionService = require('../services/transaction-service');
 var signupService = require('../services/signup-service');
 var loginService = require('../services/login-service');
@@ -52,10 +54,24 @@ router.get('/transaction/incomeTotal/:userId/:dates', function(req, res) {
   transactionService.getIncomeTotal(req, res);
 });
 
+router.get('/transaction/earliest/:userId', function(req, res) {
+  transactionService.earliestTransaction(req, res);
+})
+
 //signup
 router.post('/signup', function(req, res) {
   signupService.signup(req, res);
 });
+
+//reset password
+router.post('/resetPassword', function(req, res) {
+  loginService.resetPassword(req, res);
+});
+
+//verify reset token
+router.get('/verifyReset', function(req, res) {
+  loginService.verifyResetToken(req, res);
+})
 
 //login
 router.post('/login', function(req, res) {
@@ -65,6 +81,11 @@ router.post('/login', function(req, res) {
 // Verify token on login and page refresh
 router.get('/verify', function(req, res) {
   loginService.verify(req, res);
+});
+
+// Send email to reset password
+router.post('/forgotPassword', function(req, res) {
+  loginService.forgotPassword(req, res);
 });
 
 //logout
@@ -97,6 +118,10 @@ router.put('/goal', function(req, res) {
 
 router.delete('/goal/:_id', function(req, res) {
   goalService.destroy(req, res);
+});
+
+router.get('/goal/allCats/:userId/', function(req, res){
+  goalService.getAllCategories(req, res);
 });
 
 module.exports = router;

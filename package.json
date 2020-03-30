@@ -33,6 +33,7 @@
     "nock": "^12.0.2",
     "node-environment-flags": "^1.0.6",
     "node-fetch": "^2.6.0",
+    "nodemailer": "^6.4.5",
     "pug": "^2.0.4",
     "puppeteer": "^2.1.1",
     "react": "^16.12.0",
@@ -57,11 +58,11 @@
     "concurrently": "^3.5.0",
     "fetch-mock": "^9.1.2",
     "mocha": "^6.2.2",
-    "nock": "^12.0.2",
-    "nodemon": "^1.19.4",
-    "nyc": "^14.1.1",
+    "nodemon": "^2.0.2",
+    "nyc": "^15.0.0",
     "react-scripts": "^3.4.0",
-    "start-server-and-test": "^1.10.10"
+    "mockdate": "^2.0.5",
+    "nock": "^12.0.2"
   },
   "scripts": {
     "start": "NODE_ENV=dev concurrently \"react-scripts start\" \"nodemon server/server.js\"",
@@ -78,9 +79,9 @@
     "include": [
       "server/**"
     ],
-    "check-coverage": false,
-    "branches": 50,
-    "lines": 50,
+    "check-coverage": true,
+    "branches": 0,
+    "lines": 56,
     "functions": 50,
     "statements": 50
   },

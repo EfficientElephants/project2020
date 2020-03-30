@@ -11,13 +11,20 @@ class NavBar extends Component {
     constructor(props) {
         super(props);
 
-    this.onLogout = this.onLogout.bind(this);
-}
-
+        this.onLogout = this.onLogout.bind(this);
+        this.logoutNow = this.logoutNow.bind(this);
+    }
+    
     onLogout() {
-        
-        // remove token from local storage
-        removeFromStorage('expense_app');
+        const obj = getFromStorage('expense_app');
+        if (obj && obj.token) {
+            // remove token from local storage
+            removeFromStorage('expense_app');
+            this.logoutNow()
+        }
+    }
+
+    logoutNow() {
         auth.logout(() => {
             this.props.history.push("/");
         })
@@ -52,6 +59,9 @@ class NavBar extends Component {
                             </Nav.Item>
                             <Nav.Item>
                                 <Link className="navbar-link" to="/history">Historical Data</Link>&nbsp;
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Link className="navbar-link" to="/summary">Summary</Link>&nbsp;
                             </Nav.Item>
                         </Nav>
                         <Button variant="light" className="logout-button" onClick={this.onLogout}>Logout</Button>

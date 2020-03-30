@@ -37,7 +37,7 @@ componentDidMount() {
       fetch('/api/verify?token=' + token)
       .then(res => res.json())
       .then(json => {
-          if(json.succces){
+          if (json.succces) {
               this.setState({
                   token,
                   isLoading: false
@@ -145,11 +145,11 @@ login() {
   .then(json => {
     if (json.success) {
       setInStorage('expense_app', { token: json.token });
-      // this.setState({
-      //   loginError: json.message,
-      //   isLoading: false,
-      //   token: json.token
-      // });
+    //   this.setState({
+    //     loginError: json.message,
+    //     isLoading: false,
+    //     token: json.token
+    //   });
       this.authenticate();
     } else {
       this.setState({

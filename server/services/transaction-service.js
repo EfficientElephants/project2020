@@ -202,8 +202,6 @@ function getIncomeTotal(req, res) {
       }
     ])
   )
-
-
   return transactionQuery
   .then(all => {
     res.json(all);
@@ -213,6 +211,18 @@ function getIncomeTotal(req, res) {
   });
 }
 
+function earliestTransaction(req, res) {
+  const { userId } = req.params;
+  const docquery = Transaction.find({userId: userId}).sort({date: 'ascending'}).limit(1).read(ReadPreference.NEAREST);
+  return docquery
+    .then(transactions => {
+      res.json(transactions);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+}
 
 
-module.exports = { get, create, update, destroy, getTotalsAll, getSpendingTotal, getIncomeTotal };
+
+module.exports = { get, create, update, destroy, getTotalsAll, getSpendingTotal, getIncomeTotal, earliestTransaction };
