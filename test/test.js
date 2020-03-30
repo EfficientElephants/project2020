@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 var common = require('./common')
 function importTest(name, path) {
@@ -13,3 +12,6 @@ function importTest(name, path) {
 describe('End to End Tests', function() {
     importTest("Testing Login", './login-test.js');
 })
+describe('Server Tests', function() {
+    importTest("Testing Transaction Routes", './testing_files/transaction-routes.test.js');
+});
