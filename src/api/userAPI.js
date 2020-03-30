@@ -11,5 +11,26 @@ const usersAPI = {
         });
     });
   },
+
+//   update(user) {
+//     return new Promise((resolve, reject) => {
+//       fetch(`${baseAPI}/user`, {
+//         method: 'PUT',
+//         body: JSON.stringify(user),
+//         headers: {
+//           Accept: 'application/json',
+//           'Content-Type': 'application/json'
+//         }
+//       })
+//         .then(result => {
+//           resolve(result);
+//         })
+//         .catch(err => {
+//           reject(err);
+//         });
+//     });
+//   }
 }
+
+
 export default usersAPI;

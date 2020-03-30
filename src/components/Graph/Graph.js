@@ -4,7 +4,7 @@ import { getFromStorage } from './../Storage';
 
 import CanvasJSReact from './../../assets/canvasjs.react';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-var dateformat = require('dateformat');
+//var dateformat = require('dateformat');
 
 class Graph extends Component {
     constructor(){
