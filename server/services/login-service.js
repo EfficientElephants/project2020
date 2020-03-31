@@ -4,6 +4,7 @@ const User = require('../models/user-model')
 const crypto = require('crypto');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
+var nodeoutlook = require('nodejs-nodemailer-outlook')
 
 require('../mongo').connect();
 
@@ -118,49 +119,75 @@ function forgotPassword(req, res) {
         const token = crypto.randomBytes(20).toString('hex');
         updateDbToken(user, token)
         console.log('here3')
-        const transporter = nodemailer.createTransport({
-            host: 'smtp-mail.outlook.com',
-            secureConnection: false,
-            port: 587,
-            tls: {
-                ciphers:'SSLv3'
-             },
-            auth: {
+
+        nodeoutlook.sendEmail({
+            auth:{
                 user: `${process.env.EMAIL_ADDRESS}`,
                 pass: `${process.env.EMAIL_PASSWORD}`,
-            }
-        });
-        console.log('here4')
-
-        transporter.verify((err, res) => {
-            if (err) {
-                console.log(err)
-                console.log('here5')
-            } else {
-                console.log('Transporter connected')
-                console.log('here5a')
-            }
-        })
-
-        const mailOptions = {
-            from: 'expenseelephant@gmail.com',
+            },
+            from: `${process.env.EMAIL_ADDRESS}`,
             to: `${user.email}`,
             subject: 'Password Reset',
             text: 'You are receiving this because you have requested a password reset.\n\n'
-            + 'Please click on the following link to reset your password.\n\n'
-            + `http://localhost:3000/#/reset/${token}\n\n`
-            + `http://project-2020.azurewebsites.net/reset/${token}\n\n`
-        };
-        console.log('here6')
-        transporter.sendMail(mailOptions)
-            .then(function(info) {
-                return res.send({
-                    success: true,
-                    message: 'Password reset email sent'
-                });
-            }).catch(function(err){
-                console.log(err);
-            });
+                + 'Please click on the following link to reset your password.\n\n'
+                + `http://localhost:3000/#/reset/${token}\n\n`
+                + `http://project-2020.azurewebsites.net/reset/${token}\n\n`
+        })
+        return res.send({
+            success: true,
+            message: 'Password reset email sent'
+        });
+        // }).then(
+        //             return res.send({
+        //                 success: true,
+        //                 message: 'Password reset email sent'
+        //             });
+        //         }).catch(function(err){
+        //             console.log(err);
+        //         });
+        // const transporter = nodemailer.createTransport({
+        //     host: 'smtp.office365.com',
+        //     secureConnection: false,
+        //     port: 587,
+        //     tls: {
+        //         ciphers:'SSLv3'
+        //     },
+        //     auth: {
+        //         user: `${process.env.EMAIL_ADDRESS}`,
+        //         pass: `${process.env.EMAIL_PASSWORD}`,
+        //     }
+        // });
+        // console.log('here4')
+
+        // transporter.verify((err, res) => {
+        //     if (err) {
+        //         console.log(err)
+        //         console.log('here5')
+        //     } else {
+        //         console.log('Transporter connected')
+        //         console.log('here5a')
+        //     }
+        // })
+
+        // const mailOptions = {
+        //     from: 'expenseelephant@gmail.com',
+        //     to: `${user.email}`,
+        //     subject: 'Password Reset',
+        //     text: 'You are receiving this because you have requested a password reset.\n\n'
+        //     + 'Please click on the following link to reset your password.\n\n'
+        //     + `http://localhost:3000/#/reset/${token}\n\n`
+        //     + `http://project-2020.azurewebsites.net/reset/${token}\n\n`
+        // };
+        // console.log('here6')
+        // transporter.sendMail(mailOptions)
+        //     .then(function(info) {
+        //         return res.send({
+        //             success: true,
+        //             message: 'Password reset email sent'
+        //         });
+        //     }).catch(function(err){
+        //         console.log(err);
+        //     });
     });
 }
 
