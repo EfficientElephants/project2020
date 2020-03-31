@@ -119,9 +119,12 @@ function forgotPassword(req, res) {
         updateDbToken(user, token)
         console.log('here3')
         const transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            host: 'smtp.gmail.com',
-            port: 465,
+            host: 'smtp-mail.outlook.com',
+            secureConnection: false,
+            port: 587,
+            tls: {
+                ciphers:'SSLv3'
+             },
             auth: {
                 user: `${process.env.EMAIL_ADDRESS}`,
                 pass: `${process.env.EMAIL_PASSWORD}`,
