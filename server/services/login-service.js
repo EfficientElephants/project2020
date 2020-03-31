@@ -87,6 +87,7 @@ function verify(req, res) {
 }
 
 function forgotPassword(req, res) {
+    console.log('here')
     const { body } = req;
     let {
         email
@@ -113,10 +114,10 @@ function forgotPassword(req, res) {
             });
         } 
         const user = users[0];
-
+        console.log('here2')
         const token = crypto.randomBytes(20).toString('hex');
         updateDbToken(user, token)
-
+        console.log('here3')
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
             host: 'smtp.gmail.com',
@@ -126,12 +127,15 @@ function forgotPassword(req, res) {
                 pass: `${process.env.EMAIL_PASSWORD}`,
             }
         });
+        console.log('here4')
 
         transporter.verify((err, res) => {
             if (err) {
                 console.log(err)
+                console.log('here5')
             } else {
                 console.log('Transporter connected')
+                console.log('here5a')
             }
         })
 
@@ -144,7 +148,7 @@ function forgotPassword(req, res) {
             + `http://localhost:3000/#/reset/${token}\n\n`
             + `http://project-2020.azurewebsites.net/reset/${token}\n\n`
         };
-
+        console.log('here6')
         transporter.sendMail(mailOptions)
             .then(function(info) {
                 return res.send({
