@@ -9,7 +9,7 @@ import ForgotPassword from './components/Authentication/ForgotPassword';
 import Dashboard from './components/Dashboard';
 import Transactions from './components/Pages/TransactionsPage';
 import GoalManager from './components/Pages/GoalManager';
-// import Reset from './components/Authentication/Reset';
+import Reset from './components/Authentication/Reset';
 import History from './components/Pages/History';
 import Summary from './components/Pages/Summary';
 
@@ -21,7 +21,7 @@ class App extends Component {
           <Route exact path="/" component={ Login }/>
           <Route exact path="/signup" component={ Signup }/>
           <Route exact path="/forgotPassword" component={ ForgotPassword }/>
-          {/* <Route exact path="/reset/:token" component={ Reset }/> */}
+          <Route exact path="/reset/:token" component={ Reset }/>
           <ProtectedRoute exact path="/transactions" component={ Transactions }/>
           <ProtectedRoute exact path="/dashboard" component={ Dashboard }/>
           <ProtectedRoute exact path="/goal-mgr" component={ GoalManager }/>

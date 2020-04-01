@@ -44,15 +44,15 @@ router.post('/signup', function(req, res) {
   signupService.signup(req, res);
 });
 
-// //reset password
-// router.post('/resetPassword', function(req, res) {
-//   loginService.resetPassword(req, res);
-// });
+//reset password
+router.post('/resetPassword', function(req, res) {
+  loginService.resetPassword(req, res);
+});
 
-// //verify reset token
-// router.get('/verifyReset', function(req, res) {
-//   loginService.verifyResetToken(req, res);
-// })
+//verify reset token
+router.get('/verifyReset', function(req, res) {
+  loginService.verifyResetToken(req, res);
+})
 
 //login
 router.post('/login', function(req, res) {
