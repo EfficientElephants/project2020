@@ -6,7 +6,7 @@ require('../mongo').connect();
 function get(req, res) {
   const { query } = req;
   const { userId, dates } = query;
-  if (dates === 'all'){
+  if (dates === 'all' || dates === undefined){
     docquery = Transaction.find({userId: userId}).sort({date: 'descending', createdAt: 'descending'}).read(ReadPreference.NEAREST);
   }else {
     docquery = Transaction.find({userId: userId, monthYearId: dates}).sort({date: 'descending', createdAt: 'descending'}).read(ReadPreference.NEAREST);
@@ -47,8 +47,15 @@ function update(req, res) {
     transaction.category = category;
     transaction.monthYearId = monthYearId
     transaction.updatedAt = Date.now();
-    transaction.save().then(() => {
-      res.json(transaction)})})
+    transaction
+      .save()
+      .then(() => {
+        res.json(transaction)
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      })
+  })
   .catch(err => {
     res.status(500).send(err);
   });
@@ -57,9 +64,14 @@ function update(req, res) {
 function destroy(req, res) {
   const { _id } = req.params;
 
-  Transaction.findOneAndRemove({ _id })
+  Transaction.findOneAndDelete({ _id })
     .then(transaction => {
-      res.json(transaction);
+      if (!transaction){
+        //res.statusMessage = "Transaction Not Found".
+        res.status(400).send("Transaction Not Found");
+      } else {
+        res.json(transaction);
+      }
     })
     .catch(err => {
       res.status(500).send(err);
@@ -190,8 +202,6 @@ function getIncomeTotal(req, res) {
       }
     ])
   )
-
-
   return transactionQuery
   .then(all => {
     res.json(all);
@@ -201,6 +211,18 @@ function getIncomeTotal(req, res) {
   });
 }
 
+function earliestTransaction(req, res) {
+  const { userId } = req.params;
+  const docquery = Transaction.find({userId: userId}).sort({date: 'ascending'}).limit(1).read(ReadPreference.NEAREST);
+  return docquery
+    .then(transactions => {
+      res.json(transactions);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+}
 
 
-module.exports = { get, create, update, destroy, getTotalsAll, getSpendingTotal, getIncomeTotal };
+
+module.exports = { get, create, update, destroy, getTotalsAll, getSpendingTotal, getIncomeTotal, earliestTransaction };

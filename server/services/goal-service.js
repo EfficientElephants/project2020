@@ -5,7 +5,11 @@ require('../mongo').connect();
 
 function get(req, res) {
   const { userId, mmyyID } = req.params
-  const docquery = Goal.find({userId: userId, monthYearId: mmyyID}).sort({createdAt: 'descending'}).read(ReadPreference.NEAREST);
+  if (mmyyID === 'all' || mmyyID === undefined){
+    docquery = Goal.find({userId: userId}).sort({createdAt: 'descending'}).read(ReadPreference.NEAREST);
+  }else {
+    docquery = Goal.find({userId: userId, monthYearId: mmyyID}).sort({createdAt: 'descending'}).read(ReadPreference.NEAREST);
+  }
   return docquery
     .then(goals => {
       res.json(goals);
@@ -26,7 +30,7 @@ function create(req, res) {
   var month = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1)
   const mmyyID = (month + year).toString();
   const metGoal = (goalAmount < spentAmount ? false : true)
-  const goal = new Goal({ userId, category, goalAmount, spentAmount, metGoal, monthYearId: mmyyID });
+  const goal = new Goal({ userId, category, goalAmount, spentAmount, metGoal, monthYearId: mmyyID, createdAt: date, updatedAt: date });
   goal
     .save()
     .then(() => {
@@ -46,6 +50,8 @@ function update(req, res) {
     goal.category = category;
     goal.goalAmount = goalAmount;
     goal.spentAmount = spentAmount;
+    const metGoal = (goalAmount < spentAmount ? false : true)
+    goal.metGoal = metGoal;
     goal.updatedAt = Date.now();
     goal.save().then(res.json(goal));
   })
@@ -59,11 +65,27 @@ function destroy(req, res) {
 
   Goal.findOneAndRemove({ _id })
     .then(goal => {
-      res.json(goal);
+      if (!goal){
+        res.status(400).send("Goal Not Found");
+      } else {
+        res.json(goal);
+      }
     })
     .catch(err => {
       res.status(500).send(err);
     });
 }
 
-module.exports = { get, create, update, destroy };
+function getAllCategories(req, res) {
+  const { userId } = req.params
+  const docquery = Goal.find({userId: userId}).distinct("category").read(ReadPreference.NEAREST);
+  return docquery
+    .then(goals => {
+      res.json(goals);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    })
+}
+
+module.exports = { get, create, update, destroy, getAllCategories };
