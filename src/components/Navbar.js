@@ -11,10 +11,9 @@ class NavBar extends Component {
     constructor(props) {
         super(props);
 
-    this.onLogout = this.onLogout.bind(this);
-    this.logoutNow = this.logoutNow.bind(this);
-}
-
+        this.onLogout = this.onLogout.bind(this);
+        this.logoutNow = this.logoutNow.bind(this);
+    }
     onLogout() {
         const obj = getFromStorage('expense_app');
         if (obj && obj.token) {
@@ -50,14 +49,14 @@ class NavBar extends Component {
                             <Nav.Item>
                                 <Link className="navbar-link" to="/transactions">Transactions</Link>&nbsp;
                             </Nav.Item>
-                            {/* <Nav.Item>
-                                <Link  className="navbar-link"to="/income-mgr">Income Manager</Link>&nbsp;
-                            </Nav.Item> */}
                             <Nav.Item>
                                 <Link className="navbar-link" to="/goal-mgr">Goal Manager</Link>&nbsp;
                             </Nav.Item>
                             <Nav.Item>
                                 <Link className="navbar-link" to="/history">Historical Data</Link>&nbsp;
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Link className="navbar-link" to="/summary">Summary</Link>&nbsp;
                             </Nav.Item>
                         </Nav>
                         <Button variant="light" className="logout-button" onClick={this.onLogout}>Logout</Button>

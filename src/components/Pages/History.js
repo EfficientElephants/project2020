@@ -100,7 +100,7 @@ class History extends Component {
                 <Container>
                     <Row className="dashboard-header">
                         <Col>
-                            <h1 class="dashboard-title">{this.state.fullName}'s Historical Data for {this.state.monthYearDisplay}</h1>
+                            <h1 className="dashboard-title">{this.state.fullName}'s Historical Data for {this.state.monthYearDisplay}</h1>
                         </Col>
                         <Col>
                             <ButtonToolbar>
