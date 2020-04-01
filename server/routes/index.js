@@ -5,7 +5,6 @@ var userService = require('../services/user-service');
 var transactionService = require('../services/transaction-service');
 var signupService = require('../services/signup-service');
 var loginService = require('../services/login-service');
-var logoutService = require('../services/logout-service');
 var getUserIdService = require('../services/get-userId-service');
 var goalService = require('../services/goal-service');
 
@@ -66,11 +65,6 @@ router.post('/login', function(req, res) {
 // Verify token on login and page refresh
 router.get('/verify', function(req, res) {
   loginService.verify(req, res);
-});
-
-//logout
-router.get('/logout', function(req, res) {
-  logoutService.logout(req, res);
 });
 
 // must also send token from local storage

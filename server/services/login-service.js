@@ -1,5 +1,4 @@
 const User = require('../models/user-model')
-const UserSession = require('../models/user-session-model')
 
 require('../mongo').connect();
 
@@ -13,8 +12,9 @@ function login(req, res) {
     } = body;
 
     email = email.toLowerCase();
+    console.log(body)
 
-    //Verify email exists
+    //Verify user in db. If not there create an entry.
     User.find({
         email: email
     }, (err, users) => {
@@ -38,39 +38,27 @@ function login(req, res) {
             });
         }
 
-        //If correct user create session
-        const userSession = new UserSession();
-        userSession.userId = user._id;
-        userSession.save((err, doc) => {
-            if (err) {
-                console.log(err);
-                return res.send({
-                    success: false,
-                    message: 'Error: Server error4'
-                });
-            }
-            return res.send({
-                success: true,
-                message: 'Valid login',
-                token: doc._id
-            });
-        });
+    //If correct user create send valid response
+    return res.send({
+        success: true,
+        message: 'Valid login',
+        token: user._id
     });
+  });
 }
 
 function verify(req, res) {
     const { query } = req;
     const { token } = query;
 
-    //Verify that the token is one of a kind
+    // Verify that the token is one of a kind
     // and not deleted
 
-    //for testing
-    //api/verify?token=(token number here)
+    // for testing
+    // api/verify?token=(token number here)
 
-    UserSession.find({
-        _id: token,
-        isLoggedOut: false
+    User.find({
+        _id: token
     }, (err, sessions) => {
         if (err) {
             return res.send({
