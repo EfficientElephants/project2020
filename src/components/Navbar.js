@@ -18,25 +18,9 @@ class NavBar extends Component {
     onLogout() {
         const obj = getFromStorage('expense_app');
         if (obj && obj.token) {
-            const { token } = obj;
-            // Logout with token
-            fetch('/api/logout?token=' + token)
-            .then(res => res.json())
-            .then(json => {
-                if(json.success){
-                    // remove token from local storage
-                    removeFromStorage('expense_app');
-                    this.logoutNow();
-                } else {
-                    this.setState({
-                        isLoading: false,
-                    })
-                }
-            })
-        } else {
-            this.setState({
-                isLoading: false,
-            })
+            // remove token from local storage
+            removeFromStorage('expense_app');
+            this.logoutNow()
         }
     }
 

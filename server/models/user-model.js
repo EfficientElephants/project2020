@@ -26,6 +26,10 @@ const userSchema = new Schema({
         },
         default: ''
     },
+    resetPasswordToken: {
+        type: String,
+        default: ''
+    },   
     password: {
         type: String,
         required: true,
@@ -34,12 +38,7 @@ const userSchema = new Schema({
             max: 14
         },
         default: ''
-    },
-    isDeleted: {
-        type: Boolean,
-        default: false
     }
-
 });
 
 userSchema.methods.generateHash = function(password) {

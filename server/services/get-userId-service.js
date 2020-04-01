@@ -1,4 +1,3 @@
-const UserSession = require('../models/user-session-model');
 const User = require('../models/user-model');
 
 require('../mongo').connect();
@@ -6,10 +5,8 @@ require('../mongo').connect();
 function getUserId(req, res) {
     const { query } = req;
     const { token } = query;
-    
-    UserSession.find({
-        _id: token,
-        isLoggedOut: false
+    User.find({
+        _id: token
     }, (err, sessions) => {
         if (err) {
             console.log(err)
@@ -27,7 +24,7 @@ function getUserId(req, res) {
             return res.send({
                 success: true,
                 message: 'Valid Session',
-                userId: sessions[0].userId
+                userId: token
             });
         }
     });
