@@ -77,7 +77,8 @@
   "nyc": {
     "all": true,
     "include": [
-      "server/**"
+      "server/**",
+      "src/**"
     ],
     "check-coverage": true,
     "branches": 0,
