@@ -64,10 +64,10 @@ router.get('/verify', function(req, res) {
   loginService.verify(req, res);
 });
 
-// // Send email to reset password
-// router.post('/forgotPassword', function(req, res) {
-//   loginService.forgotPassword(req, res);
-// });
+// Send email to reset password
+router.post('/forgotPassword', function(req, res) {
+  loginService.forgotPassword(req, res);
+});
 
 // must also send token from local storage
 router.get('/getUserId', function(req, res) {

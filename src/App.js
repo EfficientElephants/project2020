@@ -5,7 +5,7 @@ import { ProtectedRoute } from "./components/Authentication/ProtectedRoute";
 
 import Login from './components//Authentication/Login';
 import Signup from './components/Authentication/Signup';
-// import ForgotPassword from './components/Authentication/ForgotPassword';
+import ForgotPassword from './components/Authentication/ForgotPassword';
 import Dashboard from './components/Dashboard';
 import Transactions from './components/Pages/TransactionsPage';
 import GoalManager from './components/Pages/GoalManager';
@@ -20,7 +20,7 @@ class App extends Component {
         <HashRouter>
           <Route exact path="/" component={ Login }/>
           <Route exact path="/signup" component={ Signup }/>
-          {/* <Route exact path="/forgotPassword" component={ ForgotPassword }/> */}
+          <Route exact path="/forgotPassword" component={ ForgotPassword }/>
           {/* <Route exact path="/reset/:token" component={ Reset }/> */}
           <ProtectedRoute exact path="/transactions" component={ Transactions }/>
           <ProtectedRoute exact path="/dashboard" component={ Dashboard }/>
