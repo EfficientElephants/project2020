@@ -116,18 +116,22 @@ function forgotPassword(req, res) {
         updateDbToken(user, token)
         console.log('here3')
 
-        sendMailPromise(user, token).then(json=>{
-            console.log('here4');
-            console.log(json)
-        });
-
+        sendMailPromise(user, token)
+        .then(json => {
+            if (json === 10) {
+                return res.send({
+                    success: true,
+                    message: 'Password reset email sent'
+                });
+            }
+        })
     })
 
 }
 
 function sendMailPromise(user, token) {
     return new Promise (function(resolve, reject) {
-        return nodeoutlook.sendEmail({
+        nodeoutlook.sendEmail({
             auth:{
                 user: `${process.env.EMAIL_ADDRESS}`,
                 pass: `${process.env.EMAIL_PASSWORD}`,
@@ -140,9 +144,8 @@ function sendMailPromise(user, token) {
                 + `http://localhost:3000/#/reset/${token}\n\n`
                 + `http://project-2020.azurewebsites.net/#/reset/${token}\n\n`
         })
+        resolve(10);
     })
-    .then(result => result.json())
-    .then(json => {return resolve(json)})
     .catch(err => {
       reject(err);
     });
