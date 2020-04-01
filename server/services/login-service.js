@@ -1,5 +1,8 @@
 const User = require('../models/user-model')
 
+const crypto = require('crypto');
+require('dotenv').config();
+const nodeoutlook = require('nodejs-nodemailer-outlook');
 require('../mongo').connect();
 
 function login(req, res) {
@@ -81,5 +84,76 @@ function verify(req, res) {
     });
 }
 
+function forgotPassword(req, res) {
+    console.log('here')
+    const { body } = req;
+    let {
+        email
+    } = body;
 
-module.exports = { login, verify };
+    email = email.toLowerCase();
+    //Verify email exists
+    User.find({
+        email: email
+    }, (err, users) => {
+        if (err) {
+            console.log('error here1: ', err)
+            return res.send({
+                success: false,
+                message: 'Error: Server error'
+            });
+        } 
+        if (users.length != 1) {
+            console.log('error here2: ', err)
+            return res.status(500).send({
+                success: false,
+                message: 'Error: Invalid Email'
+            });
+        } 
+        const user = users[0];
+        console.log('here2')
+        const token = crypto.randomBytes(20).toString('hex');
+        updateDbToken(user, token)
+        console.log('here3')
+
+        sendMailPromise(user, token).then(json=>{
+            console.log('here4');
+            console.log(json)
+        });
+
+    })
+
+}
+
+function sendMailPromise(user, token) {
+    return new Promise (function(resolve, reject) {
+        return nodeoutlook.sendEmail({
+            auth:{
+                user: `${process.env.EMAIL_ADDRESS}`,
+                pass: `${process.env.EMAIL_PASSWORD}`,
+            },
+            from: `${process.env.EMAIL_ADDRESS}`,
+            to: `${user.email}`,
+            subject: 'Password Reset',
+            text: 'You are receiving this because you have requested a password reset.\n\n'
+                + 'Please click on the following link to reset your password.\n\n'
+                + `http://localhost:3000/#/reset/${token}\n\n`
+                + `http://project-2020.azurewebsites.net/#/reset/${token}\n\n`
+        })
+    })
+    .then(result => result.json())
+    .then(json => {return resolve(json)})
+    .catch(err => {
+      reject(err);
+    });
+}
+
+function updateDbToken(user, token) {
+    User.findOne( user._id )
+    .then(user => {
+        user.resetPasswordToken = token;
+        user.save()
+    })
+}
+
+module.exports = { login, verify, forgotPassword };
