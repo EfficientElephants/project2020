@@ -15,7 +15,6 @@ function login(req, res) {
     } = body;
 
     email = email.toLowerCase();
-    console.log(body)
 
     //Verify user in db. If not there create an entry.
     User.find({
@@ -159,4 +158,68 @@ function updateDbToken(user, token) {
     })
 }
 
-module.exports = { login, verify, forgotPassword };
+function verifyResetToken(req, res) {
+    const { query } = req;
+    const { token } = query;
+    User.find({
+        resetPasswordToken: token
+    }, (err, user) => {
+        if (err) {
+            return res.send({
+                success: false,
+                message: 'Error: Server error'
+            });
+            
+        }
+        if (user.length != 1) {
+            return res.send({
+                success: false,
+                message: 'Error: Invalid Session'
+            });
+        } else {
+            return res.send({
+                success: true,
+                message: 'Token Verified',
+                token: token
+            });
+        }
+    });
+}
+
+function resetPassword(req, res) {
+    const { body } = req;
+    const { 
+        newPassword,
+        token
+    } = body;
+    User.find({
+        resetPasswordToken: token
+    }, (err, users) => {
+        if (err) {
+            return res.send({
+                success: false,
+                message: 'Error: Server error'
+            });
+            
+        }
+        if (users.length != 1) {
+            return res.send({
+                success: false,
+                message: 'Error: Invalid Session'
+            });
+        } else {
+            const user = users[0]
+            updateDbToken(user, '')
+            //update password
+            user.password = user.generateHash(newPassword)
+            user.save()
+            return res.send({
+                success: true,
+                message: 'Password is updated'
+            }); 
+        }
+    });
+
+}
+
+module.exports = { login, verify, forgotPassword, resetPassword, verifyResetToken };
