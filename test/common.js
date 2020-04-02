@@ -5,8 +5,8 @@ var chaiHttp = require('chai-http');
 chai.use(chaiHttp)
 // const chaiNock = require('chai-nock');
 // chai.use(chaiNock);
-// var chaiExclude = require('chai-exclude');
-// chai.use(chaiExclude);
+var chaiExclude = require('chai-exclude');
+chai.use(chaiExclude);
 
 // var nock = require('nock');
 
@@ -21,7 +21,8 @@ chai.use(chaiHttp)
 //put things that need to be passed as variables/options in here
 var options = {
     userpassword: process.env.CORRECT_USER_TEST_PASS,
-    testUserId: require('mongoose').Types.ObjectId()
+    testUserId: require('mongoose').Types.ObjectId().toHexString(),
+    anotherObjectId: require('mongoose').Types.ObjectId().toHexString(),
 };
 
 exports.options = options;

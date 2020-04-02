@@ -41,6 +41,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "chai-exclude": "^2.0.2",
     "chai-http": "^4.3.0",
     "codecov": "^3.6.5",
     "concurrently": "^3.5.0",
@@ -54,7 +55,7 @@
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"nodemon server/server.js\"",
     "build": "react-scripts build && mv build server",
-    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit",
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "eject": "react-scripts eject"
   },

@@ -1,7 +1,7 @@
 const Transaction = require('../models/transaction-model');
 const ReadPreference = require('mongodb').ReadPreference;
 
-// require('../mongo').connect();
+require('../mongo').connect();
 
 function get(req, res) {
   const { query } = req;
@@ -67,7 +67,6 @@ function destroy(req, res) {
   Transaction.findOneAndDelete({ _id })
     .then(transaction => {
       if (!transaction){
-        //res.statusMessage = "Transaction Not Found".
         res.status(400).send("Transaction Not Found");
       } else {
         res.json(transaction);
