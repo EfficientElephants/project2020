@@ -5,7 +5,7 @@ const ReadPreference = require('mongodb').ReadPreference;
 
 function get(req, res) {
   const { userId, mmyyID } = req.params
-  if (mmyyID === 'all' || mmyyID === undefined){
+  if (mmyyID === 'all'){
     docquery = Goal.find({userId: userId}).sort({createdAt: 'descending'}).read(ReadPreference.NEAREST);
   }else {
     docquery = Goal.find({userId: userId, monthYearId: mmyyID}).sort({createdAt: 'descending'}).read(ReadPreference.NEAREST);
@@ -53,16 +53,22 @@ function update(req, res) {
     const metGoal = (goalAmount < spentAmount ? false : true)
     goal.metGoal = metGoal;
     goal.updatedAt = Date.now();
-    goal.save().then(res.json(goal));
+    goal
+      .save()
+      .then(() => {
+        res.json(goal)
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      })
   })
   .catch(err => {
     res.status(500).send(err);
-  });
+  })
 }
 
 function destroy(req, res) {
   const { _id } = req.params;
-
   Goal.findOneAndRemove({ _id })
     .then(goal => {
       if (!goal){

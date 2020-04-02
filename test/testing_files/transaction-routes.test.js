@@ -36,6 +36,18 @@ describe("GET", function() {
                 done();
             });
     });
+    it('should return no transactions for a test user: date=mmyy', function(done){
+        let date = dateformat(faker.date.between('2020-01-01', '2020-04-02'), 'mmyy');
+        console.log(date);
+        chai.request(app)
+            .get(`/api/transactions?userId=${testUserId}/${date}`)
+            .end((err, res) => {
+                expect(res.statusCode).to.equal(200);
+                expect(res.body).to.be.an('array');
+                expect(res.body).to.be.of.length(0);
+                done();
+            });
+    });
 });
 
 describe("POST", function() {
@@ -328,7 +340,6 @@ describe("DELETE", function() {
         chai.request(app)
             .delete(`/api/transaction/${delTransaction._id}`)
             .end((err, res) => {
-                console.log(res.body);
                 expect(res.statusCode).to.equal(400);
                 expect(res.text).to.equal("Transaction Not Found");
                 done();

@@ -20,7 +20,7 @@
     "minimist": "^1.2.3",
     "moment": "^2.24.0",
     "mongodb": "^3.5.3",
-    "mongoose": "^5.9.1",
+    "mongoose": "^5.9.7",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.9.1",
     "node-environment-flags": "^1.0.6",
@@ -47,7 +47,7 @@
     "concurrently": "^3.5.0",
     "faker": "^4.1.0",
     "mocha": "^7.1.1",
-    "mongodb-memory-server": "^6.5.0",
+    "mockdate": "^2.0.5",
     "nodemon": "^2.0.2",
     "nyc": "^15.0.0",
     "react-scripts": "^3.4.0"

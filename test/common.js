@@ -16,7 +16,7 @@ chai.use(chaiExclude);
 // const mongoose = require('mongoose');
 // const dotenv = require('dotenv').config();
 
-// var MockDate = require('mockdate');
+// var MockDate = ;
 
 //put things that need to be passed as variables/options in here
 var options = {
@@ -31,12 +31,11 @@ exports.assert = chai.assert;
 exports.expect = chai.expect;
 exports.faker = require('faker');
 exports.dateformat = require("dateformat");
-
-// exports.schema = mongoose.Schema
-// exports.nock = nock;
+exports.mongoose = require('mongoose');
+exports.mockdate = require('mockdate');
 
 // exports.moment = moment;
-// exports.mockdate = MockDate;
+
 
 exports.mongoConn = require('../server/mongo');
 exports.app = require('../server/app');
