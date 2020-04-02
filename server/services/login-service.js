@@ -3,7 +3,6 @@ const User = require('../models/user-model')
 const crypto = require('crypto');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
-// require('../mongo').connect();
 
 function login(req, res) {
     const { body } = req;
@@ -84,7 +83,6 @@ function verify(req, res) {
 }
 
 function forgotPassword(req, res) {
-    console.log('here')
     const { body } = req;
     let {
         email
@@ -96,24 +94,20 @@ function forgotPassword(req, res) {
         email: email
     }, (err, users) => {
         if (err) {
-            console.log('error here1: ', err)
             return res.send({
                 success: false,
                 message: 'Error: Server error'
             });
         } 
         if (users.length != 1) {
-            console.log('error here2: ', err)
-            return res.status(500).send({
+            return res.status(401).send({
                 success: false,
                 message: 'Error: Invalid Email'
             });
         } 
         const user = users[0];
-        console.log('here2')
         const token = crypto.randomBytes(20).toString('hex');
         updateDbToken(user, token)
-        console.log('here3')
        
         const transporter = nodemailer.createTransport({
             host: 'smtp.office365.com',
@@ -125,11 +119,12 @@ function forgotPassword(req, res) {
             tls: {ciphers: 'SSLv3'}
         });
 
-        transporter.verify((err, res) => {
+        transporter.verify((err, info) => {
             if (err) {
-                console.log(err)
-            } else {
-                console.log('Transporter connected')
+               return res.send({
+                    success: false,
+                    message: 'Password reset email cannot be sent'
+                })
             }
         })
 
@@ -144,8 +139,6 @@ function forgotPassword(req, res) {
         };
 
         transporter.sendMail(mailOptions, (err, info) => {
-            (console.log(err))
-            console.log(info);
             if (err) {
                 return res.send({
                     success: false,
@@ -167,6 +160,9 @@ function updateDbToken(user, token) {
         user.resetPasswordToken = token;
         user.save()
     })
+    .catch(err => {
+        res.status(500).send(err);
+    });
 }
 
 function verifyResetToken(req, res) {
@@ -183,7 +179,7 @@ function verifyResetToken(req, res) {
             
         }
         if (user.length != 1) {
-            return res.send({
+            return res.status(401).send({
                 success: false,
                 message: 'Error: Invalid Session'
             });
@@ -203,18 +199,10 @@ function resetPassword(req, res) {
         newPassword,
         token
     } = body;
-    User.find({
-        resetPasswordToken: token
-    }, (err, users) => {
-        if (err) {
-            return res.send({
-                success: false,
-                message: 'Error: Server error'
-            });
-            
-        }
+    User.find({ resetPasswordToken: token })
+    .then(users =>{
         if (users.length != 1) {
-            return res.send({
+            return res.status(401).send({
                 success: false,
                 message: 'Error: Invalid Session'
             });
@@ -224,11 +212,19 @@ function resetPassword(req, res) {
             //update password
             user.password = user.generateHash(newPassword)
             user.save()
-            return res.send({
-                success: true,
-                message: 'Password is updated'
-            }); 
+            .then(()=>{
+                return res.send({
+                    success: true,
+                    message: 'Password is updated'
+                })
+            })
+            .catch(err => {
+                res.status(500).send(err);
+            });;
         }
+    })
+    .catch(err => {
+        res.status(500).send(err);
     });
 
 }

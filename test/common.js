@@ -3,20 +3,8 @@ var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 var chaiHttp = require('chai-http');
 chai.use(chaiHttp)
-// const chaiNock = require('chai-nock');
-// chai.use(chaiNock);
 var chaiExclude = require('chai-exclude');
 chai.use(chaiExclude);
-
-// var nock = require('nock');
-
-// var dateformat = require('dateformat');
-// var moment = require('moment');
-
-// const mongoose = require('mongoose');
-// const dotenv = require('dotenv').config();
-
-// var MockDate = ;
 
 //put things that need to be passed as variables/options in here
 var options = {
@@ -33,8 +21,7 @@ exports.faker = require('faker');
 exports.dateformat = require("dateformat");
 exports.mongoose = require('mongoose');
 exports.mockdate = require('mockdate');
-
-// exports.moment = moment;
+exports.crypto = require('crypto');
 
 
 exports.mongoConn = require('../server/mongo');
