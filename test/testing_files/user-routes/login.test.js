@@ -120,6 +120,7 @@ describe("Verify", function(){
 
 describe("ForgotPassword", function() {
     it("should send user set password", function(done){
+        this.timeout(5000);
         let plainPassword = faker.internet.password();
         let user = new User({
             firstName: faker.name.firstName(),

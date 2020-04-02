@@ -64,11 +64,11 @@
     "include": [
       "server/**"
     ],
-    "check-coverage": false,
-    "branches": 50,
-    "lines": 50,
-    "functions": 50,
-    "statements": 50
+    "check-coverage": true,
+    "branches": 70,
+    "lines": 70,
+    "functions": 70,
+    "statements": 70
   },
   "proxy": "http://localhost:3001",
   "description": "This is a template for using Express and React in the same project. It is based on Create React App.",

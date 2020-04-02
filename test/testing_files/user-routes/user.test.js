@@ -60,11 +60,9 @@ describe("User Information", function(){
         user.password = user.generateHash(plainPassword);
         user.save(function(err, user) {
             savedUser = JSON.parse(JSON.stringify(user));
-            console.log(savedUser);
             chai.request(app)
                 .get(`/api/users/${savedUser._id}`)
                 .end((err, res)=>{
-                    console.log(res.body);
                     expect(res.statusCode).to.equal(200);
                     expect(res.body).to.deep.equal(savedUser);
                     done();
@@ -72,11 +70,9 @@ describe("User Information", function(){
         });
     });
     it("should fail if user not in database", function(done){
-        console.log(anotherObjectId)
         chai.request(app)
         .get(`/api/users/${anotherObjectId}`)
         .end((err, res)=>{
-            console.log(res.body);
             expect(res.statusCode).to.equal(401);
             expect(res.body.message).to.equal("User doesn't exist");
             done();

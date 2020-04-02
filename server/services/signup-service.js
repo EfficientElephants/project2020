@@ -55,7 +55,6 @@ function signup(req, res) {
         email: email
     }, (err, previousUsers) => {
         if (err) {
-            console.log(err);
             return res.send({
                 success: false,
                 message: 'Error: Server error'
@@ -74,7 +73,6 @@ function signup(req, res) {
         newUser.password = newUser.generateHash(password);
         newUser.save((err, user) => {
             if (err) {
-                console.log(err);
                 return res.send({
                     success: false,
                     message: 'Error: Server error'

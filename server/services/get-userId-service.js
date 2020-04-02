@@ -7,7 +7,6 @@ function getUserId(req, res) {
         _id: token
     }, (err, sessions) => {
         if (err) {
-            console.log(err)
             return res.send({
                 success: false,
                 message: 'Error: Server error'
@@ -31,7 +30,6 @@ function getUserId(req, res) {
 function getUserName(req, res) {
     const { userId } = req.params;
     
-    console.log(userId);
     return User.findOne({_id: userId})
         .then(user => {
             if(!user){

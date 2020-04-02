@@ -1,8 +1,6 @@
 const Goal = require('../models/goal-model');
 const ReadPreference = require('mongodb').ReadPreference;
 
-('../mongo').connect();
-
 function get(req, res) {
   const { userId, mmyyID } = req.params
   if (mmyyID === 'all'){
