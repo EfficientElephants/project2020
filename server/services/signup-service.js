@@ -1,6 +1,6 @@
 const User = require('../models/user-model')
 
-require('../mongo').connect();
+// require('../mongo').connect();
 
 function signup(req, res) {
     const { body } = req;

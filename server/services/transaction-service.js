@@ -1,7 +1,7 @@
 const Transaction = require('../models/transaction-model');
 const ReadPreference = require('mongodb').ReadPreference;
 
-require('../mongo').connect();
+// require('../mongo').connect();
 
 function get(req, res) {
   const { query } = req;

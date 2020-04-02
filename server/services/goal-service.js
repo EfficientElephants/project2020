@@ -1,7 +1,7 @@
 const Goal = require('../models/goal-model');
 const ReadPreference = require('mongodb').ReadPreference;
 
-require('../mongo').connect();
+// require('../mongo').connect();
 
 function get(req, res) {
   const { userId, mmyyID } = req.params

@@ -3,7 +3,7 @@ const User = require('../models/user-model')
 const crypto = require('crypto');
 require('dotenv').config();
 const nodeoutlook = require('nodejs-nodemailer-outlook');
-require('../mongo').connect();
+// require('../mongo').connect();
 
 function login(req, res) {
     const { body } = req;
