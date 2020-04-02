@@ -21,7 +21,9 @@ describe('Server Tests', function() {
         .catch((err) => done(err));
     });
 
-    importTest("Testing Transaction Routes", './testing_files/transaction-routes.test.js');
-    importTest("Testing Goal Routes", './testing_files/goal-routes.test.js');
-    importTest("Testing User Routes", './testing_files/user-routes/signup.test.js');
+    // importTest("Testing Transaction Routes", './testing_files/transaction-routes.test.js');
+    // importTest("Testing Goal Routes", './testing_files/goal-routes.test.js');
+    describe("Testing User Routes", function() {
+        importTest("Signup Testing", './testing_files/user-routes/signup.test.js');
+    });
 });

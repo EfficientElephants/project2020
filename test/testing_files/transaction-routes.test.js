@@ -38,9 +38,8 @@ describe("GET", function() {
     });
     it('should return no transactions for a test user: date=mmyy', function(done){
         let date = dateformat(faker.date.between('2020-01-01', '2020-04-02'), 'mmyy');
-        console.log(date);
         chai.request(app)
-            .get(`/api/transactions?userId=${testUserId}/${date}`)
+            .get(`/api/transactions?userId=${testUserId}&dates=${date}`)
             .end((err, res) => {
                 expect(res.statusCode).to.equal(200);
                 expect(res.body).to.be.an('array');
