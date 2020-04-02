@@ -49,6 +49,7 @@ class ForgotPassword extends Component {
                 });
                 //this.props.history.push('/');
             } else {
+                console.log(json);
                 this.setState({
                     showError: true,
                     messageFromServer: '',

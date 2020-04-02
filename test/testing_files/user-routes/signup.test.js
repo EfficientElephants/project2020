@@ -4,11 +4,8 @@ var expect = common.expect;
 var chai = common.chai;
 var app = common.app;
 const faker = common.faker;
-const dateformat = common.dateformat;
 
 const User = common.User;
-const testUserId = common.options.testUserId;
-const anotherObjectId = common.options.anotherObjectId;
 
 beforeEach(function (done) {
     assert.isFulfilled(User.deleteMany({}), Error).notify(done);
