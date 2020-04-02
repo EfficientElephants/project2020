@@ -1,7 +1,5 @@
 const User = require('../models/user-model');
 
-// require('../mongo').connect();
-
 function getUserId(req, res) {
     const { query } = req;
     const { token } = query;
