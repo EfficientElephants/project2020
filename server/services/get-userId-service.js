@@ -16,7 +16,7 @@ function getUserId(req, res) {
             });
         }
         if (sessions.length != 1) {
-            return res.send({
+            return res.status(401).send({
                 success: false,
                 message: 'Error: Invalid Session'
             });
@@ -32,10 +32,16 @@ function getUserId(req, res) {
 
 function getUserName(req, res) {
     const { userId } = req.params;
-      
-    return User.find({_id: userId})
+    
+    console.log(userId);
+    return User.findOne({_id: userId})
         .then(user => {
-            res.json(user)
+            if(!user){
+                return res.status(401).send({
+                    message: "User doesn't exist"
+                })
+            }
+            return res.json(user)
         })
         .catch(err => {
             res.status(500).send(err);
