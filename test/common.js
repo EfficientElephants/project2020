@@ -8,7 +8,6 @@ chai.use(chaiExclude);
 
 //put things that need to be passed as variables/options in here
 var options = {
-    userpassword: process.env.CORRECT_USER_TEST_PASS,
     testUserId: require('mongoose').Types.ObjectId().toHexString(),
     anotherObjectId: require('mongoose').Types.ObjectId().toHexString(),
 };
