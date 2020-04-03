@@ -67,7 +67,7 @@ class History extends Component {
     getFullName() {
         usersAPI.get(this.state.userId)
             .then(results => {
-                this.setState({fullName: results[0].firstName + " " + results[0].lastName});
+                this.setState({fullName: results.firstName + " " + results.lastName});
             });
         return this.state.fullName;                          
     }

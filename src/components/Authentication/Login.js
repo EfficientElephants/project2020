@@ -163,7 +163,7 @@ class Login extends Component {
                             <Link to="/forgotPassword">Forgot password?</Link>
                             <Form.Group>
                                 <Button onClick={this.onLogin}
-                                    variant="primary" id="login">Login'
+                                    variant="primary" id="login">Login
                                 </Button>
                             </Form.Group>
                             <Link to="/signup">Don't have an account?</Link>
