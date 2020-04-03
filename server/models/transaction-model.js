@@ -34,7 +34,7 @@ const transactionSchema = new Schema({
     },
     transactionType: {
         type: String,
-        requried: true
+        required: true,
     },
     createdAt: {
         type: Date,
