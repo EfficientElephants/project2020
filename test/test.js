@@ -1,9 +1,5 @@
-const mongoose = require('mongoose');
-
-const dotenv = require('dotenv').config();
-mongoURI = process.env.CONNECTION_STRING_TESTING
-
-var common = require('./common')
+var common = require('./common');
+const monogConn = common.mongoConn;
 
 function importTest(name, path) {
     describe(name, function () {
@@ -11,24 +7,26 @@ function importTest(name, path) {
     });
 }
 
-describe('Database Tests', function() {
-    before(function (done) {
-        mongoose.connect(mongoURI, {useFindAndModify: false, autoIndex: false, useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true});
-        const db = mongoose.connection;
-        db.on('error', console.error.bind(console, 'connection error'));
-        db.once('open', function() {
-            console.log('Connected to test database!');
-            done();
-        });
+describe('Server Tests', function() {
+    this.timeout(2500);
 
+    before(function(done){
+        monogConn.connect()
+        .then(() => done())
+        .catch((err) => done(err));
+    });
+    after(function(done){
+        monogConn.close()
+        .then(() => done())
+        .catch((err) => done(err));
     });
 
-    importTest("Testing User Database", './models/user-model.test.js');
-
-    //After all tests are finished drop database and close connection
-    after(function(done){
-    //   mongoose.connection.db.dropDatabase(function(){
-        mongoose.connection.close(done);
-      });
-    // });
-  });
+    importTest("Testing Transaction Routes", './testing_files/transaction-routes.test.js');
+    importTest("Testing Goal Routes", './testing_files/goal-routes.test.js');
+    describe("Testing User Routes", function() {
+        importTest("Signup Service", './testing_files/user-routes/signup.test.js');
+        importTest("Login Service", './testing_files/user-routes/login.test.js');
+        importTest("UserId Service", "./testing_files/user-routes/user.test.js")
+    });
+    
+});

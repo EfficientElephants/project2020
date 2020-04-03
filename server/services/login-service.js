@@ -2,8 +2,7 @@ const User = require('../models/user-model')
 
 const crypto = require('crypto');
 require('dotenv').config();
-const nodeoutlook = require('nodejs-nodemailer-outlook');
-require('../mongo').connect();
+const nodemailer = require('nodemailer');
 
 function login(req, res) {
     const { body } = req;
@@ -16,7 +15,7 @@ function login(req, res) {
 
     email = email.toLowerCase();
 
-    //Verify user in db. If not there create an entry.
+    //Verify user in db.
     User.find({
         email: email
     }, (err, users) => {
@@ -27,14 +26,14 @@ function login(req, res) {
             });
         } 
         if (users.length != 1) {
-            return res.send({
+            return res.status(401).send({
                 success: false,
                 message: 'Error: Invalid Username'
             });
         } 
         const user = users[0];
         if (!user.validPassword(password)) {
-            return res.send({
+            return res.status(401).send({
                 success: false,
                 message: 'Error: Invalid Password'
             });
@@ -70,7 +69,7 @@ function verify(req, res) {
             
         }
         if (sessions.length != 1) {
-            return res.send({
+            return res.status(401).send({
                 success: false,
                 message: 'Error: Invalid Session'
             });
@@ -84,7 +83,6 @@ function verify(req, res) {
 }
 
 function forgotPassword(req, res) {
-    console.log('here')
     const { body } = req;
     let {
         email
@@ -96,57 +94,64 @@ function forgotPassword(req, res) {
         email: email
     }, (err, users) => {
         if (err) {
-            console.log('error here1: ', err)
             return res.send({
                 success: false,
                 message: 'Error: Server error'
             });
         } 
         if (users.length != 1) {
-            console.log('error here2: ', err)
-            return res.status(500).send({
+            return res.status(401).send({
                 success: false,
                 message: 'Error: Invalid Email'
             });
         } 
         const user = users[0];
-        console.log('here2')
         const token = crypto.randomBytes(20).toString('hex');
         updateDbToken(user, token)
-        console.log('here3')
+       
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.office365.com',
+            port: 587,
+            auth: {
+                user: `${process.env.EMAIL_ADDRESS}`,
+                pass: `${process.env.EMAIL_PASSWORD}`,
+            }, 
+            tls: {ciphers: 'SSLv3'}
+        });
 
-        sendMailPromise(user, token)
-        .then(json => {
-            if (json === 10) {
+        transporter.verify((err, info) => {
+            if (err) {
+               return res.send({
+                    success: false,
+                    message: 'Password reset email cannot be sent'
+                })
+            }
+        })
+
+        const mailOptions = {
+            from: `${process.env.EMAIL_ADDRESS}`,
+            to: `${user.email}`,
+            subject: 'Password Reset',
+            text: 'You are receiving this because you have requested a password reset.\n\n'
+            + 'Please click on the following link to reset your password.\n\n'
+            + `http://localhost:3000/#/reset/${token}\n\n`
+            + `https://project-2020.azurewebsites.net/#/reset/${token}\n\n`
+            + `https://expense-elephant.azurewebsites.net/#/reset/${token}\n\n`
+        };
+
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+                return res.send({
+                    success: false,
+                    message: 'Password reset email cannot be sent'
+                });
+            } else{
                 return res.send({
                     success: true,
                     message: 'Password reset email sent'
                 });
             }
-        })
-    })
-
-}
-
-function sendMailPromise(user, token) {
-    return new Promise (function(resolve, reject) {
-        nodeoutlook.sendEmail({
-            auth:{
-                user: `${process.env.EMAIL_ADDRESS}`,
-                pass: `${process.env.EMAIL_PASSWORD}`,
-            },
-            from: `${process.env.EMAIL_ADDRESS}`,
-            to: `${user.email}`,
-            subject: 'Password Reset',
-            text: 'You are receiving this because you have requested a password reset.\n\n'
-                + 'Please click on the following link to reset your password.\n\n'
-                + `http://localhost:3000/#/reset/${token}\n\n`
-                + `http://project-2020.azurewebsites.net/#/reset/${token}\n\n`
-        })
-        resolve(10);
-    })
-    .catch(err => {
-      reject(err);
+        });
     });
 }
 
@@ -156,6 +161,9 @@ function updateDbToken(user, token) {
         user.resetPasswordToken = token;
         user.save()
     })
+    .catch(err => {
+        res.status(500).send(err);
+    });
 }
 
 function verifyResetToken(req, res) {
@@ -172,7 +180,7 @@ function verifyResetToken(req, res) {
             
         }
         if (user.length != 1) {
-            return res.send({
+            return res.status(401).send({
                 success: false,
                 message: 'Error: Invalid Session'
             });
@@ -192,18 +200,10 @@ function resetPassword(req, res) {
         newPassword,
         token
     } = body;
-    User.find({
-        resetPasswordToken: token
-    }, (err, users) => {
-        if (err) {
-            return res.send({
-                success: false,
-                message: 'Error: Server error'
-            });
-            
-        }
+    User.find({ resetPasswordToken: token })
+    .then(users =>{
         if (users.length != 1) {
-            return res.send({
+            return res.status(401).send({
                 success: false,
                 message: 'Error: Invalid Session'
             });
@@ -213,11 +213,19 @@ function resetPassword(req, res) {
             //update password
             user.password = user.generateHash(newPassword)
             user.save()
-            return res.send({
-                success: true,
-                message: 'Password is updated'
-            }); 
+            .then(()=>{
+                return res.send({
+                    success: true,
+                    message: 'Password is updated'
+                })
+            })
+            .catch(err => {
+                res.status(500).send(err);
+            });;
         }
+    })
+    .catch(err => {
+        res.status(500).send(err);
     });
 
 }

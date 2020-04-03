@@ -67,7 +67,6 @@ function destroy(req, res) {
   Transaction.findOneAndDelete({ _id })
     .then(transaction => {
       if (!transaction){
-        //res.statusMessage = "Transaction Not Found".
         res.status(400).send("Transaction Not Found");
       } else {
         res.json(transaction);
