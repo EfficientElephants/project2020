@@ -73,9 +73,9 @@ npm run test-automation
 
 ## Deployment
 
-When a change is pushed to the master branch, it will need to be manually synced with our deployment center in Azure and will then be pushed into production on the live beta version of the application website (see the Workflow section above).
+When a change is pushed to the master branch, it will automatically sync with our deployment center in Azure and will then be pushed into production on the live beta version of the application website (see the Workflow section above).
 
-After a successful test in the hosted beta application and the beta changes have been merged into the ```deploy``` branch, the changes will be deployed out to the production "alpha" version of the app. These changes will also need to be manually synced in the deployment center in Azure.
+After a successful test in the hosted beta application and the beta changes have been merged into the ```deploy``` branch, the changes will be deployed out to the production "alpha" version of the app. These changes will also automatically sync in the deployment center in Azure.
 
 ## Built With
 
