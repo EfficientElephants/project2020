@@ -39,7 +39,6 @@ class ForgotPassword extends Component {
         })
         .then(res => res.json())
         .then(json => {
-            //console.log(json)
             if (json.success) {
                 this.setState({
                     email: json.email,
@@ -49,7 +48,6 @@ class ForgotPassword extends Component {
                 });
                 //this.props.history.push('/');
             } else {
-                console.log(json);
                 this.setState({
                     showError: true,
                     messageFromServer: '',
