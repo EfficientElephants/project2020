@@ -3,11 +3,13 @@ This is a repository for Expense Elephant, the 2019-20 Luther College Senior Pro
 
 Expense Elephant is a budgeting app which can be used to track income, categorize and monitor spending, and set personal goals. As the user enters in their spending &amp; income, this project includes a dashboard with data visualizations of their monthly spending breakdown and the option to begin montly spending goals in a variety of categories. The user can also track their progress over time with the ability to see the history of their spending habits. 
 
-## Getting Started
+## Getting Started / Workflow
 
-This project is hosted on Azure, at [https://project-2020.azurewebsites.net/](https://project-2020.azurewebsites.net/), and can be accessed publicly there.
+The production version of this project is hosted on Azure, at [https://expense-elephant.azurewebsites.net/](https://expense-elephant.azurewebsites.net/), and this version can be accessed publicly there. The production version of this project tracks with the ```deploy``` branch. Pull requests to this branch should only come from the ```master``` branch.
 
-To run this project on localhost, clone down this repository.
+This project also has a published beta site, also hosted on Azure, at [https://project-2020.azurewebsites.net/](https://project-2020.azurewebsites.net/), and this beta version can be accessed publicly. All general pull requests should first be submitted to our ```master``` branch and then tested in this hosted beta version on Azure before being merged into the production 'Expense Elephant' site via the ```deploy``` branch. This is to ensure that changes made locally are also able to successfully be deployed to Azure to eliminate breaking changes to our hosted application.
+
+To run this project on localhost, clone down this repository see the directions below.
 
 ### Prerequisites
 
@@ -42,16 +44,16 @@ To start up the local server, run the following:
 ## Testing
 
 To test our project, we used a variety of different technologies.
-* [Chai](https://www.chaijs.com/)
-* [Mocha](https://mochajs.org/)
-* [Travis CI](https://travis-ci.org/)
-* [CodeCov](https://codecov.io/)
-* [Selenium](https://www.selenium.dev/)
-* [Cucumber](https://cucumber.io/)
+* [Chai](https://www.chaijs.com/) - Javascript assertion library used in concurrency with MochaJS
+* [Mocha](https://mochajs.org/) - Javascript testing framework for asynchronous testing, browser support, and test coverage reports
+* [Travis CI](https://travis-ci.org/) - Testing and continuous integration tool
+* [CodeCov](https://codecov.io/) - Audits & generates reports of code covered by unit tests
+* [Selenium](https://www.selenium.dev/) - Front-end browser testing framework
+* [Cucumber](https://cucumber.io/) - Pairs with Selenium as a front-end browser testing framework
 
 ### Unit Testing
 
-To write unit tests, we use javascript's Mocha and Chai frameworks. Navigate to the test/ directory and create a new file to write your unit tests. For contributors, it is expected that 90% of your code is covered by unit testing.
+To write unit tests, we use javascript's Mocha and Chai frameworks. Navigate to the ```test/``` directory and create a new file to write your unit tests. For contributors, it is expected that 90% of your code is covered by unit testing.
 
 To run unit tests, enter the following command in your terminal:
 ```
@@ -71,15 +73,17 @@ npm run test-automation
 
 ## Deployment
 
-When a change is pushed to the master branch, it will need to be manually synced with our deployment center in Azure and will then be pushed into production on the live website.
+When a change is pushed to the master branch, it will automatically sync with our deployment center in Azure and will then be pushed into production on the live beta version of the application website (see the Workflow section above).
+
+After a successful test in the hosted beta application and the beta changes have been merged into the ```deploy``` branch, the changes will be deployed out to the production "alpha" version of the app. These changes will also automatically sync in the deployment center in Azure.
 
 ## Built With
 
-* [MongoDB](https://www.mongodb.com/)
-* [ExpressJS](https://expressjs.com/)
-* [React](https://reactjs.org/)
-* [NodeJS](https://nodejs.org/en/)
+* [MongoDB](https://www.mongodb.com/) - Database hosting
+* [ExpressJS](https://expressjs.com/) - Javascript API & Server framework
+* [React](https://reactjs.org/) - Javascript framework for flexible front-end design and implementation
+* [NodeJS](https://nodejs.org/en/) - Javascript framework for web server hosting and other core functionalities
 
 ## Contributing
 
-To contribute, please make a new branch from master to implement changes. Then create a pull request for merging to master and the changes will be reviewed by our CI tool, testing frameworks, and our team before merging.
+To contribute, please make a new branch from master to implement changes. Then create a pull request for merging to master and the changes will be reviewed by our CI tool, testing frameworks, and our team before merging into our beta application. If it runs successfully on our beta application, then a pull request can be submitted from the ```master``` branch to the ```deploy``` branch, where more build verification checks and manual approvals will be needed before it can be merged into the alpha production version of the application.
