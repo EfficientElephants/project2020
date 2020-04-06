@@ -6,6 +6,7 @@ require('../mongo').connect();
 function get(req, res) {
     const { query } = req;
     const { userId, dates } = query;
+    let docquery;
     if (dates === 'all' || dates === undefined) {
         docquery = Transaction.find({ userId: userId })
             .sort({ date: 'descending', createdAt: 'descending' })
@@ -97,6 +98,7 @@ function destroy(req, res) {
 
 function getTotalsAll(req, res) {
     const { userId, dates } = req.params;
+    let transactionQuery;
     if (dates === 'all') {
         transactionQuery = Transaction.aggregate([
             {
@@ -142,6 +144,7 @@ function getTotalsAll(req, res) {
 
 function getSpendingTotal(req, res) {
     const { userId, dates } = req.params;
+    let transactionQuery;
     if (dates === 'all') {
         transactionQuery = Transaction.aggregate([
             {
@@ -189,6 +192,7 @@ function getSpendingTotal(req, res) {
 
 function getIncomeTotal(req, res) {
     const { userId, dates } = req.params;
+    let transactionQuery;
     if (dates === 'all') {
         transactionQuery = Transaction.aggregate([
             {

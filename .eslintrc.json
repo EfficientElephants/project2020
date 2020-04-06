@@ -6,9 +6,8 @@
         "mocha": true
     },
     "extends": [
-        // "eslint:recommended",
-        // "plugin:react/recommended",
-        // "airbnb",
+        "eslint:recommended",
+        "plugin:react/recommended",
         "plugin:prettier/recommended"
     ],
     "globals": {
@@ -23,7 +22,6 @@
         "sourceType": "module"
     },
     "plugins": [
-        "prettier",
         "react"
     ],
     "rules": {
@@ -51,6 +49,5 @@
           "Hyperlink",
           {"name": "Link", "linkAttribute": "to"}
         ]
-      }
+    }
 }
-

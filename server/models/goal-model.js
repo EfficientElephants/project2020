@@ -1,21 +1,32 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const validator = require('validator')
+const validator = require('validator');
 var uniqueValidator = require('mongoose-unique-validator');
 
-const now = Date.now()
+const now = Date.now();
 const goalSchema = new Schema({
     userId: {
         type: String,
         default: '',
-        required: true
+        required: true,
     },
     category: {
         type: String,
         required: true,
         validate: (value) => {
-            return validator.isIn(value, ['Income', 'Housing', 'Food', 'Social', 'Healthcare', 'Transportation', 'Personal Spending', 'Education', 'Utilities', 'Misc.'])
-        }
+            return validator.isIn(value, [
+                'Income',
+                'Housing',
+                'Food',
+                'Social',
+                'Healthcare',
+                'Transportation',
+                'Personal Spending',
+                'Education',
+                'Utilities',
+                'Misc.',
+            ]);
+        },
     },
     goalAmount: {
         type: Number,
@@ -39,25 +50,25 @@ const goalSchema = new Schema({
     },
     createdAt: {
         type: Date,
-        default: now
+        default: now,
     },
     updatedAt: {
         type: Date,
-        default: now
+        default: now,
     },
-})
+});
 
-function getGoal(num){
-    return (num/100).toFixed(2);
+function getGoal(num) {
+    return (num / 100).toFixed(2);
 }
 
-function setGoal(num){
-    return num*100;
+function setGoal(num) {
+    return num * 100;
 }
 
 goalSchema.set('toObject', { getters: true });
 goalSchema.set('toJSON', { getters: true });
-goalSchema.index( { userId: 1, category: 1, monthYearId: 1 }, { unique: true } )
+goalSchema.index({ userId: 1, category: 1, monthYearId: 1 }, { unique: true });
 goalSchema.plugin(uniqueValidator);
 const Goal = mongoose.model('Goal', goalSchema);
 module.exports = Goal;

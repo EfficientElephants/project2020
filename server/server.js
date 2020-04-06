@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const app = require('./app');
-const db = require('./mongo').default;
+const db = require('./mongo');
 
 const port = process.env.PORT || '3001';
 

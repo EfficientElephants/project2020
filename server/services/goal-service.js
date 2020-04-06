@@ -3,6 +3,7 @@ const ReadPreference = require('mongodb').ReadPreference;
 
 function get(req, res) {
     const { userId, mmyyID } = req.params;
+    let docquery;
     if (mmyyID === 'all') {
         docquery = Goal.find({ userId: userId })
             .sort({ createdAt: 'descending' })

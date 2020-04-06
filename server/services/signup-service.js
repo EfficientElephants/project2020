@@ -66,7 +66,7 @@ function signup(req, res) {
             newUser.firstName = firstName;
             newUser.lastName = lastName;
             newUser.password = newUser.generateHash(password);
-            newUser.save((err, user) => {
+            newUser.save((err) => {
                 if (err) {
                     return res.send({
                         success: false,

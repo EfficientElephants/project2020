@@ -120,7 +120,7 @@ function forgotPassword(req, res) {
                 tls: { ciphers: 'SSLv3' },
             });
 
-            transporter.verify((err, info) => {
+            transporter.verify((err) => {
                 if (err) {
                     return res.send({
                         success: false,
@@ -141,7 +141,7 @@ function forgotPassword(req, res) {
                     `https://expense-elephant.azurewebsites.net/#/reset/${token}\n\n`,
             };
 
-            transporter.sendMail(mailOptions, (err, info) => {
+            transporter.sendMail(mailOptions, (err) => {
                 if (err) {
                     return res.send({
                         success: false,
@@ -165,7 +165,7 @@ function updateDbToken(user, token) {
             user.save();
         })
         .catch((err) => {
-            res.status(500).send(err);
+            err.status(500).send(err);
         });
 }
 
