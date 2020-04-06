@@ -4,6 +4,7 @@ import { Form, Button, Container, Alert } from 'react-bootstrap';
 import auth from './Auth';
 import { getFromStorage } from '../Storage';
 import { setInStorage } from '../Storage';
+import Logo from '../../assets/expense-elephant-logo2.png';
 
 class Signup extends Component {
   constructor(props) {
@@ -186,7 +187,7 @@ render () {
       return (
           <div className="row">
               <div className="main-left-side col-4"> 
-                  <p>LOGO HERE</p>
+                  <img className="logo" src={Logo} height="150" width="150" alt="Expense Elephant Logo" />
                   <h1>Expense Elephant</h1>
                   <p>We are here to help you manage your money!</p>
               </div>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, Button, Container, Alert } from 'react-bootstrap';
+import Logo from '../../assets/expense-elephant-logo2.png';
 
 class Reset extends Component {
     constructor(props) {
@@ -78,7 +79,7 @@ class Reset extends Component {
         return (
             <div className="row">
                 <div className="main-left-side col-4"> 
-                    <p>LOGO HERE</p>
+                    <img className="logo" src={Logo} height="150" width="150" alt="Expense Elephant Logo" />
                     <h1>Expense Elephant</h1>
                     <p>We are here to help you manage your money!</p>
                 </div>

@@ -24,10 +24,15 @@ body {
   margin-bottom: 25px;
 }
 
+.logo {
+  margin-bottom: 20px;
+}
+
 .main-left-side {
   background-color: #00AD79;
-  padding-top: 30%;
+  padding-top: 20%;
   text-align: center;
+  color: black;
 }
 
 .main-form {

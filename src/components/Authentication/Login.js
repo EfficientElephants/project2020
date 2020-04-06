@@ -3,6 +3,7 @@ import { Button, Container, Form, Alert } from 'react-bootstrap';
 import auth from './Auth';
 import { Link } from 'react-router-dom';
 import { getFromStorage, setInStorage } from '../Storage';
+import Logo from '../../assets/expense-elephant-logo2.png';
 
 class Login extends Component {
     constructor(props) {
@@ -145,7 +146,7 @@ class Login extends Component {
             return (
                 <div className="row">
                     <div className="main-left-side col-4"> 
-                        <img src="../../../public/favicon_dark.ico" alt="logo"></img> 
+                        <img className="logo" src={Logo} height="150" width="150" alt="Expense Elephant Logo" />
                         <h1>Expense Elephant</h1>
                         <p>We are here to help you manage your money!</p>
                     </div>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Container, Form, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Logo from '../../assets/expense-elephant-logo2.png';
 
 class ForgotPassword extends Component {
     constructor(props) {
@@ -63,7 +64,7 @@ class ForgotPassword extends Component {
         return (
             <div className="row">
                 <div className="main-left-side col-4"> 
-                    <p>LOGO HERE</p>
+                    <img className="logo" src={Logo} height="150" width="150" alt="Expense Elephant Logo" />
                     <h1>Expense Elephant</h1>
                     <p>We are here to help you manage your money!</p>
 
