@@ -1,9 +1,8 @@
-/* eslint-disable no-underscore-dangle */
-const crypto = require('crypto');
-const nodemailer = require('nodemailer');
 const User = require('../models/user-model');
 
+const crypto = require('crypto');
 require('dotenv').config();
+const nodemailer = require('nodemailer');
 
 function login(req, res) {
     const { body } = req;
@@ -12,10 +11,10 @@ function login(req, res) {
 
     email = email.toLowerCase();
 
-    // Verify user in db.
+    //Verify user in db.
     User.find(
         {
-            email,
+            email: email,
         },
         (err, users) => {
             if (err) {
@@ -24,7 +23,7 @@ function login(req, res) {
                     message: 'Error: Server error3',
                 });
             }
-            if (users.length !== 1) {
+            if (users.length != 1) {
                 return res.status(401).send({
                     success: false,
                     message: 'Error: Invalid Username',
@@ -38,7 +37,7 @@ function login(req, res) {
                 });
             }
 
-            // If correct user create send valid response
+            //If correct user create send valid response
             return res.send({
                 success: true,
                 message: 'Valid login',
@@ -46,18 +45,6 @@ function login(req, res) {
             });
         }
     );
-}
-
-function updateDbToken(userObj, token) {
-    User.findOne(userObj._id)
-        .then((resUser) => {
-            const user = JSON.parse(JSON.stringify(resUser));
-            user.resetPasswordToken = token;
-            user.save();
-        })
-        .catch((err) => {
-            err.status(500).send(err);
-        });
 }
 
 function verify(req, res) {
@@ -81,16 +68,17 @@ function verify(req, res) {
                     message: 'Error: Server error',
                 });
             }
-            if (sessions.length !== 1) {
+            if (sessions.length != 1) {
                 return res.status(401).send({
                     success: false,
                     message: 'Error: Invalid Session',
                 });
+            } else {
+                return res.send({
+                    success: true,
+                    message: 'Valid Session',
+                });
             }
-            return res.send({
-                success: true,
-                message: 'Valid Session',
-            });
         }
     );
 }
@@ -100,12 +88,11 @@ function forgotPassword(req, res) {
     let { email } = body;
 
     email = email.toLowerCase();
-    // Verify email exists
+    //Verify email exists
     User.find(
         {
-            email,
+            email: email,
         },
-        // eslint-disable-next-line consistent-return
         (err, users) => {
             if (err) {
                 return res.send({
@@ -113,7 +100,7 @@ function forgotPassword(req, res) {
                     message: 'Error: Server error',
                 });
             }
-            if (users.length !== 1) {
+            if (users.length != 1) {
                 return res.status(401).send({
                     success: false,
                     message: 'Error: Invalid Email',
@@ -133,9 +120,8 @@ function forgotPassword(req, res) {
                 tls: { ciphers: 'SSLv3' },
             });
 
-            // eslint-disable-next-line consistent-return
-            transporter.verify((error1) => {
-                if (error1) {
+            transporter.verify((err, info) => {
+                if (err) {
                     return res.send({
                         success: false,
                         message: 'Password reset email cannot be sent',
@@ -155,20 +141,32 @@ function forgotPassword(req, res) {
                     `https://expense-elephant.azurewebsites.net/#/reset/${token}\n\n`,
             };
 
-            transporter.sendMail(mailOptions, (error2) => {
-                if (error2) {
+            transporter.sendMail(mailOptions, (err, info) => {
+                if (err) {
                     return res.send({
                         success: false,
                         message: 'Password reset email cannot be sent',
                     });
+                } else {
+                    return res.send({
+                        success: true,
+                        message: 'Password reset email sent',
+                    });
                 }
-                return res.send({
-                    success: true,
-                    message: 'Password reset email sent',
-                });
             });
         }
     );
+}
+
+function updateDbToken(user, token) {
+    User.findOne(user._id)
+        .then((user) => {
+            user.resetPasswordToken = token;
+            user.save();
+        })
+        .catch((err) => {
+            res.status(500).send(err);
+        });
 }
 
 function verifyResetToken(req, res) {
@@ -185,17 +183,18 @@ function verifyResetToken(req, res) {
                     message: 'Error: Server error',
                 });
             }
-            if (user.length !== 1) {
+            if (user.length != 1) {
                 return res.status(401).send({
                     success: false,
                     message: 'Error: Invalid Session',
                 });
+            } else {
+                return res.send({
+                    success: true,
+                    message: 'Token Verified',
+                    token: token,
+                });
             }
-            return res.send({
-                success: true,
-                message: 'Token Verified',
-                token,
-            });
         }
     );
 }
@@ -204,28 +203,28 @@ function resetPassword(req, res) {
     const { body } = req;
     const { newPassword, token } = body;
     User.find({ resetPasswordToken: token })
-        // eslint-disable-next-line consistent-return
         .then((users) => {
-            if (users.length !== 1) {
+            if (users.length != 1) {
                 return res.status(401).send({
                     success: false,
                     message: 'Error: Invalid Session',
                 });
-            }
-            const user = users[0];
-            updateDbToken(user, '');
-            // update password
-            user.password = user.generateHash(newPassword);
-            user.save()
-                .then(() => {
-                    return res.send({
-                        success: true,
-                        message: 'Password is updated',
+            } else {
+                const user = users[0];
+                updateDbToken(user, '');
+                //update password
+                user.password = user.generateHash(newPassword);
+                user.save()
+                    .then(() => {
+                        return res.send({
+                            success: true,
+                            message: 'Password is updated',
+                        });
+                    })
+                    .catch((err) => {
+                        res.status(500).send(err);
                     });
-                })
-                .catch((err) => {
-                    res.status(500).send(err);
-                });
+            }
         })
         .catch((err) => {
             res.status(500).send(err);

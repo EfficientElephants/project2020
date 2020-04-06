@@ -1,6 +1,5 @@
-/* eslint-disable consistent-return */
-import { isEmail } from 'validator';
-import User from '../models/user-model';
+const User = require('../models/user-model');
+const validator = require('validator');
 
 function signup(req, res) {
     const { body } = req;
@@ -26,12 +25,13 @@ function signup(req, res) {
             success: false,
             message: 'Error: Email cannot be blank.',
         });
-    }
-    if (!isEmail(email)) {
-        return res.status(400).send({
-            success: false,
-            message: 'Error: Email must be in the correct format.',
-        });
+    } else {
+        if (!validator.isEmail(email)) {
+            return res.status(400).send({
+                success: false,
+                message: 'Error: Email must be in the correct format.',
+            });
+        }
     }
 
     if (!password) {
@@ -46,7 +46,7 @@ function signup(req, res) {
     // Verify email doesn't exist
     User.find(
         {
-            email,
+            email: email,
         },
         (err, previousUsers) => {
             if (err) {
@@ -54,8 +54,7 @@ function signup(req, res) {
                     success: false,
                     message: 'Error: Server error',
                 });
-            }
-            if (previousUsers.length > 0) {
+            } else if (previousUsers.length > 0) {
                 return res.status(403).send({
                     success: false,
                     message: 'Error: Account already exists',
@@ -67,8 +66,8 @@ function signup(req, res) {
             newUser.firstName = firstName;
             newUser.lastName = lastName;
             newUser.password = newUser.generateHash(password);
-            newUser.save((err2) => {
-                if (err2) {
+            newUser.save((err, user) => {
+                if (err) {
                     return res.send({
                         success: false,
                         message: 'Error: Server error',
@@ -83,4 +82,4 @@ function signup(req, res) {
     );
 }
 
-export default { signup };
+module.exports = { signup };

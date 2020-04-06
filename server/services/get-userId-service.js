@@ -1,4 +1,4 @@
-import User from '../models/user-model';
+const User = require('../models/user-model');
 
 function getUserId(req, res) {
     const { query } = req;
@@ -14,17 +14,18 @@ function getUserId(req, res) {
                     message: 'Error: Server error',
                 });
             }
-            if (sessions.length !== 1) {
+            if (sessions.length != 1) {
                 return res.status(401).send({
                     success: false,
                     message: 'Error: Invalid Session',
                 });
+            } else {
+                return res.send({
+                    success: true,
+                    message: 'Valid Session',
+                    userId: token,
+                });
             }
-            return res.send({
-                success: true,
-                message: 'Valid Session',
-                userId: token,
-            });
         }
     );
 }
@@ -46,4 +47,4 @@ function getUserName(req, res) {
         });
 }
 
-export default { getUserId, getUserName };
+module.exports = { getUserId, getUserName };

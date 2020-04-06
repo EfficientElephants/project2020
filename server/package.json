@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bcrypt": "^4.0.1",
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
     "debug": "~2.6.3",
@@ -11,9 +10,7 @@
     "express": "^4.15.3",
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.7",
-    "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.8.2",
-    "nodemailer": "^6.4.6",
     "pug": "^2.0.4",
     "serve-favicon": "^2.5.0",
     "validator": "^13.0.0"

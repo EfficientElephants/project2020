@@ -1,59 +1,54 @@
-import { Schema as _Schema, model } from 'mongoose';
-import { hashSync, genSaltSync, compareSync } from 'bcrypt';
-import { isEmail } from 'validator';
-import { uniqueValidator } from 'mongoose-unique-validator';
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const bcrypt = require('bcrypt');
 
-const Schema = _Schema;
-
+const validator = require('validator')
+var uniqueValidator = require('mongoose-unique-validator');
 const userSchema = new Schema({
     firstName: {
         type: String,
         required: true,
-        default: '',
+        default: ''
     },
     lastName: {
         type: String,
         required: true,
-        default: '',
+        default: ''
     },
-    email: {
-        type: String,
+    email: { 
+        type: String, 
         lowercase: true,
         required: true,
-        index: true,
-        unique: true,
+        index: true, 
+        unique: true, 
         validate: (value) => {
-            return isEmail(value);
+            return validator.isEmail(value)
         },
-        default: '',
+        default: ''
     },
     resetPasswordToken: {
         type: String,
-        default: '',
-    },
+        default: ''
+    },   
     password: {
         type: String,
         required: true,
         length: {
             min: 8,
-            max: 14,
+            max: 14
         },
-        default: '',
-    },
+        default: ''
+    }
 });
 
-function generateHash(password) {
-    return hashSync(password, genSaltSync(8), null);
+userSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 }
 
-function validPassword(password) {
-    return compareSync(password, this.password);
+userSchema.methods.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
 }
-
-userSchema.methods.generateHash = generateHash;
-
-userSchema.methods.validPassword = validPassword;
 
 userSchema.plugin(uniqueValidator);
-const User = model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 module.exports = User;

@@ -1,14 +1,13 @@
-/* eslint-disable func-names */
-const express = require('express');
-const transactionService = require('../services/transaction-service').default;
-const signupService = require('../services/signup-service').default;
-const loginService = require('../services/login-service').default;
-const getUserIdService = require('../services/get-userId-service').default;
-const goalService = require('../services/goal-service');
+var express = require('express');
+var router = express.Router();
 
-const router = express.Router();
+var transactionService = require('../services/transaction-service');
+var signupService = require('../services/signup-service');
+var loginService = require('../services/login-service');
+var getUserIdService = require('../services/get-userId-service');
+var goalService = require('../services/goal-service');
 
-// add transaction routes
+//add transaction routes
 router.get('/transactions', function (req, res) {
     transactionService.get(req, res);
 });
@@ -40,22 +39,22 @@ router.get('/transaction/earliest/:userId', function (req, res) {
     transactionService.earliestTransaction(req, res);
 });
 
-// signup
+//signup
 router.post('/signup', function (req, res) {
     signupService.signup(req, res);
 });
 
-// reset password
+//reset password
 router.post('/resetPassword', function (req, res) {
     loginService.resetPassword(req, res);
 });
 
-// verify reset token
+//verify reset token
 router.get('/verifyReset', function (req, res) {
     loginService.verifyResetToken(req, res);
 });
 
-// login
+//login
 router.post('/login', function (req, res) {
     loginService.login(req, res);
 });
@@ -75,12 +74,12 @@ router.get('/getUserId', function (req, res) {
     getUserIdService.getUserId(req, res);
 });
 
-// Get user's name
+//Get user's name
 router.get('/users/:userId', function (req, res) {
     getUserIdService.getUserName(req, res);
 });
 
-// goal
+//goal
 router.get('/goals/:userId/:mmyyID', function (req, res) {
     goalService.get(req, res);
 });

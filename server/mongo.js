@@ -1,6 +1,7 @@
-import { connect as _connect, disconnect } from 'mongoose';
-
 require('dotenv').config();
+const mongoose = require('mongoose');
+
+mongoose.Promise = global.Promise;
 
 function connect() {
     let mongoURI;
@@ -9,7 +10,7 @@ function connect() {
     } else {
         mongoURI = process.env.CONNECTION_STRING;
     }
-    return _connect(mongoURI, {
+    return mongoose.connect(mongoURI, {
         useFindAndModify: false,
         autoIndex: false,
         useUnifiedTopology: true,
@@ -19,10 +20,10 @@ function connect() {
 }
 
 function close() {
-    return disconnect();
+    return mongoose.disconnect();
 }
 
-export default {
+module.exports = {
     connect,
     close,
 };

@@ -1,16 +1,17 @@
-import { ReadPreference } from 'mongodb';
-import Transaction from '../models/transaction-model';
+const Transaction = require('../models/transaction-model');
+const ReadPreference = require('mongodb').ReadPreference;
+
+require('../mongo').connect();
 
 function get(req, res) {
     const { query } = req;
     const { userId, dates } = query;
-    let docquery;
     if (dates === 'all' || dates === undefined) {
-        docquery = Transaction.find({ userId })
+        docquery = Transaction.find({ userId: userId })
             .sort({ date: 'descending', createdAt: 'descending' })
             .read(ReadPreference.NEAREST);
     } else {
-        docquery = Transaction.find({ userId, monthYearId: dates })
+        docquery = Transaction.find({ userId: userId, monthYearId: dates })
             .sort({ date: 'descending', createdAt: 'descending' })
             .read(ReadPreference.NEAREST);
     }
@@ -57,8 +58,7 @@ function create(req, res) {
 function update(req, res) {
     const { item, date, price, category, _id, monthYearId } = req.body;
     Transaction.findOne({ _id })
-        .then((transactionRes) => {
-            const transaction = JSON.parse(JSON.stringify(transactionRes));
+        .then((transaction) => {
             transaction.item = item;
             transaction.date = date;
             transaction.price = price;
@@ -97,7 +97,6 @@ function destroy(req, res) {
 
 function getTotalsAll(req, res) {
     const { userId, dates } = req.params;
-    let transactionQuery;
     if (dates === 'all') {
         transactionQuery = Transaction.aggregate([
             {
@@ -143,7 +142,6 @@ function getTotalsAll(req, res) {
 
 function getSpendingTotal(req, res) {
     const { userId, dates } = req.params;
-    let transactionQuery;
     if (dates === 'all') {
         transactionQuery = Transaction.aggregate([
             {
@@ -191,7 +189,6 @@ function getSpendingTotal(req, res) {
 
 function getIncomeTotal(req, res) {
     const { userId, dates } = req.params;
-    let transactionQuery;
     if (dates === 'all') {
         transactionQuery = Transaction.aggregate([
             {
@@ -238,7 +235,7 @@ function getIncomeTotal(req, res) {
 
 function earliestTransaction(req, res) {
     const { userId } = req.params;
-    const docquery = Transaction.find({ userId })
+    const docquery = Transaction.find({ userId: userId })
         .sort({ date: 'ascending' })
         .limit(1)
         .read(ReadPreference.NEAREST);
@@ -251,7 +248,7 @@ function earliestTransaction(req, res) {
         });
 }
 
-export default {
+module.exports = {
     get,
     create,
     update,

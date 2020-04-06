@@ -31,4 +31,4 @@ exports.mongoConn = require('../server/mongo');
 exports.app = require('../server/app');
 exports.Transaction = require('../server/models/transaction-model');
 exports.Goal = require('../server/models/goal-model');
-exports.User = require('../server/models/user-model').default;
+exports.User = require('../server/models/user-model');

@@ -1,10 +1,9 @@
 /* eslint-disable global-require */
 /* eslint-disable func-names */
-import { mongoConn } from './common';
+const { mongoConn } = require('./common');
 
 function importTest(name, path) {
     describe(name, function () {
-        // eslint-disable-next-line import/no-dynamic-require
         require(path);
     });
 }
