@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-const EditGoalModal = props => {
+const EditGoalModal = (props) => {
     if (props.selectedgoal) {
         return (
             <Modal
@@ -22,15 +22,19 @@ const EditGoalModal = props => {
                     </Form.Group>
                     <Form.Group controlId="formPrice">
                         <Form.Label>Amount</Form.Label>
-                        <Form.Control 
-                            type="number" 
+                        <Form.Control
+                            type="number"
                             name="goalAmount"
                             placeholder="$"
-                            value={props.selectedgoal.goalAmount} 
+                            value={props.selectedgoal.goalAmount}
                             onChange={props.onChange}
-                            className={props.errors.goalAmount ? "errorBox" : "" }
+                            className={
+                                props.errors.goalAmount ? 'errorBox' : ''
+                            }
                         />
-                        <div className="errorMsg">{props.errors.goalAmount}</div>
+                        <div className="errorMsg">
+                            {props.errors.goalAmount}
+                        </div>
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
@@ -42,9 +46,9 @@ const EditGoalModal = props => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-        )
+        );
     } else {
-        return <div/>;
+        return <div />;
     }
 };
 

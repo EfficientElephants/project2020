@@ -1,11 +1,12 @@
- import React, { Component } from 'react';
+import React, { Component } from 'react';
 import goalAPI from '../../api/goalAPI';
 import { getFromStorage } from '../Storage';
 import { Row, Col, Container } from 'react-bootstrap';
 import transactionAPI from '../../api/transactionAPI';
 import EditGoalModal from './EditGoalModal';
 import GoalInfo from './GoalInfo';
-var dateformat = require('dateformat');
+import PropTypes from 'prop-types';
+const dateformat = require('dateformat');
 
 class Goals extends Component {
     constructor() {
@@ -21,7 +22,7 @@ class Goals extends Component {
             mmyyID: '',
             month: '',
             year: '',
-        }
+        };
         this.createArray = this.createArray.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.handleSave = this.handleSave.bind(this);
@@ -30,42 +31,42 @@ class Goals extends Component {
         this.handleEnableModal = this.handleEnableModal.bind(this);
         this.handleDisableModal = this.handleDisableModal.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
-
     }
 
+    // eslint-disable-next-line no-unused-vars
     UNSAFE_componentWillReceiveProps(render) {
         if (this.props.render) {
-            goalAPI.get({
-                userId: this.state.userId,
-                mmyyID: this.state.mmyyID
-            }).then(json => {
-                this.setState({
-                    goalList: json
+            goalAPI
+                .get({
+                    userId: this.state.userId,
+                    mmyyID: this.state.mmyyID,
                 })
-            });
+                .then((json) => {
+                    this.setState({
+                        goalList: json,
+                    });
+                });
         }
     }
 
     async componentDidMount() {
         const obj = getFromStorage('expense_app');
         if (obj && obj.token) {
-            const {
-                token
-            } = obj;
+            const { token } = obj;
             var userId = await fetch('api/getUserId?token=' + token)
-                .then(res => res.json())
-                .then(json => {
+                .then((res) => res.json())
+                .then((json) => {
                     if (json.success) {
                         return json.userId;
                     } else {
                         // handle error
                         console.log('not working');
                     }
-                })
-            this.setState({userId: userId})
-            var month = this.state.date.getMonth() + 1
-            var year = this.state.date.getFullYear() - 2000
-            var mmyyID = dateformat(this.state.date, 'mmyy')
+                });
+            this.setState({ userId: userId });
+            var month = this.state.date.getMonth() + 1;
+            var year = this.state.date.getFullYear() - 2000;
+            var mmyyID = dateformat(this.state.date, 'mmyy');
 
             var currentGoals = await this.getGoals(mmyyID);
             console.log(currentGoals);
@@ -74,54 +75,58 @@ class Goals extends Component {
                 mmyyID: mmyyID,
                 month: month,
                 year: year,
-            })
+            });
 
-            var lastMonth = month
-            var lastYear = year
-            if (month === 1){
-                lastMonth = '12'
-                lastYear -= 1
-            }else{
-                lastMonth = ((this.state.date.getMonth() + 1) < 10 ? '0' : '') + (this.state.date.getMonth())
+            var lastMonth = month;
+            var lastYear = year;
+            if (month === 1) {
+                lastMonth = '12';
+                lastYear -= 1;
+            } else {
+                lastMonth =
+                    (this.state.date.getMonth() + 1 < 10 ? '0' : '') +
+                    this.state.date.getMonth();
             }
-            var oldMMYYID = lastMonth+lastYear;
+            var oldMMYYID = lastMonth + lastYear;
             var oldGoals = await this.getGoals(oldMMYYID);
-            
-            if (currentGoals.length === 0 && oldGoals.length!== 0 && this.state.date.getDate() === 2){
-                var updatedGoals = await this.createNewDatabases(oldGoals)
-                    .then(res =>
-                        {   
-                            var updatedGoals = this.getGoals(this.state.mmyyID);
-                            return updatedGoals
-                        }
-                    )
-                this.setState({goalList: updatedGoals});
-            }else {
-                this.setState({goalList: currentGoals})
+
+            if (
+                currentGoals.length === 0 &&
+                oldGoals.length !== 0 &&
+                this.state.date.getDate() === 2
+            ) {
+                var updatedGoals = await this.createNewDatabases(oldGoals).then(
+                    () => {
+                        var updatedGoals = this.getGoals(this.state.mmyyID);
+                        return updatedGoals;
+                    }
+                );
+                this.setState({ goalList: updatedGoals });
+            } else {
+                this.setState({ goalList: currentGoals });
             }
         }
     }
 
     getGoals(mmyyID) {
-        return goalAPI.get({userId: this.state.userId, mmyyID: mmyyID});
+        return goalAPI.get({ userId: this.state.userId, mmyyID: mmyyID });
     }
 
     createNewDatabases(oldGoals) {
         for (const goalIdx in oldGoals) {
-            var goal = {}
-            goal.category = oldGoals[goalIdx].category
-            goal.goalAmount = oldGoals[goalIdx].goalAmount
+            var goal = {};
+            goal.category = oldGoals[goalIdx].category;
+            goal.goalAmount = oldGoals[goalIdx].goalAmount;
             goal.spentAmount = 0;
             goalAPI.create(goal, this.state.userId);
         }
-        return this.getGoals(this.state.mmyyID)
-
+        return this.getGoals(this.state.mmyyID);
     }
 
     handleSelect(goal) {
         this.setState({
             selectedGoal: goal,
-            render: false
+            render: false,
         });
         this.handleEnableModal(goal);
     }
@@ -130,21 +135,19 @@ class Goals extends Component {
         let selectedGoal = this.state.selectedGoal;
         selectedGoal[event.target.name] = event.target.value;
         this.setState({
-            selectedGoal: selectedGoal
+            selectedGoal: selectedGoal,
         });
-
     }
 
     handleCancel() {
         this.setState({
             selectedGoal: null,
-            showModal: false
+            showModal: false,
         });
         this.handleDisableModal();
-
     }
 
-    handleEnableModal(goal) {
+    handleEnableModal() {
         this.setState({
             showModal: true,
             // selectedGoal: {category: '', goalAmount: ''}
@@ -154,21 +157,21 @@ class Goals extends Component {
     handleDisableModal() {
         this.setState({
             showModal: false,
-            selectedGoal: null
-        })
+            selectedGoal: null,
+        });
     }
 
     handleDelete(event, goal) {
         event.stopPropagation();
         goalAPI.destroy(goal).then(() => {
             let goals = this.state.goalList;
-            goals = goals.filter(h => h !== goal);
+            goals = goals.filter((h) => h !== goal);
             this.setState({
-                goalList: goals
+                goalList: goals,
             });
             if (this.selectedgoal === goal) {
                 this.setState({
-                    selectedGoal: null
+                    selectedGoal: null,
                 });
             }
         });
@@ -178,29 +181,28 @@ class Goals extends Component {
         event.preventDefault();
 
         if (this.validateForm()) {
-            var spent = await (transactionAPI.getTotalsAll(this.state.userId, this.state.mmyyID)
-                .then(allTotals => {
+            var spent = await transactionAPI
+                .getTotalsAll(this.state.userId, this.state.mmyyID)
+                .then((allTotals) => {
                     allTotals.forEach(function (item) {
-                        item.totals = ((item.totals / 100).toFixed(2));
-                    })
+                        item.totals = (item.totals / 100).toFixed(2);
+                    });
                     var total = 0;
                     allTotals.forEach((element) => {
                         if (element._id === this.state.selectedGoal.category) {
                             total = element.totals;
                         }
                     });
-                    return total
-                }));
+                    return total;
+                });
             this.state.selectedGoal.spentAmount = spent;
-            await goalAPI
-                .update(this.state.selectedGoal)
-                .then(result => {
-                    this.setState({
-                        selectedGoal: null,
-                        render: true,
-                    });
-                    this.componentDidMount();
-                })
+            await goalAPI.update(this.state.selectedGoal).then(() => {
+                this.setState({
+                    selectedGoal: null,
+                    render: true,
+                });
+                this.componentDidMount();
+            });
             this.handleDisableModal();
         }
     }
@@ -212,26 +214,27 @@ class Goals extends Component {
 
         if (!v_goal.goalAmount) {
             formIsValid = false;
-            errors["goalAmount"] = "Please enter a valid amount.";
+            errors['goalAmount'] = 'Please enter a valid amount.';
         }
 
-        if (v_goal.goalAmount !== "") {
+        if (v_goal.goalAmount !== '') {
             //regular expression for price validation
             var pattern = new RegExp(/^(\d+(\.\d{2})?|\.\d{2})$/);
             if (!pattern.test(v_goal.goalAmount)) {
                 formIsValid = false;
-                errors["goalAmount"] = "Please enter a valid non-negative amount";
+                errors['goalAmount'] =
+                    'Please enter a valid non-negative amount';
             }
         }
 
         if (!v_goal.category) {
             formIsValid = false;
-            errors["category"] = "Please select a category.";
+            errors['category'] = 'Please select a category.';
         }
         this.setState({
-            errors: errors
-        })
-        return formIsValid
+            errors: errors,
+        });
+        return formIsValid;
     }
 
     createArray() {
@@ -243,55 +246,60 @@ class Goals extends Component {
             if (i + 1 < this.state.goalList.length) {
                 subarray.push(this.state.goalList[i + 1]);
             } else {
-                subarray.push([])
+                subarray.push([]);
             }
             array.push(subarray);
         }
-        return array
+        return array;
     }
 
     render() {
-        return(
+        return (
             <div>
                 <Container>
                     <Row>
                         <div>
-                            <EditGoalModal 
+                            <EditGoalModal
                                 show={this.state.showModal}
                                 onHide={this.handleDisableModal}
-                                onSubmit = {this.handleSave}
-                                onCancel = {this.handleCancel}
-                                onChange = {this.handleChange}
-                                selectedgoal = {this.state.selectedGoal}
-                                errors = {this.state.errors}
+                                onSubmit={this.handleSave}
+                                onCancel={this.handleCancel}
+                                onChange={this.handleChange}
+                                selectedgoal={this.state.selectedGoal}
+                                errors={this.state.errors}
                             />
                         </div>
                     </Row>
-                    {this.createArray().map(array =>{
+                    {this.createArray().map((array) => {
                         return (
-                            <><Row>
-                                {array.map((goal, i) => {
-                                    if (goal.length === 0 && i%2 === 1){
-                                        return <Col
-                                        key={goal.length}
-                                        />
-                                    }
-                                    return <GoalInfo
-                                        goal={goal}
-                                        key={goal._id}
-                                        onSelect={this.handleSelect}
-                                        rerender = {this.state.render}
-                                        onDelete={this.handleDelete}
-                                    />
-                                })}
-                            </Row>
-                            <br /></>
-                        )
+                            <>
+                                <Row>
+                                    {array.map((goal, i) => {
+                                        if (goal.length === 0 && i % 2 === 1) {
+                                            return <Col key={goal.length} />;
+                                        }
+                                        return (
+                                            <GoalInfo
+                                                goal={goal}
+                                                key={goal._id}
+                                                onSelect={this.handleSelect}
+                                                rerender={this.state.render}
+                                                onDelete={this.handleDelete}
+                                            />
+                                        );
+                                    })}
+                                </Row>
+                                <br />
+                            </>
+                        );
                     })}
                 </Container>
             </div>
         );
     }
-
 }
-export default Goals
+Goals.propTypes = {
+    goal: PropTypes.object.isRequired,
+    render: PropTypes.bool,
+};
+export default Goals;
