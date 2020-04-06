@@ -171,7 +171,7 @@ class Dashboard extends Component {
                     
                     <Row style={{ marginTop: 85 }}>
                         <Col>
-                        {(this.state.spendingTotal != 0) 
+                        {(this.state.spendingTotal !== 0) 
                           ? (<Graph 
                             date = {this.state.mmyyID}
                             render = {this.state.render} />)

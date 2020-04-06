@@ -22,20 +22,20 @@ function login(req, res) {
         if (err) {
             return res.send({
                 success: false,
-                message: 'Error: Server error3'
+                message: 'Server error'
             });
         } 
         if (users.length != 1) {
             return res.status(401).send({
                 success: false,
-                message: 'Error: Invalid Username'
+                message: 'Invalid Username'
             });
         } 
         const user = users[0];
         if (!user.validPassword(password)) {
             return res.status(401).send({
                 success: false,
-                message: 'Error: Invalid Password'
+                message: 'Invalid Password'
             });
         }
 
@@ -102,7 +102,7 @@ function forgotPassword(req, res) {
         if (users.length != 1) {
             return res.status(401).send({
                 success: false,
-                message: 'Error: Invalid Email'
+                message: 'Invalid Email'
             });
         } 
         const user = users[0];

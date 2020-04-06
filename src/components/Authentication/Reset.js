@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Form, Button, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Form, Button, Container, Alert } from 'react-bootstrap';
 
 class Reset extends Component {
     constructor(props) {
@@ -77,24 +76,35 @@ class Reset extends Component {
         const { showSuccess } = this.state;
         
         return (
-            <div>
-            <Container className="reset-form">
-                <Form>
-                    <Form.Group>
-                        <Form.Label>Enter new password:</Form.Label>
-                        <Form.Control type="password" value={this.newPassword} onChange={this.onChangeNewPassword}/>
-                    </Form.Group>
-                    <Form.Group>
-                        <Button onClick={this.onReset}>Reset Password</Button>
-                    </Form.Group>
-                </Form>
-            </Container>
-            {showSuccess && (
-                <div>
-                    <p>Your password has been reset. Go to home page to login.</p>
-                    <Link to="/">Go Home</Link>
+            <div className="row">
+                <div className="main-left-side col-4"> 
+                    <p>LOGO HERE</p>
+                    <h1>Expense Elephant</h1>
+                    <p>We are here to help you manage your money!</p>
                 </div>
-            )}
+                <div className="col">
+                    <Container className="main-form">
+                        <Form>
+                        <h1 className="main-header">Reset Password</h1>
+                            <Form.Group>
+                                <Form.Label>Enter new password</Form.Label>
+                                <Form.Control type="password" value={this.newPassword} onChange={this.onChangeNewPassword}/>
+                            </Form.Group>
+                            <Form.Group>
+                                <Button className="submit-button" onClick={this.onReset}>Reset</Button>
+                            </Form.Group>
+                        </Form>
+                    </Container>
+                    <div className="error">
+                        {
+                            (showSuccess) ? (
+                                <Alert variant="success"> Your password has been reset.
+                                <Alert.Link href="/"> Login</Alert.Link>
+                                </Alert>
+                            ) : (null)
+                        }
+                    </div>
+                </div>
             </div>
         )
     }

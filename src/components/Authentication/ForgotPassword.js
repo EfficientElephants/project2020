@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Container, Form, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 class ForgotPassword extends Component {
@@ -61,36 +61,48 @@ class ForgotPassword extends Component {
         const { email, confirmation, showError } = this.state;
     
         return (
-            <div>
-            <Container>
-                <Form>
-                    <h1>Forgot Password</h1>
-                    <Form.Group>
-                        <Form.Label>Email: </Form.Label>
-                        <Form.Control type="email" value={email} onChange={this.onChangeEmail}/>
-                    </Form.Group>
-                    <Form.Group>
-                        <Button onClick={this.sendEmail}>Let's Go!</Button>
-                    </Form.Group>
-                    <Link to="/">Go home</Link>
-                </Form>
-            </Container>
+            <div className="row">
+                <div className="main-left-side col-4"> 
+                    <p>LOGO HERE</p>
+                    <h1>Expense Elephant</h1>
+                    <p>We are here to help you manage your money!</p>
 
-            {showError && (
-                <div>
-                    <p>That email address does not exist. Try again or make a new account.</p>
-                    <Link to="/signup">Don't have an account?</Link>
                 </div>
-                )
-            }
+                <div className="col">
+                    <Link className="link" to="/">Login</Link>
+                    <Container className="main-form">
+                        <Form>
+                            <h1 className="main-header">Forgot Password</h1>
+                            <Form.Group>
+                                <Form.Label>Email </Form.Label>
+                                <Form.Control type="email" value={email} onChange={this.onChangeEmail}/>
+                            </Form.Group>
+                            <Form.Group>
+                                <Button className="submit-button" onClick={this.sendEmail}>Let's Go!</Button>
+                            </Form.Group>
+                        </Form>
+                    </Container>
 
-           {confirmation && (
-                <div>
-                    <p>Password reset email successfully sent! If you do not see it, check your spam folder.</p>
-                    <Link to="/">Sign in</Link>
+                    {showError && (
+                        <div className="error">
+                            <Alert variant="danger">
+                                <p>That email address does not exist. Try again or make a new account.</p>
+                                <Alert.Link href="/signup">Don't have an account?</Alert.Link>
+                            </Alert>
+                        </div>
+                        )
+                    }
+
+                    {confirmation && (
+                            <div className="error">
+                                <Alert variant="success">
+                                    <p>Password reset email successfully sent! If you do not see it, check your spam folder.</p>
+                                    <Alert.Link href="/">Sign In</Alert.Link>
+                                </Alert>
+                            </div>
+                            )
+                        }
                 </div>
-                )
-            }
             </div>
         )
     }

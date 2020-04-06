@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Container, Button, ButtonToolbar, ButtonGroup, Toast, Figure } from 'react-bootstrap';
+import { Row, Col, Container, Button, ButtonToolbar } from 'react-bootstrap';
 import NavBar from '../Navbar';
 import { getFromStorage } from '../Storage';
 

@@ -72,7 +72,7 @@ class Summary extends Component {
             card.category = this.state.disCats[catIdx];
             card.totalSpent = 0;
             for (var idx in this.state.allCatTotals) {
-                if (card.category == this.state.allCatTotals[idx]._id){
+                if (card.category === this.state.allCatTotals[idx]._id){
                     card.totalSpent = ((this.state.allCatTotals[idx].totals)/100).toFixed(2);
                 }
             }
