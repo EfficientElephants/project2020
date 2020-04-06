@@ -68,7 +68,7 @@
 //                             return <Totals
 //                                 total={total}
 //                                 key={total._id}
-//                                 onSelect={this.handleSelect} 
+//                                 onSelect={this.handleSelect}
 //                                 selectedTotal = {this.state.selectedTotal}
 //                                 onDelete={this.handleDelete}
 //                             />
