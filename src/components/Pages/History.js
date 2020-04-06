@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Row, Col, Container, Button, ButtonToolbar, ButtonGroup, Toast, Figure } from 'react-bootstrap';
+import { Row, Col, Container, Button, ButtonToolbar } from 'react-bootstrap';
 import NavBar from '../Navbar';
 import { getFromStorage } from '../Storage';
 
-
 import usersAPI from '../../api/userAPI';
-import DatePicker from "react-datepicker";
+import DatePicker from 'react-datepicker';
 // import transactionAPI from '../api/transactionAPI';
 import goalAPI from '../../api/goalAPI';
 
@@ -25,21 +24,23 @@ class History extends Component {
         //var commonMoment = moment();
         this.state = {
             userId: '',
-            fullName: "",
+            fullName: '',
             //alertOpen: false,
-            //alertType: "", 
+            //alertType: "",
             //toastShow: false,
             //render: false,
             spendingTotal: '',
             incomeTotal: '',
             goalList: [],
-            monthYearDisplay: dateformat(moment().subtract(1, 'month').toDate(),  'mmmm yyyy'),
+            monthYearDisplay: dateformat(
+                moment().subtract(1, 'month').toDate(),
+                'mmmm yyyy'
+            ),
             date: moment().subtract(1, 'month').toDate(),
             mmyyID: dateformat(moment().subtract(1, 'month').toDate(), 'mmyy'),
             maxDate: moment().subtract(1, 'month').toDate(),
             //render: true
-
-        }
+        };
         this.handleDateChange = this.handleDateChange.bind(this);
         //this.handleChange = this.handleChange.bind(this);
         this.rerender = this.rerender.bind(this);
@@ -52,33 +53,45 @@ class History extends Component {
         if (obj && obj.token) {
             const { token } = obj;
             fetch('api/getUserId?token=' + token)
-            .then(res => res.json())
-            .then(json => {
-                if (json.success){
-                    this.setState({ userId: json.userId })
-                    this.getFullName();
-                    this.setState({mmyyID: dateformat(this.state.date, 'mmyy')})
-                    goalAPI.get({userId:this.state.userId, mmyyID: this.state.mmyyID}).then(json => this.setState({goalList:json}));
-                }
-            })
-        };
+                .then((res) => res.json())
+                .then((json) => {
+                    if (json.success) {
+                        this.setState({ userId: json.userId });
+                        this.getFullName();
+                        this.setState({
+                            mmyyID: dateformat(this.state.date, 'mmyy'),
+                        });
+                        goalAPI
+                            .get({
+                                userId: this.state.userId,
+                                mmyyID: this.state.mmyyID,
+                            })
+                            .then((json) => this.setState({ goalList: json }));
+                    }
+                });
+        }
     }
 
     getFullName() {
-        usersAPI.get(this.state.userId)
-            .then(results => {
-                this.setState({fullName: results.firstName + " " + results.lastName});
+        usersAPI.get(this.state.userId).then((results) => {
+            this.setState({
+                fullName: results.firstName + ' ' + results.lastName,
             });
-        return this.state.fullName;                          
+        });
+        return this.state.fullName;
     }
 
     handleDateChange(val) {
-        this.setState({date: val, mmyyID: dateformat(val, 'mmyy'), monthYearDisplay: dateformat(val,  'mmmm yyyy')});
+        this.setState({
+            date: val,
+            mmyyID: dateformat(val, 'mmyy'),
+            monthYearDisplay: dateformat(val, 'mmmm yyyy'),
+        });
         this.rerender(true);
     }
 
     rerender(val) {
-        this.setState( {render: val, goalList: []} )
+        this.setState({ render: val, goalList: [] });
         this.componentDidMount();
     }
 
@@ -92,7 +105,6 @@ class History extends Component {
         this.handleDateChange(newDate);
     }
 
-
     render() {
         return (
             <div>
@@ -100,29 +112,45 @@ class History extends Component {
                 <Container>
                     <Row className="dashboard-header">
                         <Col>
-                            <h1 className="dashboard-title">{this.state.fullName}'s Historical Data for {this.state.monthYearDisplay}</h1>
+                            <h1 className="dashboard-title">
+                                {this.state.fullName}&apos;s Historical Data for{' '}
+                                {this.state.monthYearDisplay}
+                            </h1>
                         </Col>
                         <Col>
                             <ButtonToolbar>
-                                <Button variant="secondary" onClick={this.leftClick}><h1>&lt;</h1></Button>
+                                <Button
+                                    variant="secondary"
+                                    onClick={this.leftClick}
+                                >
+                                    <h1>&lt;</h1>
+                                </Button>
                                 &nbsp;&nbsp;&nbsp;
-                                <Button variant="secondary" onClick={this.rightClick} disabled={dateformat(this.state.maxDate, 'mmyy') === dateformat(this.state.date, 'mmyy')} ><h1>&gt;</h1></Button>
+                                <Button
+                                    variant="secondary"
+                                    onClick={this.rightClick}
+                                    disabled={
+                                        dateformat(
+                                            this.state.maxDate,
+                                            'mmyy'
+                                        ) ===
+                                        dateformat(this.state.date, 'mmyy')
+                                    }
+                                >
+                                    <h1>&gt;</h1>
+                                </Button>
                             </ButtonToolbar>
-                            
-                        
                         </Col>
                     </Row>
                     <Row>
+                        <Col></Col>
                         <Col>
-                        
-                        </Col>
-                        <Col> 
                             <h5>Jump to a month</h5>
                             <DatePicker
                                 showPopperArrow={false}
                                 selected={this.state.date}
                                 maxDate={this.state.maxDate}
-                                onChange={date => this.handleDateChange(date)}
+                                onChange={(date) => this.handleDateChange(date)}
                                 dateFormat="MM/yyyy"
                                 showMonthYearPicker
                             />
@@ -131,30 +159,33 @@ class History extends Component {
                     <Container>
                         <Row>
                             <Col>
-                                <Graph 
+                                <Graph
                                     date={this.state.mmyyID}
-                                    render = {this.state.render} />
+                                    render={this.state.render}
+                                />
                             </Col>
                             <Col>
                                 <h3>Monthly Breakdown</h3>
-                                {this.state.goalList.map(goal => {
-                                    return <GoalBar
-                                        goal={goal}
-                                        key={goal._id}
-                                        render = {this.state.render}
-                                    />
+                                {this.state.goalList.map((goal) => {
+                                    return (
+                                        <GoalBar
+                                            goal={goal}
+                                            key={goal._id}
+                                            render={this.state.render}
+                                        />
+                                    );
                                 })}
                             </Col>
                         </Row>
                     </Container>
                     <Container>
-                    <Row>
-                        <TransactionTable 
-                            render={this.state.render}
-                            dates={this.state.mmyyID}
-                            stateChange = {this.rerender}
-                        />
-                    </Row>
+                        <Row>
+                            <TransactionTable
+                                render={this.state.render}
+                                dates={this.state.mmyyID}
+                                stateChange={this.rerender}
+                            />
+                        </Row>
                     </Container>
                 </Container>
             </div>

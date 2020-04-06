@@ -5,17 +5,16 @@ import AddGoal from '../Goals/AddGoal';
 import Goals from '../Goals/Goals';
 
 class GoalManager extends Component {
-
     constructor() {
         super();
         this.state = {
-            render: "",
-        }
+            render: '',
+        };
         this.rerender = this.rerender.bind(this);
     }
 
     rerender(val) {
-        this.setState({render:val});
+        this.setState({ render: val });
         this.forceUpdate();
     }
 
@@ -27,14 +26,9 @@ class GoalManager extends Component {
                     <br />
                     <h1>Manage Goals</h1>
                     <br />
-                    <AddGoal 
-                        stateChange = {this.rerender}
-                    />
+                    <AddGoal stateChange={this.rerender} />
                     <br />
-                    <Goals 
-                        render = {this.state.render}
-                    />
-
+                    <Goals render={this.state.render} />
                 </Container>
             </div>
         );

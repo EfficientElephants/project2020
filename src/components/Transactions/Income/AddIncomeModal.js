@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import DatePicker from "react-datepicker";
+import DatePicker from 'react-datepicker';
 
 class AddIncomeModal extends Component {
-    constructor(props) {
+    constructor() {
         super();
     }
 
@@ -25,36 +25,52 @@ class AddIncomeModal extends Component {
                             <DatePicker
                                 showPopperArrow={false}
                                 selected={this.props.selectedincome.date}
-                                onChange={date => this.props.datechange(date, this.props.selectedincome)}
+                                onChange={(date) =>
+                                    this.props.datechange(
+                                        date,
+                                        this.props.selectedincome
+                                    )
+                                }
                             />
                         </Form.Group>
 
                         <Form.Group controlId="formItem">
                             <Form.Label>Source</Form.Label>
-                            <Form.Control 
+                            <Form.Control
                                 type="text"
                                 name="item"
                                 value={this.props.selectedincome.item}
-                                onChange = {this.props.onChange} 
-                                className={this.props.errors.item ? "errorBox" : "" }
+                                onChange={this.props.onChange}
+                                className={
+                                    this.props.errors.item ? 'errorBox' : ''
+                                }
                             />
-                            <div className="errorMsg">{this.props.errors.item}</div>
+                            <div className="errorMsg">
+                                {this.props.errors.item}
+                            </div>
                         </Form.Group>
                         <Form.Group controlId="formPrice">
                             <Form.Label>Amount</Form.Label>
-                            <Form.Control 
-                                type="number" 
+                            <Form.Control
+                                type="number"
                                 name="price"
                                 placeholder="$"
-                                value={this.props.selectedincome.price} 
+                                value={this.props.selectedincome.price}
                                 onChange={this.props.onChange}
-                                className={this.props.errors.price ? "errorBox" : "" }
+                                className={
+                                    this.props.errors.price ? 'errorBox' : ''
+                                }
                             />
-                            <div className="errorMsg">{this.props.errors.price}</div>
+                            <div className="errorMsg">
+                                {this.props.errors.price}
+                            </div>
                         </Form.Group>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={this.props.onCancel}>
+                        <Button
+                            variant="secondary"
+                            onClick={this.props.onCancel}
+                        >
                             Cancel
                         </Button>
                         <Button variant="primary" onClick={this.props.onSubmit}>
@@ -62,9 +78,9 @@ class AddIncomeModal extends Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-            )
+            );
         } else {
-            return <div/>;
+            return <div />;
         }
     }
 }

@@ -4,19 +4,19 @@ import AddExpenseModal from './AddExpenseModal';
 import transactionAPI from '../../../api/transactionAPI';
 import { getFromStorage } from '../../Storage';
 import goalAPI from '../../../api/goalAPI';
-var dateformat = require('dateformat');
+const dateformat = require('dateformat');
 
 class AddExpense extends Component {
-    constructor(props) {
+    constructor() {
         super();
-        var CommonDate = new Date()
+        var CommonDate = new Date();
         this.state = {
             userId: '',
             expenses: [],
             errors: {},
-            showModal: false, 
+            showModal: false,
             date: CommonDate,
-            mmyyID: dateformat(CommonDate , 'mmyy')
+            mmyyID: dateformat(CommonDate, 'mmyy'),
         };
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
@@ -32,26 +32,25 @@ class AddExpense extends Component {
         if (obj && obj.token) {
             const { token } = obj;
             fetch('api/getUserId?token=' + token)
-            .then(res => res.json())
-            .then(json => {
-                if (json.success){
-                    this.setState({ userId: json.userId }) //, error: false })
-                    // transactionAPI.get(this.state.userId).then(json => this.setState({expenses:json}));  
-                    
-                } else {
-                    // handle error
-                    console.log('not working');
-                }
-            })
+                .then((res) => res.json())
+                .then((json) => {
+                    if (json.success) {
+                        this.setState({ userId: json.userId }); //, error: false })
+                        // transactionAPI.get(this.state.userId).then(json => this.setState({expenses:json}));
+                    } else {
+                        // handle error
+                        console.log('not working');
+                    }
+                });
         }
     }
 
-    handleDateChange(val, propSelected){
-        this.setState({date: val, mmyyID: dateformat(val, 'mmyy')});
+    handleDateChange(val, propSelected) {
+        this.setState({ date: val, mmyyID: dateformat(val, 'mmyy') });
         let selectedExpense = propSelected;
         selectedExpense['date'] = val;
-        selectedExpense['monthYearId'] = dateformat(val, 'mmyy')
-        this.setState({selectedExpense: selectedExpense});
+        selectedExpense['monthYearId'] = dateformat(val, 'mmyy');
+        this.setState({ selectedExpense: selectedExpense });
     }
 
     handleChange(event) {
@@ -63,73 +62,75 @@ class AddExpense extends Component {
     handleCancel() {
         this.setState({ selectedExpense: null, showModal: false });
         this.handleDisableModal();
-
     }
 
-    handleEnableModal () {
+    handleEnableModal() {
         this.setState({
             showModal: true,
-            selectedExpense: {date: this.state.date, monthYearId: this.state.mmyyID, item: '', price:'', category: '', transactionType: 'expense'}
+            selectedExpense: {
+                date: this.state.date,
+                monthYearId: this.state.mmyyID,
+                item: '',
+                price: '',
+                category: '',
+                transactionType: 'expense',
+            },
         });
-        
     }
 
     handleDisableModal() {
         this.setState({
             showModal: false,
             selectedExpense: null,
-            date: new Date()
-        })
+            date: new Date(),
+        });
     }
 
     //REWORK
     async handleSave(event) {
-        event.preventDefault();  
+        event.preventDefault();
         if (this.validateForm()) {
-            var allGoals = await (goalAPI
-            .get({userId: this.state.userId, mmyyID: this.state.mmyyID})
-            .then(goals => {
-                return goals
-            }));
+            var allGoals = await goalAPI
+                .get({ userId: this.state.userId, mmyyID: this.state.mmyyID })
+                .then((goals) => {
+                    return goals;
+                });
             var goal = null;
             var selectedExpenseCat = this.state.selectedExpense.category;
             var selectedExpensePrice = this.state.selectedExpense.price;
-            allGoals.forEach(function (element){
-                if(element.category === selectedExpenseCat){
+            allGoals.forEach(function (element) {
+                if (element.category === selectedExpenseCat) {
                     goal = element;
                 }
-                
-            })
+            });
             if (goal) {
-                goal.spentAmount = parseFloat(goal.spentAmount) + parseFloat(selectedExpensePrice);
-                goalAPI
-                    .update(goal)
-                    .catch(err => {});
+                goal.spentAmount =
+                    parseFloat(goal.spentAmount) +
+                    parseFloat(selectedExpensePrice);
+                goalAPI.update(goal).catch((err) => console.log(err));
             }
             transactionAPI
-            .create(this.state.selectedExpense, this.state.userId)
-            .then(result => {
-                if (result.errors) {
-                    this.setState({error: true});
-                }
-                else {
-                    this.setState({
-                        selectedExpense: null, 
-                        alertOpen: true
-                    });
-                    this.handleDisableModal();
-                    if (this.props.typeChange){
-                        this.handleAlert();
-                    }else{
-                        this.props.stateChange(true);
+                .create(this.state.selectedExpense, this.state.userId)
+                .then((result) => {
+                    if (result.errors) {
+                        this.setState({ error: true });
+                    } else {
+                        this.setState({
+                            selectedExpense: null,
+                            alertOpen: true,
+                        });
+                        this.handleDisableModal();
+                        if (this.props.typeChange) {
+                            this.handleAlert();
+                        } else {
+                            this.props.stateChange(true);
+                        }
                     }
-                    
-                }
-            });
+                });
         }
     }
 
-    handleAlert(){
+    handleAlert() {
         this.props.typeChange('expense');
         this.props.stateChange(true);
     }
@@ -138,56 +139,59 @@ class AddExpense extends Component {
         let v_expense = this.state.selectedExpense;
         let errors = {};
         let formIsValid = true;
-  
+
         if (!v_expense.item) {
             formIsValid = false;
-            errors["item"] = "Please enter an item.";
+            errors['item'] = 'Please enter an item.';
         }
 
         if (!v_expense.price) {
             formIsValid = false;
-            errors["price"] = "Please enter a valid price.";
+            errors['price'] = 'Please enter a valid price.';
         }
 
-        if (v_expense.price !== "") {
+        if (v_expense.price !== '') {
             //regular expression for price validation
             var pattern = new RegExp(/^(\d+(\.\d{2})?|\.\d{2})$/);
             if (!pattern.test(v_expense.price)) {
                 formIsValid = false;
-                errors["price"] = "Please enter a valid non-negative price";
+                errors['price'] = 'Please enter a valid non-negative price';
             }
         }
 
         if (!v_expense.category) {
             formIsValid = false;
-            errors["category"] = "Please select a category.";
+            errors['category'] = 'Please select a category.';
         }
-        this.setState({errors: errors})
-        return formIsValid
+        this.setState({ errors: errors });
+        return formIsValid;
     }
-
-    
 
     render() {
         return (
             <Container>
                 <Row>
                     <div>
-                        <Button variant="secondary" onClick={this.handleEnableModal}>Add New Expense</Button>
-                        <AddExpenseModal 
+                        <Button
+                            variant="secondary"
+                            onClick={this.handleEnableModal}
+                        >
+                            Add New Expense
+                        </Button>
+                        <AddExpenseModal
                             show={this.state.showModal}
                             onHide={this.handleDisableModal}
-                            onSubmit = {this.handleSave}
-                            onCancel = {this.handleCancel}
-                            onChange = {this.handleChange}
-                            selectedexpense = {this.state.selectedExpense}
-                            errors = {this.state.errors}
-                            datechange = {this.handleDateChange}
+                            onSubmit={this.handleSave}
+                            onCancel={this.handleCancel}
+                            onChange={this.handleChange}
+                            selectedexpense={this.state.selectedExpense}
+                            errors={this.state.errors}
+                            datechange={this.handleDateChange}
                         />
                     </div>
                 </Row>
             </Container>
-        )
+        );
     }
 }
 export default AddExpense;
