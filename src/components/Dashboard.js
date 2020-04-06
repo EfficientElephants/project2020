@@ -140,7 +140,7 @@ class Dashboard extends Component {
                 <Container>
                     <Row className="dashboard-header">
                         <Col md={7}>
-                        <h1 class="dashboard-title">Welcome back, {this.state.fullName}!</h1>
+                        <h1 className="dashboard-title">Welcome back, {this.state.fullName}!</h1>
                         </Col>
                         <Col>
                             <AddExpense 

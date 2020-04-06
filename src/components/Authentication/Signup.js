@@ -185,7 +185,7 @@ render () {
 
   if (!token) {
       return (
-          <div className="row">
+          <div className="row main-row">
               <div className="main-left-side col-4"> 
                   <img className="logo" src={Logo} height="150" width="150" alt="Expense Elephant Logo" />
                   <h1>Expense Elephant</h1>
