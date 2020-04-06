@@ -1,23 +1,28 @@
-const dotenv = require('dotenv').config();
-const mongoose = require('mongoose');
+import { connect as _connect, disconnect } from 'mongoose';
 
-mongoose.Promise = global.Promise;
+require('dotenv').config();
 
 function connect() {
-    var mongoURI;
+    let mongoURI;
     if (process.env.NODE_ENV === 'test') {
         mongoURI = process.env.CONNECTION_STRING_TESTING;
-    }else{
+    } else {
         mongoURI = process.env.CONNECTION_STRING;
     }
-    return mongoose.connect(mongoURI, {useFindAndModify: false, autoIndex: false, useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true});
+    return _connect(mongoURI, {
+        useFindAndModify: false,
+        autoIndex: false,
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+        useCreateIndex: true,
+    });
 }
 
 function close() {
-    return mongoose.disconnect();
+    return disconnect();
 }
 
-module.exports = {
+export default {
     connect,
-    close
+    close,
 };

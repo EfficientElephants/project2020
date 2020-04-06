@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-var app = require('./app');
-var db = require('./mongo');
+const app = require('./app');
+const db = require('./mongo');
 
-var port = process.env.PORT || '3001';
+const port = process.env.PORT || '3001';
 
-db.connect()
-.then(() => {
-  app.listen(port, () => {
-    console.log('Listening on port: ' + port);
-  });
+db.connect().then(() => {
+    app.listen(port, () => {
+        // eslint-disable-next-line no-console
+        console.log(`Listening on port: ${port}`);
+    });
 });
