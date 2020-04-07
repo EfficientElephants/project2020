@@ -22,20 +22,20 @@ function login(req, res) {
         if (err) {
             return res.send({
                 success: false,
-                message: 'Server error'
+                message: 'Error: Server error3'
             });
         } 
         if (users.length != 1) {
             return res.status(401).send({
                 success: false,
-                message: 'Invalid Username'
+                message: 'Error: Invalid Username'
             });
         } 
         const user = users[0];
         if (!user.validPassword(password)) {
             return res.status(401).send({
                 success: false,
-                message: 'Invalid Password'
+                message: 'Error: Invalid Password'
             });
         }
 

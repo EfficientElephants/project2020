@@ -15,27 +15,27 @@ function signup(req, res) {
     if (!firstName) {
         return res.status(400).send({
             success: false,
-            message: 'First Name needed'
+            message: 'Error: First name cannot be blank.'
         });
     }
 
     if (!lastName) {
         return res.status(400).send({
             success: false,
-            message: 'Last Name needed'
+            message: 'Error: Last name cannot be blank.'
         });
     }
 
     if (!email) {
         return res.status(400).send({
             success: false,
-            message: 'Email needed'
+            message: 'Error: Email cannot be blank.'
         });
     } else{
         if(! (validator.isEmail(email))) {
             return res.status(400).send({
                 success: false,
-                message: 'Invalid Email.'
+                message: 'Error: Email must be in the correct format.'
             });
         }
     }
@@ -44,7 +44,7 @@ function signup(req, res) {
     if (!password) {
         return res.status(400).send({
             success: false,
-            message: 'Password needed'
+            message: 'Error: Password cannot be blank.'
         });
     }
 
@@ -62,7 +62,7 @@ function signup(req, res) {
         } else if (previousUsers.length > 0) {
             return res.status(403).send({
                 success: false,
-                message: 'Account already exists'
+                message: 'Error: Account already exists'
             });
         } 
         // Creating new user
