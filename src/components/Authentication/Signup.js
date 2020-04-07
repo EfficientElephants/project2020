@@ -214,11 +214,11 @@ render () {
                       </Form.Group>
                       <Form.Group>
                           <Form.Label>Email </Form.Label>
-                          <Form.Control type="email" value={signupEmail} onChange={this.onChangeEmail} id="emailInput" />
+                          <Form.Control type="email" value={signupEmail} onChange={this.onChangeEmail} id="SignUpEmailInput" />
                       </Form.Group>
                       <Form.Group>
                           <Form.Label>Password </Form.Label>
-                          <Form.Control type="password" value={signupPassword} onChange={this.onChangePassword} id="passwordInput" />
+                          <Form.Control type="password" value={signupPassword} onChange={this.onChangePassword} id="SignUpPasswordInput" />
                       </Form.Group>
                       {/* <Form.Group>
                           <Form.Label>Password Again: </Form.Label>

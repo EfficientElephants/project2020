@@ -9,12 +9,16 @@ class Reset extends Component {
         this.state = {
             token: '',
             newPassword: '',
+            confirmPassword: '',
             showSuccess: false,
+            showError: false,
             message: ''
         }
 
         this.onChangeNewPassword = this.onChangeNewPassword.bind(this);
         this.onReset = this.onReset.bind(this);
+        this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this);
+        this.validatePassword = this.validatePassword.bind(this);
 
 
     }
@@ -36,45 +40,72 @@ class Reset extends Component {
 
     onChangeNewPassword(event) {
         this.setState({
-            newPassword: event.target.value
+            newPassword: event.target.value,
+            showError: false
         });
+    }
+
+    onChangeConfirmPassword(event) {
+        this.setState({
+            confirmPassword: event.target.value,
+            showError: false
+        });
+    }
+
+    validatePassword(newPass, confirmPass) {
+        if (newPass === confirmPass) {
+            return true
+        } else {
+            return false
+        }
     }
 
     onReset() {
         const {
             newPassword,
-            token
+            token,
+            confirmPassword
         } = this.state
 
-        fetch('api/resetPassword', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },    
-            body: JSON.stringify({
-                newPassword: newPassword,
-                token: token
-            }),
-        })
-        .then(res => res.json())
-        .then(json => {
-            if (json.success) {
-                this.setState({
-                    showSuccess: true
-                })
-            } else {
-                this.setState({
-                    showSuccess: false
-                })
-            }
-        })
+        var valid = this.validatePassword(newPassword, confirmPassword)
+
+        if (valid) {
+            fetch('api/resetPassword', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },    
+                body: JSON.stringify({
+                    newPassword: newPassword,
+                    token: token
+                }),
+            })
+            .then(res => res.json())
+            .then(json => {
+                if (json.success) {
+                    this.setState({
+                        showSuccess: true,
+                        showError: false
+                    })
+                } else {
+                    this.setState({
+                        showSuccess: false
+                    })
+                }
+            })
+        }
+        else {
+            this.setState({
+                showError: true
+            })
+        }
     }
 
 
     
 
     render () {
-        const { showSuccess } = this.state;
+        const { showSuccess, showError } = this.state;
         
         return (
             <div className="row main-row">
@@ -89,7 +120,11 @@ class Reset extends Component {
                         <h1 className="main-header">Reset Password</h1>
                             <Form.Group>
                                 <Form.Label>Enter new password</Form.Label>
-                                <Form.Control type="password" value={this.newPassword} onChange={this.onChangeNewPassword} id="passwordInput" />
+                                <Form.Control type="password" value={this.newPassword} onChange={this.onChangeNewPassword} id="resetPasswordInput" />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Confirm password</Form.Label>
+                                <Form.Control type="password" value={this.confirmPassword} onChange={this.onChangeConfirmPassword} id="resetPasswordInput2" />
                             </Form.Group>
                             <Form.Group>
                                 <Button className="submit-button" onClick={this.onReset}>Reset</Button>
@@ -101,6 +136,12 @@ class Reset extends Component {
                             (showSuccess) ? (
                                 <Alert variant="success"> Your password has been reset.
                                 <Alert.Link href="/"> Login</Alert.Link>
+                                </Alert>
+                            ) : (null)
+                        }
+                        {
+                            (showError) ? (
+                                <Alert variant="danger"> Passwords did not match. Try again.
                                 </Alert>
                             ) : (null)
                         }
