@@ -58,19 +58,6 @@ class Login extends Component {
                 isLoading: false,
             })
         }
-        // if (auth.isAuthenticated()){
-        //     const obj = getFromStorage('expense_app');
-        //     const { token } = obj;
-        //     this.authenticate();
-        //     this.setState({
-        //         token,
-        //         isLoading: false
-        //     })
-        // } else {
-        //     this.setState({
-        //         isLoading: false,
-        //     })
-        // }
     }
 
     onChangeEmail(event) {
