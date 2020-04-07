@@ -102,7 +102,7 @@ function forgotPassword(req, res) {
         if (users.length != 1) {
             return res.status(401).send({
                 success: false,
-                message: 'Invalid Email'
+                message: 'Error: Invalid Email'
             });
         } 
         const user = users[0];
