@@ -1,97 +1,111 @@
-import React, { Component } from 'react';
-import { Col, Button, ProgressBar } from 'react-bootstrap';
+import React, {
+  Component
+} from 'react';
+import {
+  Col, Button, ProgressBar
+} from 'react-bootstrap';
 import PropTypes from 'prop-types';
-//import  from '../api/transactionAPI';
+// import  from '../api/transactionAPI';
 
 class GoalInfo extends Component {
-    constructor() {
-        super();
-        this.state = {
-            gradient: '',
-            percent: '',
-            goalAmount: '',
-        };
+  constructor() {
+    super();
+    this.state = {
+      gradient: '',
+      percent: '',
+      goalAmount: '',
+    };
 
-        this.percent = this.percent.bind(this);
-        this.gradient = this.gradient.bind(this);
-        this.remaining = this.remaining.bind(this);
+    this.percent = this.percent.bind(this);
+    this.gradient = this.gradient.bind(this);
+    this.remaining = this.remaining.bind(this);
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  UNSAFE_componentWillReceiveProps(rerender) {
+    console.log(this.props);
+    if (this.props.rerender) {
+      this.componentDidMount();
     }
+  }
 
-    // eslint-disable-next-line no-unused-vars
-    UNSAFE_componentWillReceiveProps(rerender) {
-        console.log(this.props);
-        if (this.props.rerender) {
-            this.componentDidMount();
-        }
+  componentDidMount() {
+    const goal = this.props.goal.goalAmount;
+    const per = this.percent();
+    const grad = this.gradient(per);
+    this.setState({ goalAmount: goal, percent: per, gradient: grad });
+  }
+
+  percent() {
+    const { goalAmount } = this.props.goal;
+    const { spentAmount } = this.props.goal;
+    const percent = 100 * (spentAmount / goalAmount);
+    return percent.toFixed(0);
+  }
+
+  gradient(percent) {
+    if (percent >= 75) {
+      return 'danger';
+    } if (percent >= 50) {
+      return 'warning';
     }
+    return 'success';
+  }
 
-    componentDidMount() {
-        let goal = this.props.goal.goalAmount;
-        let per = this.percent();
-        let grad = this.gradient(per);
-        this.setState({ goalAmount: goal, percent: per, gradient: grad });
-    }
-
-    percent() {
-        const goalAmount = this.props.goal.goalAmount;
-        const spentAmount = this.props.goal.spentAmount;
-        const percent = 100 * (spentAmount / goalAmount);
-        return percent.toFixed(0);
-    }
-
-    gradient(percent) {
-        if (percent >= 75) {
-            return 'danger';
-        } else if (percent >= 50) {
-            return 'warning';
-        } else {
-            return 'success';
-        }
-    }
-
-    remaining() {
-        const remains =
+  remaining() {
+    const remains =
             this.props.goal.goalAmount - this.props.goal.spentAmount;
-        return remains.toFixed(2);
-    }
+    return remains.toFixed(2);
+  }
 
-    render() {
-        return (
-            <Col>
-                <div>
-                    <h5>{this.props.goal.category}</h5>
-                    <ProgressBar
-                        striped
-                        variant={this.state.gradient}
-                        now={this.state.percent}
-                        label={`${this.state.percent}%`}
-                    />
-                    <br />
-                    <p>Goal Amount: {this.props.goal.goalAmount}</p>
-                    <p>Amount Spent: {this.props.goal.spentAmount}</p>
-                    <p>Amount Remaining: {this.remaining()}</p>
-                    <Button
-                        variant="info"
-                        onClick={() => this.props.onSelect(this.props.goal)}
-                    >
-                        Edit Goal
-                    </Button>
+  render() {
+    return (
+      <Col>
+        <div>
+          <h5>{this.props.goal.category}</h5>
+          <ProgressBar
+            striped
+            variant={this.state.gradient}
+            now={this.state.percent}
+            label={`${this.state.percent}%`}
+          />
+          <br />
+          <p>
+            Goal Amount:
+            {this.props.goal.goalAmount}
+          </p>
+          <p>
+            Amount Spent:
+            {this.props.goal.spentAmount}
+          </p>
+          <p>
+            Amount Remaining:
+            {this.remaining()}
+          </p>
+          <Button
+            variant="info"
+            onClick={() =>
+              this.props.onSelect(this.props.goal)}
+          >
+            Edit Goal
+          </Button>
                     &nbsp;
-                    <Button
-                        variant="danger"
-                        onClick={(e) => this.props.onDelete(e, this.props.goal)}
-                    >
-                        Delete Goal
-                    </Button>
-                </div>
-            </Col>
-        );
-    }
+          <Button
+            variant="danger"
+            onClick={(e) =>
+              this.props.onDelete(e, this.props.goal)}
+          >
+            Delete Goal
+          </Button>
+        </div>
+      </Col>
+    );
+  }
 }
 GoalInfo.propTypes = {
-    goal: PropTypes.object.isRequired,
-    rerender: PropTypes.bool,
-    onSelect: PropTypes.func,
-    onDelete: PropTypes.func,
+  goal: PropTypes.object.isRequired,
+  rerender: PropTypes.bool,
+  onSelect: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 export default GoalInfo;
