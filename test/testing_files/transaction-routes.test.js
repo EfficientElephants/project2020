@@ -385,26 +385,27 @@ describe('getTotalsAll', () => {
       }
     ];
 
-    Transaction.insertMany(transactions)
-      .then(() => {
-        chai.request(app)
-          .get(`/api/transaction/totals/${testUserId}/all`)
-          .end((err, res) => {
-            for (const i in res.body) {
-              res.body[i].totals = (res.body[i].totals / 100).toFixed(2);
-              if (res.body[i]._id === 'Transportation') {
-                expect(res.body[i].totals).to.equal(transactions[0].price);
-              } else if (res.body[i]._id === 'Food') {
-                expect(res.body[i].totals).to.equal(transactions[1].price);
-              } else if (res.body[i]._id === 'Misc.') {
-                expect(res.body[i].totals).to.equal(transactions[2].price);
-              } else {
-                expect.fail('should not get here');
-              }
+    Transaction.insertMany(transactions).then(() => {
+      chai
+        .request(app)
+        .get(`/api/transaction/totals/${testUserId}/all`)
+        .end((err, res) => {
+          res.body.forEach((resitem) => {
+            const item = resitem;
+            item.totals = (item.totals / 100).toFixed(2);
+            if (item._id === 'Transportation') {
+              expect(item.totals).to.equal(transactions[0].price);
+            } else if (item._id === 'Food') {
+              expect(item.totals).to.equal(transactions[1].price);
+            } else if (item._id === 'Misc.') {
+              expect(item.totals).to.equal(transactions[2].price);
+            } else {
+              expect.fail('should not get here');
             }
-            done();
           });
-      });
+          done();
+        });
+    });
   });
   it('should return category totals of a specific month only', (done) => {
     const date1 = faker.date.between('2020-02-01', '2020-02-29');
@@ -443,26 +444,27 @@ describe('getTotalsAll', () => {
       }
     ];
 
-    Transaction.insertMany(transactions)
-      .then(() => {
-        chai.request(app)
-          .get(`/api/transaction/totals/${testUserId}/${date1MMYY}`)
-          .end((err, res) => {
-            for (const i in res.body) {
-              res.body[i].totals = (res.body[i].totals / 100).toFixed(2);
-              if (res.body[i]._id === 'Transportation') {
-                expect(res.body[i].totals).to.equal(transactions[0].price);
-              } else if (res.body[i]._id === 'Food') {
-                expect(res.body[i].totals).to.equal(transactions[1].price);
-              } else if (res.body[i]._id === 'Misc.') {
-                expect.fail('should not get here');
-              } else {
-                expect.fail('should not get here');
-              }
+    Transaction.insertMany(transactions).then(() => {
+      chai
+        .request(app)
+        .get(`/api/transaction/totals/${testUserId}/${date1MMYY}`)
+        .end((err, res) => {
+          res.body.forEach((resitem) => {
+            const item = resitem;
+            item.totals = (item.totals / 100).toFixed(2);
+            if (item._id === 'Transportation') {
+              expect(item.totals).to.equal(transactions[0].price);
+            } else if (item._id === 'Food') {
+              expect(item.totals).to.equal(transactions[1].price);
+            } else if (item._id === 'Misc.') {
+              expect.fail('should not get here');
+            } else {
+              expect.fail('should not get here');
             }
-            done();
           });
-      });
+          done();
+        });
+    });
   });
 });
 
@@ -504,7 +506,8 @@ describe('getSpendingTotal', () => {
       }
     ];
 
-    const totalsAll = (parseFloat(transactions[0].price) + parseFloat(transactions[1].price)).toFixed(2);
+    const totalsAll =
+      (parseFloat(transactions[0].price) + parseFloat(transactions[1].price)).toFixed(2);
     Transaction.insertMany(transactions)
       .then(() => {
         chai.request(app)
@@ -558,7 +561,10 @@ describe('getSpendingTotal', () => {
       }
     ];
 
-    const totalsAll = (parseFloat(transactions[0].price) + parseFloat(transactions[1].price) + parseFloat(transactions[2].price)).toFixed(2);
+    const totalsAll =
+      (parseFloat(transactions[0].price) +
+      parseFloat(transactions[1].price) +
+      parseFloat(transactions[2].price)).toFixed(2);
     Transaction.insertMany(transactions)
       .then(() => {
         chai.request(app)
@@ -588,7 +594,7 @@ describe('getIncomeTotal', () => {
       {
         userId: testUserId,
         item: faker.name.jobTitle(),
-        date,
+        date: date1,
         price: faker.finance.amount(),
         category: 'Income',
         transactionType: 'income',
@@ -614,7 +620,10 @@ describe('getIncomeTotal', () => {
       }
     ];
 
-    const totalsAll = (parseFloat(transactions[0].price) + parseFloat(transactions[1].price) + parseFloat(transactions[2].price)).toFixed(2);
+    const totalsAll =
+      (parseFloat(transactions[0].price) +
+       parseFloat(transactions[1].price) +
+        parseFloat(transactions[2].price)).toFixed(2);
     Transaction.insertMany(transactions)
       .then(() => {
         chai.request(app)
@@ -641,7 +650,7 @@ describe('getIncomeTotal', () => {
       {
         userId: testUserId,
         item: faker.name.jobTitle(),
-        date,
+        date: date1,
         price: faker.finance.amount(),
         category: 'Income',
         transactionType: 'income',
@@ -667,7 +676,8 @@ describe('getIncomeTotal', () => {
       }
     ];
 
-    const totalsAll = (parseFloat(transactions[0].price) + parseFloat(transactions[1].price)).toFixed(2);
+    const totalsAll =
+    (parseFloat(transactions[0].price) + parseFloat(transactions[1].price)).toFixed(2);
     Transaction.insertMany(transactions)
       .then(() => {
         chai.request(app)

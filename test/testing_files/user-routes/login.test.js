@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable no-underscore-dangle */
 const common = require('../../common');
 
@@ -113,7 +114,7 @@ describe('Verify', () => {
 });
 
 describe('ForgotPassword', () => {
-  it('should send user set password', (done) => {
+  it('should send user set password', function (done) {
     this.timeout(5000);
     const plainPassword = faker.internet.password();
     const user = new User({
