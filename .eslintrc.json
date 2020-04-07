@@ -30,7 +30,8 @@
       "operator-linebreak": ["error", "after"],
       "import/no-extraneous-dependencies": ["error", {"packageDir": "./"}],
       "implicit-arrow-linebreak": ["error", "below"],
-      "react/prop-types": 0
+      "react/prop-types": 0,
+      "react/jsx-filename-extension": 0
   }, 
   "settings": {
       "react": {
