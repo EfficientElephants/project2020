@@ -40,9 +40,9 @@ class NavBar extends Component {
                         <img src={Logo} height="42" width="42" alt="Expense Elephant Logo" />
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                    <Navbar.Collapse id="responsive-navbar-nav">
+                    <Navbar.Collapse className="justify-content-end" id="responsive-navbar-nav">
                         
-                        <Nav className="nav-center" defaultActiveKey="/">
+                        <Nav defaultActiveKey="/">
                             <Nav.Item>
                                 <Link className="navbar-link" to="/dashboard">Dashboard</Link>&nbsp;
                             </Nav.Item>

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
-import { Form, Button, Container } from 'react-bootstrap';
+import { Form, Button, Container, Alert } from 'react-bootstrap';
 import auth from './Auth';
 import { getFromStorage } from '../Storage';
 import { setInStorage } from '../Storage';
+import Logo from '../../assets/expense-elephant-logo2.png';
 
 class Signup extends Component {
   constructor(props) {
@@ -183,41 +184,54 @@ render () {
   }
 
   if (!token) {
-    return (
-      <Container className="signup-form">
-        {
-        (signupError) ? (
-            <p>{signupError}</p>
-            ) : (null)
-        }
-        <Form>
-          <h1>Sign Up</h1>
-          <Form.Group>
-              <Form.Label>First Name: </Form.Label>
-              <Form.Control type="text" value={firstName} onChange={this.onChangeFirstName}/>
-          </Form.Group>
-          <Form.Group>
-              <Form.Label>Last Name: </Form.Label>
-              <Form.Control type="text" value={lastName} onChange={this.onChangeLastName}/>
-          </Form.Group>
-          <Form.Group>
-              <Form.Label>Email: </Form.Label>
-              <Form.Control type="email" value={signupEmail} onChange={this.onChangeEmail}/>
-          </Form.Group>
-          <Form.Group>
-              <Form.Label>Password: </Form.Label>
-              <Form.Control type="password" value={signupPassword} onChange={this.onChangePassword}/>
-          </Form.Group>
-          {/* <Form.Group>
-              <Form.Label>Password Again: </Form.Label>
-              <Form.Control type="password" placeholder="password" value={signupPassword}/>
-          </Form.Group> */}
-          <Form.Group>
-              <Button onClick={this.onSignup}>Sign Up</Button>
-          </Form.Group>
-          <Link to="/">Already have an account?</Link>
-        </Form>
-      </Container>
+      return (
+          <div className="row main-row">
+              <div className="main-left-side col-4"> 
+                  <img className="logo" src={Logo} height="150" width="150" alt="Expense Elephant Logo" />
+                  <h1>Expense Elephant</h1>
+                  <p>We are here to help you manage your money!</p>
+              </div>
+              <div className="col">
+                <Link className="link" to="/">Login</Link>
+                <div className="error">
+                    {
+                    (signupError) ? (
+                        <Alert variant="danger">{signupError}</Alert>
+                        ) : (null)
+                    }
+                </div>
+                <Container className="main-form">
+
+                    <Form>
+                      <h1 className="main-header">Sign Up</h1>
+                      <Form.Group>
+                          <Form.Label>First Name </Form.Label>
+                          <Form.Control type="text" value={firstName} onChange={this.onChangeFirstName} id="firstNameInput" />
+                      </Form.Group>
+                      <Form.Group>
+                          <Form.Label>Last Name </Form.Label>
+                          <Form.Control type="text" value={lastName} onChange={this.onChangeLastName} id="lastNameInput" />
+                      </Form.Group>
+                      <Form.Group>
+                          <Form.Label>Email </Form.Label>
+                          <Form.Control type="email" value={signupEmail} onChange={this.onChangeEmail} id="emailInput" />
+                      </Form.Group>
+                      <Form.Group>
+                          <Form.Label>Password </Form.Label>
+                          <Form.Control type="password" value={signupPassword} onChange={this.onChangePassword} id="passwordInput" />
+                      </Form.Group>
+                      {/* <Form.Group>
+                          <Form.Label>Password Again: </Form.Label>
+                          <Form.Control type="password" placeholder="password" value={signupPassword}/>
+                      </Form.Group> */}
+                      <Form.Group>
+                          <Button className="submit-button" onClick={this.onSignup}>Sign Up</Button>
+                      </Form.Group>
+                      
+                    </Form>
+                </Container>
+              </div>
+            </div>
       );
     }
   }
