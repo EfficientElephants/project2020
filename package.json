@@ -26,6 +26,7 @@
     "node-environment-flags": "^1.0.6",
     "node-fetch": "^2.6.0",
     "nodemailer": "^6.4.6",
+    "prop-types": "^15.7.2",
     "pug": "^2.0.4",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.14",

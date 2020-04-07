@@ -1,12 +1,15 @@
+/* eslint-disable no-underscore-dangle */
 const baseAPI = '/api';
 
 const goalAPI = {
   get(userInfo) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/goals/${userInfo.userId}/${userInfo.mmyyID}`) //maybe want to pass this in as a param *maybe future state*
-        .then(response => response.json())
-        .then(json => resolve(json))
-        .catch(err => {
+      fetch(`${baseAPI}/goals/${userInfo.userId}/${userInfo.mmyyID}`) // maybe want to pass this in as a param *maybe future state*
+        .then((response) =>
+          response.json())
+        .then((json) =>
+          resolve(json))
+        .catch((err) => {
           reject(err);
         });
     });
@@ -14,7 +17,7 @@ const goalAPI = {
 
   create(goal, userId) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/goal?userId=` + userId, {
+      fetch(`${baseAPI}/goal?userId=${userId}`, {
         method: 'POST',
         body: JSON.stringify(goal),
         headers: {
@@ -22,9 +25,11 @@ const goalAPI = {
           'Content-Type': 'application/json'
         }
       })
-        .then(result => result.json())
-        .then(json => resolve(json))
-        .catch(err => {
+        .then((result) =>
+          result.json())
+        .then((json) =>
+          resolve(json))
+        .catch((err) => {
           reject(err);
         });
     });
@@ -40,10 +45,10 @@ const goalAPI = {
           'Content-Type': 'application/json'
         }
       })
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
@@ -52,9 +57,11 @@ const goalAPI = {
   destroy(goal) {
     return new Promise((resolve, reject) => {
       fetch(`${baseAPI}/goal/${goal._id}`, { method: 'DELETE' })
-        .then(response => response.json())
-        .then(json => resolve(json))
-        .catch(err => {
+        .then((response) =>
+          response.json())
+        .then((json) =>
+          resolve(json))
+        .catch((err) => {
           reject(err);
         });
     });
@@ -63,13 +70,14 @@ const goalAPI = {
   getAllCategories(userId) {
     return new Promise((resolve, reject) => {
       fetch(`${baseAPI}/goal/allCats/${userId}`)
-      .then(response => response.json())
-      .then(json => resolve(json))
-      .catch(err => {
-        reject(err);
-      });
+        .then((response) =>
+          response.json())
+        .then((json) =>
+          resolve(json))
+        .catch((err) => {
+          reject(err);
+        });
     });
   },
-}
+};
 export default goalAPI;
-
