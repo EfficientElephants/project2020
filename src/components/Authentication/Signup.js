@@ -206,19 +206,19 @@ render () {
                       <h1 className="main-header">Sign Up</h1>
                       <Form.Group>
                           <Form.Label>First Name </Form.Label>
-                          <Form.Control type="text" value={firstName} onChange={this.onChangeFirstName}/>
+                          <Form.Control type="text" value={firstName} onChange={this.onChangeFirstName} id="firstNameInput" />
                       </Form.Group>
                       <Form.Group>
                           <Form.Label>Last Name </Form.Label>
-                          <Form.Control type="text" value={lastName} onChange={this.onChangeLastName}/>
+                          <Form.Control type="text" value={lastName} onChange={this.onChangeLastName} id="lastNameInput" />
                       </Form.Group>
                       <Form.Group>
                           <Form.Label>Email </Form.Label>
-                          <Form.Control type="email" value={signupEmail} onChange={this.onChangeEmail}/>
+                          <Form.Control type="email" value={signupEmail} onChange={this.onChangeEmail} id="emailInput" />
                       </Form.Group>
                       <Form.Group>
                           <Form.Label>Password </Form.Label>
-                          <Form.Control type="password" value={signupPassword} onChange={this.onChangePassword}/>
+                          <Form.Control type="password" value={signupPassword} onChange={this.onChangePassword} id="passwordInput" />
                       </Form.Group>
                       {/* <Form.Group>
                           <Form.Label>Password Again: </Form.Label>
