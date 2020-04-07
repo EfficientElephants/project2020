@@ -81,7 +81,7 @@ class Reset extends Component {
                 <div className="main-left-side col-4"> 
                     <img className="logo" src={Logo} height="150" width="150" alt="Expense Elephant Logo" />
                     <h1>Expense Elephant</h1>
-                    <p>We are here to help you manage your money!</p>
+                    <p>We're here to help you manage your money!</p>
                 </div>
                 <div className="col">
                     <Container className="main-form">
@@ -89,7 +89,7 @@ class Reset extends Component {
                         <h1 className="main-header">Reset Password</h1>
                             <Form.Group>
                                 <Form.Label>Enter new password</Form.Label>
-                                <Form.Control type="password" value={this.newPassword} onChange={this.onChangeNewPassword}/>
+                                <Form.Control type="password" value={this.newPassword} onChange={this.onChangeNewPassword} id="passwordInput" />
                             </Form.Group>
                             <Form.Group>
                                 <Button className="submit-button" onClick={this.onReset}>Reset</Button>
