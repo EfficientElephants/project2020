@@ -76,7 +76,7 @@ class ForgotPassword extends Component {
                             <h1 className="main-header">Forgot Password</h1>
                             <Form.Group>
                                 <Form.Label>Email </Form.Label>
-                                <Form.Control type="email" value={email} onChange={this.onChangeEmail} id="resetEmailInput" />
+                                <Form.Control type="email" value={email} onChange={this.onChangeEmail} id="emailInput" />
                             </Form.Group>
                             <Form.Group>
                                 <Button className="submit-button" onClick={this.sendEmail}>Let's Go!</Button>

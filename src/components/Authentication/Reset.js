@@ -120,11 +120,11 @@ class Reset extends Component {
                         <h1 className="main-header">Reset Password</h1>
                             <Form.Group>
                                 <Form.Label>Enter new password</Form.Label>
-                                <Form.Control type="password" value={this.newPassword} onChange={this.onChangeNewPassword} id="resetPasswordInput" />
+                                <Form.Control type="password" value={this.newPassword} onChange={this.onChangeNewPassword} id="passwordInput" />
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label>Confirm password</Form.Label>
-                                <Form.Control type="password" value={this.confirmPassword} onChange={this.onChangeConfirmPassword} id="resetPasswordInput2" />
+                                <Form.Control type="password" value={this.confirmPassword} onChange={this.onChangeConfirmPassword} id="passwordInput2" />
                             </Form.Group>
                             <Form.Group>
                                 <Button className="submit-button" onClick={this.onReset}>Reset</Button>
