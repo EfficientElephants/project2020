@@ -59,8 +59,8 @@ function create(req, res) {
 function update(req, res) {
   const { item, date, price, category, _id, monthYearId } = req.body;
   Transaction.findOne({ _id })
-    .then((resTransaction) => {
-      const transaction = JSON.parse(JSON.stringify(resTransaction));
+    .then((trans) => {
+      const transaction = trans;
       transaction.item = item;
       transaction.date = date;
       transaction.price = price;
@@ -211,23 +211,25 @@ function getIncomeTotal(req, res) {
         },
       },
     ]);
-  } transactionQuery = Transaction.aggregate([
-    {
-      $match: {
-        userId: `${userId}`,
-        monthYearId: `${dates}`,
-        category: 'Income',
-      },
-    },
-    {
-      $group: {
-        _id: '$userId',
-        incomeTotal: {
-          $sum: '$price',
+  } else {
+    transactionQuery = Transaction.aggregate([
+      {
+        $match: {
+          userId: `${userId}`,
+          monthYearId: `${dates}`,
+          category: 'Income',
         },
       },
-    },
-  ]);
+      {
+        $group: {
+          _id: '$userId',
+          incomeTotal: {
+            $sum: '$price',
+          },
+        },
+      },
+    ]);
+  }
   return transactionQuery
     .then((all) => {
       res.json(all);

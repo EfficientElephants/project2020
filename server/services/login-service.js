@@ -84,16 +84,21 @@ function verify(req, res) {
     }
   );
 }
-function updateDbToken(userObj, token) {
-  User.findOne(userObj._id)
-    .then((resUser) => {
-      const user = JSON.parse(JSON.stringify(resUser));
+
+function updateDbToken(userobj, token) {
+  User.findOne(userobj._id)
+    .then((resuser) => {
+      const user = resuser;
       user.resetPasswordToken = token;
       user.save();
     })
-    .catch((err) => {
-      err.status(500).send(err);
-    });
+    .catch((err) =>
+      ({
+        body: {
+          status: 500,
+          err
+        }
+      }));
 }
 
 function forgotPassword(req, res) {
@@ -121,7 +126,7 @@ function forgotPassword(req, res) {
       }
       const user = users[0];
       const token = crypto.randomBytes(20).toString('hex');
-      updateDbToken(user, token);
+      updateDbToken(res, user, token);
 
       const transporter = nodemailer.createTransport({
         host: 'smtp.office365.com',
@@ -147,11 +152,11 @@ function forgotPassword(req, res) {
         to: `${user.email}`,
         subject: 'Password Reset',
         text:
-          'You are receiving this because you have requested a password reset.\n\n' +
-          'Please click on the following link to reset your password.\n\n' +
-          `http://localhost:3000/#/reset/${token}\n\n` +
-          `https://project-2020.azurewebsites.net/#/reset/${token}\n\n` +
-          `https://expense-elephant.azurewebsites.net/#/reset/${token}\n\n`,
+                    'You are receiving this because you have requested a password reset.\n\n' +
+                    'Please click on the following link to reset your password.\n\n' +
+                    `http://localhost:3000/#/reset/${token}\n\n` +
+                    `https://project-2020.azurewebsites.net/#/reset/${token}\n\n` +
+                    `https://expense-elephant.azurewebsites.net/#/reset/${token}\n\n`,
       };
 
       transporter.sendMail(mailOptions, (err3) => {

@@ -272,7 +272,7 @@ describe('PUT', () => {
       transUpdate.price = '12.34';
       chai
         .request(app)
-        .put('/api/transaction')
+        .put('/api/transaction/')
         .send(transUpdate)
         .end((error, res) => {
           expect(res.statusCode).to.equal(200);

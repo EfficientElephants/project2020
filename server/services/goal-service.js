@@ -54,18 +54,18 @@ function create(req, res) {
 }
 
 function update(req, res) {
-  const { goalAmount, spentAmount, _id } = req.body;
+  const { category, goalAmount, spentAmount, _id } = req.body;
 
   Goal.findOne({ _id })
     .then((resGoal) => {
-      const goal = JSON.parse(JSON.stringify(resGoal));
+      const goal = resGoal;
+      goal.category = category;
       goal.goalAmount = goalAmount;
       goal.spentAmount = spentAmount;
       const metGoal = !(goalAmount < spentAmount);
       goal.metGoal = metGoal;
       goal.updatedAt = Date.now();
-      goal
-        .save()
+      goal.save()
         .then(() => {
           res.json(goal);
         })
