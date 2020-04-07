@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Container, Form, Alert } from 'react-bootstrap';
 import auth from './Auth';
 import { Link } from 'react-router-dom';
 import { getFromStorage, setInStorage } from '../Storage';
+import Logo from '../../assets/expense-elephant-logo2.png';
 
 class Login extends Component {
     constructor(props) {
@@ -57,19 +58,6 @@ class Login extends Component {
                 isLoading: false,
             })
         }
-        // if (auth.isAuthenticated()){
-        //     const obj = getFromStorage('expense_app');
-        //     const { token } = obj;
-        //     this.authenticate();
-        //     this.setState({
-        //         token,
-        //         isLoading: false
-        //     })
-        // } else {
-        //     this.setState({
-        //         isLoading: false,
-        //     })
-        // }
     }
 
     onChangeEmail(event) {
@@ -143,32 +131,42 @@ class Login extends Component {
 
         if (!token) {
             return (
-                <div>
-                    <Container className="login-form">
-                    {
-                        (loginError) ? (
-                            <p>{loginError}</p>
-                            ) : (null)
-                    }
-                        <Form>
-                        <h1>Login Here</h1>
-                            <Form.Group>
-                                <Form.Label>Email: </Form.Label>
-                                <Form.Control id="emailInput" type="email" value={loginEmail} onChange={this.onChangeEmail}/>
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Password: </Form.Label>
-                                <Form.Control id="passwordInput" type="password" value={loginPassword} onChange={this.onChangePassword}/>
-                            </Form.Group>
-                            <Link to="/forgotPassword">Forgot password?</Link>
-                            <Form.Group>
-                                <Button onClick={this.onLogin}
-                                    variant="primary" id="login">Login
-                                </Button>
-                            </Form.Group>
-                            <Link to="/signup">Don't have an account?</Link>
-                        </Form>
-                    </Container>
+                <div className="row main-row">
+                    <div className="main-left-side col-4"> 
+                        <img className="logo" src={Logo} height="150" width="150" alt="Expense Elephant Logo" />
+                        <h1>Expense Elephant</h1>
+                        <p>We are here to help you manage your money!</p>
+                    </div>
+                    <div className="col">
+                        <Link className="link" to="/signup">Sign Up</Link>
+                        <div className="error">
+                            {
+                                (loginError) ? (
+                                    <Alert variant="danger">{loginError}</Alert>
+                                    ) : (null)
+                            }
+                        </div>
+                        <Container className="main-form">
+                            <Form>
+                            <h1 className="main-header">Log In</h1>
+                                <Form.Group>
+                                    <Form.Label>Email </Form.Label>
+                                    <Form.Control id="emailInput" type="email" value={loginEmail} onChange={this.onChangeEmail}/>
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label>Password </Form.Label>
+                                    <Form.Control id="passwordInput" type="password" value={loginPassword} onChange={this.onChangePassword}/>
+                                </Form.Group>
+                                <Link className="link" to="/forgotPassword">Forgot password?</Link>
+                                <Form.Group>
+                                    <Button className="submit-button" onClick={this.onLogin}
+                                        id="login">Login
+                                    </Button>
+                                </Form.Group>
+                               
+                            </Form>
+                        </Container>
+                    </div>
                 </div>
             );
         }
