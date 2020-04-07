@@ -13,8 +13,8 @@ chai.use(chaiExclude);
 // put things that need to be passed as variables/options in here
 
 const options = {
-    testUserId: mongoose.Types.ObjectId().toHexString(),
-    anotherObjectId: mongoose.Types.ObjectId().toHexString(),
+  testUserId: mongoose.Types.ObjectId().toHexString(),
+  anotherObjectId: mongoose.Types.ObjectId().toHexString(),
 };
 
 exports.options = options;
