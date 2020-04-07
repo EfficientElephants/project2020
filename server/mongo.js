@@ -7,8 +7,10 @@ function connect() {
   let mongoURI;
   if (process.env.NODE_ENV === 'test') {
     mongoURI = process.env.CONNECTION_STRING_TESTING;
-  } else {
+  } else if (process.env.NODE_ENV === 'dev') {
     mongoURI = process.env.CONNECTION_STRING;
+  } else {
+    mongoURI = process.env.CONNECTION_STRING_TESTING_PROD;
   }
   return mongoose.connect(mongoURI, {
     useFindAndModify: false,

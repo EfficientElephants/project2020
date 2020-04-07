@@ -37,16 +37,16 @@ class AddGoal extends Component {
     if (obj && obj.token) {
       const { token } = obj;
       usersAPI.getUserId(token)
-      .then((results) => {
+        .then((results) => {
           console.log(results.userId);
           this.setState({userId: results.userId});
-      });
+        });
       fetch(`api/getUserId?token=${token}`)
         .then((res) =>
           res.json())
         .then((json) => {
           if (json.success) {
-              console.log(json.userId);
+            console.log(json.userId);
             this.setState({ userId: json.userId }); // , error: false })
           } else {
             
