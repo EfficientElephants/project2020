@@ -700,35 +700,3 @@ describe('Mocking Data', function () {
     });
   });
 });
-
-// it('Should post a goal transaction for December 2019', (done) => {
-//     mockdate.set('12/24/2019');
-//     const mockedDate = new Date();
-//     global.dateTime = new Date();
-//     const postGoal = {
-//       category: 'Social',
-//       goalAmount: faker.finance.amount(10, 20, 2),
-//       spentAmount: faker.finance.amount(20, 50, 2),
-//     };
-//     chai
-//       .request(app)
-//       .post(`/api/goal?userId=${testUserId}`)
-//       .send(postGoal)
-//       .end((err, res) => {
-//         expect(Date(res.body.createdAt).toString()).to.equal(
-//           mockedDate.toString()
-//         );
-//         expect(res.statusCode).to.equal(200);
-//         expect(res.body).to.be.an('object');
-//         expect(res.body.spentAmount).to.equal(postGoal.spentAmount);
-//         expect(res.body.goalAmount).to.equal(postGoal.goalAmount);
-//         expect(res.body.metGoal).to.equal(false);
-//         expect(res.body.monthYearId).to.equal('1219');
-//         done();
-//       });
-//   });
-// });
-// });
-// });
-// })
-git s
