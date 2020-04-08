@@ -63,7 +63,8 @@
     "build": "react-scripts build && mv build server",
     "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit",
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "mock-data": "mocha 'testData.js' --exit"
   },
   "nyc": {
     "all": true,
