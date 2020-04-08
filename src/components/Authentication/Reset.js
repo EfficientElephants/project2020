@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Form, Button, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Form, Button, Container, Alert } from 'react-bootstrap';
+import Logo from '../../assets/expense-elephant-logo2.png';
 
 class Reset extends Component {
     constructor(props) {
@@ -9,12 +9,16 @@ class Reset extends Component {
         this.state = {
             token: '',
             newPassword: '',
+            confirmPassword: '',
             showSuccess: false,
+            showError: false,
             message: ''
         }
 
         this.onChangeNewPassword = this.onChangeNewPassword.bind(this);
         this.onReset = this.onReset.bind(this);
+        this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this);
+        this.validatePassword = this.validatePassword.bind(this);
 
 
     }
@@ -36,65 +40,113 @@ class Reset extends Component {
 
     onChangeNewPassword(event) {
         this.setState({
-            newPassword: event.target.value
+            newPassword: event.target.value,
+            showError: false
         });
+    }
+
+    onChangeConfirmPassword(event) {
+        this.setState({
+            confirmPassword: event.target.value,
+            showError: false
+        });
+    }
+
+    validatePassword(newPass, confirmPass) {
+        if (newPass === confirmPass) {
+            return true
+        } else {
+            return false
+        }
     }
 
     onReset() {
         const {
             newPassword,
-            token
+            token,
+            confirmPassword
         } = this.state
 
-        fetch('api/resetPassword', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },    
-            body: JSON.stringify({
-                newPassword: newPassword,
-                token: token
-            }),
-        })
-        .then(res => res.json())
-        .then(json => {
-            if (json.success) {
-                this.setState({
-                    showSuccess: true
-                })
-            } else {
-                this.setState({
-                    showSuccess: false
-                })
-            }
-        })
+        var valid = this.validatePassword(newPassword, confirmPassword)
+
+        if (valid) {
+            fetch('api/resetPassword', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },    
+                body: JSON.stringify({
+                    newPassword: newPassword,
+                    token: token
+                }),
+            })
+            .then(res => res.json())
+            .then(json => {
+                if (json.success) {
+                    this.setState({
+                        showSuccess: true,
+                        showError: false
+                    })
+                } else {
+                    this.setState({
+                        showSuccess: false
+                    })
+                }
+            })
+        }
+        else {
+            this.setState({
+                showError: true
+            })
+        }
     }
 
 
     
 
     render () {
-        const { showSuccess } = this.state;
+        const { showSuccess, showError } = this.state;
         
         return (
-            <div>
-            <Container className="reset-form">
-                <Form>
-                    <Form.Group>
-                        <Form.Label>Enter new password:</Form.Label>
-                        <Form.Control type="password" value={this.newPassword} onChange={this.onChangeNewPassword}/>
-                    </Form.Group>
-                    <Form.Group>
-                        <Button onClick={this.onReset}>Reset Password</Button>
-                    </Form.Group>
-                </Form>
-            </Container>
-            {showSuccess && (
-                <div>
-                    <p>Your password has been reset. Go to home page to login.</p>
-                    <Link to="/">Go Home</Link>
+            <div className="row main-row">
+                <div className="main-left-side col-4"> 
+                    <img className="logo" src={Logo} height="150" width="150" alt="Expense Elephant Logo" />
+                    <h1>Expense Elephant</h1>
+                    <p>We're here to help you manage your money!</p>
                 </div>
-            )}
+                <div className="col">
+                    <Container className="main-form">
+                        <Form>
+                        <h1 className="main-header">Reset Password</h1>
+                            <Form.Group>
+                                <Form.Label>Enter new password</Form.Label>
+                                <Form.Control type="password" value={this.newPassword} onChange={this.onChangeNewPassword} id="passwordInput" />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Confirm password</Form.Label>
+                                <Form.Control type="password" value={this.confirmPassword} onChange={this.onChangeConfirmPassword} id="passwordInput2" />
+                            </Form.Group>
+                            <Form.Group>
+                                <Button className="submit-button" onClick={this.onReset}>Reset</Button>
+                            </Form.Group>
+                        </Form>
+                    </Container>
+                    <div className="error">
+                        {
+                            (showSuccess) ? (
+                                <Alert variant="success"> Your password has been reset.
+                                <Alert.Link href="/"> Login</Alert.Link>
+                                </Alert>
+                            ) : (null)
+                        }
+                        {
+                            (showError) ? (
+                                <Alert variant="danger"> Passwords did not match. Try again.
+                                </Alert>
+                            ) : (null)
+                        }
+                    </div>
+                </div>
             </div>
         )
     }

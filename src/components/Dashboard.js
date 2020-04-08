@@ -140,7 +140,7 @@ class Dashboard extends Component {
                 <Container>
                     <Row className="dashboard-header">
                         <Col md={7}>
-                        <h1 class="dashboard-title">Welcome back, {this.state.fullName}!</h1>
+                        <h1 className="dashboard-title">Welcome back, {this.state.fullName}!</h1>
                         </Col>
                         <Col>
                             <AddExpense 
@@ -171,7 +171,7 @@ class Dashboard extends Component {
                     
                     <Row style={{ marginTop: 85 }}>
                         <Col>
-                        {(this.state.spendingTotal != 0) 
+                        {(this.state.spendingTotal !== 0) 
                           ? (<Graph 
                             date = {this.state.mmyyID}
                             render = {this.state.render} />)

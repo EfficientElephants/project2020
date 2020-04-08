@@ -72,7 +72,7 @@ class Summary extends Component {
             card.category = this.state.disCats[catIdx];
             card.totalSpent = 0;
             for (var idx in this.state.allCatTotals) {
-                if (card.category == this.state.allCatTotals[idx]._id){
+                if (card.category === this.state.allCatTotals[idx]._id){
                     card.totalSpent = ((this.state.allCatTotals[idx].totals)/100).toFixed(2);
                 }
             }
@@ -128,20 +128,23 @@ class Summary extends Component {
                 <br />
                 <h1>Your Summary</h1>
                 <h4>Since your first transaction in {dateformat(this.state.earliestTransaction, 'mmm yyyy')}...</h4>
+                <br />
+                <br />
                 <Row>
                     <Col>
-                        <Row>
+                        <Row style={{paddingLeft:"15px"}}>
                             You've Spent: ${this.state.totalSpent}
                         </Row>
-                        <Row>
+                        <Row style={{paddingLeft:"15px"}}>
                             You've Earned: ${this.state.totalEarned}
                         </Row>
                         
                     </Col>
                     <Col>
-                        <Row>
+                        <Row style={{paddingLeft:"15px"}}>
                             How are the goals that you've set working out?
                         </Row>
+                        <br />
                         <div>
                             <Accordion>
                                 {(this.state.cards === null)

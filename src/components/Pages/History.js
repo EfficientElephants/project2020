@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Container, Button, ButtonToolbar, ButtonGroup, Toast, Figure } from 'react-bootstrap';
+import { Row, Col, Container, Button, ButtonToolbar } from 'react-bootstrap';
 import NavBar from '../Navbar';
 import { getFromStorage } from '../Storage';
 
@@ -99,25 +99,11 @@ class History extends Component {
                 <NavBar />
                 <Container>
                     <Row className="dashboard-header">
-                        <Col>
+                        <div className="col-5">
                             <h1 className="dashboard-title">{this.state.fullName}'s Historical Data for {this.state.monthYearDisplay}</h1>
-                        </Col>
-                        <Col>
-                            <ButtonToolbar>
-                                <Button variant="secondary" onClick={this.leftClick}><h1>&lt;</h1></Button>
-                                &nbsp;&nbsp;&nbsp;
-                                <Button variant="secondary" onClick={this.rightClick} disabled={dateformat(this.state.maxDate, 'mmyy') === dateformat(this.state.date, 'mmyy')} ><h1>&gt;</h1></Button>
-                            </ButtonToolbar>
-                            
-                        
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                        
-                        </Col>
-                        <Col> 
-                            <h5>Jump to a month</h5>
+                        </div>
+                        <div className="col-5"> 
+                            <h6>Select a month</h6>
                             <DatePicker
                                 showPopperArrow={false}
                                 selected={this.state.date}
@@ -126,8 +112,16 @@ class History extends Component {
                                 dateFormat="MM/yyyy"
                                 showMonthYearPicker
                             />
-                        </Col>
+                        </div>
+                        <div className="col-2">
+                            <ButtonToolbar>
+                                <Button variant="secondary" onClick={this.leftClick}><h1>&lt;</h1></Button>
+                                &nbsp;&nbsp;&nbsp;
+                                <Button variant="secondary" onClick={this.rightClick} disabled={dateformat(this.state.maxDate, 'mmyy') === dateformat(this.state.date, 'mmyy')} ><h1>&gt;</h1></Button>
+                            </ButtonToolbar>
+                        </div>
                     </Row>
+                    
                     <Container>
                         <Row>
                             <Col>
@@ -136,7 +130,7 @@ class History extends Component {
                                     render = {this.state.render} />
                             </Col>
                             <Col>
-                                <h3>Monthly Breakdown</h3>
+                                <h2>Monthly Breakdown</h2>
                                 {this.state.goalList.map(goal => {
                                     return <GoalBar
                                         goal={goal}
@@ -148,6 +142,7 @@ class History extends Component {
                         </Row>
                     </Container>
                     <Container>
+                    <h2 style={{paddingTop:"100px"}}>Transactions</h2>
                     <Row>
                         <TransactionTable 
                             render={this.state.render}
