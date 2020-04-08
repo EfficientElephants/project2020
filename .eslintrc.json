@@ -29,8 +29,7 @@
       "comma-dangle": ["error", "only-multiline"],
       "operator-linebreak": ["error", "after"],
       "import/no-extraneous-dependencies": ["error", {"packageDir": "./"}],
-      "implicit-arrow-linebreak": ["error", "below"],
-      "react/prop-types": 0
+      "implicit-arrow-linebreak": ["error", "below"]
   }, 
   "settings": {
       "react": {
