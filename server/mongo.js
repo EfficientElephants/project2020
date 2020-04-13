@@ -7,7 +7,7 @@ function connect() {
   let mongoURI;
   if (process.env.NODE_ENV === 'test') {
     mongoURI = process.env.CONNECTION_STRING_TESTING;
-  } else if (process.env.NODE_ENV === 'dev') {
+  } else if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'production') {
     mongoURI = process.env.CONNECTION_STRING;
   } else {
     mongoURI = process.env.CONNECTION_STRING_TESTING_PROD;
