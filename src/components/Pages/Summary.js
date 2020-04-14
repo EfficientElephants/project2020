@@ -26,10 +26,6 @@ class Summary extends Component {
       totalEarned: 0,
     };
   }
-  // / Get all goals ever had (DONE);
-  // / get all category totals ever
-  // / see how many times in each goal you've either met or gone over
-
 
   async componentDidMount() {
     const obj = getFromStorage('expense_app');
@@ -144,16 +140,87 @@ class Summary extends Component {
     );
   }
 
+  monthsDiff() {
+    const today = new Date();
+    const earliest = new Date(this.state.earliestTransaction);
+    const yearsDiff = today.getFullYear() - today.getFullYear();
+    const months = (yearsDiff * 12) + (today.getMonth() - earliest.getMonth());
+    return months;
+  }
+
   render() {
+    this.monthsDiff();
     let key = -1;
     return (
       <div>
         <NavBar />
         <Container>
           <br />
-          <h1>Your Summary</h1>
+          <h1>Summary</h1>
+          <Card body>
+            <p>
+              Once you start creating goals, it&apos;s helpful to see how they&apos;ve been working!
+              Use this page to see how on track you&apos;ve been,
+              so you can adjust your sights for the future.
+            </p>
+          </Card>
+          <br />
+          {(this.state.totalSpent === 0 &&
+          this.state.totalEarned === 0 &&
+          this.state.allGoalsEver.length === 0 ?
+            (
+              <div>
+                <Card border="danger">
+                  <Card.Header style={{ 'background-color': '#B22222' }} as="h5" />
+                  <Card.Body>
+                    <Card.Text>Check back here when you add goals and transactions!</Card.Text>
+                  </Card.Body>
+                </Card>
+              </div>
+            ) : (
+              <div>
+                <h4>
+                  Since your first transaction in
+                  {' '}
+                  {dateformat(this.state.earliestTransaction, 'mmm yyyy')}
+                  ...
+                </h4>
+                <Row>
+                  <Col>
+                    <Card body>
+                      You spend an average of
+                      {' '}
+                      <b>
+                        $
+                        {(this.monthsDiff() === 0 ? this.state.totalSpent :
+                          (this.state.totalSpent / this.monthsDiff()).toFixed(2))}
+                      </b>
+                      {' '}
+                      per month.
+                    </Card>
+                  </Col>
+                  <Col>
+                    <Card body>
+                      You earn an average of
+                      {' '}
+                      <b>
+                        $
+                        {(this.monthsDiff() === 0 ? this.state.totalEarned :
+                          (this.state.totalEarned / this.monthsDiff()).toFixed(2))}
+                      </b>
+                      {' '}
+                      per month.
+                    </Card>
+                  </Col>
+                </Row>
+              </div>
+            )
+          )}
+
+
           <h4>
             Since your first transaction in
+            {' '}
             {dateformat(this.state.earliestTransaction, 'mmm yyyy')}
             ...
           </h4>
