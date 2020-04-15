@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React, {
   Component
 } from 'react';
@@ -10,6 +11,7 @@ import {
 } from '../Storage';
 import goalAPI from '../../api/goalAPI';
 import transactionAPI from '../../api/transactionAPI';
+import SummaryGraph from '../Graphs/SummaryGraph';
 
 const dateformat = require('dateformat');
 
@@ -105,35 +107,47 @@ class Summary extends Component {
   createAccordian(card, key) {
     return (
       <Card key={key}>
-        <Accordion.Toggle as={Card.Header} eventKey={key}>
-          <Row>
-            <Col><h6>{card.category}</h6></Col>
-            <Col>
-              <h6>
-                You&apos;ve Spent $
-                {card.totalSpent}
-              </h6>
-            </Col>
-          </Row>
+        <Accordion.Toggle className="text-center" as={Card.Header} eventKey={key}>
+          <h5>{card.category}</h5>
         </Accordion.Toggle>
         <Accordion.Collapse eventKey={key}>
           <Card.Body>
-            <p>
-              You&apos;ve had this goal for
-              {card.timeswithGoal}
-              {' '}
-              months
-            </p>
-            <p>
+            <Row>
+              <Col>
+                <p>
+                  You&apos;ve had this goal for
+                  {' '}
+                  {card.timeswithGoal}
+                  {' '}
+                  months
+                </p>
+                <p>
+                  You&apos;ve gone over
+                  {' '}
+                  {card.timesOverGoal}
+                  {' '}
+                  months
+                </p>
+                <p>
+                  You spend an average of $
+                  {(this.monthsDiff() === 0 ? card.totalSpent :
+                    (card.totalSpent / this.monthsDiff()).toFixed(2))}
+                  {' '}
+                  per month
+                </p>
+              </Col>
+              <Col>
+                <p>How often do you meet your goal?</p>
+                <SummaryGraph
+                  percentage={card.percent_metGoal}
+                />
+              </Col>
+            </Row>
+            {/* <p>
               {card.percent_metGoal}
               % of the time you meet your goal
             </p>
-            <p>
-              You&apos;ve gone over
-              {card.timesOverGoal}
-              {' '}
-              months
-            </p>
+           */}
           </Card.Body>
         </Accordion.Collapse>
       </Card>
@@ -165,8 +179,8 @@ class Summary extends Component {
             </p>
           </Card>
           <br />
-          {(this.state.totalSpent === 0 &&
-          this.state.totalEarned === 0 &&
+          {(this.state.totalSpent === '0.00' &&
+          this.state.totalEarned === '0.00' &&
           this.state.allGoalsEver.length === 0 ?
             (
               <div>
@@ -185,6 +199,7 @@ class Summary extends Component {
                   {dateformat(this.state.earliestTransaction, 'mmm yyyy')}
                   ...
                 </h4>
+                <br />
                 <Row>
                   <Col>
                     <Card body>
@@ -213,47 +228,37 @@ class Summary extends Component {
                     </Card>
                   </Col>
                 </Row>
+                <br />
+                <div>
+                  {this.state.allGoalsEver.length === 0 ?
+                    (
+                      <Card border="danger">
+                        <Card.Header style={{ 'background-color': '#B22222' }} as="h5" />
+                        <Card.Body>
+                          <Card.Text>Add goals to get another breakdown!</Card.Text>
+                        </Card.Body>
+                      </Card>
+                    ) : (
+                      <div>
+                        <p>
+                          How are the goals that you&apos;ve set working out?
+                        </p>
+                        <div>
+                          <Accordion>
+                            {(this.state.cards === null) ?
+                              null :
+                            // eslint-disable-next-line no-return-assign
+                              (this.state.cards.map((card) =>
+                                this.createAccordian(card, key += 1)))}
+                          </Accordion>
+                        </div>
+                      </div>
+                    )}
+                </div>
               </div>
-            )
-          )}
-
-
-          <h4>
-            Since your first transaction in
-            {' '}
-            {dateformat(this.state.earliestTransaction, 'mmm yyyy')}
-            ...
-          </h4>
+            ))}
           <br />
           <br />
-          <Row>
-            <Col>
-              <Row style={{ paddingLeft: '15px' }}>
-                You&apos;ve Spent: $
-                {this.state.totalSpent}
-              </Row>
-              <Row style={{ paddingLeft: '15px' }}>
-                You&apos;ve Earned: $
-                {this.state.totalEarned}
-              </Row>
-
-            </Col>
-            <Col>
-              <Row style={{ paddingLeft: '15px' }}>
-                How are the goals that you&apos;ve set working out?
-              </Row>
-              <br />
-              <div>
-                <Accordion>
-                  {(this.state.cards === null) ?
-                    null :
-                    // eslint-disable-next-line no-return-assign
-                    (this.state.cards.map((card) =>
-                      this.createAccordian(card, key += 1)))}
-                </Accordion>
-              </div>
-            </Col>
-          </Row>
         </Container>
       </div>
     );
