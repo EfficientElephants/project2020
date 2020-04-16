@@ -186,7 +186,6 @@ class Dashboard extends Component {
           </Row>
 
           <Row style={{ marginTop: 30 }}>
-            <center>
             <CardDeck style={{ width: '100%' }}>
               <Card style={{ width: '100%' }}>
                 <Card.Body>
@@ -217,7 +216,6 @@ class Dashboard extends Component {
                 </Card.Body>
               </Card>
             </CardDeck>
-            </center>
           </Row>
           
           {this.createAlert()}
