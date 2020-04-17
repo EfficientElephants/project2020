@@ -115,7 +115,7 @@ class History extends Component {
                 {' '}
                 {this.state.monthYearDisplay}
               </h1>
-              <p style={{textAlign:"center"}}>View transactions, goals, and category breakdowns for a selected month.</p>
+              <p style={{textAlign:"center"}}>View transactions, goals, and spending breakdowns for a selected month.</p>
             </div>
           </Row>
           <Row>
@@ -185,7 +185,7 @@ class History extends Component {
           <CardDeck style={{ width: '100%' }}>
             <Card style={{ width: '100%' }}>
               <Card.Body>
-              <h2 style={{ paddingTop: '10px' }}>Transactions</h2>
+              <h2>Transactions</h2>
                 <Row>
                   <TransactionTable
                     render={this.state.render}
