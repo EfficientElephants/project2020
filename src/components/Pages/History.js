@@ -44,7 +44,6 @@ class History extends Component {
       date: moment().subtract(1, 'month').toDate(),
       mmyyID: dateformat(moment().subtract(1, 'month').toDate(), 'mmyy'),
       maxDate: moment().subtract(1, 'month').toDate(),
-      disable: false,
       // render: true
 
     };
@@ -140,10 +139,6 @@ class History extends Component {
               <ButtonToolbar>
                 <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowLeft} onClick={this.leftClick}/>
                 <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowRight} onClick={this.rightClick}/>
-
-                {/* <Button variant="secondary" onClick={this.leftClick}><h1>&lt;</h1></Button>
-                  &nbsp;&nbsp;&nbsp;
-                <Button variant="secondary" onClick={this.rightClick} disabled={dateformat(this.state.maxDate, 'mmyy') === dateformat(this.state.date, 'mmyy')}><h1>&gt;</h1></Button> */}
               </ButtonToolbar>
             </div>
           </Row>
