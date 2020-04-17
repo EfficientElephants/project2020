@@ -115,7 +115,7 @@ class History extends Component {
                 {' '}
                 {this.state.monthYearDisplay}
               </h1>
-              <p style={{textAlign:"center"}}>View transactions, goals, and category breakdowns by selecting a month.</p>
+              <p style={{textAlign:"center"}}>View transactions, goals, and category breakdowns for a selected month.</p>
             </div>
           </Row>
           <Row>
@@ -135,7 +135,7 @@ class History extends Component {
             <div className="col-4">
               <ButtonToolbar>
                 <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowLeft} onClick={this.leftClick}/>
-                <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowRight} onClick={this.rightClick}/>
+                <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowRight} onClick={this.rightClick} disabled={dateformat(this.state.maxDate, 'mmyy') === dateformat(this.state.date, 'mmyy')}/>
 
                 {/* <Button variant="secondary" onClick={this.leftClick}><h1>&lt;</h1></Button>
                   &nbsp;&nbsp;&nbsp;
