@@ -44,6 +44,7 @@ class History extends Component {
       date: moment().subtract(1, 'month').toDate(),
       mmyyID: dateformat(moment().subtract(1, 'month').toDate(), 'mmyy'),
       maxDate: moment().subtract(1, 'month').toDate(),
+      disable: false,
       // render: true
 
     };
@@ -92,14 +93,17 @@ class History extends Component {
     this.componentDidMount();
   }
 
-  leftClick() {
+  leftClick() { 
     const newDate = moment(this.state.date).subtract(1, 'month').toDate();
     this.handleDateChange(newDate);
+   
   }
 
   rightClick() {
-    const newDate = moment(this.state.date).add(1, 'month').toDate();
-    this.handleDateChange(newDate);
+    if (dateformat(this.state.maxDate, 'mmyy') !== dateformat(this.state.date, 'mmyy')) {
+      const newDate = moment(this.state.date).add(1, 'month').toDate();
+      this.handleDateChange(newDate);
+    }
   }
 
 
@@ -121,7 +125,7 @@ class History extends Component {
           <Row>
             <div className="col-4">
             </div>
-            <div className="col-4">
+            <div className="col-3">
               <DatePicker
                 showPopperArrow={false}
                 selected={this.state.date}
@@ -132,10 +136,10 @@ class History extends Component {
                 showMonthYearPicker
               />
             </div>
-            <div className="col-4">
+            <div className="col-5">
               <ButtonToolbar>
                 <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowLeft} onClick={this.leftClick}/>
-                <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowRight} onClick={this.rightClick} disabled={dateformat(this.state.maxDate, 'mmyy') === dateformat(this.state.date, 'mmyy')}/>
+                <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowRight} onClick={this.rightClick}/>
 
                 {/* <Button variant="secondary" onClick={this.leftClick}><h1>&lt;</h1></Button>
                   &nbsp;&nbsp;&nbsp;
