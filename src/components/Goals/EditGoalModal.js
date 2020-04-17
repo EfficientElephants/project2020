@@ -39,7 +39,7 @@ const EditGoalModal = (props) => {
           <Button variant="secondary" onClick={props.onHide}>
             Close
           </Button>
-          <Button variant="primary" onClick={props.onSubmit}>
+          <Button className="modal-save-changes" onClick={props.onSubmit}>
             Save Changes
           </Button>
         </Modal.Footer>

@@ -131,22 +131,22 @@ class Reset extends Component {
           </Container>
           <div className="error">
             {
-                            (showSuccess) ? (
-                              <Alert variant="success">
-                                {' '}
-                                Your password has been reset.
-                                <Alert.Link href="/"> Login</Alert.Link>
-                              </Alert>
-                            ) : (null)
-                        }
+              (showSuccess) ? (
+                <Alert variant="success">
+                  {' '}
+                  Your password has been reset.
+                  <Alert.Link href="/"> Login</Alert.Link>
+                </Alert>
+              ) : (null)
+            }
             {
-                            (showError) ? (
-                              <Alert variant="danger">
-                                {' '}
-                                Passwords did not match. Try again.
-                              </Alert>
-                            ) : (null)
-                        }
+              (showError) ? (
+                <Alert variant="danger">
+                  {' '}
+                  Passwords did not match. Try again.
+                </Alert>
+              ) : (null)
+            }
           </div>
         </div>
       </div>

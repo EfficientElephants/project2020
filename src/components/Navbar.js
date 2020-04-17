@@ -65,7 +65,7 @@ class NavBar extends Component {
 &nbsp;
               </Nav.Item>
               <Nav.Item>
-                <Link className="navbar-link" to="/history">Historical Data</Link>
+                <Link className="navbar-link" to="/history">History</Link>
 &nbsp;
               </Nav.Item>
               <Nav.Item>

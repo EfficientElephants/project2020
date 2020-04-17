@@ -357,7 +357,9 @@ class TransactionTable extends Component {
           </div>
         </Row>
         <Row>
-          <Table>
+        {
+          (this.state.spendingTotal !== 0) ? (
+            <Table>
             <thead>
               <tr>
                 <th>Date</th>
@@ -392,6 +394,10 @@ class TransactionTable extends Component {
               </tr>
             </tbody>
           </Table>
+          ) : (
+            <p>No transactions at this time.</p>
+          )
+        }
         </Row>
       </Container>
     );

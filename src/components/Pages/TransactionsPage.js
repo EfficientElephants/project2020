@@ -31,7 +31,8 @@ class Transactions extends Component {
         <NavBar />
         <Container>
           <br />
-          <h1>Your Transactions</h1>
+          <h1>Transactions</h1>
+          <p>All your transactions on one page. Modify, delete, and keep track of your spending habits.</p>
           <br />
           <Row>
             <Col>

@@ -2,13 +2,16 @@ import React, {
   Component
 } from 'react';
 import {
-  Row, Col, Container, Button, ButtonToolbar
+  Row, Container, Button, ButtonToolbar, Card, CardDeck
 } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import NavBar from '../Navbar';
 import {
   getFromStorage
 } from '../Storage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 
 import usersAPI from '../../api/userAPI';
@@ -106,16 +109,19 @@ class History extends Component {
         <NavBar />
         <Container>
           <Row className="dashboard-header">
-            <div className="col-5">
-              <h1 className="dashboard-title">
-                {this.state.fullName}
-                &apos;s Historical Data for
+            <div className="col">
+              <h1 className="dashboard-title" style={{textAlign:"center"}}>
+                Historical Data for
                 {' '}
                 {this.state.monthYearDisplay}
               </h1>
+              <p style={{textAlign:"center"}}>View transactions, goals, and category breakdowns by selecting a month.</p>
             </div>
-            <div className="col-5">
-              <h6>Select a month</h6>
+          </Row>
+          <Row>
+            <div className="col-4">
+            </div>
+            <div className="col-4">
               <DatePicker
                 showPopperArrow={false}
                 selected={this.state.date}
@@ -126,46 +132,73 @@ class History extends Component {
                 showMonthYearPicker
               />
             </div>
-            <div className="col-2">
+            <div className="col-4">
               <ButtonToolbar>
-                <Button variant="secondary" onClick={this.leftClick}><h1>&lt;</h1></Button>
+                <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowLeft} onClick={this.leftClick}/>
+                <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowRight} onClick={this.rightClick}/>
+
+                {/* <Button variant="secondary" onClick={this.leftClick}><h1>&lt;</h1></Button>
                   &nbsp;&nbsp;&nbsp;
-                <Button variant="secondary" onClick={this.rightClick} disabled={dateformat(this.state.maxDate, 'mmyy') === dateformat(this.state.date, 'mmyy')}><h1>&gt;</h1></Button>
+                <Button variant="secondary" onClick={this.rightClick} disabled={dateformat(this.state.maxDate, 'mmyy') === dateformat(this.state.date, 'mmyy')}><h1>&gt;</h1></Button> */}
               </ButtonToolbar>
             </div>
           </Row>
+          <br></br>
+          <br></br>
 
-          <Container>
-            <Row>
-              <Col>
-                <Graph
-                  date={this.state.mmyyID}
-                  render={this.state.render}
-                />
-              </Col>
-              <Col>
-                <h2>Monthly Breakdown</h2>
-                {this.state.goalList.map((goal) =>
+          <Row style={{ marginTop: 30 }}>
+            <CardDeck style={{ width: '100%' }}>
+              <Card style={{ width: '100%' }}>
+                <Card.Body>
+                  <h2>Spending Breakdown</h2>
+                  <Card.Text><center>See how you're spending your money this month.</center></Card.Text>
+                  {(this.state.spendingTotal !== 0) ?
                   (
-                    <GoalBar
-                      goal={goal}
-                      key={goal._id}
+                    <Graph
+                      date={this.state.mmyyID}
                       render={this.state.render}
                     />
-                  ))}
-              </Col>
-            </Row>
-          </Container>
-          <Container>
-            <h2 style={{ paddingTop: '100px' }}>Transactions</h2>
-            <Row>
-              <TransactionTable
-                render={this.state.render}
-                dates={this.state.mmyyID}
-                stateChange={this.rerender}
-              />
-            </Row>
-          </Container>
+                  ) :
+                  (null)}
+                </Card.Body>
+              </Card>
+              <Card style={{ width: '100%' }}>
+                <Card.Body>
+                  <h2>Goal Progress</h2>
+                  <Card.Text><center>Are you on track to meet your goals?</center></Card.Text>
+                  {this.state.goalList.map((goal) =>
+                    (
+                      <GoalBar
+                        goal={goal}
+                        key={goal._id}
+                        render={this.state.render}
+                      />
+                    ))}
+                </Card.Body>
+              </Card>
+            </CardDeck>
+          </Row>
+          <br></br>
+          <br></br>
+          
+          <Row>
+          <CardDeck style={{ width: '100%' }}>
+            <Card style={{ width: '100%' }}>
+              <Card.Body>
+              <h2 style={{ paddingTop: '10px' }}>Transactions</h2>
+                <Row>
+                  <TransactionTable
+                    render={this.state.render}
+                    dates={this.state.mmyyID}
+                    stateChange={this.rerender}
+                  />
+                </Row>
+              </Card.Body>
+            </Card>
+          </CardDeck>
+          </Row>
+          <br></br>
+          <br></br>
         </Container>
       </div>
     );
