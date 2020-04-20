@@ -3,7 +3,7 @@ import React, {
   Component
 } from 'react';
 import {
-  Container, Row, Button
+  Button
 } from 'react-bootstrap';
 
 import AddIncomeModal from './AddIncomeModal';
@@ -142,23 +142,19 @@ class AddIncome extends Component {
 
   render() {
     return (
-      <Container>
-        <Row>
-          <div>
-            <Button variant="secondary" onClick={this.handleEnableModal} id="addIncome">Add New Income</Button>
-            <AddIncomeModal
-              show={this.state.showModal}
-              onHide={this.handleDisableModal}
-              onSubmit={this.handleSave}
-              onCancel={this.handleCancel}
-              onChange={this.handleChange}
-              selectedincome={this.state.selectedIncome}
-              errors={this.state.errors}
-              datechange={this.handleDateChange}
-            />
-          </div>
-        </Row>
-      </Container>
+      <div>
+        <Button variant="secondary" size="lg" block style={{'background-color': '#006E4D'}} onClick={this.handleEnableModal} id="addIncome">Add New Income</Button>
+        <AddIncomeModal
+          show={this.state.showModal}
+          onHide={this.handleDisableModal}
+          onSubmit={this.handleSave}
+          onCancel={this.handleCancel}
+          onChange={this.handleChange}
+          selectedincome={this.state.selectedIncome}
+          errors={this.state.errors}
+          datechange={this.handleDateChange}
+        />
+      </div>
     );
   }
 }
