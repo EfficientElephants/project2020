@@ -3,7 +3,7 @@ import React, {
   Component
 } from 'react';
 import {
-  Row, Col, Container
+  Row, Col, Container, Card
 } from 'react-bootstrap';
 import goalAPI from '../../api/goalAPI';
 import {
@@ -250,31 +250,34 @@ class Goals extends Component {
   render() {
     return (
       <div>
-        <Container>
-          <Row>
-            <div>
-              <EditGoalModal
-                show={this.state.showModal}
-                onHide={this.handleDisableModal}
-                onSubmit={this.handleSave}
-                onCancel={this.handleCancel}
-                onChange={this.handleChange}
-                selectedgoal={this.state.selectedGoal}
-                errors={this.state.errors}
-              />
-            </div>
-          </Row>
-          {this.createArray().map((array) =>
+        <Row>
+          <div>
+            <EditGoalModal
+              show={this.state.showModal}
+              onHide={this.handleDisableModal}
+              onSubmit={this.handleSave}
+              onCancel={this.handleCancel}
+              onChange={this.handleChange}
+              selectedgoal={this.state.selectedGoal}
+              errors={this.state.errors}
+            />
+          </div>
+        </Row>
+        { (this.state.goalList.length === 0) ? (
+          <Card border="danger">
+            <Card.Header style={{ 'background-color': '#B22222' }} as="h5">No Goals</Card.Header>
+            <Card.Body>
+              <Card.Text>Start organizing your money, and add a goal now!</Card.Text>
+            </Card.Body>
+          </Card>
+        ) :
+          (this.createArray().map((array) =>
             (
-              <>
+              <div>
                 <Row>
                   {array.map((goal, i) => {
                     if (goal.length === 0 && i % 2 === 1) {
-                      return (
-                        <Col
-                          key={goal.length}
-                        />
-                      );
+                      return (<Col key={goal.length} />);
                     }
                     return (
                       <GoalInfo
@@ -288,9 +291,9 @@ class Goals extends Component {
                   })}
                 </Row>
                 <br />
-              </>
-            ))}
-        </Container>
+              </div>
+            ))
+          )}
       </div>
     );
   }
