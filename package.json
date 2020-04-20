@@ -77,9 +77,9 @@
       "server/server.js"
     ],
     "check-coverage": true,
-    "branches": 90,
+    "branches": 85,
     "lines": 90,
-    "functions": 90,
+    "functions": 85,
     "statements": 90
   },
   "proxy": "http://localhost:3001",
