@@ -2,7 +2,7 @@ import React, {
   Component
 } from 'react';
 import {
-  Row, Col, Container, Toast, Figure, Card, CardDeck
+  Row, Col, Container, Toast, Figure, Card
 } from 'react-bootstrap';
 import NavBar from './Navbar';
 import {
