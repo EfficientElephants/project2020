@@ -186,7 +186,7 @@ class Dashboard extends Component {
           </Row>
 
           <Row style={{ marginTop: 30 }}>
-            <CardDeck style={{ width: '100%' }}>
+            <Col>
               <Card style={{ width: '100%' }}>
                 <Card.Body>
                   <h2>Spending Breakdown</h2>
@@ -201,10 +201,15 @@ class Dashboard extends Component {
                   (null)}
                 </Card.Body>
               </Card>
+              </Col>
+              <Col>
               <Card style={{ width: '100%' }}>
                 <Card.Body>
                   <h2>Goal Progress</h2>
                   <Card.Text><center>Are you on track to meet your goals?</center></Card.Text>
+                  {/* { (this.state.goalList.length === 0) ? (
+                    <p>You currently have no goals set up.</p>    
+                ) : */}
                   {this.state.goalList.map((goal) =>
                     (
                       <GoalBar
@@ -215,7 +220,7 @@ class Dashboard extends Component {
                     ))}
                 </Card.Body>
               </Card>
-            </CardDeck>
+              </Col>
           </Row>
           
           {this.createAlert()}
