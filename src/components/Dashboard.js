@@ -2,7 +2,7 @@ import React, {
   Component
 } from 'react';
 import {
-  Row, Col, Container, Toast, Figure
+  Row, Col, Container, Toast, Figure, Card
 } from 'react-bootstrap';
 import NavBar from './Navbar';
 import {
@@ -20,14 +20,14 @@ import GoalBar from './Goals/GoalBar';
 import Logo from '../assets/expense-elephant-logo2.png';
 
 const dateformat = require('dateformat');
-
+const moment = require('moment');
 
 class Dashboard extends Component {
   constructor() {
     super();
     this.state = {
       userId: '',
-      fullName: '',
+      firstName: '',
       alertOpen: false,
       alertType: '',
       toastShow: false,
@@ -35,6 +35,7 @@ class Dashboard extends Component {
       spendingTotal: '',
       incomeTotal: '',
       goalList: [],
+      monthYearDisplay: dateformat(moment().toDate(), 'mmmm yyyy'),
       mmyyID: dateformat(new Date(), 'mmyy')
     };
     this.handleChange = this.handleChange.bind(this);
@@ -51,7 +52,7 @@ class Dashboard extends Component {
         .then((json) => {
           if (json.success) {
             this.setState({ userId: json.userId });
-            this.getFullName();
+            this.getFirstName();
 
             goalAPI.get({ userId: this.state.userId, mmyyID: this.state.mmyyID }).then((jsonres) =>
               this.setState({ goalList: jsonres }));
@@ -76,12 +77,12 @@ class Dashboard extends Component {
     }
   }
 
-  getFullName() {
+  getFirstName() {
     usersAPI.get(this.state.userId)
       .then((results) => {
-        this.setState({ fullName: `${results.firstName} ${results.lastName}` });
+        this.setState({ firstName: `${results.firstName}` });
       });
-    return this.state.fullName;
+    return this.state.firstName;
   }
 
   handleChange(type) {
@@ -144,14 +145,32 @@ class Dashboard extends Component {
         <NavBar />
         <Container>
           <Row className="dashboard-header">
-            <Col md={7}>
+            <Col md={{ span: 6, offset: 3 }}>
               <h1 className="dashboard-title">
-                Welcome back,
+                Welcome
                 {' '}
-                {this.state.fullName}
+                {this.state.firstName}
                 !
               </h1>
             </Col>
+          </Row>
+          <Row>
+            <Card style={{ width: '100%' }}>
+              <Card.Body>
+                <Card.Title>This page allows you to keep track of your current monthly expenses and your 
+                  overall progress on your goals. Don't forget to log your transactions below!
+                </Card.Title>
+                <Card.Text>
+                  <center><strong>
+                    In {this.state.monthYearDisplay}, you've spent a total of ${this.state.spendingTotal} and earned a total of ${this.state.incomeTotal}.
+                  </strong></center>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Row>
+          <br/>
+
+          <Row>
             <Col>
               <AddExpense
                 typeChange={this.handleChange}
@@ -165,64 +184,45 @@ class Dashboard extends Component {
               />
             </Col>
           </Row>
-          <br />
 
-          <Container>
-            <Row>
-              <Col>
-                <h5>For this period, you have done the following:</h5>
+          <Row style={{ marginTop: 30 }}>
+            <Col>
+              <Card style={{ width: '100%' }}>
+                <Card.Body>
+                  <h2>Spending Breakdown</h2>
+                  <Card.Text><center>See how you're spending your money this month.</center></Card.Text>
+                  {(this.state.spendingTotal !== 0) ?
+                  (
+                    <Graph
+                      date={this.state.mmyyID}
+                      render={this.state.render}
+                    />
+                  ) :
+                  (null)}
+                </Card.Body>
+              </Card>
               </Col>
               <Col>
-                <p>
-                  <strong>Spent</strong>
-                  {' '}
-                  $
-                  {this.state.spendingTotal}
-                </p>
-                <p>
-                  <strong>Earned</strong>
-                  {' '}
-                  $
-                  {this.state.incomeTotal}
-                </p>
+              <Card style={{ width: '100%' }}>
+                <Card.Body>
+                  <h2>Goal Progress</h2>
+                  <Card.Text><center>Are you on track to meet your goals?</center></Card.Text>
+                  {/* { (this.state.goalList.length === 0) ? (
+                    <p>You currently have no goals set up.</p>    
+                ) : */}
+                  {this.state.goalList.map((goal) =>
+                    (
+                      <GoalBar
+                        goal={goal}
+                        key={goal._id}
+                        render={this.state.render}
+                      />
+                    ))}
+                </Card.Body>
+              </Card>
               </Col>
-            </Row>
-          </Container>
-
-          <Row style={{ marginTop: 85 }}>
-            <Col>
-              {(this.state.spendingTotal !== 0) ?
-                (
-                  <Graph
-                    date={this.state.mmyyID}
-                    render={this.state.render}
-                  />
-                ) :
-                (null)}
-            </Col>
-            <Col>
-              <h3>Monthly Breakdown</h3>
-              {this.state.goalList.map((goal) =>
-                (
-                  <GoalBar
-                    goal={goal}
-                    key={goal._id}
-                    render={this.state.render}
-                  />
-                ))}
-            </Col>
           </Row>
-          {/* <br />
-                    <br />
-                    <br /> */}
-          {/* <Row>
-                        <Col>
-                            <h3>Loan Tracker</h3>
-                            <p>Student Debt</p>
-                            <p>Car Payment</p>
-                        </Col>
-
-                    </Row> */}
+          
           {this.createAlert()}
         </Container>
       </div>

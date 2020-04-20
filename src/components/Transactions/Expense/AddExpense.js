@@ -3,7 +3,7 @@ import React, {
   Component
 } from 'react';
 import {
-  Container, Row, Button
+  Button
 } from 'react-bootstrap';
 import AddExpenseModal from './AddExpenseModal';
 import transactionAPI from '../../../api/transactionAPI';
@@ -167,23 +167,19 @@ class AddExpense extends Component {
 
   render() {
     return (
-      <Container>
-        <Row>
-          <div>
-            <Button variant="secondary" onClick={this.handleEnableModal}>Add New Expense</Button>
-            <AddExpenseModal
-              show={this.state.showModal}
-              onHide={this.handleDisableModal}
-              onSubmit={this.handleSave}
-              onCancel={this.handleCancel}
-              onChange={this.handleChange}
-              selectedexpense={this.state.selectedExpense}
-              errors={this.state.errors}
-              datechange={this.handleDateChange}
-            />
-          </div>
-        </Row>
-      </Container>
+      <div>
+        <Button variant="secondary" size="lg" block style={{'background-color': '#006E4D'}} onClick={this.handleEnableModal}>Add New Expense</Button>
+        <AddExpenseModal
+          show={this.state.showModal}
+          onHide={this.handleDisableModal}
+          onSubmit={this.handleSave}
+          onCancel={this.handleCancel}
+          onChange={this.handleChange}
+          selectedexpense={this.state.selectedExpense}
+          errors={this.state.errors}
+          datechange={this.handleDateChange}
+        />
+      </div>
     );
   }
 }

@@ -131,10 +131,7 @@ class Graph extends Component {
     };
     return (
       <div className="graph-wrapper">
-        <h2>Category Spending Breakdown</h2>
-        {/* <div className="graph"> */}
         <CanvasJSChart options={options} />
-        {/* </div> */}
       </div>
     );
   }
