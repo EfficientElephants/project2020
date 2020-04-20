@@ -2,7 +2,7 @@ import React, {
   Component
 } from 'react';
 import {
-  Row, Container, Button, ButtonToolbar, Card, CardDeck
+  Row, Container, ButtonToolbar, Card, CardDeck
 } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import NavBar from '../Navbar';
@@ -123,8 +123,11 @@ class History extends Component {
           </Row>
           <Row>
             <div className="col-4">
+            <ButtonToolbar className="fa-pull-right">
+                <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowLeft} onClick={this.leftClick}/>
+              </ButtonToolbar>
             </div>
-            <div className="col-3">
+            <div className="col-4">
               <DatePicker
                 showPopperArrow={false}
                 selected={this.state.date}
@@ -135,9 +138,8 @@ class History extends Component {
                 showMonthYearPicker
               />
             </div>
-            <div className="col-5">
+            <div className="col-4">
               <ButtonToolbar>
-                <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowLeft} onClick={this.leftClick}/>
                 <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowRight} onClick={this.rightClick}/>
               </ButtonToolbar>
             </div>
