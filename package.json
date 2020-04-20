@@ -71,11 +71,16 @@
     "include": [
       "server/**"
     ],
+    "exclude": [
+      "server/app.js",
+      "server/mongo.js",
+      "server/server.js"
+    ],
     "check-coverage": true,
-    "branches": 70,
-    "lines": 70,
-    "functions": 70,
-    "statements": 70
+    "branches": 90,
+    "lines": 90,
+    "functions": 90,
+    "statements": 90
   },
   "proxy": "http://localhost:3001",
   "description": "This is a template for using Express and React in the same project. It is based on Create React App.",
