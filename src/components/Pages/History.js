@@ -20,7 +20,7 @@ import goalAPI from '../../api/goalAPI';
 
 // import AddExpense from './Transactions/Expense/AddExpense';
 // import AddIncome from './Transactions/Income/AddIncome';
-import Graph from '../Graph/Graph';
+import Graph from '../Graphs/Graph';
 import GoalBar from '../Goals/GoalBar';
 // import Logo from '../assets/expense-elephant-logo2.png';
 import TransactionTable from '../Transactions/TransactionTable';
