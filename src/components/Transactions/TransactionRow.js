@@ -22,7 +22,8 @@ const Transaction = (props) =>
 
       <td>
         <Button
-          variant="info"
+          // className="edit-button"
+          variant="secondary"
           onClick={() =>
             props.onSelect(props.transaction)}
         >

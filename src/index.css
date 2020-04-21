@@ -103,6 +103,18 @@ h3.company{
   margin-left: 10px;
 }
 
+/* Everything above is login */
+/* ============================================= */
+/* Modal */
+
+.modal-save-changes {
+  background-color: #007A56 !important;
+  border-color: #007A56 !important;
+}
+
+/* ============================================= */
+
+
 .dashboard-header {
   padding: 30px;
   text-align: center;

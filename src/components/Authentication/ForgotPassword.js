@@ -92,7 +92,7 @@ class ForgotPassword extends Component {
           <div className="error">
             <Alert variant="danger">
               <p>That email address does not exist. Try again or make a new account.</p>
-              <Alert.Link href="/signup">Don&apos;t have an account?</Alert.Link>
+              <Alert.Link href="/#/signup">Don&apos;t have an account?</Alert.Link>
             </Alert>
           </div>
           )}
