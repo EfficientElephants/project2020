@@ -263,7 +263,7 @@ class Goals extends Component {
         </Row>
         { (this.state.goalList.length === 0) ? (
           <Card border="warning">
-            <Card.Header style={{ 'background-color': '#ffc107' }} as="h5">No Goals!</Card.Header>
+            <Card.Header style={{ backgroundColor: '#ffc107' }} as="h5">No Goals!</Card.Header>
             <Card.Body>
               <Card.Text>Start organizing your money, and add a goal now!</Card.Text>
             </Card.Body>

@@ -255,7 +255,7 @@ class Summary extends Component {
                   {this.state.allGoalsEver.length === 0 ?
                     (
                       <Card border="warning">
-                        <Card.Header style={{ 'background-color': '#ffc107' }} as="h5">No Goals!</Card.Header>
+                        <Card.Header style={{ backgroundColor: '#ffc107' }} as="h5">No Goals!</Card.Header>
                         <Card.Body>
                           <Card.Text>Create goals to get a breakdown of your spending habits.</Card.Text>
                         </Card.Body>

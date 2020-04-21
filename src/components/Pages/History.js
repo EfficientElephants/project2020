@@ -165,7 +165,7 @@ class History extends Component {
               <Card style={{ width: '100%' }}>
                 <Card.Body>
                   <h2>Spending Breakdown</h2>
-                  <Card.Text className="center">See how you&apos;re spending your money this month.</Card.Text>
+                  <Card.Text className="center">See how you spent your money during this month.</Card.Text>
                   {(this.state.spendingTotal !== 0) ?
                     (
                       <Graph
@@ -179,7 +179,7 @@ class History extends Component {
               <Card style={{ width: '100%' }}>
                 <Card.Body>
                   <h2>Goal Progress</h2>
-                  <Card.Text className="center">Are you on track to meet your goals?</Card.Text>
+                  <Card.Text className="center">Did you meet your goals?</Card.Text>
                   {this.state.goalList.map((goal) =>
                     (
                       <GoalBar
