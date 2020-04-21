@@ -157,18 +157,27 @@ class Dashboard extends Component {
           <Row>
             <Card style={{ width: '100%' }}>
               <Card.Body>
-                <Card.Title>This page allows you to keep track of your current monthly expenses and your 
-                  overall progress on your goals. Don't forget to log your transactions below!
+                <Card.Title>
+                  This page allows you to keep track of your current monthly expenses and your
+                  overall progress on your goals. Don&apos;t forget to log your transactions below!
                 </Card.Title>
                 <Card.Text className="center">
                   <strong>
-                    In {this.state.monthYearDisplay}, you've spent a total of ${this.state.spendingTotal} and earned a total of ${this.state.incomeTotal}.
+                    In
+                    {' '}
+                    {this.state.monthYearDisplay}
+                    , you&apos;ve spent a total of $
+                    {this.state.spendingTotal}
+                    {' '}
+                    and earned a total of $
+                    {this.state.incomeTotal}
+                    .
                   </strong>
                 </Card.Text>
               </Card.Body>
             </Card>
           </Row>
-          <br/>
+          <br />
 
           <Row>
             <Col>
@@ -190,25 +199,25 @@ class Dashboard extends Component {
               <Card style={{ width: '100%' }}>
                 <Card.Body>
                   <h2>Spending Breakdown</h2>
-                  <Card.Text className="center">See how you're spending your money this month.</Card.Text>
+                  <Card.Text className="center">See how you&apos;re spending your money this month.</Card.Text>
                   {(this.state.spendingTotal !== 0) ?
-                  (
-                    <Graph
-                      date={this.state.mmyyID}
-                      render={this.state.render}
-                    />
-                  ) :
-                  (null)}
+                    (
+                      <Graph
+                        date={this.state.mmyyID}
+                        render={this.state.render}
+                      />
+                    ) :
+                    (null)}
                 </Card.Body>
               </Card>
-              </Col>
-              <Col>
+            </Col>
+            <Col>
               <Card style={{ width: '100%' }}>
                 <Card.Body>
                   <h2>Goal Progress</h2>
                   <Card.Text className="center">Are you on track to meet your goals?</Card.Text>
                   {/* { (this.state.goalList.length === 0) ? (
-                    <p>You currently have no goals set up.</p>    
+                    <p>You currently have no goals set up.</p>
                 ) : */}
                   {this.state.goalList.map((goal) =>
                     (
@@ -220,9 +229,9 @@ class Dashboard extends Component {
                     ))}
                 </Card.Body>
               </Card>
-              </Col>
+            </Col>
           </Row>
-          
+
           {this.createAlert()}
         </Container>
       </div>

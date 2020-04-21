@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/no-unused-state */
 import React, {
   Component
@@ -169,7 +170,7 @@ class Summary extends Component {
       <div>
         <NavBar />
         <Container>
-        <Row>
+          <Row>
             <Col>
               <h1 className="header">
                 Summary
@@ -180,14 +181,15 @@ class Summary extends Component {
           <Row>
             <Card style={{ width: '100%' }}>
               <Card.Body>
-                <Card.Title>Once you start creating goals, it&apos;s helpful to see how they&apos;ve been working!
-              Use this page to see how on track you&apos;ve been,
-              so you can adjust your sights for the future.
+                <Card.Title>
+                  Once you start creating goals, it&apos;s helpful to see how they&apos;ve been working!
+                  Use this page to see how on track you&apos;ve been,
+                  so you can adjust your sights for the future.
                 </Card.Title>
               </Card.Body>
             </Card>
           </Row>
-          <br/>
+          <br />
 
           {(this.state.totalSpent === '0.00' &&
           this.state.totalEarned === '0.00' &&
@@ -203,18 +205,23 @@ class Summary extends Component {
               </div>
             ) : (
               <div>
-                <h4><strong>
-                  Based on data from your first transaction in
-                  {' '}
-                  {dateformat(this.state.earliestTransaction, 'mmmm yyyy')}
-                  ...
+                <h4>
+                  <strong>
+                    Based on data from your first transaction in
+                    {' '}
+                    {dateformat(this.state.earliestTransaction, 'mmmm yyyy')}
+                    ...
                   </strong>
                 </h4>
                 <br />
                 <Row>
                   <Col>
                     <Card body>
-                      You <strong>spend</strong> an average of
+                      You
+                      {' '}
+                      <strong>spend</strong>
+                      {' '}
+                      an average of
                       {' '}
                       <b>
                         $
@@ -227,7 +234,11 @@ class Summary extends Component {
                   </Col>
                   <Col>
                     <Card body>
-                      You <strong>earn</strong> an average of
+                      You
+                      {' '}
+                      <strong>earn</strong>
+                      {' '}
+                      an average of
                       {' '}
                       <b>
                         $

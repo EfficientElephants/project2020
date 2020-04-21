@@ -5,13 +5,18 @@ import {
   Row, Col, Container, ButtonToolbar, Card, CardDeck
 } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
-import NavBar from '../Navbar';
+import {
+  FontAwesomeIcon
+} from '@fortawesome/react-fontawesome';
+import {
+  faArrowLeft,
+  faArrowRight
+} from '@fortawesome/free-solid-svg-icons';
+
 import {
   getFromStorage
 } from '../Storage';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import NavBar from '../Navbar';
 
 
 import usersAPI from '../../api/userAPI';
@@ -92,10 +97,9 @@ class History extends Component {
     this.componentDidMount();
   }
 
-  leftClick() { 
+  leftClick() {
     const newDate = moment(this.state.date).subtract(1, 'month').toDate();
     this.handleDateChange(newDate);
-   
   }
 
   rightClick() {
@@ -111,10 +115,10 @@ class History extends Component {
       <div>
         <NavBar />
         <Container>
-        <Row>
+          <Row>
             <Col>
               <h1 className="header">
-              Historical Data for
+                Historical Data for
                 {' '}
                 {this.state.monthYearDisplay}
               </h1>
@@ -124,51 +128,52 @@ class History extends Component {
           <Row>
             <Card style={{ width: '100%' }}>
               <Card.Body>
-                <Card.Title>View transactions, goals, and spending breakdowns for a selected month.
+                <Card.Title>
+                  View transactions, goals, and spending breakdowns for a selected month.
                 </Card.Title>
                 <br />
                 <Row>
-                <Col>
-            <ButtonToolbar className="fa-pull-right">
-                <FontAwesomeIcon style={{padding:"5px", color:"#00AD79"}} size='3x' icon={faArrowLeft} onClick={this.leftClick}/>
-              </ButtonToolbar>
-            </Col>
-            <Col>
-              <DatePicker
-                showPopperArrow={false}
-                selected={this.state.date}
-                maxDate={this.state.maxDate}
-                onChange={(date) =>
-                  this.handleDateChange(date)}
-                dateFormat="MM/yyyy"
-                showMonthYearPicker
-              />
-            </Col>
-            <Col>
-              <ButtonToolbar>
-                <FontAwesomeIcon style={{padding:"5px", color:"#00AD79"}} size='3x' icon={faArrowRight} onClick={this.rightClick}/>
-              </ButtonToolbar>
-            </Col>
-            </Row>
+                  <Col>
+                    <ButtonToolbar className="fa-pull-right">
+                      <FontAwesomeIcon style={{ padding: '5px', color: '#00AD79' }} size="3x" icon={faArrowLeft} onClick={this.leftClick} />
+                    </ButtonToolbar>
+                  </Col>
+                  <Col>
+                    <DatePicker
+                      showPopperArrow={false}
+                      selected={this.state.date}
+                      maxDate={this.state.maxDate}
+                      onChange={(date) =>
+                        this.handleDateChange(date)}
+                      dateFormat="MM/yyyy"
+                      showMonthYearPicker
+                    />
+                  </Col>
+                  <Col>
+                    <ButtonToolbar>
+                      <FontAwesomeIcon style={{ padding: '5px', color: '#00AD79' }} size="3x" icon={faArrowRight} onClick={this.rightClick} />
+                    </ButtonToolbar>
+                  </Col>
+                </Row>
               </Card.Body>
             </Card>
           </Row>
-          <br/>
+          <br />
 
           <Row style={{ marginTop: 30 }}>
             <CardDeck style={{ width: '100%' }}>
               <Card style={{ width: '100%' }}>
                 <Card.Body>
                   <h2>Spending Breakdown</h2>
-                  <Card.Text className="center">See how you're spending your money this month.</Card.Text>
+                  <Card.Text className="center">See how you&apos;re spending your money this month.</Card.Text>
                   {(this.state.spendingTotal !== 0) ?
-                  (
-                    <Graph
-                      date={this.state.mmyyID}
-                      render={this.state.render}
-                    />
-                  ) :
-                  (null)}
+                    (
+                      <Graph
+                        date={this.state.mmyyID}
+                        render={this.state.render}
+                      />
+                    ) :
+                    (null)}
                 </Card.Body>
               </Card>
               <Card style={{ width: '100%' }}>
@@ -187,27 +192,27 @@ class History extends Component {
               </Card>
             </CardDeck>
           </Row>
-          <br></br>
-          <br></br>
-          
+          <br />
+          <br />
+
           <Row>
-          <CardDeck style={{ width: '100%' }}>
-            <Card style={{ width: '100%' }}>
-              <Card.Body>
-              <h2>Transactions</h2>
-                <Row>
-                  <TransactionTable
-                    render={this.state.render}
-                    dates={this.state.mmyyID}
-                    stateChange={this.rerender}
-                  />
-                </Row>
-              </Card.Body>
-            </Card>
-          </CardDeck>
+            <CardDeck style={{ width: '100%' }}>
+              <Card style={{ width: '100%' }}>
+                <Card.Body>
+                  <h2>Transactions</h2>
+                  <Row>
+                    <TransactionTable
+                      render={this.state.render}
+                      dates={this.state.mmyyID}
+                      stateChange={this.rerender}
+                    />
+                  </Row>
+                </Card.Body>
+              </Card>
+            </CardDeck>
           </Row>
-          <br></br>
-          <br></br>
+          <br />
+          <br />
         </Container>
       </div>
     );

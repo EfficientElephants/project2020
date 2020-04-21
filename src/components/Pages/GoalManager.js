@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, {
   Component
 } from 'react';
@@ -30,7 +31,7 @@ class GoalManager extends Component {
       <div>
         <NavBar />
         <Container>
-        <Row>
+          <Row>
             <Col>
               <h1 className="header">
                 Goals
@@ -42,7 +43,8 @@ class GoalManager extends Component {
               <Card.Body>
                 <Row>
                   <Col>
-                    <Card.Title>Financial goals are personal objectives you can set for saving and spending money.
+                    <Card.Title>
+                      Financial goals are personal objectives you can set for saving and spending money.
                     </Card.Title>
                     <Card.Text>By organizing your money now, you&apos;ll have more for later!</Card.Text>
 
@@ -56,7 +58,7 @@ class GoalManager extends Component {
               </Card.Body>
             </Card>
           </Row>
-          
+
           <br />
           <Goals
             render={this.state.render}

@@ -137,7 +137,7 @@ class AddGoal extends Component {
       <Container>
         <Row>
           <div>
-            <Button variant="secondary" size="lg" block style={{'backgroundColor': '#006E4D'}} onClick={this.handleEnableModal} id="addGoal">Add New Goal</Button>
+            <Button variant="secondary" size="lg" block style={{ backgroundColor: '#006E4D' }} onClick={this.handleEnableModal} id="addGoal">Add New Goal</Button>
             <AddGoalModal
               show={this.state.showModal}
               onHide={this.handleDisableModal}

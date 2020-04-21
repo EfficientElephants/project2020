@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, {
   Component
 } from 'react';
@@ -30,7 +31,7 @@ class Transactions extends Component {
       <div>
         <NavBar />
         <Container>
-        <Row>
+          <Row>
             <Col>
               <h1 className="header">
                 Transactions
@@ -41,12 +42,13 @@ class Transactions extends Component {
           <Row>
             <Card style={{ width: '100%' }}>
               <Card.Body>
-                <Card.Title>All your transactions in one place. Modify, delete, and keep track of your spending habits.
+                <Card.Title>
+                  All your transactions in one place. Modify, delete, and keep track of your spending habits.
                 </Card.Title>
               </Card.Body>
             </Card>
           </Row>
-          <br/>
+          <br />
 
           <Row>
             <Col>
