@@ -63,7 +63,7 @@ class AddIncomeModal extends Component {
             <Button variant="secondary" onClick={this.props.onCancel}>
               Cancel
             </Button>
-            <Button variant="primary" onClick={this.props.onSubmit}>
+            <Button className="modal-save-changes" onClick={this.props.onSubmit}>
               Save Changes
             </Button>
           </Modal.Footer>

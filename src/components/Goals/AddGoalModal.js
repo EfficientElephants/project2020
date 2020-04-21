@@ -32,10 +32,10 @@ const AddGoalModal = (props) => {
               <option value="Social">Social</option>
               <option value="Healthcare">Healthcare</option>
               <option value="Transportation">Transportation</option>
-              <option value="Personal Spending">Personal Spending</option>
+              <option value="Personal Spending">Personal</option>
               <option value="Education">Education</option>
               <option value="Utilities">Utilities</option>
-              <option value="Misc.">Misc</option>
+              <option value="Misc.">Misc.</option>
             </Form.Control>
             <div className="errorMsg">{props.errors.category}</div>
           </Form.Group>
@@ -56,7 +56,7 @@ const AddGoalModal = (props) => {
           <Button variant="secondary" onClick={props.onHide}>
             Close
           </Button>
-          <Button variant="primary" onClick={props.onSubmit}>
+          <Button className="modal-save-changes" onClick={props.onSubmit}>
             Save Changes
           </Button>
         </Modal.Footer>

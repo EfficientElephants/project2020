@@ -74,10 +74,10 @@ class AddExpenseModal extends Component {
                 <option value="Social">Social</option>
                 <option value="Healthcare">Healthcare</option>
                 <option value="Transportation">Transportation</option>
-                <option value="Personal Spending">Personal Spending</option>
+                <option value="Personal Spending">Personal</option>
                 <option value="Education">Education</option>
                 <option value="Utilities">Utilities</option>
-                <option value="Misc.">Misc</option>
+                <option value="Misc.">Misc.</option>
               </Form.Control>
               <div className="errorMsg">{this.props.errors.category}</div>
             </Form.Group>
@@ -86,7 +86,7 @@ class AddExpenseModal extends Component {
             <Button variant="secondary" onClick={this.props.onCancel}>
               Cancel
             </Button>
-            <Button variant="primary" onClick={this.props.onSubmit}>
+            <Button className="modal-save-changes" onClick={this.props.onSubmit}>
               Save Changes
             </Button>
           </Modal.Footer>
