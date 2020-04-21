@@ -2,16 +2,21 @@ import React, {
   Component
 } from 'react';
 import {
-  Row, Container, ButtonToolbar, Card, CardDeck
+  Row, Col, Container, ButtonToolbar, Card, CardDeck
 } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
-import NavBar from '../Navbar';
+import {
+  FontAwesomeIcon
+} from '@fortawesome/react-fontawesome';
+import {
+  faArrowLeft,
+  faArrowRight
+} from '@fortawesome/free-solid-svg-icons';
+
 import {
   getFromStorage
 } from '../Storage';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import NavBar from '../Navbar';
 
 
 import usersAPI from '../../api/userAPI';
@@ -43,6 +48,7 @@ class History extends Component {
       monthYearDisplay: dateformat(moment().subtract(1, 'month').toDate(), 'mmmm yyyy'),
       date: moment().subtract(1, 'month').toDate(),
       mmyyID: dateformat(moment().subtract(1, 'month').toDate(), 'mmyy'),
+      minDate: moment([2019, 10, 1]).toDate(),
       maxDate: moment().subtract(1, 'month').toDate(),
       // render: true
 
@@ -92,10 +98,11 @@ class History extends Component {
     this.componentDidMount();
   }
 
-  leftClick() { 
-    const newDate = moment(this.state.date).subtract(1, 'month').toDate();
-    this.handleDateChange(newDate);
-   
+  leftClick() {
+    if (dateformat(this.state.minDate, 'mmyy') !== dateformat(this.state.date, 'mmyy')) {
+      const newDate = moment(this.state.date).subtract(1, 'month').toDate();
+      this.handleDateChange(newDate);
+    }
   }
 
   rightClick() {
@@ -111,62 +118,77 @@ class History extends Component {
       <div>
         <NavBar />
         <Container>
-          <Row className="dashboard-header">
-            <div className="col">
-              <h1 className="dashboard-title" style={{textAlign:"center"}}>
+          <Row>
+            <Col>
+              <h1 className="header">
                 Historical Data for
                 {' '}
                 {this.state.monthYearDisplay}
               </h1>
-              <p style={{textAlign:"center"}}>View transactions, goals, and spending breakdowns for a selected month.</p>
-            </div>
+            </Col>
           </Row>
+
           <Row>
-            <div className="col-4">
-            <ButtonToolbar className="fa-pull-right">
-                <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowLeft} onClick={this.leftClick}/>
-              </ButtonToolbar>
-            </div>
-            <div className="col-4">
-              <DatePicker
-                showPopperArrow={false}
-                selected={this.state.date}
-                maxDate={this.state.maxDate}
-                onChange={(date) =>
-                  this.handleDateChange(date)}
-                dateFormat="MM/yyyy"
-                showMonthYearPicker
-              />
-            </div>
-            <div className="col-4">
-              <ButtonToolbar>
-                <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowRight} onClick={this.rightClick}/>
-              </ButtonToolbar>
-            </div>
+            <Card style={{ width: '100%' }}>
+              <Card.Body>
+                <Card.Title>
+                  View transactions, goals, and spending breakdowns for a selected month.
+                </Card.Title>
+                <br />
+                <Row>
+                  <Col>
+                    <ButtonToolbar className="fa-pull-right">
+                      {(dateformat(this.state.minDate, 'mmyy') === dateformat(this.state.date, 'mmyy')) ?
+                        <FontAwesomeIcon style={{ padding: '5px', cursor: 'not-allowed', color: 'grey' }} size="3x" icon={faArrowLeft} /> :
+                        <FontAwesomeIcon style={{ padding: '5px', color: '#00AD79' }} size="3x" icon={faArrowLeft} onClick={this.leftClick} />}
+
+                    </ButtonToolbar>
+                  </Col>
+                  <Col>
+                    <DatePicker
+                      showPopperArrow={false}
+                      selected={this.state.date}
+                      minDate={this.state.minDate}
+                      maxDate={this.state.maxDate}
+                      onChange={(date) =>
+                        this.handleDateChange(date)}
+                      dateFormat="MM/yyyy"
+                      showMonthYearPicker
+                    />
+                  </Col>
+                  <Col>
+                    <ButtonToolbar>
+                      {(dateformat(this.state.maxDate, 'mmyy') === dateformat(this.state.date, 'mmyy')) ?
+                        <FontAwesomeIcon style={{ padding: '5px', cursor: 'not-allowed', color: 'grey' }} size="3x" icon={faArrowRight} /> :
+                        <FontAwesomeIcon style={{ padding: '5px', color: '#00AD79' }} size="3x" icon={faArrowRight} onClick={this.rightClick} />}
+                    </ButtonToolbar>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
           </Row>
-          <br></br>
-          <br></br>
+          <br />
 
           <Row style={{ marginTop: 30 }}>
             <CardDeck style={{ width: '100%' }}>
               <Card style={{ width: '100%' }}>
                 <Card.Body>
                   <h2>Spending Breakdown</h2>
-                  <Card.Text><center>See how you're spending your money this month.</center></Card.Text>
-                  {(this.state.spendingTotal !== 0) ?
-                  (
-                    <Graph
-                      date={this.state.mmyyID}
-                      render={this.state.render}
-                    />
-                  ) :
-                  (null)}
+                  <Card.Text className="center">See how you spent your money during this month.</Card.Text>
+                  {!document.getElementById('noTrans') ?
+                    (
+                      <Graph
+                        date={this.state.mmyyID}
+                        render={this.state.render}
+                      />
+                    ) :
+                    (null)}
                 </Card.Body>
               </Card>
               <Card style={{ width: '100%' }}>
                 <Card.Body>
                   <h2>Goal Progress</h2>
-                  <Card.Text><center>Are you on track to meet your goals?</center></Card.Text>
+                  <Card.Text className="center">Did you meet your goals?</Card.Text>
                   {this.state.goalList.map((goal) =>
                     (
                       <GoalBar
@@ -179,27 +201,27 @@ class History extends Component {
               </Card>
             </CardDeck>
           </Row>
-          <br></br>
-          <br></br>
-          
+          <br />
+          <br />
+
           <Row>
-          <CardDeck style={{ width: '100%' }}>
-            <Card style={{ width: '100%' }}>
-              <Card.Body>
-              <h2>Transactions</h2>
-                <Row>
-                  <TransactionTable
-                    render={this.state.render}
-                    dates={this.state.mmyyID}
-                    stateChange={this.rerender}
-                  />
-                </Row>
-              </Card.Body>
-            </Card>
-          </CardDeck>
+            <CardDeck style={{ width: '100%' }}>
+              <Card style={{ width: '100%' }}>
+                <Card.Body>
+                  <h2>Transactions</h2>
+                  <Row>
+                    <TransactionTable
+                      render={this.state.render}
+                      dates={this.state.mmyyID}
+                      stateChange={this.rerender}
+                    />
+                  </Row>
+                </Card.Body>
+              </Card>
+            </CardDeck>
           </Row>
-          <br></br>
-          <br></br>
+          <br />
+          <br />
         </Container>
       </div>
     );

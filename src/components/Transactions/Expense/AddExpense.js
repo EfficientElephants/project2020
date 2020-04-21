@@ -168,7 +168,7 @@ class AddExpense extends Component {
   render() {
     return (
       <div>
-        <Button variant="secondary" size="lg" block style={{'background-color': '#006E4D'}} onClick={this.handleEnableModal}>Add New Expense</Button>
+        <Button variant="secondary" size="lg" block style={{ backgroundColor: '#006E4D' }} onClick={this.handleEnableModal}>Add New Expense</Button>
         <AddExpenseModal
           show={this.state.showModal}
           onHide={this.handleDisableModal}

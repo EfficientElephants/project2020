@@ -357,45 +357,45 @@ class TransactionTable extends Component {
           </div>
         </Row>
         <Row>
-        {
+          {
           (this.state.spendingTotal !== 0) ? (
             <Table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Category</th>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Update</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.transactions.map((transaction) =>
-                (
-                  <Transaction
-                    transaction={transaction}
-                    key={transaction._id}
-                    onSelect={this.handleSelect}
-                    selectedTransaction={this.state.selectedTransaction}
-                    onDelete={this.handleDelete}
-                  />
-                ))}
-              <tr>
-                <th>Total Amount Spent</th>
-                <th>
-                  $
-                  {this.state.spendingTotal}
-                </th>
-                <th>Total Income</th>
-                <th>
-                  $
-                  {this.state.incomeTotal}
-                </th>
-              </tr>
-            </tbody>
-          </Table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Category</th>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th>Update</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.transactions.map((transaction) =>
+                  (
+                    <Transaction
+                      transaction={transaction}
+                      key={transaction._id}
+                      onSelect={this.handleSelect}
+                      selectedTransaction={this.state.selectedTransaction}
+                      onDelete={this.handleDelete}
+                    />
+                  ))}
+                <tr>
+                  <th>Total Amount Spent</th>
+                  <th>
+                    $
+                    {this.state.spendingTotal}
+                  </th>
+                  <th>Total Income</th>
+                  <th>
+                    $
+                    {this.state.incomeTotal}
+                  </th>
+                </tr>
+              </tbody>
+            </Table>
           ) : (
-            <p>No transactions at this time.</p>
+            <p id="noTrans">No transactions at this time.</p>
           )
         }
         </Row>

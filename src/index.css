@@ -114,8 +114,33 @@ h3.company{
 
 /* ============================================= */
 
+/* ===== Cards =====*/
+.card-img-top {
+  height: auto;
+  max-height: 450px;
+  width: auto;
+  max-width: 450px;
+}
 
-.dashboard-header {
+.card-goal {
+  width: auto;
+  max-width: 450px;
+  min-width: 100px;
+}
+
+.card-goal-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.center {
+  text-align: center;
+}
+
+.header {
   padding: 30px;
   text-align: center;
   font-weight: bold;

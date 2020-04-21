@@ -251,21 +251,19 @@ class Goals extends Component {
     return (
       <div>
         <Row>
-          <div>
-            <EditGoalModal
-              show={this.state.showModal}
-              onHide={this.handleDisableModal}
-              onSubmit={this.handleSave}
-              onCancel={this.handleCancel}
-              onChange={this.handleChange}
-              selectedgoal={this.state.selectedGoal}
-              errors={this.state.errors}
-            />
-          </div>
+          <EditGoalModal
+            show={this.state.showModal}
+            onHide={this.handleDisableModal}
+            onSubmit={this.handleSave}
+            onCancel={this.handleCancel}
+            onChange={this.handleChange}
+            selectedgoal={this.state.selectedGoal}
+            errors={this.state.errors}
+          />
         </Row>
         { (this.state.goalList.length === 0) ? (
-          <Card border="danger">
-            <Card.Header style={{ 'background-color': '#B22222' }} as="h5">No Goals</Card.Header>
+          <Card border="warning">
+            <Card.Header style={{ backgroundColor: '#ffc107' }} as="h5">No Goals!</Card.Header>
             <Card.Body>
               <Card.Text>Start organizing your money, and add a goal now!</Card.Text>
             </Card.Body>

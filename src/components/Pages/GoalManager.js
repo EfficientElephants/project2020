@@ -1,9 +1,12 @@
+/* eslint-disable max-len */
 import React, {
   Component
 } from 'react';
 import {
   Container,
-  Card
+  Card,
+  Row,
+  Col
 } from 'react-bootstrap';
 import NavBar from '../Navbar';
 import AddGoal from '../Goals/AddGoal';
@@ -28,27 +31,34 @@ class GoalManager extends Component {
       <div>
         <NavBar />
         <Container>
-          <br />
-          <h1>Goals</h1>
-          <Card body>
-            <p>
-              Financial goals are personal objectives you can set for saving and spending money.
-            </p>
-            <p>
-              We at
-              {' '}
-              <b>ExpenseElephant</b>
-              {' '}
-              think that by organizing your money now, you&apos;ll have more for later.
-            </p>
-          </Card>
-          <p />
-          <br />
-          <div>
-            <AddGoal
-              stateChange={this.rerender}
-            />
-          </div>
+          <Row>
+            <Col>
+              <h1 className="header">
+                Goals
+              </h1>
+            </Col>
+          </Row>
+          <Row>
+            <Card style={{ width: '100%' }}>
+              <Card.Body>
+                <Row>
+                  <Col>
+                    <Card.Title>
+                      Financial goals are personal objectives you can set for saving and spending money.
+                    </Card.Title>
+                    <Card.Text>By organizing your money now, you&apos;ll have more for later!</Card.Text>
+
+                  </Col>
+                  <Col xs lg="2">
+                    <AddGoal
+                      stateChange={this.rerender}
+                    />
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
+          </Row>
+
           <br />
           <Goals
             render={this.state.render}
