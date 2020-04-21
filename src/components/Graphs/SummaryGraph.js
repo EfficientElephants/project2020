@@ -35,7 +35,8 @@ class SummaryGraph extends Component {
               value: {
                 show: true,
                 color: '#333',
-                fontSize: '30px'
+                fontSize: '30px',
+                offsetY: 10,
               }
             }
           }

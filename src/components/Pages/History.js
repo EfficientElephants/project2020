@@ -48,6 +48,7 @@ class History extends Component {
       monthYearDisplay: dateformat(moment().subtract(1, 'month').toDate(), 'mmmm yyyy'),
       date: moment().subtract(1, 'month').toDate(),
       mmyyID: dateformat(moment().subtract(1, 'month').toDate(), 'mmyy'),
+      minDate: moment([2019, 10, 1]).toDate(),
       maxDate: moment().subtract(1, 'month').toDate(),
       // render: true
 
@@ -98,8 +99,10 @@ class History extends Component {
   }
 
   leftClick() {
-    const newDate = moment(this.state.date).subtract(1, 'month').toDate();
-    this.handleDateChange(newDate);
+    if (dateformat(this.state.minDate, 'mmyy') !== dateformat(this.state.date, 'mmyy')) {
+      const newDate = moment(this.state.date).subtract(1, 'month').toDate();
+      this.handleDateChange(newDate);
+    }
   }
 
   rightClick() {
@@ -135,13 +138,17 @@ class History extends Component {
                 <Row>
                   <Col>
                     <ButtonToolbar className="fa-pull-right">
-                      <FontAwesomeIcon style={{ padding: '5px', color: '#00AD79' }} size="3x" icon={faArrowLeft} onClick={this.leftClick} />
+                      {(dateformat(this.state.minDate, 'mmyy') === dateformat(this.state.date, 'mmyy')) ?
+                        <FontAwesomeIcon style={{ padding: '5px', cursor: 'not-allowed', color: 'grey' }} size="3x" icon={faArrowLeft} /> :
+                        <FontAwesomeIcon style={{ padding: '5px', color: '#00AD79' }} size="3x" icon={faArrowLeft} onClick={this.leftClick} />}
+
                     </ButtonToolbar>
                   </Col>
                   <Col>
                     <DatePicker
                       showPopperArrow={false}
                       selected={this.state.date}
+                      minDate={this.state.minDate}
                       maxDate={this.state.maxDate}
                       onChange={(date) =>
                         this.handleDateChange(date)}
@@ -151,7 +158,9 @@ class History extends Component {
                   </Col>
                   <Col>
                     <ButtonToolbar>
-                      <FontAwesomeIcon style={{ padding: '5px', color: '#00AD79' }} size="3x" icon={faArrowRight} onClick={this.rightClick} />
+                      {(dateformat(this.state.maxDate, 'mmyy') === dateformat(this.state.date, 'mmyy')) ?
+                        <FontAwesomeIcon style={{ padding: '5px', cursor: 'not-allowed', color: 'grey' }} size="3x" icon={faArrowRight} /> :
+                        <FontAwesomeIcon style={{ padding: '5px', color: '#00AD79' }} size="3x" icon={faArrowRight} onClick={this.rightClick} />}
                     </ButtonToolbar>
                   </Col>
                 </Row>
@@ -166,7 +175,7 @@ class History extends Component {
                 <Card.Body>
                   <h2>Spending Breakdown</h2>
                   <Card.Text className="center">See how you spent your money during this month.</Card.Text>
-                  {(this.state.spendingTotal !== 0) ?
+                  {!document.getElementById('noTrans') ?
                     (
                       <Graph
                         date={this.state.mmyyID}

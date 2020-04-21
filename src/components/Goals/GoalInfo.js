@@ -105,9 +105,9 @@ class GoalInfo extends Component {
 
   render() {
     return (
-      <Col>
-        <Card>
-          <Card.Img height="auto" width="100%" variant="top" src={this.goalPicture().src} alt={this.goalPicture().alt} />
+      <Col className="card-goal-col">
+        <Card className="card-goal">
+          <Card.Img height="auto" variant="top" src={this.goalPicture().src} alt={this.goalPicture().alt} />
           <Card.Body>
             <Card.Title className="text-center" as="h5">{this.props.goal.category}</Card.Title>
             <ProgressBar striped variant={this.state.gradient} now={this.state.percent} label={`${this.state.percent}%`} />

@@ -395,7 +395,7 @@ class TransactionTable extends Component {
               </tbody>
             </Table>
           ) : (
-            <p>No transactions at this time.</p>
+            <p id="noTrans">No transactions at this time.</p>
           )
         }
         </Row>
