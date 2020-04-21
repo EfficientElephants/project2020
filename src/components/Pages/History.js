@@ -2,7 +2,7 @@ import React, {
   Component
 } from 'react';
 import {
-  Row, Container, ButtonToolbar, Card, CardDeck
+  Row, Col, Container, ButtonToolbar, Card, CardDeck
 } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import NavBar from '../Navbar';
@@ -111,23 +111,29 @@ class History extends Component {
       <div>
         <NavBar />
         <Container>
-          <Row className="dashboard-header">
-            <div className="col">
-              <h1 className="dashboard-title" style={{textAlign:"center"}}>
-                Historical Data for
+        <Row>
+            <Col>
+              <h1 className="header">
+              Historical Data for
                 {' '}
                 {this.state.monthYearDisplay}
               </h1>
-              <p style={{textAlign:"center"}}>View transactions, goals, and spending breakdowns for a selected month.</p>
-            </div>
+            </Col>
           </Row>
+
           <Row>
-            <div className="col-4">
+            <Card style={{ width: '100%' }}>
+              <Card.Body>
+                <Card.Title>View transactions, goals, and spending breakdowns for a selected month.
+                </Card.Title>
+                <br />
+                <Row>
+                <Col>
             <ButtonToolbar className="fa-pull-right">
-                <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowLeft} onClick={this.leftClick}/>
+                <FontAwesomeIcon style={{padding:"5px", color:"#00AD79"}} size='3x' icon={faArrowLeft} onClick={this.leftClick}/>
               </ButtonToolbar>
-            </div>
-            <div className="col-4">
+            </Col>
+            <Col>
               <DatePicker
                 showPopperArrow={false}
                 selected={this.state.date}
@@ -137,22 +143,24 @@ class History extends Component {
                 dateFormat="MM/yyyy"
                 showMonthYearPicker
               />
-            </div>
-            <div className="col-4">
+            </Col>
+            <Col>
               <ButtonToolbar>
-                <FontAwesomeIcon style={{padding:"5px"}} size='2x' icon={faArrowRight} onClick={this.rightClick}/>
+                <FontAwesomeIcon style={{padding:"5px", color:"#00AD79"}} size='3x' icon={faArrowRight} onClick={this.rightClick}/>
               </ButtonToolbar>
-            </div>
+            </Col>
+            </Row>
+              </Card.Body>
+            </Card>
           </Row>
-          <br></br>
-          <br></br>
+          <br/>
 
           <Row style={{ marginTop: 30 }}>
             <CardDeck style={{ width: '100%' }}>
               <Card style={{ width: '100%' }}>
                 <Card.Body>
                   <h2>Spending Breakdown</h2>
-                  <Card.Text><center>See how you're spending your money this month.</center></Card.Text>
+                  <Card.Text className="center">See how you're spending your money this month.</Card.Text>
                   {(this.state.spendingTotal !== 0) ?
                   (
                     <Graph
@@ -166,7 +174,7 @@ class History extends Component {
               <Card style={{ width: '100%' }}>
                 <Card.Body>
                   <h2>Goal Progress</h2>
-                  <Card.Text><center>Are you on track to meet your goals?</center></Card.Text>
+                  <Card.Text className="center">Are you on track to meet your goals?</Card.Text>
                   {this.state.goalList.map((goal) =>
                     (
                       <GoalBar

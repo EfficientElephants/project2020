@@ -169,16 +169,26 @@ class Summary extends Component {
       <div>
         <NavBar />
         <Container>
-          <br />
-          <h1>Summary</h1>
-          <Card body>
-            <p>
-              Once you start creating goals, it&apos;s helpful to see how they&apos;ve been working!
+        <Row>
+            <Col>
+              <h1 className="header">
+                Summary
+              </h1>
+            </Col>
+          </Row>
+
+          <Row>
+            <Card style={{ width: '100%' }}>
+              <Card.Body>
+                <Card.Title>Once you start creating goals, it&apos;s helpful to see how they&apos;ve been working!
               Use this page to see how on track you&apos;ve been,
               so you can adjust your sights for the future.
-            </p>
-          </Card>
-          <br />
+                </Card.Title>
+              </Card.Body>
+            </Card>
+          </Row>
+          <br/>
+
           {(this.state.totalSpent === '0.00' &&
           this.state.totalEarned === '0.00' &&
           this.state.allGoalsEver.length === 0 ?
@@ -193,17 +203,18 @@ class Summary extends Component {
               </div>
             ) : (
               <div>
-                <h4>
-                  Since your first transaction in
+                <h4><strong>
+                  Based on data from your first transaction in
                   {' '}
-                  {dateformat(this.state.earliestTransaction, 'mmm yyyy')}
+                  {dateformat(this.state.earliestTransaction, 'mmmm yyyy')}
                   ...
+                  </strong>
                 </h4>
                 <br />
                 <Row>
                   <Col>
                     <Card body>
-                      You spend an average of
+                      You <strong>spend</strong> an average of
                       {' '}
                       <b>
                         $
@@ -216,7 +227,7 @@ class Summary extends Component {
                   </Col>
                   <Col>
                     <Card body>
-                      You earn an average of
+                      You <strong>earn</strong> an average of
                       {' '}
                       <b>
                         $
@@ -232,10 +243,10 @@ class Summary extends Component {
                 <div>
                   {this.state.allGoalsEver.length === 0 ?
                     (
-                      <Card border="danger">
-                        <Card.Header style={{ 'background-color': '#B22222' }} as="h5" />
+                      <Card border="warning">
+                        <Card.Header style={{ 'background-color': '#ffc107' }} as="h5">No Goals!</Card.Header>
                         <Card.Body>
-                          <Card.Text>Add goals to get another breakdown!</Card.Text>
+                          <Card.Text>Create goals to get a breakdown of your spending habits.</Card.Text>
                         </Card.Body>
                       </Card>
                     ) : (

@@ -114,8 +114,11 @@ h3.company{
 
 /* ============================================= */
 
+.center {
+  text-align: center;
+}
 
-.dashboard-header {
+.header {
   padding: 30px;
   text-align: center;
   font-weight: bold;

@@ -143,7 +143,7 @@ class AddIncome extends Component {
   render() {
     return (
       <div>
-        <Button variant="secondary" size="lg" block style={{'background-color': '#006E4D'}} onClick={this.handleEnableModal} id="addIncome">Add New Income</Button>
+        <Button variant="secondary" size="lg" block style={{'backgroundColor': '#006E4D'}} onClick={this.handleEnableModal} id="addIncome">Add New Income</Button>
         <AddIncomeModal
           show={this.state.showModal}
           onHide={this.handleDisableModal}

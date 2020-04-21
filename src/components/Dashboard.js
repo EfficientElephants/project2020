@@ -144,9 +144,9 @@ class Dashboard extends Component {
       <div>
         <NavBar />
         <Container>
-          <Row className="dashboard-header">
-            <Col md={{ span: 6, offset: 3 }}>
-              <h1 className="dashboard-title">
+          <Row>
+            <Col>
+              <h1 className="header">
                 Welcome
                 {' '}
                 {this.state.firstName}
@@ -160,10 +160,10 @@ class Dashboard extends Component {
                 <Card.Title>This page allows you to keep track of your current monthly expenses and your 
                   overall progress on your goals. Don't forget to log your transactions below!
                 </Card.Title>
-                <Card.Text>
-                  <center><strong>
+                <Card.Text className="center">
+                  <strong>
                     In {this.state.monthYearDisplay}, you've spent a total of ${this.state.spendingTotal} and earned a total of ${this.state.incomeTotal}.
-                  </strong></center>
+                  </strong>
                 </Card.Text>
               </Card.Body>
             </Card>
@@ -190,7 +190,7 @@ class Dashboard extends Component {
               <Card style={{ width: '100%' }}>
                 <Card.Body>
                   <h2>Spending Breakdown</h2>
-                  <Card.Text><center>See how you're spending your money this month.</center></Card.Text>
+                  <Card.Text className="center">See how you're spending your money this month.</Card.Text>
                   {(this.state.spendingTotal !== 0) ?
                   (
                     <Graph
@@ -206,7 +206,7 @@ class Dashboard extends Component {
               <Card style={{ width: '100%' }}>
                 <Card.Body>
                   <h2>Goal Progress</h2>
-                  <Card.Text><center>Are you on track to meet your goals?</center></Card.Text>
+                  <Card.Text className="center">Are you on track to meet your goals?</Card.Text>
                   {/* { (this.state.goalList.length === 0) ? (
                     <p>You currently have no goals set up.</p>    
                 ) : */}

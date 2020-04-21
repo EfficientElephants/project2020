@@ -2,7 +2,7 @@ import React, {
   Component
 } from 'react';
 import {
-  Container, Row, Col
+  Container, Row, Col, Card
 } from 'react-bootstrap';
 import AddExpense from '../Transactions/Expense/AddExpense';
 import AddIncome from '../Transactions/Income/AddIncome';
@@ -30,10 +30,24 @@ class Transactions extends Component {
       <div>
         <NavBar />
         <Container>
-          <br />
-          <h1 style={{textAlign:"center"}}>Transactions</h1>
-          <p style={{textAlign:"center"}}>All your transactions on one page. Modify, delete, and keep track of your spending habits.</p>
-          <br />
+        <Row>
+            <Col>
+              <h1 className="header">
+                Transactions
+              </h1>
+            </Col>
+          </Row>
+
+          <Row>
+            <Card style={{ width: '100%' }}>
+              <Card.Body>
+                <Card.Title>All your transactions in one place. Modify, delete, and keep track of your spending habits.
+                </Card.Title>
+              </Card.Body>
+            </Card>
+          </Row>
+          <br/>
+
           <Row>
             <Col>
               <AddExpense stateChange={this.rerender} />
