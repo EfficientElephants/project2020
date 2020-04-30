@@ -1,24 +1,27 @@
-var chai = require("chai");
-var chaiAsPromised = require("chai-as-promised");
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const chaiHttp = require('chai-http');
+const chaiExclude = require('chai-exclude');
+
 chai.use(chaiAsPromised);
-var chaiHttp = require('chai-http');
-chai.use(chaiHttp)
-var chaiExclude = require('chai-exclude');
+chai.use(chaiHttp);
 chai.use(chaiExclude);
 
-//put things that need to be passed as variables/options in here
-var options = {
-    testUserId: require('mongoose').Types.ObjectId().toHexString(),
-    anotherObjectId: require('mongoose').Types.ObjectId().toHexString(),
+const mongoose = require('mongoose');
+
+// put things that need to be passed as variables/options in here
+const options = {
+  testUserId: mongoose.Types.ObjectId().toHexString(),
+  anotherObjectId: mongoose.Types.ObjectId().toHexString(),
 };
 
 exports.options = options;
 exports.chai = chai;
 exports.assert = chai.assert;
 exports.expect = chai.expect;
+exports.mongoose = mongoose;
 exports.faker = require('faker');
-exports.dateformat = require("dateformat");
-exports.mongoose = require('mongoose');
+exports.dateformat = require('dateformat');
 exports.mockdate = require('mockdate');
 exports.crypto = require('crypto');
 

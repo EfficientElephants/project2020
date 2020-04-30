@@ -103,8 +103,47 @@ h3.company{
   margin-left: 10px;
 }
 
-.dashboard-header {
+/* Everything above is login */
+/* ============================================= */
+/* Modal */
+
+.modal-save-changes {
+  background-color: #007A56 !important;
+  border-color: #007A56 !important;
+}
+
+/* ============================================= */
+
+/* ===== Cards =====*/
+.card-img-top {
+  height: auto;
+  max-height: 450px;
+  width: auto;
+  max-width: 450px;
+}
+
+.card-goal {
+  width: auto;
+  max-width: 450px;
+  min-width: 100px;
+}
+
+.card-goal-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.center {
+  text-align: center;
+}
+
+.header {
   padding: 30px;
+  text-align: center;
+  font-weight: bold;
 }
 
 h2 {

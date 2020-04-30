@@ -1,7 +1,13 @@
-import React, { Component } from 'react';
-import { Row, Col, Container, Toast, Figure } from 'react-bootstrap';
+import React, {
+  Component
+} from 'react';
+import {
+  Row, Col, Container, Toast, Figure, Card
+} from 'react-bootstrap';
 import NavBar from './Navbar';
-import { getFromStorage } from './Storage';
+import {
+  getFromStorage
+} from './Storage';
 
 import usersAPI from '../api/userAPI';
 import transactionAPI from '../api/transactionAPI';
@@ -9,202 +15,228 @@ import goalAPI from '../api/goalAPI';
 
 import AddExpense from './Transactions/Expense/AddExpense';
 import AddIncome from './Transactions/Income/AddIncome';
-import Graph from './Graph/Graph';
+import Graph from './Graphs/Graph';
 import GoalBar from './Goals/GoalBar';
 import Logo from '../assets/expense-elephant-logo2.png';
-var dateformat = require('dateformat');
 
+const dateformat = require('dateformat');
+const moment = require('moment');
 
 class Dashboard extends Component {
-    constructor() {
-        super();
-        this.state = {
-            userId: '',
-            fullName: "",
-            alertOpen: false,
-            alertType: "", 
-            toastShow: false,
-            render: false,
-            spendingTotal: '',
-            incomeTotal: '',
-            goalList: [],
-            mmyyID: dateformat(new Date() , 'mmyy')
-        }
-        this.handleChange = this.handleChange.bind(this);
-        this.rerender = this.rerender.bind(this);
-    }
+  constructor() {
+    super();
+    this.state = {
+      userId: '',
+      firstName: '',
+      alertOpen: false,
+      alertType: '',
+      toastShow: false,
+      render: false,
+      spendingTotal: '',
+      incomeTotal: '',
+      goalList: [],
+      monthYearDisplay: dateformat(moment().toDate(), 'mmmm yyyy'),
+      mmyyID: dateformat(new Date(), 'mmyy')
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.rerender = this.rerender.bind(this);
+  }
 
-    componentDidMount() {
-        const obj = getFromStorage('expense_app');
-        if (obj && obj.token) {
-            const { token } = obj;
-            fetch('api/getUserId?token=' + token)
-            .then(res => res.json())
-            .then(json => {
-                if (json.success){
-                    this.setState({ userId: json.userId })
-                    this.getFullName();
-                    
-                    goalAPI.get({userId: this.state.userId, mmyyID: this.state.mmyyID}).then(json => this.setState({goalList:json}));
-                    
-                    transactionAPI.getSpendingTotal(this.state.userId, this.state.mmyyID).then(json => {
-                        if (json[0]){
-                            this.setState({spendingTotal: ((json[0].spendingTotal)/100).toFixed(2)});
-                        } else {
-                            this.setState({spendingTotal: 0});
-                        }
-                    });
-                    transactionAPI.getIncomeTotal(this.state.userId, this.state.mmyyID).then(json => {
-                        if (json[0]){
-                            this.setState({incomeTotal: ((json[0].incomeTotal)/100).toFixed(2)});
-                        } else {
-                            this.setState({incomeTotal: 0});
-                        }
-                    });
-                    
+  componentDidMount() {
+    const obj = getFromStorage('expense_app');
+    if (obj && obj.token) {
+      const { token } = obj;
+      fetch(`api/getUserId?token=${token}`)
+        .then((res) =>
+          res.json())
+        .then((json) => {
+          if (json.success) {
+            this.setState({ userId: json.userId });
+            this.getFirstName();
+
+            goalAPI.get({ userId: this.state.userId, mmyyID: this.state.mmyyID }).then((jsonres) =>
+              this.setState({ goalList: jsonres }));
+
+            transactionAPI.getSpendingTotal(this.state.userId, this.state.mmyyID)
+              .then((jsonres2) => {
+                if (jsonres2[0]) {
+                  this.setState({ spendingTotal: ((jsonres2[0].spendingTotal) / 100).toFixed(2) });
                 } else {
-                    // handle error
-                    console.log('not working');
+                  this.setState({ spendingTotal: 0 });
                 }
-            })
-        }
+              });
+            transactionAPI.getIncomeTotal(this.state.userId, this.state.mmyyID).then((jsonres3) => {
+              if (jsonres3[0]) {
+                this.setState({ incomeTotal: ((jsonres3[0].incomeTotal) / 100).toFixed(2) });
+              } else {
+                this.setState({ incomeTotal: 0 });
+              }
+            });
+          }
+        });
     }
+  }
 
-    getFullName() {
-        usersAPI.get(this.state.userId)
-            .then(results => {
-                this.setState({fullName: results.firstName + " " + results.lastName});
-            });     
-        return this.state.fullName;                          
+  getFirstName() {
+    usersAPI.get(this.state.userId)
+      .then((results) => {
+        this.setState({ firstName: `${results.firstName}` });
+      });
+    return this.state.firstName;
+  }
+
+  handleChange(type) {
+    this.setState({
+      alertType: type,
+      alertOpen: true,
+      toastShow: true
+    });
+  }
+
+  rerender(val) {
+    this.setState({ render: val });
+    this.componentDidMount();
+  }
+
+  createAlert() {
+    const toggleShow = () =>
+      this.setState({ toastShow: false });
+    if (this.state.alertOpen) {
+      return (
+        <div>
+          <Toast
+            style={{
+              position: 'absolute',
+              top: '6%',
+              right: '2%',
+              background: 'white'
+            }}
+            show={this.state.toastShow}
+            onClose={toggleShow}
+            delay={3000}
+            autohide
+          >
+            <Toast.Header
+              style={{
+                background: '#DEDEDE',
+                color: 'black'
+              }}
+            >
+              <Figure.Image
+                width={20}
+                height={20}
+                alt="Logo of an Elephant"
+                src={Logo}
+                className="rounded mr-2"
+              />
+              <strong className="mr-auto">Expense Elephant</strong>
+            </Toast.Header>
+            <Toast.Body>{this.state.alertType === 'expense' ? 'Sucessfully Added Expense.' : 'Sucessfully Added Income.' }</Toast.Body>
+          </Toast>
+        </div>
+      );
     }
+    return <div />;
+  }
 
-    handleChange(type) {
-        this.setState({
-            alertType: type,
-            alertOpen: true,
-            toastShow: true
-        })
-    }
+  render() {
+    return (
+      <div>
+        <NavBar />
+        <Container>
+          <Row>
+            <Col>
+              <h1 className="header">
+                Welcome
+                {' '}
+                {this.state.firstName}
+                !
+              </h1>
+            </Col>
+          </Row>
+          <Row>
+            <Card style={{ width: '100%' }}>
+              <Card.Body>
+                <Card.Title>
+                  This page allows you to keep track of your current monthly expenses and your
+                  overall progress on your goals. Don&apos;t forget to log your transactions below!
+                </Card.Title>
+                <Card.Text className="center">
+                  <strong>
+                    In
+                    {' '}
+                    {this.state.monthYearDisplay}
+                    , you&apos;ve spent a total of $
+                    {this.state.spendingTotal}
+                    {' '}
+                    and earned a total of $
+                    {this.state.incomeTotal}
+                    .
+                  </strong>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Row>
+          <br />
 
-    rerender(val) {
-        this.setState( {render: val} )
-        this.componentDidMount();
-    }
+          <Row>
+            <Col>
+              <AddExpense
+                typeChange={this.handleChange}
+                stateChange={this.rerender}
+              />
+            </Col>
+            <Col>
+              <AddIncome
+                typeChange={this.handleChange}
+                stateChange={this.rerender}
+              />
+            </Col>
+          </Row>
 
-    createAlert() {
-        const toggleShow = () => this.setState({toastShow:false});
-        if (this.state.alertOpen) {
-            return (
-                <div>
-                    <Toast 
-                        style={{
-                            position: 'absolute',
-                            top: '6%',
-                            right: '2%',
-                            background: "white"
-                        }}
-                        show={this.state.toastShow} 
-                        onClose={toggleShow} 
-                        delay={3000} 
-                        autohide
-                    >
-                        <Toast.Header
-                              style={{
-                                background: "#DEDEDE",
-                                color: "black"
-                            }}
-                        >
-                            <Figure.Image
-                                width={20}
-                                height={20}
-                                alt="Logo of an Elephant"
-                                src={Logo}
-                                className="rounded mr-2"
-                            />
-                            
-                            <strong className="mr-auto">Expense Elephant</strong>
-                        </Toast.Header>
-                        <Toast.Body>{this.state.alertType==="expense" ? "Sucessfully Added Expense.": "Sucessfully Added Income." }</Toast.Body>
-                    </Toast>
-                </div>
-            )
-        } else {
-            return <div></div>
-        }
-    }
+          <Row style={{ marginTop: 30 }}>
+            <Col>
+              <Card style={{ width: '100%' }}>
+                <Card.Body>
+                  <h2>Spending Breakdown</h2>
+                  <Card.Text className="center">See how you&apos;re spending your money this month.</Card.Text>
+                  {(this.state.spendingTotal !== 0) ?
+                    (
+                      <Graph
+                        date={this.state.mmyyID}
+                        render={this.state.render}
+                      />
+                    ) :
+                    (null)}
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col>
+              <Card style={{ width: '100%' }}>
+                <Card.Body>
+                  <h2>Goal Progress</h2>
+                  <Card.Text className="center">Are you on track to meet your goals?</Card.Text>
+                  {/* { (this.state.goalList.length === 0) ? (
+                    <p>You currently have no goals set up.</p>
+                ) : */}
+                  {this.state.goalList.map((goal) =>
+                    (
+                      <GoalBar
+                        goal={goal}
+                        key={goal._id}
+                        render={this.state.render}
+                      />
+                    ))}
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
 
-    render() {
-        return (
-            <div>
-                <NavBar />
-                <Container>
-                    <Row className="dashboard-header">
-                        <Col md={7}>
-                        <h1 className="dashboard-title">Welcome back, {this.state.fullName}!</h1>
-                        </Col>
-                        <Col>
-                            <AddExpense 
-                                typeChange = {this.handleChange}
-                                stateChange = {this.rerender} 
-                            />
-                        </Col>
-                        <Col>
-                            <AddIncome 
-                                typeChange = {this.handleChange}
-                                stateChange = {this.rerender}
-                            />
-                        </Col>
-                    </Row>
-                    <br/>
-
-                    <Container>
-                        <Row>
-                            <Col>
-                                <h5>For this period, you have done the following:</h5>
-                            </Col>
-                            <Col>
-                                <p><strong>Spent</strong> ${this.state.spendingTotal}</p>
-                                <p><strong>Earned</strong> ${this.state.incomeTotal}</p>
-                            </Col>
-                        </Row>
-                    </Container>
-                    
-                    <Row style={{ marginTop: 85 }}>
-                        <Col>
-                        {(this.state.spendingTotal !== 0) 
-                          ? (<Graph 
-                            date = {this.state.mmyyID}
-                            render = {this.state.render} />)
-                          : (null)
-                        }
-                        </Col>
-                        <Col>
-                            <h3>Monthly Breakdown</h3>
-                            {this.state.goalList.map(goal => {
-                                return <GoalBar
-                                    goal={goal}
-                                    key={goal._id}
-                                    render = {this.state.render}
-                                />
-                            })}
-                        </Col>
-                    </Row>
-                    {/* <br />
-                    <br />
-                    <br /> */}
-                    {/* <Row>
-                        <Col>
-                            <h3>Loan Tracker</h3>
-                            <p>Student Debt</p>
-                            <p>Car Payment</p>
-                        </Col>
-                       
-                    </Row> */}
-                    {this.createAlert()}
-                </Container>
-            </div>
-        );
-    }
+          {this.createAlert()}
+        </Container>
+      </div>
+    );
+  }
 }
 
 export default Dashboard;
