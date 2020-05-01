@@ -22,7 +22,7 @@
     "jquery": "^3.4.1",
     "kind-of": ">=6.0.3",
     "minimist": "^1.2.3",
-    "moment": "^2.24.0",
+    "moment": "2.24.0",
     "mongodb": "^3.5.3",
     "mongoose": "^5.9.7",
     "mongoose-unique-validator": "^2.0.3",
