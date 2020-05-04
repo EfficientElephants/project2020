@@ -62,14 +62,15 @@ npm test
 
 ### Automated UI Testing
 
-For our automated user interface testing framework, we use Selenium paired with Cucumber, Gherkin, and Ruby. These tests are stored in the features/ file of this project. 
+We are utilizing Cucumber with Selenium and NodeJS for our testing automation for our front-end UI. Cucumber is a behavior-driven development testing framework, which we decided to use as it is clear and easy to understand, allows us to evaluate the logic in our testing and other scenarios quickly and efficiently should something fail, and it is effective.
 
-To write a new scenario, please include step definitions and a feature file. 
+These tests are stored in the [project2020-automation](https://github.com/EfficientElephants/project2020-automation) repository in the EfficientElephants organization. To write a new scenario, please include step definitions and a feature file contributed to the automation repository. 
 
-To run automated testing, enter the following command into your terminal.
+To run automated testing, add a .env file with LambdaTest access credentials and enter the following command into your terminal.
 ```
-npm run test-automation
+$ SCENARIO={filename.feature} npm run scenario
 ```
+Check out the [project2020-automation README](https://github.com/EfficientElephants/project2020-automation/blob/master/README.md) for more technical documentation, testing, and contributing instructions.
 
 ## Deployment
 
