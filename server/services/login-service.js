@@ -220,7 +220,7 @@ function forgotPassword(req, res) {
       style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:helvetica,'helvetica neue',arial,verdana,sans-serif;line-height:24px;color:#666;text-align:center">
       There was a request to change your password!<tr style=border-collapse:collapse><td style=padding:0;Margin:0;padding-top:25px;padding-left:40px;padding-right:40px align=center><p 
       style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:helvetica,'helvetica neue',arial,verdana,sans-serif;line-height:24px;color:#666">
-      If did not make this request, just ignore this email. Otherwise, please click the button below to change your password:<tr style=border-collapse:collapse><td 
+      If you did not make this request, just ignore this email. Otherwise, please click the button below to change your password:<tr style=border-collapse:collapse><td 
       style=Margin:0;padding-left:10px;padding-right:10px;padding-top:40px;padding-bottom:40px align=center><span class="es-button-border es-button-border-2"
       style=border-style:solid;border-color:#007a56;background:#fff;border-width:2px;display:inline-block;border-radius:10px;width:auto><a href=${tokenLink} 
       style="mso-style-priority:100!important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial,'helvetica neue',helvetica,sans-serif;font-size:14px;color:#00ad79;border-style:solid;border-color:#fff;border-width:15px 20px 15px 20px;display:inline-block;background:#fff;border-radius:10px;font-weight:700;font-style:normal;line-height:17px;width:auto;text-align:center"
